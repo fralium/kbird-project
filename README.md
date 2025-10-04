@@ -107,6 +107,40 @@ JWT_SECRET=your-strong-jwt-secret-here
 NEXT_PUBLIC_API_URL=http://localhost:3002
 ```
 
+#### 生成JWT密钥
+
+项目提供了多种生成强JWT密钥的方法：
+
+**方法一：使用Node.js脚本（推荐）**
+```bash
+node scripts/generate-jwt-secret.js
+```
+
+**方法二：使用OpenSSL命令行**
+```bash
+# Linux/macOS
+openssl rand -hex 64
+
+# Windows (需要安装OpenSSL)
+openssl rand -hex 64
+```
+
+**方法三：使用PowerShell（Windows）**
+```powershell
+.\scripts\generate-jwt-secret.ps1
+```
+
+**方法四：在线生成**
+```bash
+# 使用Node.js命令行
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+```
+
+**安全建议**：
+- 生产环境使用至少64字符的密钥
+- 定期更换JWT密钥
+- 不要将密钥提交到版本控制系统
+
 4. **启动MongoDB**
 
 **Windows:**
