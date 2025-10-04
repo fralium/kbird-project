@@ -1,0 +1,444 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  border-radius: 15px;
+}
+
+.header h1 {
+  margin: 0 0 10px 0;
+  font-size: 2.5rem;
+}
+
+.header p {
+  margin: 0 0 15px 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.refreshButton {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.refreshButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.refreshButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 总体进度 */
+.overallProgress {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.overallProgress h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.progressStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.statItem {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.statNumber {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.statLabel {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.progressBar {
+  width: 100%;
+  height: 20px;
+  background: #ecf0f1;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #27ae60 0%, #2ecc71 100%);
+  transition: width 0.3s ease;
+}
+
+/* 批次列表 */
+.batchList {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.batchList h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.batches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.batchCard {
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #ecf0f1;
+  transition: all 0.3s ease;
+}
+
+.batchCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.batchCard.completed {
+  border-color: #27ae60;
+  background: linear-gradient(135deg, #d5f4e6 0%, #e8f8f5 100%);
+}
+
+.batchCard.inProgress {
+  border-color: #f39c12;
+  background: linear-gradient(135deg, #fef5e7 0%, #fdf2e9 100%);
+}
+
+.batchCard.pending {
+  border-color: #bdc3c7;
+  background: #f8f9fa;
+}
+
+.batchHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.batchHeader h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.batchStatus {
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.batchCard.completed .batchStatus {
+  background: #27ae60;
+  color: white;
+}
+
+.batchCard.inProgress .batchStatus {
+  background: #f39c12;
+  color: white;
+}
+
+.batchCard.pending .batchStatus {
+  background: #bdc3c7;
+  color: white;
+}
+
+.batchDescription {
+  color: #7f8c8d;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.batchInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.batchCount {
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.batchProgress {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.batchActions {
+  display: flex;
+  gap: 10px;
+}
+
+.importButton {
+  flex: 1;
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.importButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+  transform: translateY(-2px);
+}
+
+.importButton:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.previewButton {
+  padding: 10px 15px;
+  background: #95a5a6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.previewButton:hover {
+  background: #7f8c8d;
+  transform: translateY(-2px);
+}
+
+/* 导入日志 */
+.importLog {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.importLog h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.logContainer {
+  max-height: 400px;
+  overflow-y: auto;
+  background: #2c3e50;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.logEntry {
+  display: flex;
+  margin-bottom: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.logTime {
+  color: #95a5a6;
+  margin-right: 15px;
+  min-width: 80px;
+}
+
+.logMessage {
+  flex: 1;
+}
+
+.logEntry.success .logMessage {
+  color: #2ecc71;
+}
+
+.logEntry.error .logMessage {
+  color: #e74c3c;
+}
+
+.logEntry.warning .logMessage {
+  color: #f39c12;
+}
+
+.logEntry.info .logMessage {
+  color: #3498db;
+}
+
+.clearLogButton {
+  padding: 10px 20px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.clearLogButton:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* 数据质量检查 */
+.qualityCheck {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.qualityCheck h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.qualityRules h3 {
+  color: #34495e;
+  margin-bottom: 15px;
+}
+
+.qualityRules ul {
+  list-style: none;
+  padding: 0;
+}
+
+.qualityRules li {
+  padding: 10px;
+  background: #f8f9fa;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border-left: 4px solid #3498db;
+}
+
+/* 配置选项 */
+.config {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.config h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.configItems {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.configItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.configItem label {
+  color: #34495e;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.configItem input {
+  padding: 10px;
+  border: 2px solid #ecf0f1;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.configItem input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .progressStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .batches {
+    grid-template-columns: 1fr;
+  }
+  
+  .batchActions {
+    flex-direction: column;
+  }
+  
+  .configItems {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .progressStats {
+    grid-template-columns: 1fr;
+  }
+  
+  .batchHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

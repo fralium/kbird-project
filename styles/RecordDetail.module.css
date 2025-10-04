@@ -1,0 +1,934 @@
+/* 页面容器样式 */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 面包屑导航 */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.breadcrumb a {
+  color: #4CAF50;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+  color: #45a049;
+}
+
+.separator {
+  color: #666;
+}
+
+.current {
+  color: #333;
+  font-weight: 500;
+}
+
+/* 加载和错误状态 */
+.loadingContainer,
+.errorContainer {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.errorContainer h2 {
+  color: #f44336;
+  margin-bottom: 10px;
+}
+
+.errorContainer p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.backButton {
+  display: inline-block;
+  background: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.backButton:hover {
+  background: #45a049;
+  color: white;
+}
+
+/* 记录头部 */
+.recordHeader {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  padding: 40px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.headerContent {
+  flex: 1;
+}
+
+.recordTitle {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.recordMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+}
+
+.metaIcon {
+  font-size: 1.1rem;
+}
+
+.metaText {
+  opacity: 0.9;
+}
+
+.headerActions {
+  display: flex;
+  gap: 10px;
+}
+
+.headerActions .backButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.headerActions .backButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* 记录内容 */
+.recordContent {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* 通用章节样式 */
+.sectionTitle {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #4CAF50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionTitle::before {
+  content: '📋';
+  font-size: 1.2rem;
+}
+
+/* 描述章节 */
+.descriptionSection {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.description {
+  color: #555;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+/* 环境信息章节 */
+.environmentSection {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.environmentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.environmentItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #4CAF50;
+}
+
+.environmentLabel {
+  color: #666;
+  font-weight: 500;
+}
+
+.environmentValue {
+  color: #333;
+  font-weight: 600;
+}
+
+/* 鸟类列表章节 */
+.birdsSection {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.birdsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.birdCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #fafafa;
+}
+
+.birdCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.birdHeader {
+  margin-bottom: 15px;
+}
+
+.birdName {
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.birdNameLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.birdNameLink:hover {
+  color: #4CAF50;
+}
+
+.birdNameLink:hover .birdName {
+  color: #4CAF50;
+}
+
+.birdScientific {
+  color: #666;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.birdNotes {
+  margin-bottom: 15px;
+}
+
+.birdNotes p {
+  color: #555;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.birdCount {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.birdImages {
+  margin-top: 15px;
+}
+
+.birdImageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 8px;
+}
+
+.birdImageItem {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.birdImageItem:hover {
+  transform: scale(1.05);
+}
+
+.birdImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  color: #6c757d;
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.imagePlaceholder span {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.imagePlaceholder small {
+  font-size: 0.75rem;
+  word-break: break-all;
+  opacity: 0.7;
+}
+
+/* 图片章节 */
+.imagesSection {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.imagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.imageItem {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  background: #f8f9fa;
+}
+
+.imageItem:hover {
+  transform: scale(1.02);
+}
+
+.recordImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.imageCaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  color: white;
+  padding: 15px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* 备注章节 */
+.notesSection {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.notes {
+  color: #555;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .main {
+    padding: 15px;
+  }
+  
+  .recordHeader {
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px 20px;
+  }
+  
+  .recordTitle {
+    font-size: 1.8rem;
+  }
+  
+  .recordMeta {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .birdsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .environmentGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .imagesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+/* 编辑功能样式 */
+.editButton {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  margin-right: 10px;
+}
+
+.editButton:hover {
+  background: #45a049;
+}
+
+.successMessage,
+.errorMessage {
+  padding: 15px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.successMessage {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.errorMessage {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* 编辑表单样式 */
+.editForm {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.editFormHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f1f3f4;
+}
+
+.editFormHeader h2 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.editActions {
+  display: flex;
+  gap: 10px;
+}
+
+.cancelButton,
+.saveButton {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cancelButton {
+  background: #6c757d;
+  color: white;
+}
+
+.cancelButton:hover {
+  background: #5a6268;
+}
+
+.saveButton {
+  background: #4CAF50;
+  color: white;
+}
+
+.saveButton:hover {
+  background: #45a049;
+}
+
+.saveButton:disabled,
+.cancelButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* 表单样式 */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.formSection {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.formSection h3 {
+  margin: 0 0 20px 0;
+  color: #4CAF50;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup:last-child {
+  margin-bottom: 0;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* 鸟类搜索和管理样式 */
+.birdSearch {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.searchResults {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.birdOption {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.birdOption:hover {
+  background-color: #f5f5f5;
+}
+
+.birdOption:last-child {
+  border-bottom: none;
+}
+
+.birdInfo h4 {
+  margin: 0 0 4px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.birdInfo p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.addButton {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addButton:hover {
+  background: #45a049;
+}
+
+.selectedBirds {
+  margin-top: 20px;
+}
+
+.selectedBirds h4 {
+  color: #4CAF50;
+  margin-bottom: 15px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 30px;
+  color: #999;
+  background: white;
+  border-radius: 6px;
+  border: 2px dashed #ddd;
+}
+
+.emptyState p {
+  margin: 5px 0;
+}
+
+.birdList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.birdCard {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.birdHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.birdHeader .birdInfo h4 {
+  margin: 0 0 4px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.birdHeader .birdInfo p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.removeBird {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.removeBird:hover {
+  background: #c82333;
+}
+
+.birdDetails {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.countInput {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.birdNotes {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.birdNotes:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+/* 鸟类图片管理样式 */
+.birdImagesSection {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
+
+.birdImagesSection label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #333;
+}
+
+.imageUploadArea {
+  margin-bottom: 15px;
+}
+
+.hiddenFileInput {
+  display: none;
+}
+
+.uploadButton {
+  display: inline-block;
+  background: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 6px;
+  padding: 12px 20px;
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.uploadButton:hover {
+  background: #e9ecef;
+  border-color: #4CAF50;
+  color: #4CAF50;
+}
+
+.birdImageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.birdImageItem {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.imageContainer {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.birdImage {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.removeImageButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(220, 53, 69, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.removeImageButton:hover {
+  background: rgba(220, 53, 69, 1);
+}
+
+.birdImageItem .imageCaption {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  box-sizing: border-box;
+  position: static;
+  background: white;
+  color: #333;
+}
+
+.birdImageItem .imageCaption:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+/* 编辑表单响应式设计 */
+@media (max-width: 768px) {
+  .editForm {
+    padding: 20px;
+  }
+  
+  .editFormHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  
+  .editActions {
+    justify-content: stretch;
+  }
+  
+  .cancelButton,
+  .saveButton {
+    flex: 1;
+  }
+  
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+  
+  .birdDetails {
+    grid-template-columns: 1fr;
+  }
+  
+  .birdImageGrid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+  
+  .birdImage {
+    height: 100px;
+  }
+}

@@ -1,0 +1,113 @@
+.avatarUpload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border: 2px dashed #e9ecef;
+  border-radius: 12px;
+  background: #f8f9fa;
+}
+
+.avatarPreview {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.previewImage,
+.currentImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.defaultAvatar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  color: white;
+  font-size: 48px;
+}
+
+.uploadControls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileLabel {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.fileLabel:hover {
+  background: #0056b3;
+}
+
+.uploadButton {
+  padding: 10px 20px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.uploadButton:hover:not(:disabled) {
+  background: #218838;
+}
+
+.uploadButton:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.uploadTip {
+  font-size: 12px;
+  color: #6c757d;
+  text-align: center;
+  margin: 0;
+}
+
+/* 响应式设�?*/
+@media (max-width: 768px) {
+  .avatarUpload {
+    padding: 15px;
+  }
+  
+  .avatarPreview {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .defaultAvatar {
+    font-size: 36px;
+  }
+}
+

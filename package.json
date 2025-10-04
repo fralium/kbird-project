@@ -1,0 +1,57 @@
+{
+  "name": "kbird",
+  "version": "1.0.0",
+  "description": "鸟类收集整理网站",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "server": "cross-env JWT_SECRET=kbird-super-secret-jwt-key-2025-development-only nodemon server/index.js"
+  },
+  "keywords": [
+    "鸟类",
+    "收集",
+    "整理",
+    "摄影"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource/noto-sans-sc": "^5.2.8",
+    "antd": "^5.8.4",
+    "axios": "^1.4.0",
+    "bcryptjs": "^3.0.2",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.11.2",
+    "express-validator": "^7.2.1",
+    "fontsource-noto-sans-sc": "^4.0.0",
+    "form-data": "^4.0.4",
+    "formidable": "^3.5.4",
+    "html2canvas": "^1.4.1",
+    "iconv-lite": "^0.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "jspdf": "^3.0.3",
+    "moment": "^2.29.4",
+    "mongoose": "^7.4.3",
+    "multer": "^1.4.5-lts.1",
+    "next": "^13.4.19",
+    "node-cache": "^5.1.2",
+    "node-fetch": "^3.3.2",
+    "pdfkit": "^0.17.2",
+    "pinyin": "^4.0.0",
+    "pinyin-pro": "^3.27.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "eslint": "^8.47.0",
+    "eslint-config-next": "^13.4.19",
+    "nodemon": "^3.0.1"
+  }
+}

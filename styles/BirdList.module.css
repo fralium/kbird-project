@@ -1,0 +1,918 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 15% 25%, rgba(135, 206, 235, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(154, 205, 50, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  color: var(--text-white);
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto 30px auto;
+  max-width: 1200px;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.description {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+  font-weight: 300;
+}
+
+.filtersContainer {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  position: sticky;
+  top: 70px;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.searchBox {
+  margin-bottom: 15px;
+}
+
+.searchWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 15px;
+  padding-right: 45px;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 4px 12px rgba(45, 80, 22, 0.15);
+  transform: translateY(-1px);
+}
+
+.clearSearchButton {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.clearSearchButton:hover {
+  background: #f0f0f0;
+  color: var(--text-medium);
+  transform: scale(1.1);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filterSelect {
+  padding: 10px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  background: white;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 2px 8px rgba(45, 80, 22, 0.1);
+}
+
+.clearButton {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.clearButton:hover {
+  background: linear-gradient(135deg, #ff5252 0%, #e53935 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: 20px;
+}
+
+.loadingSpinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--primary-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingContainer p {
+  color: var(--text-medium);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.noResults {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 20px;
+  margin: 20px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.noResultsIcon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.noResults h3 {
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.noResults p {
+  color: var(--text-medium);
+  margin-bottom: 25px;
+  font-size: 1rem;
+}
+
+.resultsInfo {
+  padding: 20px;
+  color: var(--text-medium);
+  font-size: 0.9rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.resultsCount {
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.pageInfo {
+  font-size: 0.85rem;
+  color: #1a252f !important;
+  font-weight: 500;
+}
+
+.birdGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  width: 100%;
+}
+
+.birdCard {
+  background: var(--background-white);
+  border-radius: var(--radius-large);
+  overflow: hidden;
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border: 1px solid rgba(45, 80, 22, 0.1);
+  position: relative;
+}
+
+.birdCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-green) 0%, var(--accent-green) 100%);
+}
+
+.birdCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.birdCard:hover .birdImage {
+  transform: scale(1.05);
+}
+
+.birdImageContainer {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 8px 8px 0 0;
+}
+
+.birdImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.birdImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderText {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.birdInfo {
+  padding: 15px;
+}
+
+/* 鸟类信息头部 */
+.birdHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.birdInfo h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary-dark);
+  font-weight: 600;
+  flex: 1;
+}
+
+/* 鸟类指示器 */
+.birdIndicators {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  position: relative;
+}
+
+.birdfansBadge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  font-size: 8px;
+  color: #ffd700;
+  text-shadow: 0 0 2px rgba(255, 215, 0, 0.5);
+}
+
+.scientificName {
+  font-style: italic;
+  color: var(--text-medium);
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.birdMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+  min-height: 60px; /* 确保所有卡片高度一致 */
+}
+
+.categoryContainer {
+  flex: 1;
+  min-width: 0;
+}
+
+.recentObservation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+  border-radius: 8px;
+  border: 1px solid #d4edda;
+}
+
+.observationLabel {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.observationDate {
+  color: var(--primary-dark);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.recordCount {
+  color: var(--text-medium);
+  font-size: 0.8rem;
+  background: rgba(76, 175, 80, 0.1);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.userLabel {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  color: #1565c0;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(21, 101, 192, 0.2);
+  border: 1px solid rgba(21, 101, 192, 0.1);
+}
+
+.userName {
+  color: var(--text-medium);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status {
+  background-color: var(--background-dark);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  margin: 2px;
+  display: inline-block;
+}
+
+.protectionStatus {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  min-width: 120px;
+}
+
+.status.iucn {
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+}
+
+.status.china {
+  background: linear-gradient(135deg, #ff9800 0%, #ffb74d 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+}
+
+.status.default {
+  background: linear-gradient(135deg, #9e9e9e 0%, #bdbdbd 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 2px 4px rgba(158, 158, 158, 0.3);
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+}
+
+/* 保护状态颜色 */
+.无危 {
+  background-color: #4caf50;
+  color: white;
+}
+
+.近危 {
+  background-color: #8bc34a;
+  color: white;
+}
+
+.易危 {
+  background-color: #ffc107;
+  color: black;
+}
+
+.濒危 {
+  background-color: #ff9800;
+  color: white;
+}
+
+.极危 {
+  background-color: #f44336;
+  color: white;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 30px 0 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.paginationMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.paginationJump {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #1a252f !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.jumpInput {
+  width: 60px;
+  padding: 5px 8px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.jumpInput:focus {
+  border-color: var(--primary-green);
+}
+
+.jumpButton {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.jumpButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.pageButton {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(45, 80, 22, 0.3);
+}
+
+.pageButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 80, 22, 0.4);
+}
+
+.pageButton:disabled {
+  background: #e0e0e0;
+  color: var(--text-light);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.pageNumbers {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pageNumber {
+  background: white;
+  color: var(--primary-dark);
+  border: 2px solid #e0e0e0;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-width: 40px;
+  text-align: center;
+}
+
+.pageNumber:hover {
+  background: var(--primary-green);
+  color: white;
+  border-color: var(--primary-green);
+  transform: translateY(-1px);
+}
+
+.pageNumber.active {
+  background: var(--primary-green);
+  color: white;
+  border-color: var(--primary-green);
+  box-shadow: 0 2px 8px rgba(45, 80, 22, 0.3);
+}
+
+/* 鸟类卡片操作按钮 */
+.birdActions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+}
+
+.favoriteButton {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.favoriteButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 193, 7, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.favoriteButton:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+.favoriteButton:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-color: rgba(255, 193, 7, 0.4);
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.favoriteButton.favorited {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.9) 0%, rgba(255, 152, 0, 0.8) 100%);
+  border-color: rgba(255, 193, 7, 0.6);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+.favoriteButton.favorited:hover {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 1) 0%, rgba(255, 152, 0, 0.9) 100%);
+  border-color: rgba(255, 193, 7, 0.8);
+  color: white;
+  transform: scale(1.15) rotate(-5deg);
+  box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+}
+
+.favoriteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.footer {
+  background-color: var(--primary-dark);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 10px;
+  }
+  
+  .header {
+    padding: 50px 20px;
+    margin: 0 auto 20px auto;
+    max-width: 1200px;
+    width: 100%;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .description {
+    font-size: 1rem;
+  }
+  
+  .filters {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .filterGroup {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .filterSelect {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .birdGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 15px 40px;
+  }
+  
+  .resultsInfo {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    margin: 0 15px 20px;
+  }
+  
+  .pagination {
+    gap: 10px;
+    padding: 20px 0 40px;
+  }
+  
+  .pageNumbers {
+    gap: 6px;
+  }
+  
+  .pageNumber {
+    min-width: 35px;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .pageButton {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .noResults {
+    margin: 20px 15px;
+    padding: 60px 20px;
+  }
+  
+  .noResultsIcon {
+    font-size: 3rem;
+  }
+  
+  .noResults h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 50px 20px;
+    max-width: 1200px;
+    width: 100%;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .filtersContainer {
+    padding: 15px;
+  }
+  
+  .searchInput {
+    padding: 10px 12px;
+    padding-right: 40px;
+    font-size: 0.9rem;
+  }
+  
+  .clearSearchButton {
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    font-size: 1rem;
+  }
+  
+  .filterSelect {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .clearButton {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+  
+  .birdGrid {
+    gap: 15px;
+    padding: 0 10px 30px;
+  }
+  
+  .birdCard {
+    border-radius: 15px;
+  }
+  
+  .birdImageContainer {
+    height: 180px;
+  }
+  
+  .birdInfo {
+    padding: 12px;
+  }
+  
+  .birdInfo h3 {
+    font-size: 1.1rem;
+  }
+  
+  .scientificName {
+    font-size: 0.9rem;
+  }
+  
+  .pagination {
+    gap: 15px;
+  }
+  
+  .paginationMain {
+    gap: 8px;
+  }
+  
+  .pageNumbers {
+    order: 2;
+  }
+  
+  .pageButton {
+    order: 1;
+  }
+  
+  .pageButton:last-child {
+    order: 3;
+  }
+}
