@@ -44,7 +44,7 @@ KBird是一个专注于鸟类信息收集、整理和分享的现代化网站平
 
 ```bash
 # 1. 克隆项目
-git clone <your-repo-url>
+git clone https://github.com/yourusername/KBird.git
 cd KBird-release
 
 # 2. 配置环境变量
@@ -72,7 +72,7 @@ docker-compose up -d
 
 1. **克隆仓库**
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/yourusername/KBird.git
 cd KBird-release
 ```
 
@@ -437,18 +437,18 @@ node --max-old-space-size=4096 server/index.js
 
 ### 自动同步脚本
 
-项目提供了自动化脚本来同步开发版本到发布版本：
+项目提供了自动化脚本来帮助开发者管理代码同步：
 
 #### Git智能同步脚本（推荐）
 ```powershell
 # 预览模式（不实际复制文件）
 .\sync-with-git.ps1 -DryRun
 
-# 同步到v1.1.0版本
-.\sync-with-git.ps1 -Version "v1.1.0"
+# 同步到指定版本
+.\sync-with-git.ps1 -Version "v1.2.0"
 
 # 强制同步所有重要文件
-.\sync-with-git.ps1 -Version "v1.1.0" -Force
+.\sync-with-git.ps1 -Version "v1.2.0" -Force
 ```
 
 #### 简单批处理脚本
@@ -467,29 +467,34 @@ update-release.bat
 - ✅ 自动Git提交和标签创建
 - ✅ 支持预览模式（DryRun）
 
-### 推荐工作流程
+### 开发工作流程
 
-1. **日常开发**
+1. **克隆项目**
 ```bash
-# 在原始KBird文件夹中开发
-cd D:\CADD\AIDD\KBird
-# ... 你的开发工作 ...
+# 克隆项目到本地
+git clone https://github.com/yourusername/KBird.git
+cd KBird-release
 ```
 
-2. **同步到发布版本**
+2. **安装依赖并开发**
 ```bash
-# 切换到发布版本目录
-cd D:\CADD\AIDD\KBird\KBird-release
+# 安装项目依赖
+npm install
 
-# 使用Git智能同步脚本
-.\sync-with-git.ps1 -Version "v1.1.0" -DryRun  # 先预览
-.\sync-with-git.ps1 -Version "v1.1.0"          # 执行同步
+# 进行功能开发和修改
+# ... 开发工作 ...
 ```
 
-3. **推送到远程仓库**
+3. **提交更改**
 ```bash
+# 添加修改的文件
+git add .
+
+# 提交更改
+git commit -m "Add new feature: description"
+
+# 推送到远程仓库
 git push origin master
-git push origin v1.1.0
 ```
 
 ## 📈 性能优化
@@ -651,9 +656,9 @@ KBird-release/
 
 ```
 基于 KBird 项目开发
-原作者：fralium
+原作者：[原作者名称]
 许可证：CC BY-NC 4.0
-项目地址：[您的项目地址]
+项目地址：[项目地址]
 ```
 
 ## 🆘 获取帮助
@@ -669,4 +674,4 @@ KBird-release/
 
 ---
 
-**KBird Team** - 祝您使用愉快！🎉
+**KBird Project** - 欢迎使用和贡献！🎉
