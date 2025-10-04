@@ -603,6 +603,27 @@ node scripts/verify-data.js
 
 ## 📚 版本历史
 
+### v1.4.0 - 2025-10-04
+- 🔐 添加JWT密钥生成工具
+- 📝 新增多种JWT密钥生成方法（Node.js、OpenSSL、PowerShell）
+- 🛠️ 提供跨平台密钥生成脚本
+- 📚 完善安全配置文档
+- 🔒 增强生产环境安全建议
+
+### v1.3.0 - 2025-10-04
+- 🧹 移除个人化信息和路径
+- 📝 标准化开源项目文档
+- 🔄 更新版权信息为通用格式
+- 🌐 优化仓库地址格式
+- 📋 创建标准开源项目结构
+
+### v1.2.0 - 2025-10-04
+- 📄 更新许可证为CC BY-NC 4.0
+- 🚫 明确禁止商业使用条款
+- 📝 添加详细使用条款说明
+- 🔒 强制署名要求
+- 📚 提供正确的使用示例
+
 ### v1.1.0 - 2025-10-04
 - ✨ 添加自动化同步脚本
 - 📚 完善文档和安装指南
@@ -637,6 +658,9 @@ KBird-release/
 ├── data/             # 数据文件
 ├── utils/            # 工具函数
 ├── scripts/          # 脚本文件
+│   ├── generate-jwt-secret.js    # JWT密钥生成脚本(Node.js)
+│   ├── generate-jwt-secret.sh    # JWT密钥生成脚本(Bash)
+│   └── generate-jwt-secret.ps1   # JWT密钥生成脚本(PowerShell)
 ├── sync-with-git.ps1 # Git智能同步脚本
 ├── update-release.bat # 批处理同步脚本
 ├── package.json      # 项目配置
