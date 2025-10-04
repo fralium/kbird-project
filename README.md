@@ -526,9 +526,53 @@ git add .
 
 # 提交更改
 git commit -m "Add new feature: description"
+```
 
-# 推送到远程仓库
-git push origin master
+4. **推送到远程仓库**
+
+**方法一：使用推送脚本（推荐）**
+```bash
+# Windows用户
+.\scripts\push-to-all.bat
+
+# Linux/macOS用户
+chmod +x scripts/push-to-all.sh
+./scripts/push-to-all.sh
+
+# PowerShell用户
+.\scripts\push-to-all.ps1
+```
+
+**方法二：手动推送**
+```bash
+# 推送到Gitee (master分支)
+git push gitee master
+
+# 推送到GitHub (master分支映射到main分支)
+git push github master:main
+
+# 推送所有标签
+git push gitee --tags
+git push github --tags
+```
+
+### 多仓库管理
+
+项目支持同时推送到Gitee和GitHub两个仓库：
+
+- **Gitee**: https://gitee.com/fralium/kbird-project (master分支)
+- **GitHub**: https://github.com/fralium/kbird-project (main分支)
+
+**远程仓库配置**：
+```bash
+# 查看远程仓库
+git remote -v
+
+# 输出示例：
+# gitee   https://gitee.com/fralium/kbird-project.git (fetch)
+# gitee   https://gitee.com/fralium/kbird-project.git (push)
+# github  https://github.com/fralium/kbird-project.git (fetch)
+# github  https://github.com/fralium/kbird-project.git (push)
 ```
 
 ## 📈 性能优化
@@ -603,6 +647,14 @@ node scripts/verify-data.js
 
 ## 📚 版本历史
 
+### v1.5.0 - 2025-10-04
+- 🚀 添加多仓库推送脚本
+- 🔄 支持同时推送到Gitee和GitHub
+- 🛠️ 提供跨平台推送脚本（Bash、Batch、PowerShell）
+- 📋 自动处理分支映射（master -> main）
+- 🏷️ 自动同步版本标签到两个仓库
+- 📚 完善多仓库管理文档
+
 ### v1.4.0 - 2025-10-04
 - 🔐 添加JWT密钥生成工具
 - 📝 新增多种JWT密钥生成方法（Node.js、OpenSSL、PowerShell）
@@ -660,7 +712,10 @@ KBird-release/
 ├── scripts/          # 脚本文件
 │   ├── generate-jwt-secret.js    # JWT密钥生成脚本(Node.js)
 │   ├── generate-jwt-secret.sh    # JWT密钥生成脚本(Bash)
-│   └── generate-jwt-secret.ps1   # JWT密钥生成脚本(PowerShell)
+│   ├── generate-jwt-secret.ps1   # JWT密钥生成脚本(PowerShell)
+│   ├── push-to-all.sh            # 多仓库推送脚本(Bash)
+│   ├── push-to-all.bat           # 多仓库推送脚本(Windows)
+│   └── push-to-all.ps1           # 多仓库推送脚本(PowerShell)
 ├── sync-with-git.ps1 # Git智能同步脚本
 ├── update-release.bat # 批处理同步脚本
 ├── package.json      # 项目配置
