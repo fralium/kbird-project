@@ -1,0 +1,317 @@
+/* 移除smartAdderContainer，按钮现在直接在父容器中 */
+
+.smartAddButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+  height: 32px;
+  box-sizing: border-box;
+}
+
+.smartAddButton:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.plusIcon {
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  display: inline;
+  line-height: 1;
+}
+
+.smartAddButton:active {
+  transform: translateY(0);
+}
+
+.smartAddPanel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 600px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.panelHeader {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.panelHeader h3 {
+  margin: 0 0 0.5rem;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.panelHeader p {
+  margin: 0;
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.5;
+}
+
+.inputSection {
+  padding: 1rem 1.5rem;
+}
+
+.inputLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.birdListInput {
+  width: 100%;
+  min-height: 120px;
+  max-height: 200px;
+  padding: 0.75rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+.birdListInput:focus {
+  outline: none;
+  border-color: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.birdListInput::placeholder {
+  color: #9CA3AF;
+  font-family: inherit;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #F3F4F6;
+}
+
+.addButton {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+  transform: translateY(-1px);
+}
+
+.addButton:disabled {
+  background: #9CA3AF;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.resetButton {
+  padding: 0.75rem 1rem;
+  background: #F3F4F6;
+  color: #374151;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resetButton:hover {
+  background: #E5E7EB;
+  border-color: #9CA3AF;
+}
+
+.closeButton {
+  padding: 0.75rem 1rem;
+  background: #EF4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: #DC2626;
+  transform: translateY(-1px);
+}
+
+.resultPanel {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #F3F4F6;
+  background: #F9FAFB;
+}
+
+.resultPanel h4 {
+  margin: 0 0 1rem;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.successResult {
+  background: white;
+  border: 1px solid #D1FAE5;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.resultStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.statItem {
+  text-align: center;
+  padding: 0.75rem;
+  background: #F0FDF4;
+  border-radius: 6px;
+}
+
+.statLabel {
+  display: block;
+  font-size: 12px;
+  color: #6B7280;
+  margin-bottom: 0.25rem;
+}
+
+.statValue {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  color: #10B981;
+}
+
+.matchedBirdsList,
+.unmatchedBirdsList,
+.duplicateBirdsList {
+  margin-top: 1rem;
+}
+
+.matchedBirdsList h5 {
+  margin: 0 0 0.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  color: #10B981;
+}
+
+.unmatchedBirdsList h5 {
+  margin: 0 0 0.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  color: #F59E0B;
+}
+
+.duplicateBirdsList h5 {
+  margin: 0 0 0.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6B7280;
+}
+
+.matchedBirdsList ul,
+.unmatchedBirdsList ul,
+.duplicateBirdsList ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.matchedBirdsList li,
+.unmatchedBirdsList li,
+.duplicateBirdsList li {
+  margin-bottom: 0.25rem;
+  font-size: 14px;
+  color: #374151;
+}
+
+.unmatchedNote {
+  margin: 0.5rem 0 0;
+  font-size: 12px;
+  color: #F59E0B;
+  font-style: italic;
+  background: #FEF3C7;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border-left: 3px solid #F59E0B;
+}
+
+.errorResult {
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.errorResult p {
+  margin: 0;
+  color: #DC2626;
+  font-size: 14px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .smartAddPanel {
+    position: fixed;
+    top: 50%;
+    left: 1rem;
+    right: 1rem;
+    transform: translateY(-50%);
+    width: auto;
+    max-height: 90vh;
+  }
+  
+  .resultStats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .actionButtons {
+    flex-direction: column;
+  }
+  
+  .birdListInput {
+    min-height: 100px;
+    max-height: 150px;
+  }
+}

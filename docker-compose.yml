@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # MongoDB 数据库
+  mongodb:
+    image: mongo:6.0
+    container_name: kbird-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: kbird
+
+  # KBird 应用
+  kbird:
+    build: .
+    container_name: kbird-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"  # 前端
+      - "3002:3002"  # 后端
+    volumes:
+      - ./uploads:/app/uploads
+      - ./public/images:/app/public/images
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/kbird
+      - PORT=3002
+      - NEXT_PUBLIC_API_URL=http://localhost:3002
+    depends_on:
+      - mongodb
+    networks:
+      - kbird-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  kbird-network:
+    driver: bridge
+

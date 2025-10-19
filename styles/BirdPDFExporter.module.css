@@ -1,0 +1,166 @@
+/* 鸟类PDF导出组件样式 */
+
+.container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.header {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.header h3 {
+  color: var(--primary-color);
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.header p {
+  color: var(--text-medium);
+  margin: 0;
+  font-size: 1rem;
+}
+
+.controls {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.exportButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  min-width: 160px;
+}
+
+.exportButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.exportButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.progressContainer {
+  margin: 24px 0;
+  text-align: center;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  color: var(--text-medium);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.info {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.info h4 {
+  color: var(--primary-color);
+  margin: 0 0 16px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.info ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text-dark);
+}
+
+.info li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.info li:last-child {
+  margin-bottom: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+    margin: 16px 0;
+  }
+
+  .header h3 {
+    font-size: 1.3rem;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .exportButton {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .info {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h3 {
+    font-size: 1.2rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+  }
+
+  .exportButton {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,529 @@
+/* 地点时间线页面样�?*/
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 加载状�?*/
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 20px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #28a745;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 空状�?*/
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.emptyState h1 {
+  color: #333;
+  margin-bottom: 16px;
+  font-size: 2rem;
+}
+
+.emptyState p {
+  color: #666;
+  margin-bottom: 24px;
+  font-size: 1.1rem;
+}
+
+/* 地点标题和统�?*/
+.locationHeader {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* 详细操作按钮 */
+.detailActions {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.viewDetailsButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.viewDetailsButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+.locationName {
+  color: #2c3e50;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.locationStats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.statItem {
+  text-align: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  border-radius: 12px;
+  color: white;
+  min-width: 100px;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.statNumber {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+/* 时间线容�?*/
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #4CAF50 0%, #2E7D32 100%);
+  border-radius: 2px;
+}
+
+/* 时间线项�?*/
+.timelineItem {
+  position: relative;
+  margin-bottom: 40px;
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.timelineItem::before {
+  content: '';
+  position: absolute;
+  left: -30px;
+  top: 20px;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  z-index: 2;
+}
+
+/* 时间线日�?*/
+.timelineDate {
+  flex-shrink: 0;
+  width: 200px;
+  position: relative;
+}
+
+.dateContent {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: sticky;
+  top: 20px;
+}
+
+.dateText {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.dateSubtext {
+  display: block;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  background: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* 时间线内�?*/
+.timelineContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.birdsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* 鸟类卡片 */
+.birdCard {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid #e9ecef;
+}
+
+.birdCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* 编辑按钮样式 */
+.editButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #4CAF50;
+  color: white;
+  padding: 6px 8px;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.editButton:hover {
+  background: #45a049;
+  transform: scale(1.1);
+  color: white;
+  text-decoration: none;
+}
+
+.birdLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.birdImage {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.birdImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.birdCard:hover .birdImage img {
+  transform: scale(1.05);
+}
+
+.birdPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #bdc3c7;
+}
+
+.birdInfo {
+  padding: 20px;
+}
+
+.birdName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.birdScientific {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  font-style: italic;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.observer {
+  font-size: 0.85rem;
+  color: #95a5a6;
+  margin: 0;
+  background: #f8f9fa;
+  padding: 6px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* 观察照片 */
+.sightingImages {
+  display: flex;
+  gap: 8px;
+  padding: 16px 20px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  overflow-x: auto;
+}
+
+.sightingImage {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sightingImage:hover {
+  transform: scale(1.1);
+}
+
+.moreImages {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.moreImages:hover {
+  transform: scale(1.1);
+}
+
+/* 返回按钮 */
+.backSection {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px 0;
+}
+
+.backButton {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 12px 24px !important;
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%) !important;
+  color: white !important; /* 默认文字颜色为白色 */
+  text-decoration: none !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3) !important;
+}
+
+.backButton:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4) !important;
+  color: #FFD700 !important; /* 悬浮时文字颜色为金色 */
+  text-decoration: none !important;
+}
+
+/* 移动端响应式 */
+@media (max-width: 768px) {
+  .content {
+    padding: 16px;
+  }
+  
+  .locationHeader {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .locationName {
+    font-size: 1.8rem;
+  }
+  
+  .locationStats {
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .statItem {
+    min-width: 80px;
+    padding: 12px 16px;
+  }
+  
+  .statNumber {
+    font-size: 1.4rem;
+  }
+  
+  .timeline {
+    padding-left: 30px;
+  }
+  
+  .timeline::before {
+    left: 15px;
+    width: 2px;
+  }
+  
+  .timelineItem {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .timelineItem::before {
+    left: -15px;
+    width: 12px;
+    height: 12px;
+  }
+  
+  .timelineDate {
+    width: 100%;
+  }
+  
+  .dateContent {
+    position: static;
+    padding: 16px;
+  }
+  
+  .birdsGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .birdImage {
+    height: 160px;
+  }
+  
+  .birdInfo {
+    padding: 16px;
+  }
+  
+  .birdName {
+    font-size: 1.1rem;
+  }
+  
+  .sightingImages {
+    padding: 12px 16px;
+  }
+  
+  .sightingImage,
+  .moreImages {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .locationName {
+    font-size: 1.6rem;
+  }
+  
+  .statItem {
+    min-width: 70px;
+    padding: 10px 12px;
+  }
+  
+  .statNumber {
+    font-size: 1.2rem;
+  }
+  
+  .statLabel {
+    font-size: 0.8rem;
+  }
+  
+  .birdImage {
+    height: 140px;
+  }
+  
+  .birdInfo {
+    padding: 12px;
+  }
+  
+  .birdName {
+    font-size: 1rem;
+  }
+  
+  .birdScientific {
+    font-size: 0.85rem;
+  }
+}
+

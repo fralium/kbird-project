@@ -1,0 +1,308 @@
+.duplicateChecker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.loading {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.retryButton {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.retryButton:hover {
+  background: #2980b9;
+}
+
+.noDuplicates {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.successIcon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.noDuplicates h3 {
+  color: #27ae60;
+  margin-bottom: 10px;
+}
+
+.noDuplicates p {
+  color: #7f8c8d;
+  margin-bottom: 30px;
+}
+
+.duplicatesFound {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.warningIcon {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.duplicatesFound h3 {
+  color: #e74c3c;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.duplicatesFound > p {
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 30px;
+}
+
+.duplicatesList {
+  margin-bottom: 30px;
+}
+
+.duplicateItem {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background: #f8f9fa;
+}
+
+.duplicateHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.duplicateInfo h4 {
+  color: #2c3e50;
+  margin: 0 0 5px 0;
+  font-size: 1.2rem;
+}
+
+.scientificName {
+  color: #7f8c8d;
+  font-style: italic;
+  margin: 0 0 10px 0;
+  font-size: 0.9rem;
+}
+
+.description {
+  color: #495057;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.similarityScore {
+  text-align: center;
+  min-width: 80px;
+}
+
+.score {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+.scoreLabel {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.duplicateDetails {
+  margin-bottom: 15px;
+}
+
+.detailItem {
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.detailItem strong {
+  color: #2c3e50;
+}
+
+.matchReasons {
+  margin-bottom: 15px;
+}
+
+.matchReasons strong {
+  color: #2c3e50;
+  font-size: 0.9rem;
+}
+
+.matchReasons ul {
+  margin: 5px 0 0 20px;
+  padding: 0;
+}
+
+.matchReasons li {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 2px;
+}
+
+.duplicateActions {
+  text-align: right;
+}
+
+.viewButton {
+  background: #3498db;
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.viewButton:hover {
+  background: #2980b9;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.cancelButton,
+.confirmButton {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancelButton {
+  background: #95a5a6;
+  color: white;
+}
+
+.cancelButton:hover {
+  background: #7f8c8d;
+}
+
+.confirmButton {
+  background: #e74c3c;
+  color: white;
+}
+
+.confirmButton:hover {
+  background: #c0392b;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .duplicateChecker {
+    padding: 10px;
+  }
+  
+  .duplicatesFound {
+    padding: 20px;
+  }
+  
+  .duplicateHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .similarityScore {
+    text-align: left;
+    margin-top: 10px;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .cancelButton,
+  .confirmButton {
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

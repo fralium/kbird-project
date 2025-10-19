@@ -1,0 +1,992 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 20px;
+}
+
+.backButton {
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.backButton:hover {
+  background-color: var(--primary-dark);
+}
+
+.birdHeader {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  color: white;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.birdHeader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M40 40c0-22.091-17.909-40-40-40s-40 17.909-40 40 17.909 40 40 40 40-17.909 40-40zm0 0c0 22.091 17.909 40 40 40s40-17.909 40-40-17.909-40-40-40-40 17.909-40 40z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.birdHeaderContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.birdName {
+  margin: 0;
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+}
+
+.scientificName {
+  font-style: italic;
+  margin: 0;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.birdMeta {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.observationHeat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 6px 12px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.observationHeat:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.heatLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.heatStars {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.category {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.protectionStatus {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.iucnStatus,
+.chinaStatus {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.iucnStatus {
+  border-left: 3px solid #4CAF50;
+}
+
+.chinaStatus {
+  border-left: 3px solid #FF9800;
+}
+
+.tabsContainer {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+  margin-bottom: 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tabs {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+}
+
+.tabButton {
+  padding: 15px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.tabButton:hover {
+  color: var(--primary-color);
+}
+
+.tabButton.active {
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+  font-weight: bold;
+}
+
+.contentContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px 30px 20px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  background-color: white;
+  margin-top: 0;
+}
+
+/* 信息标签样式 */
+.infoTab {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 0;
+}
+
+.infoSection h2 {
+  color: var(--primary-dark);
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.infoSection p {
+  line-height: 1.6;
+  margin: 0;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.infoItem {
+  background-color: var(--background-light);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.infoItem h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: var(--primary-dark);
+}
+
+.infoItem p {
+  margin: 0;
+}
+
+.protectionDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.protectionItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+  font-size: 0.95rem;
+}
+
+.protectionItem strong {
+  color: var(--text-primary);
+  min-width: 80px;
+}
+
+.protectionItem:last-child {
+  margin-bottom: 0;
+}
+
+.tagsContainer h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--primary-dark);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  background-color: var(--background-dark);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+/* 图片标签样式 */
+.imagesTab {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 0;
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.imageCard {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.imageCard:hover {
+  transform: translateY(-5px);
+}
+
+.imagePlaceholder {
+  height: 250px;
+  background-color: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageContainer {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.birdImage {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.imageContainer:hover .imageOverlay {
+  opacity: 1;
+}
+
+.imageContainer:hover .birdImage {
+  transform: scale(1.05);
+}
+
+.zoomIcon {
+  font-size: 2rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.placeholderText {
+  color: white;
+  font-weight: bold;
+}
+
+.imageInfo {
+  padding: 15px;
+}
+
+.imageCaption {
+  margin: 0;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.imageMetadata {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.photographer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatarPlaceholder {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--background-dark);
+}
+
+.userAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-light);
+}
+
+.uploadSection {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.uploadButton {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.uploadButton:hover {
+  background-color: var(--primary-dark);
+}
+
+.uploadButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* 观察记录标签样式 */
+.sightingsTab {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 0;
+}
+
+.sightingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sightingCard {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.sightingHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.sightingLocation {
+  font-weight: bold;
+  color: var(--primary-dark);
+}
+
+.sightingDate {
+  color: #666;
+}
+
+.sightingBody {
+  margin-bottom: 15px;
+}
+
+.sightingNotes {
+  margin: 0;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.sightingUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.userName {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.sightingImages {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.sightingImageContainer {
+  position: relative;
+  min-width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.sightingImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.sightingImage:hover {
+  transform: scale(1.05);
+}
+
+.sightingImagePlaceholder {
+  min-width: 100px;
+  height: 100px;
+  background-color: var(--primary-light);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sightingFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.observer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.addSightingSection {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.addSightingButton {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.addSightingButton:hover {
+  background-color: var(--primary-dark);
+}
+
+.footer {
+  background-color: var(--primary-dark);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .birdName {
+    font-size: 2rem;
+  }
+  
+  .tabs {
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+  
+  .tabButton {
+    padding: 15px 10px;
+    white-space: nowrap;
+  }
+  
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .imageGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .birdTitleSection {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .birdTitle {
+    text-align: center;
+  }
+}
+
+/* 新增的收藏按钮样式 */
+.birdTitleSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.birdTitle {
+  flex: 1;
+  text-align: left;
+}
+
+.birdActions {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.favoriteButton {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.favoriteButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.favoriteButton:hover::before {
+  left: 100%;
+}
+
+.favoriteButton:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.favoriteButton.favorited {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 152, 0, 0.15) 100%);
+  border-color: rgba(255, 193, 7, 0.4);
+  color: #ffc107;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+}
+
+.favoriteButton.favorited:hover {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.3) 0%, rgba(255, 152, 0, 0.25) 100%);
+  border-color: rgba(255, 193, 7, 0.6);
+  color: #ffc107;
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+}
+
+.favoriteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.editButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: white !important;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.editButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: white !important;
+}
+
+.deleteButton {
+  background: rgba(244, 67, 54, 0.1);
+  color: white !important;
+  border: 2px solid rgba(244, 67, 54, 0.3);
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deleteButton:hover {
+  background: rgba(244, 67, 54, 0.2);
+  border-color: rgba(244, 67, 54, 0.5);
+  transform: translateY(-2px);
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.2);
+}
+
+/* 图片和观察记录操作按钮 */
+.imageActions,
+.sightingActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.editImageButton,
+.editSightingButton {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.editImageButton:hover,
+.editSightingButton:hover {
+  background: var(--primary-dark);
+}
+
+.deleteImageButton,
+.deleteSightingButton {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.deleteImageButton:hover,
+.deleteSightingButton:hover {
+  background: #c82333;
+}
+
+/* 模态框样式 */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: var(--primary-dark);
+}
+
+.modal .formGroup {
+  margin-bottom: 20px;
+}
+
+.modal .formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.modal .formGroup input,
+.modal .formGroup textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.modal .formGroup textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.modalActions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.modalActions button[type="button"] {
+  background: #6c757d;
+  color: white;
+}
+
+.modalActions button[type="button"]:hover {
+  background: #5a6268;
+}
+
+.modalActions button[type="submit"] {
+  background: var(--primary-color);
+  color: white;
+}
+
+.modalActions button[type="submit"]:hover {
+  background: var(--primary-dark);
+}
+
+/* 图片网格样式 */
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.imageItem {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.imageItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.imageContainer {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.image:hover {
+  transform: scale(1.05);
+}
+
+.mainImageTag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #ff4444;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 2;
+}
+
+.imageActions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.imageItem:hover .imageActions {
+  opacity: 1;
+}
+
+.editButton,
+.deleteButton,
+.mainButton {
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+.mainButton:hover {
+  background: #ff9800;
+}
+
+.editButton:hover {
+  background: #4CAF50;
+}
+
+.deleteButton:hover {
+  background: #f44336;
+}
+
+.imageCaption {
+  padding: 8px 12px;
+  background: white;
+  font-size: 14px;
+  color: #666;
+  border-top: 1px solid #eee;
+}
+
+.noImages {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-size: 16px;
+}
+
+.imageError {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 14px;
+}

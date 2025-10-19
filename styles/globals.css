@@ -1,0 +1,310 @@
+/* 鸟类自然主题设计系统 - 绿色、白色、金色配色方案 */
+:root {
+  /* 主色调 - 绿色系 */
+  --primary-green: #2E7D32;      /* 深绿色 */
+  --secondary-green: #4CAF50;    /* 标准绿色 */
+  --accent-green: #66BB6A;       /* 浅绿色 */
+  --light-green: #A5D6A7;        /* 很浅绿色 */
+  --sage-green: #E8F5E8;         /* 极浅绿色 */
+  
+  /* 金色系 */
+  --primary-gold: #FFD700;       /* 纯金色 */
+  --secondary-gold: #FFC107;     /* 琥珀金 */
+  --accent-gold: #FFECB3;        /* 浅金色 */
+  --light-gold: #FFF8E1;         /* 极浅金色 */
+  
+  /* 白色系 */
+  --pure-white: #FFFFFF;         /* 纯白色 */
+  --off-white: #FAFAFA;          /* 米白色 */
+  --light-gray: #F5F5F5;         /* 浅灰色 */
+  --medium-gray: #E0E0E0;        /* 中灰色 */
+  
+  /* 按钮配色系统 */
+  --button-primary: var(--secondary-green);    /* 主要按钮 - 绿色 */
+  --button-secondary: var(--secondary-gold);   /* 次要按钮 - 金色 */
+  --button-danger: #F44336;                   /* 危险按钮 - 红色 */
+  --button-success: var(--primary-green);      /* 成功按钮 - 深绿色 */
+  --leaf-green: #90ee90;         /* 浅绿色 */
+  
+  /* 中性色 */
+  --text-dark: #1a252f;          /* 深色文字 - 提高对比度 */
+  --text-medium: #495057;        /* 中灰 */
+  --text-light: #6c757d;         /* 浅灰 */
+  --text-white: #ffffff;          /* 白色文字 */
+  --background-light: #f8f9fa;   /* 浅背景 */
+  --background-white: #ffffff;   /* 纯白 */
+  --background-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* 统一背景渐变 */
+  
+  /* 状态色 */
+  --success: #27ae60;            /* 成功绿 */
+  --success-color: #27ae60;      /* 成功绿 */
+  --success-dark: #1e8449;       /* 深成功绿 */
+  --warning: #f39c12;            /* 警告橙 */
+  --error: #e74c3c;              /* 错误红 */
+  --info: #3498db;               /* 信息蓝 */
+  
+  /* 阴影 */
+  --shadow-light: 0 2px 4px rgba(45, 80, 22, 0.1);
+  --shadow-medium: 0 4px 8px rgba(45, 80, 22, 0.15);
+  --shadow-heavy: 0 8px 16px rgba(45, 80, 22, 0.2);
+  
+  /* 圆角 */
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-large: 12px;
+  --radius-xl: 16px;
+  
+  /* 间距 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background: linear-gradient(135deg, var(--background-light) 0%, #e8f5e8 100%);
+  color: var(--text-dark);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* 自然主题背景 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(135, 206, 235, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(154, 205, 50, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(107, 142, 35, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #f0f9ff;
+  text-decoration: underline;
+}
+
+/* 深色背景上的链接样式 */
+.hero a,
+.ctaSection a,
+.header a,
+[class*="hero"] a,
+[class*="cta"] a,
+[class*="header"] a {
+  color: white !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.hero a:hover,
+.ctaSection a:hover,
+.header a:hover,
+[class*="hero"] a:hover,
+[class*="cta"] a:hover,
+[class*="header"] a:hover {
+  color: #f0f9ff !important;
+  text-decoration: underline;
+}
+
+/* 导航栏链接特殊处理 - 覆盖全局样式 */
+.navLink {
+  color: white !important;
+}
+
+.navLink:hover {
+  color: #f0f9ff !important;
+  text-decoration: none !important;
+}
+
+.navLink:visited {
+  color: white !important;
+}
+
+.navLink:active {
+  color: #f0f9ff !important;
+}
+
+/* 按钮基础样式 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-medium);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  gap: var(--spacing-xs);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  color: white;
+  box-shadow: var(--shadow-light);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+  color: white;
+}
+
+.btn-secondary {
+  background: var(--background-white);
+  color: var(--primary-green);
+  border: 2px solid var(--primary-green);
+}
+
+.btn-secondary:hover {
+  background: var(--primary-green);
+  color: white;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--success) 0%, #2ecc71 100%);
+  color: white;
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, var(--warning) 0%, #f1c40f 100%);
+  color: white;
+}
+
+.btn-error {
+  background: linear-gradient(135deg, var(--error) 0%, #c0392b 100%);
+  color: white;
+}
+
+/* 卡片样式 */
+.card {
+  background: var(--background-white);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-light);
+  padding: var(--spacing-lg);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(45, 80, 22, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* 输入框样式 */
+.input {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 2px solid rgba(45, 80, 22, 0.2);
+  border-radius: var(--radius-medium);
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: var(--background-white);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: linear-gradient(135deg, var(--light-green) 0%, var(--accent-green) 100%);
+  color: white;
+  border-radius: var(--radius-small);
+  font-size: 12px;
+  font-weight: 600;
+  margin: var(--spacing-xs);
+}
+
+/* 图标样式 */
+.icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.icon-large {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-xl {
+  width: 32px;
+  height: 32px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  :root {
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+  }
+  
+  .card {
+    padding: var(--spacing-md);
+  }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-green);
+  border-radius: var(--radius-small);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-green);
+}
+
+:root {
+  --primary-color: #2e7d32;
+  --primary-light: #60ad5e;
+  --primary-dark: #005005;
+  --secondary-color: #ffb300;
+  --secondary-light: #ffe54c;
+  --secondary-dark: #c68400;
+  --text-light: #ffffff;
+  --text-dark: #333333;
+  --background-light: #f5f5f5;
+  --background-dark: #e0e0e0;
+  --error: #d32f2f;
+  --success: #388e3c;
+  --warning: #f57c00;
+  --info: #1976d2;
+}

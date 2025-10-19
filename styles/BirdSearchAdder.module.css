@@ -1,0 +1,204 @@
+/* 鸟类搜索添加器样式 */
+.birdSearchAdder {
+  margin-bottom: 1rem;
+}
+
+.searchContainer {
+  position: relative;
+  max-width: 500px;
+}
+
+.searchInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.searchInput::placeholder {
+  color: #999;
+}
+
+/* 加载指示器 */
+.loadingIndicator {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e1e5e9;
+  border-top: 2px solid #4CAF50;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 搜索结果下拉框 */
+.suggestionsDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 4px;
+}
+
+.suggestionItem {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.suggestionItem:last-child {
+  border-bottom: none;
+}
+
+.suggestionItem:hover {
+  background-color: #f8f9fa;
+}
+
+.suggestionItem:active {
+  background-color: #e9ecef;
+}
+
+.birdName {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.scientificName {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* 选中状态显示 */
+.selectedBird {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.selectedInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.selectedName {
+  font-weight: 500;
+  color: #333;
+}
+
+.selectedScientific {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+.addButton {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.addButton:hover {
+  background-color: #45a049;
+}
+
+.addButton:active {
+  background-color: #3d8b40;
+}
+
+/* 无结果提示 */
+.noResults {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 4px;
+  color: #666;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .searchContainer {
+    max-width: 100%;
+  }
+  
+  .searchInput {
+    font-size: 16px; /* 防止iOS缩放 */
+  }
+  
+  .suggestionsDropdown {
+    max-height: 200px;
+  }
+  
+  .selectedBird {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  .addButton {
+    align-self: flex-end;
+  }
+}
+
+
+
+
+
+

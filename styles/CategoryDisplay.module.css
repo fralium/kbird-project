@@ -1,0 +1,183 @@
+/* 分类显示组件样式 */
+
+/* 默认模式 - 垂直堆叠 */
+.defaultContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.defaultLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--radius-medium);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+}
+
+.defaultLabel:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
+}
+
+.level {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 6px;
+  border-radius: var(--radius-small);
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.name {
+  flex: 1;
+}
+
+/* 紧凑模式 - 两行布局 */
+.compactContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 40px; /* 确保所有卡片高度一致 */
+}
+
+.compactRow {
+  display: flex;
+  gap: 4px;
+  min-height: 18px; /* 确保每行高度一致 */
+  align-items: center;
+}
+
+.compactLabel {
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  display: inline-block;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.compactLabel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.compactLabel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.compactLabel:hover::before {
+  left: 100%;
+}
+
+/* 拉丁文名称样式 */
+.latinName {
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+/* 内联模式 - 用分隔符连接 */
+.inlineCategory {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.inlineLabel {
+  color: var(--text-dark);
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.inlineLabel:hover {
+  text-decoration: underline;
+}
+
+.separator {
+  color: var(--text-light);
+  font-weight: 400;
+  user-select: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .defaultContainer {
+    gap: 4px;
+  }
+  
+  .defaultLabel {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .level {
+    font-size: 0.7rem;
+    padding: 1px 4px;
+  }
+  
+  .compactContainer {
+    min-height: 36px;
+  }
+  
+  .compactRow {
+    min-height: 16px;
+  }
+  
+  .compactLabel {
+    padding: 2px 6px;
+    font-size: 0.7rem;
+  }
+  
+  .inlineCategory {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .defaultLabel {
+    padding: 3px 6px;
+    font-size: 0.75rem;
+  }
+  
+  .compactContainer {
+    min-height: 32px;
+  }
+  
+  .compactRow {
+    min-height: 14px;
+  }
+  
+  .compactLabel {
+    padding: 2px 4px;
+    font-size: 0.65rem;
+  }
+  
+  .inlineCategory {
+    font-size: 0.8rem;
+  }
+}
+
+

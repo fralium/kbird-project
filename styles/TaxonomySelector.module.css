@@ -1,0 +1,80 @@
+.taxonomySelector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.taxonomyGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.taxonomyGroup label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+}
+
+.select {
+  padding: 0.75rem;
+  border: 1px solid var(--medium-gray);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background-color: var(--pure-white);
+  color: var(--text-dark);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--secondary-green);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.select:disabled {
+  background-color: var(--light-gray);
+  color: var(--text-medium);
+  cursor: not-allowed;
+}
+
+.loading,
+.error {
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-medium);
+  font-style: italic;
+}
+
+.error {
+  color: var(--button-danger);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .taxonomySelector {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .select {
+    padding: 0.625rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .taxonomySelector {
+    gap: 0.5rem;
+  }
+  
+  .taxonomyGroup label {
+    font-size: 0.85rem;
+  }
+  
+  .select {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,361 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, var(--background-light) 0%, #e8f5e8 100%);
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(135, 206, 235, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(154, 205, 50, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.main {
+  flex: 1;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.errorContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 60px;
+  background: var(--background-white);
+  padding: 40px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-medium);
+  border: 1px solid rgba(45, 80, 22, 0.1);
+}
+
+.birdSection {
+  text-align: center;
+  padding: 20px;
+}
+
+.birdIcon {
+  font-size: 8rem;
+  margin-bottom: 20px;
+  display: block;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.birdName {
+  font-size: 2.5rem;
+  color: var(--text-dark);
+  margin: 0 0 10px 0;
+  font-weight: bold;
+}
+
+.scientificName {
+  font-style: italic;
+  color: var(--text-medium);
+  font-size: 1.2rem;
+  margin: 0 0 20px 0;
+}
+
+.statusBadge {
+  display: inline-block;
+  color: white;
+  padding: 8px 16px;
+  border-radius: var(--radius-large);
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: var(--shadow-light);
+}
+
+.errorSection {
+  padding: 20px;
+}
+
+.errorTitle {
+  font-size: 2.5rem;
+  color: var(--text-dark);
+  margin: 0 0 15px 0;
+  font-weight: bold;
+}
+
+.errorSubtitle {
+  font-size: 1.2rem;
+  color: var(--text-medium);
+  line-height: 1.6;
+  margin: 0 0 30px 0;
+}
+
+.errorCode {
+  background: var(--background-light);
+  color: var(--text-medium);
+  padding: 10px 20px;
+  border-radius: var(--radius-medium);
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  margin-bottom: 30px;
+  border: 1px solid rgba(45, 80, 22, 0.1);
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, var(--accent-green) 0%, var(--light-green) 100%);
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: var(--radius-medium);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-shadow: var(--shadow-light);
+}
+
+.primaryButton:hover {
+  background: linear-gradient(135deg, var(--light-green) 0%, var(--accent-green) 100%);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+  text-decoration: none;
+  color: white;
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text-dark);
+  border: 2px solid rgba(45, 80, 22, 0.2);
+  padding: 12px 24px;
+  border-radius: var(--radius-medium);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(45, 80, 22, 0.3);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
+}
+
+.birdInfo {
+  background: var(--background-white);
+  padding: 40px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-medium);
+  margin-bottom: 40px;
+  border: 1px solid rgba(45, 80, 22, 0.1);
+}
+
+.infoTitle {
+  font-size: 1.8rem;
+  color: var(--text-dark);
+  margin: 0 0 30px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.infoCard {
+  background: var(--background-light);
+  padding: 20px;
+  border-radius: var(--radius-large);
+  border: 1px solid rgba(45, 80, 22, 0.1);
+  transition: all 0.3s ease;
+}
+
+.infoCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
+}
+
+.infoCard h4 {
+  color: var(--primary-green);
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.infoCard p {
+  color: var(--text-medium);
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.conservationMessage {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  color: white;
+  padding: 40px;
+  border-radius: var(--radius-xl);
+  text-align: center;
+  box-shadow: var(--shadow-medium);
+  position: relative;
+  overflow: hidden;
+}
+
+.conservationMessage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.conservationMessage h3 {
+  font-size: 1.8rem;
+  margin: 0 0 20px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.conservationMessage p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0 0 30px 0;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+
+.learnMoreButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: var(--radius-medium);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
+}
+
+.learnMoreButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: white;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .errorContent {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 20px;
+  }
+  
+  .birdIcon {
+    font-size: 6rem;
+  }
+  
+  .birdName {
+    font-size: 2rem;
+  }
+  
+  .errorTitle {
+    font-size: 2rem;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .main {
+    padding: 20px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .birdIcon {
+    font-size: 4rem;
+  }
+  
+  .birdName {
+    font-size: 1.5rem;
+  }
+  
+  .errorTitle {
+    font-size: 1.5rem;
+  }
+  
+  .errorSubtitle {
+    font-size: 1rem;
+  }
+  
+  .infoTitle {
+    font-size: 1.5rem;
+  }
+  
+  .conservationMessage h3 {
+    font-size: 1.5rem;
+  }
+  
+  .conservationMessage p {
+    font-size: 1rem;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
