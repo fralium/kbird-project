@@ -84,11 +84,14 @@ KBird-Update.bat
 - 保存后重启 `KBird-Desktop.bat`，`NEXT_PUBLIC_*` 与多数服务端配置才会生效
 - 手改说明仍见 `env.example` 与 [docs/MAP_SETUP.md](docs/MAP_SETUP.md)
 
-备份个人数据：
+备份个人数据（照片 uploads + MongoDB，打成 zip）：
 
-```powershell
-.\scripts\backup-personal-data.ps1
+```batch
+KBird-Backup.bat
 ```
+
+或：`.\scripts\backup-personal-data.ps1`  
+zip 在同级 `KBird-Data\backups\`。若未装 MongoDB / Database Tools（`mongodump`），脚本会提示安装下载页。
 
 ## 版权说明
 

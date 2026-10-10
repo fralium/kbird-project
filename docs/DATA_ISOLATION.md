@@ -69,7 +69,13 @@ node scripts/ensure-kbird-data.js
 
 ## 定期备份（含 MongoDB）
 
-需已安装 [MongoDB Database Tools](https://www.mongodb.com/try/download/database-tools)（`mongodump` 在 PATH 中）。
+双击根目录 **`KBird-Backup.bat`**（或跑下方脚本）：备份 **uploads + MongoDB**，打成 zip。
+
+需已安装 MongoDB 服务，以及 [MongoDB Database Tools](https://www.mongodb.com/try/download/database-tools)（`mongodump`）。缺任一者时脚本会**停止并提示安装**（可打开下载页）；仅备文件时可加 `-SkipMongo`。
+
+```batch
+KBird-Backup.bat
+```
 
 ```powershell
 .\scripts\backup-personal-data.ps1
@@ -86,7 +92,7 @@ node scripts/ensure-kbird-data.js
 2. 触发器：每天（如 02:30）  
 3. 操作：启动程序  
    - 程序：`powershell.exe`  
-   - 参数：`-NoProfile -ExecutionPolicy Bypass -File "<你的项目路径>\scripts\backup-personal-data.ps1"`  
+   - 参数：`-NoProfile -ExecutionPolicy Bypass -File "<你的项目路径>\scripts\backup-personal-data.ps1" -NoPause`  
 
 ## 与应用内「数据管理 → 备份」的关系
 

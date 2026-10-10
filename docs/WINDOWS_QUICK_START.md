@@ -209,10 +209,14 @@ npm install
 
 ### 备份数据
 
-```powershell
-# 备份数据库
-mongodump --db kbird --out ./backups/backup-$(Get-Date -Format "yyyyMMdd")
+推荐双击根目录：
+
+```batch
+KBird-Backup.bat
 ```
+
+会备份照片（uploads）+ 数据库（mongodump），zip 在同级 `KBird-Data\backups\`。  
+未装 MongoDB 或 Database Tools 时会提示安装。仅备文件：`.\scripts\backup-personal-data.ps1 -SkipMongo`。
 
 ### 恢复数据
 
