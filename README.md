@@ -50,7 +50,7 @@ cd kbird
 KBird-Desktop.bat
 ```
 
-浏览器打开 http://localhost:13080 。第一次进站走 `/init`：可填库名（写入本机 `.env`）、可选地图/AI Key，并创建本机管理员。改库名或密钥后按页面提示重启 `KBird-Desktop.bat`。
+浏览器打开 http://localhost:13080 即可使用。后端会按默认自动就绪本机数据与管理员（单机自动登录）；密码可在 **个人设置** 里修改。地图/AI Key 可在 **设置 → 服务与密钥** 补。`/init` 仅为特殊重配页，会提示覆盖原有设置，日常不必打开。
 
 停止可用 `KBird-Stop.bat`。
 
@@ -79,8 +79,7 @@ KBird-Update.bat
 
 `install.ps1` 会生成 `.env` 并自动设好与仓库同级的 `KBird-Data`。日常不必手改 `.env`：
 
-- 首次：`/init` 可写库名与可选地图/AI Key
-- 以后：管理员在本机打开 **个人设置 → 服务与密钥** 更新（仅 127.0.0.1）
+- 管理员在本机打开 **个人设置 → 服务与密钥** 更新地图/AI（仅 127.0.0.1）
 - 保存后重启 `KBird-Desktop.bat`，`NEXT_PUBLIC_*` 与多数服务端配置才会生效
 - 手改说明仍见 `env.example` 与 [docs/MAP_SETUP.md](docs/MAP_SETUP.md)
 

@@ -1,17 +1,15 @@
 'use client';
 
 import { useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { api } from '../utils/api';
 import { applyUiStyle, readStoredUiStyle } from '../utils/uiStyle';
 
 /**
- * 始终向后端核对初始化状态：
- * - 未初始化 → 清掉本机 init-checked，送去 /init（避免清库后卡死）
- * - 已初始化 → 标记 init-checked，并刷新单机模式缓存
+ * 启动时同步本机偏好与单机模式缓存。
+ * 默认不再强制跳转 /init：后端会静默就绪管理员与鸟种种子。
  */
 export default function AppClientBootstrap() {
-  const router = useRouter();
   const pathname = usePathname() || '';
 
   useEffect(() => {
@@ -22,7 +20,6 @@ export default function AppClientBootstrap() {
       try {
         const token = localStorage.getItem('token');
         if (!token) return;
-        // 勿因设置接口 401 清掉登录态（启动竞态时 token 可能尚未就绪）
         const result = await api.personal.getSettings({ skipAuthHandling: true });
         if (cancelled || !result?.success) return;
         const styleId = result.data?.uiStyle;
@@ -40,7 +37,7 @@ export default function AppClientBootstrap() {
   useEffect(() => {
     let cancelled = false;
 
-    const checkInit = async () => {
+    const syncAppMode = async () => {
       if (typeof window === 'undefined') return;
       if (pathname === '/init') return;
 
@@ -61,26 +58,21 @@ export default function AppClientBootstrap() {
           // ignore
         }
 
-        if (!result.initialized) {
-          localStorage.removeItem('init-checked');
-          router.replace('/init');
-          return;
+        if (result.initialized) {
+          localStorage.setItem('init-checked', 'true');
         }
-
-        localStorage.setItem('init-checked', 'true');
       } catch (error) {
-        // 网络失败不写 init-checked，也不误判已初始化
         if (process.env.NODE_ENV === 'development') {
           console.error('检查初始化状态失败:', error);
         }
       }
     };
 
-    checkInit();
+    syncAppMode();
     return () => {
       cancelled = true;
     };
-  }, [pathname, router]);
+  }, [pathname]);
 
   return null;
 }

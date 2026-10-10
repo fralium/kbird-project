@@ -114,10 +114,18 @@ function upsertEnvKeys(updates) {
   return { path: ENV_PATH, written };
 }
 
+/** First-init default DB name: kbird + local YYYYMMDD (e.g. kbird20261011) */
+function defaultInitDbName(date = new Date()) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `kbird${y}${m}${d}`;
+}
+
 function buildMongoUri({ host, port, dbName }) {
   const h = String(host || 'localhost').trim() || 'localhost';
   const p = String(port || '27017').trim() || '27017';
-  const db = String(dbName || 'kbird').trim() || 'kbird';
+  const db = String(dbName || defaultInitDbName()).trim() || defaultInitDbName();
   if (!/^[A-Za-z0-9._-]+$/.test(db)) {
     throw new Error('数据库名称仅允许字母、数字、点、下划线、短横线');
   }
@@ -189,12 +197,18 @@ function buildUpdatesFromGuiPayload(body = {}, { forInit = false } = {}) {
   const current = getEnvMap();
   const updates = {};
 
-  if (body.dbName || body.dbHost || body.dbPort) {
+  if (body.dbName || body.dbHost || body.dbPort || forInit) {
     const parsed = parseMongoUri(current.MONGODB_URI || process.env.MONGODB_URI || '');
+    const dbNameForInit =
+      body.dbName != null && String(body.dbName).trim() !== ''
+        ? body.dbName
+        : forInit
+          ? defaultInitDbName()
+          : parsed.dbName;
     updates.MONGODB_URI = buildMongoUri({
-      host: body.dbHost != null && String(body.dbHost).trim() !== '' ? body.dbHost : parsed.host,
-      port: body.dbPort != null && String(body.dbPort).trim() !== '' ? body.dbPort : parsed.port,
-      dbName: body.dbName != null && String(body.dbName).trim() !== '' ? body.dbName : parsed.dbName,
+      host: body.dbHost != null && String(body.dbHost).trim() !== '' ? body.dbHost : parsed.host || 'localhost',
+      port: body.dbPort != null && String(body.dbPort).trim() !== '' ? body.dbPort : parsed.port || '27017',
+      dbName: dbNameForInit,
     });
   }
 
@@ -313,6 +327,7 @@ module.exports = {
   upsertEnvKeys,
   buildMongoUri,
   parseMongoUri,
+  defaultInitDbName,
   maskSecret,
   parseMaxFileSizeToBytes,
   buildUpdatesFromGuiPayload,

@@ -23,7 +23,14 @@ const DEFAULTS = {
   maxFileSize: '5MB',
 };
 
-const TOTAL_STEPS = 4;
+function buildDatedDbName(date = new Date()) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `kbird${y}${m}${d}`;
+}
+
+const TOTAL_STEPS = 3;
 
 export default function InitPage() {
   const router = useRouter();
@@ -32,7 +39,7 @@ export default function InitPage() {
 
   const [config, setConfig] = useState({
     siteDescription: '观鸟笔记本',
-    dbName: 'kbird',
+    dbName: buildDatedDbName(),
     baiduMapAk: '',
     tiandituTk: '',
     tiandituServerTk: '',
@@ -46,15 +53,25 @@ export default function InitPage() {
     adminPassword: '',
     confirmPassword: '',
     setupToken: '',
+    confirmOverwrite: false,
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [restartInfo, setRestartInfo] = useState(null);
   const [mounted, setMounted] = useState(false);
+  const [alreadyInitialized, setAlreadyInitialized] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    api.init
+      .checkStatus()
+      .then((data) => {
+        if (data?.success && data.initialized) {
+          setAlreadyInitialized(true);
+        }
+      })
+      .catch(() => null);
   }, []);
 
   const handleInputChange = (field, value) => {
@@ -76,7 +93,7 @@ export default function InitPage() {
     siteName: SITE_NAME,
     siteDescription: config.siteDescription,
     siteUrl: DEFAULTS.siteUrl,
-    dbName: String(config.dbName || '').trim() || 'kbird',
+    dbName: config.dbName || buildDatedDbName(),
     dbHost: DEFAULTS.dbHost,
     dbPort: DEFAULTS.dbPort,
     backendPort: DEFAULTS.backendPort,
@@ -99,6 +116,7 @@ export default function InitPage() {
     adminUsername: config.adminUsername,
     adminEmail: config.adminEmail,
     adminPassword: config.adminPassword,
+    confirmOverwrite: Boolean(config.confirmOverwrite),
   });
 
   const handleSubmit = async () => {
@@ -107,14 +125,8 @@ export default function InitPage() {
     setRestartInfo(null);
 
     try {
-      const dbName = String(config.dbName || '').trim();
-      if (!dbName) {
-        setError('请填写数据库名称');
-        setLoading(false);
-        return;
-      }
-      if (!/^[A-Za-z0-9._-]+$/.test(dbName)) {
-        setError('数据库名称仅允许字母、数字、点、下划线、短横线');
+      if (alreadyInitialized && !config.confirmOverwrite) {
+        setError('请先勾选确认：将覆盖本机原有配置与管理员账号');
         setLoading(false);
         return;
       }
@@ -133,13 +145,10 @@ export default function InitPage() {
 
       const result = await api.init.submit(buildPayload(), { setupToken: config.setupToken });
 
-      if (result.success && result.restartRequired && (result.dbChanged || !result.initialized)) {
-        setRestartInfo({
-          dbChanged: Boolean(result.dbChanged),
-          message:
-            result.message ||
-            '配置已写入本机 .env。请关闭并重新运行 KBird-Desktop.bat，再打开 /init 完成管理员创建。',
-        });
+      if (result.needsOverwriteConfirm) {
+        setAlreadyInitialized(true);
+        setError(result.message || '请勾选确认覆盖后再提交');
+        setLoading(false);
         return;
       }
 
@@ -147,13 +156,13 @@ export default function InitPage() {
         localStorage.setItem('init-checked', 'true');
         sessionStorage.removeItem('kbird-skip-auto-login');
 
-        if (result.restartRequired) {
+        if (result.restartOptional || result.restartRequired) {
           setRestartInfo({
-            dbChanged: false,
             done: true,
+            optional: true,
             message:
               result.message ||
-              '初始化完成。部分密钥已写入 .env，请重启 KBird-Desktop.bat 后地图/AI 才会生效。',
+              '初始化完成，可以开始使用。若配置了地图/AI，建议稍后重启桌面启动脚本后再用相关功能。',
           });
           return;
         }
@@ -167,16 +176,16 @@ export default function InitPage() {
         }
 
         router.replace('/login');
-      } else if (result.success) {
-        setRestartInfo({
-          dbChanged: Boolean(result.dbChanged),
-          message: result.message || '请按提示重启后再继续。',
-        });
       } else {
         setError(result.message || '初始化失败');
       }
-    } catch {
-      setError('网络错误，请重试');
+    } catch (err) {
+      if (err?.status === 409 || err?.data?.needsOverwriteConfirm) {
+        setAlreadyInitialized(true);
+        setError(err.message || '请勾选确认覆盖后再提交');
+      } else {
+        setError(err?.message || '网络错误，请重试');
+      }
     } finally {
       setLoading(false);
     }
@@ -184,13 +193,21 @@ export default function InitPage() {
 
   const renderStep1 = () => (
     <div className={styles.step}>
-      <h2>基本信息</h2>
-      <p className={styles.hint}>软件名固定为 KBird。本机访问地址建议保持默认，一般无需改动。</p>
+      <h2>高级重配（可选）</h2>
+      {alreadyInitialized ? (
+        <div className={styles.error} style={{ marginBottom: '1rem' }}>
+          日常使用不必打开本页。继续操作将覆盖本机原有配置与管理员账号，个人观察数据可能无法在同一库中自动找回。
+        </div>
+      ) : (
+        <p className={styles.hint}>
+          一般安装后直接启动即可使用，无需本页。仅在需要重配本机环境时使用。
+        </p>
+      )}
+      <p className={styles.hint}>本机访问地址与数据连接会按推荐默认自动配置。</p>
 
       <div className={styles.formGroup}>
         <label>软件名称</label>
         <div className={styles.readonlyValue}>{SITE_NAME}</div>
-        <span className={styles.fieldHint}>产品名称，不可修改。</span>
       </div>
 
       <div className={styles.formGroup}>
@@ -201,51 +218,18 @@ export default function InitPage() {
           placeholder="例如：观鸟笔记本"
           rows={3}
         />
-        <span className={styles.fieldHint}>可按喜好修改，会写入本机 .env。</span>
+        <span className={styles.fieldHint}>可按喜好修改。</span>
       </div>
 
       <div className={styles.formGroup}>
         <label>网站 URL</label>
         <div className={styles.readonlyValue}>{DEFAULTS.siteUrl}</div>
-        <span className={styles.fieldHint}>
-          建议保持默认（桌面版前端端口 13080）。进阶改端口请手改 .env 后重启。
-        </span>
+        <span className={styles.fieldHint}>建议保持默认，进阶改端口可日后手改配置后重启。</span>
       </div>
     </div>
   );
 
   const renderStep2 = () => (
-    <div className={styles.step}>
-      <h2>数据库</h2>
-      <p className={styles.hint}>
-        库名将写入本机 <code>.env</code> 的 <code>MONGODB_URI</code>。主机与端口使用推荐默认，本机 MongoDB
-        一般不用改。
-      </p>
-
-      <div className={styles.formGroup}>
-        <label>数据库名称</label>
-        <input
-          type="text"
-          value={config.dbName}
-          onChange={(e) => handleInputChange('dbName', e.target.value)}
-          placeholder="kbird"
-        />
-        <span className={styles.fieldHint}>
-          默认 <code>kbird</code>。若改成与当前运行中不同的库，完成后需先重启再创建管理员。
-        </span>
-      </div>
-
-      <div className={styles.defaultsBox}>
-        以下使用默认值，可直接点「下一步」：
-        <br />
-        主机 <code>{DEFAULTS.dbHost}</code> · 端口 <code>{DEFAULTS.dbPort}</code>
-        <br />
-        前端 <code>{DEFAULTS.frontendPort}</code> · 后端 <code>{DEFAULTS.backendPort}</code>
-      </div>
-    </div>
-  );
-
-  const renderStep3 = () => (
     <div className={styles.step}>
       <h2>地图与 AI（可选）</h2>
       <p className={styles.hint}>
@@ -316,7 +300,7 @@ export default function InitPage() {
             type="text"
             value={config.openaiModel}
             onChange={(e) => handleInputChange('openaiModel', e.target.value)}
-            placeholder="可选，如 gpt-4o-mini"
+            placeholder="可选"
           />
         </div>
         <div className={styles.formGroup}>
@@ -342,7 +326,7 @@ export default function InitPage() {
     </div>
   );
 
-  const renderStep4 = () => (
+  const renderStep3 = () => (
     <div className={styles.step}>
       <h2>管理员账户</h2>
       <p className={styles.hint}>本机管理员账号可按需要修改；密码请自行设置并牢记。</p>
@@ -392,10 +376,18 @@ export default function InitPage() {
           placeholder="本机单机通常留空"
           autoComplete="off"
         />
-        <span className={styles.fieldHint}>
-          仅当 .env 里配置了 INIT_SETUP_TOKEN 时才需要填写，一般可跳过。
-        </span>
+        <span className={styles.fieldHint}>一般可留空。</span>
       </div>
+      {alreadyInitialized ? (
+        <label className={styles.checkboxLabel || undefined} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
+          <input
+            type="checkbox"
+            checked={config.confirmOverwrite}
+            onChange={(e) => handleInputChange('confirmOverwrite', e.target.checked)}
+          />
+          <span>我已了解风险，确认覆盖本机原有配置与管理员账号</span>
+        </label>
+      ) : null}
     </div>
   );
 
@@ -406,31 +398,36 @@ export default function InitPage() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h1>KBird 初始化</h1>
-          <p>{restartInfo.done ? '管理员已创建' : '需要重启后继续'}</p>
+          <p>设置完成</p>
         </div>
         <div className={styles.content}>
           <div className={styles.step}>
-            <h2>{restartInfo.dbChanged ? '请先重启以切换数据库' : '请重启使配置生效'}</h2>
+            <h2>可以开始使用了</h2>
             <p className={styles.hint}>{restartInfo.message}</p>
-            <ol style={{ lineHeight: 1.8, paddingLeft: '1.25rem' }}>
-              <li>关闭当前前后端窗口（或运行 KBird-Stop.bat）</li>
-              <li>重新双击运行 KBird-Desktop.bat（或生产版 bat）</li>
-              {!restartInfo.done ? (
-                <li>浏览器再打开 http://localhost:13080/init 完成管理员创建</li>
-              ) : null}
-              {restartInfo.done ? <li>重启后打开首页即可使用地图 / AI 等能力</li> : null}
-            </ol>
-            {restartInfo.done ? (
-              <div className={styles.actions} style={{ marginTop: '1.5rem' }}>
-                <button
-                  type="button"
-                  className={styles.btnPrimary}
-                  onClick={() => router.replace('/login')}
-                >
-                  前往登录
-                </button>
-              </div>
+            {restartInfo.optional ? (
+              <p className={styles.hint}>
+                数据库与管理员已就绪，无需再次初始化。地图 / AI 若暂不可用，关掉窗口后重新运行
+                KBird-Desktop.bat 即可。
+              </p>
             ) : null}
+            <div className={styles.actions} style={{ marginTop: '1.5rem' }}>
+              <button
+                type="button"
+                className={styles.btnPrimary}
+                onClick={async () => {
+                  if (appMode?.autoLogin !== false) {
+                    const session = await ensureLocalSession();
+                    if (session?.success) {
+                      router.replace('/');
+                      return;
+                    }
+                  }
+                  router.replace('/login');
+                }}
+              >
+                进入应用
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -440,8 +437,8 @@ export default function InitPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1>KBird 初始化</h1>
-        <p>只需确认必要项；端口等已用推荐默认，可直接下一步。</p>
+        <h1>KBird 高级重配</h1>
+        <p>日常请直接使用首页。本页仅用于特殊情况重配，可能覆盖原有设置。</p>
       </div>
 
       <div className={styles.progress}>
@@ -460,7 +457,6 @@ export default function InitPage() {
         {step === 1 ? renderStep1() : null}
         {step === 2 ? renderStep2() : null}
         {step === 3 ? renderStep3() : null}
-        {step === 4 ? renderStep4() : null}
       </div>
 
       {error ? <div className={styles.error}>{error}</div> : null}
@@ -491,11 +487,11 @@ export default function InitPage() {
             disabled={loading}
             style={{ cursor: loading ? 'not-allowed' : 'pointer' }}
           >
-            {step === 3 ? '跳过 / 下一步' : '下一步'}
+            {step === 2 ? '跳过 / 下一步' : '下一步'}
           </button>
         ) : (
           <button className={styles.btnPrimary} onClick={handleSubmit} disabled={loading}>
-            {loading ? '初始化中...' : '完成初始化'}
+            {loading ? '提交中...' : alreadyInitialized ? '确认覆盖并重配' : '完成重配'}
           </button>
         )}
       </div>

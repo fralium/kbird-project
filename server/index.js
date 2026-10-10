@@ -38,8 +38,15 @@ const { globalErrorHandler, handleNotFound } = require('./middleware/errorHandle
 // 环境变量校验（缺少关键配置时直接失败）
 validateRequiredEnv();
 
-// 连接数据库
-connectDB();
+// 连接数据库后静默完成默认就绪（管理员 / 鸟种种子），无需强制 /init
+connectDB()
+  .then(() => {
+    const { ensureDefaultSetupOnce } = require('./utils/bootstrapDefaults');
+    return ensureDefaultSetupOnce();
+  })
+  .catch((err) => {
+    console.error('[bootstrap] startup setup failed:', err?.message || err);
+  });
 
 const app = express();
 

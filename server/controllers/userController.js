@@ -46,7 +46,7 @@ const registerUser = async (req, res) => {
       return sendUserClientError(
         res,
         403,
-        '当前为单机自用模式，已关闭注册。请使用本机已有账号登录，或通过 /init 完成初始化。',
+        '当前为单机自用模式，已关闭注册。请使用本机已有账号登录（默认可在个人设置中改密码）。',
         'REGISTRATION_DISABLED'
       );
     }
@@ -245,7 +245,12 @@ const createLocalSession = async (req, res) => {
 
     const user = await resolveLocalSessionUser();
     if (!user) {
-      return sendUserClientError(res, 404, '尚未初始化管理员账号，请先访问 /init', 'NO_ADMIN');
+      return sendUserClientError(
+        res,
+        404,
+        '本机管理员尚未就绪，请确认后端已启动；也可在设置中修改默认账号密码',
+        'NO_ADMIN'
+      );
     }
 
     const token = jwt.sign({ id: user._id }, getJwtSecret(), {

@@ -135,7 +135,7 @@ ENABLE_REGISTRATION=false
 
 ### 数据库与密钥
 
-库名、地图/AI Key 优先用 GUI（`/init` 或 **个人设置 → 服务与密钥**），不必手改。手改时：
+地图/AI Key 优先用 **个人设置 → 服务与密钥**，不必手改。手改时：
 
 ```env
 # MongoDB 连接（默认本地）
@@ -253,11 +253,11 @@ mongorestore --db kbird ./backups/backup-20250101/kbird
 
 ## 下一步
 
-1. 运行 `init-database.ps1` 导入公开鸟种文字种子（空库建议）
-2. 启动后访问 `/init`：创建管理员；可在向导里写库名与可选地图/AI Key（写入本机 `.env`）
-3. 以后更新密钥：管理员本机打开 **个人设置 → 服务与密钥**（仅 127.0.0.1）
+1. 运行 `install.ps1` 后直接 `KBird-Desktop.bat`；空库会自动导入鸟种文字种子并就绪默认管理员
+2. （可选）`init-database.ps1` 仍可用于手动补种子
+3. 更新密钥：管理员本机打开 **个人设置 → 服务与密钥**（仅 127.0.0.1）
 4. 改完 `.env`（GUI 或手改）后重启 `KBird-Desktop.bat` 才会生效
-5. 数据目录等仍可由 `install.ps1` / `env.example` 中的 `KBIRD_DATA_ROOT` 管理，不走 GUI
+5. `/init` 仅特殊重配（会覆盖原配置），日常不必使用
 
 ## 相关文档
 
