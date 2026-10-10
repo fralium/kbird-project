@@ -1,6 +1,6 @@
-.container {
+﻿.container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,13 +15,13 @@
 }
 
 .header h1 {
-  font-size: 2.5rem;
+  font-size: var(--page-title-size);
   margin-bottom: 10px;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .header p {
-  font-size: 1.1rem;
+  font-size: var(--page-subtitle-size);
   opacity: 0.9;
 }
 
@@ -36,11 +36,11 @@
 }
 
 .step h2 {
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 30px;
-  font-size: 1.8rem;
+  font-size: var(--page-title-size);
   text-align: center;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid var(--gray-100);
   padding-bottom: 15px;
 }
 
@@ -52,7 +52,7 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: #555;
+  color: var(--text-muted);
   font-size: 1rem;
 }
 
@@ -61,7 +61,7 @@
 .formGroup select {
   width: 100%;
   padding: 15px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-input);
   border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -72,8 +72,8 @@
 .formGroup textarea:focus,
 .formGroup select:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  border-color: var(--color-lake);
+  box-shadow: var(--focus-ring);
 }
 
 .formGroup textarea {
@@ -100,13 +100,13 @@
   gap: 10px;
   cursor: pointer;
   font-weight: 500;
-  color: #555;
+  color: var(--text-muted);
 }
 
 .checkboxLabel input[type="checkbox"] {
   width: 20px;
   height: 20px;
-  accent-color: #4CAF50;
+  accent-color: var(--color-lake);
 }
 
 .progress {
@@ -128,7 +128,7 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  background: linear-gradient(90deg, var(--color-lake), var(--color-reed));
   transition: width 0.3s ease;
   border-radius: 4px;
 }
@@ -154,14 +154,14 @@
 }
 
 .btnPrimary {
-  background: linear-gradient(135deg, #4CAF50, #45a049);
+  background: linear-gradient(135deg, var(--color-lake), var(--color-lake-hover));
   color: white;
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .btnPrimary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  box-shadow: var(--shadow-lg);
 }
 
 .btnSecondary {
@@ -192,7 +192,7 @@
   font-weight: 500;
 }
 
-/* 响应式设�?*/
+/* ??????*/
 @media (max-width: 768px) {
   .container {
     padding: 10px;
@@ -204,7 +204,7 @@
   }
   
   .header h1 {
-    font-size: 2rem;
+    font-size: var(--page-title-size);
   }
   
   .progressBar {
@@ -222,7 +222,7 @@
 
 @media (max-width: 480px) {
   .header h1 {
-    font-size: 1.8rem;
+    font-size: var(--page-title-size);
   }
   
   .content {

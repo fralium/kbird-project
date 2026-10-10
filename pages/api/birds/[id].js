@@ -1,4 +1,7 @@
 // Next.js API代理路由 - 单个鸟类API
+import { resolveBackendApiBase } from '../../../utils/backendApiBase';
+import { buildJsonHeaders, parseProxyJsonResponse, sendProxyError } from '../../../utils/proxyApi';
+
 export default async function handler(req, res) {
   const { method, query, body } = req;
   
@@ -9,34 +12,23 @@ export default async function handler(req, res) {
   res.setHeader('Last-Modified', new Date().toUTCString());
   
   // 构建后端API URL
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
-  const url = `${baseUrl}/api/birds/${query.id}`;
-  
-  // 准备请求头
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-  
-  // 如果有token，添加到请求头
-  if (req.headers.authorization) {
-    headers.Authorization = req.headers.authorization;
-  }
+  const baseUrl = resolveBackendApiBase();
+  const url = `${baseUrl}/birds/${query.id}`;
   
   try {
     const response = await fetch(url, {
       method,
-      headers,
+      headers: buildJsonHeaders(req),
       body: method !== 'GET' ? JSON.stringify(body) : undefined,
     });
     
-    const data = await response.json();
+    const data = await parseProxyJsonResponse(response);
     
     res.status(response.status).json(data);
   } catch (error) {
-    res.status(500).json({
-      success: false,
+    return sendProxyError(res, error, {
       message: '服务器错误',
-      error: error.message,
+      code: 'BIRD_DETAIL_PROXY_FAILED',
     });
   }
 }

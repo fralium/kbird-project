@@ -119,7 +119,7 @@ function getHeatLevel(score) {
       score,
       label: '🔥 一般',
       description: '偶尔被观察',
-      color: '#8BC34A'
+      color: '#8D6E63'
     };
   } else if (score >= 10) {
     return {
@@ -127,7 +127,7 @@ function getHeatLevel(score) {
       score,
       label: '🔥 较低',
       description: '很少被观察',
-      color: '#607D8B'
+      color: '#6B7280'
     };
   } else {
     return {
@@ -135,7 +135,7 @@ function getHeatLevel(score) {
       score,
       label: '📝 新记录',
       description: '刚刚开始记录',
-      color: '#9E9E9E'
+      color: '#6B7280'
     };
   }
 }
@@ -157,9 +157,9 @@ export function getHeatStars(level) {
  */
 export function getHeatColor(level) {
   const colors = [
-    '#9E9E9E', // 无记录
-    '#607D8B', // 较低
-    '#8BC34A', // 一般
+    '#FFFFFF', // 无记录
+    '#FFFFFF', // 较低
+    '#FFFFFF', // 一般
     '#FFC107', // 较高
     '#FF9800', // 很高
     '#FF5722'  // 极高

@@ -1,5 +1,5 @@
-.container {
-  max-width: 1200px;
+﻿.container {
+  max-width: var(--page-content-max);
   margin: 0 auto;
   padding: 20px;
   font-family: 'Arial', sans-serif;
@@ -16,12 +16,12 @@
 
 .header h1 {
   margin: 0 0 10px 0;
-  font-size: 2.5rem;
+  font-size: var(--page-title-size);
 }
 
 .header p {
   margin: 0 0 15px 0;
-  font-size: 1.1rem;
+  font-size: var(--page-subtitle-size);
   opacity: 0.9;
 }
 
@@ -74,13 +74,13 @@
 .statItem {
   text-align: center;
   padding: 20px;
-  background: #f8f9fa;
+  background: var(--bg-clean);
   border-radius: 10px;
 }
 
 .statNumber {
   display: block;
-  font-size: 2rem;
+  font-size: var(--page-title-size);
   font-weight: bold;
   color: #2c3e50;
   margin-bottom: 5px;
@@ -149,7 +149,7 @@
 
 .batchCard.pending {
   border-color: #bdc3c7;
-  background: #f8f9fa;
+  background: var(--bg-clean);
 }
 
 .batchHeader {
@@ -352,7 +352,7 @@
 
 .qualityRules li {
   padding: 10px;
-  background: #f8f9fa;
+  background: var(--bg-clean);
   margin-bottom: 10px;
   border-radius: 5px;
   border-left: 4px solid #3498db;
@@ -407,7 +407,7 @@
   }
   
   .header h1 {
-    font-size: 2rem;
+    font-size: var(--page-title-size);
   }
   
   .progressStats {
@@ -429,7 +429,7 @@
 
 @media (max-width: 480px) {
   .header h1 {
-    font-size: 1.8rem;
+    font-size: var(--page-title-size);
   }
   
   .progressStats {

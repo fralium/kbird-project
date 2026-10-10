@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # KBird 服务启动脚本 (PM2管理)
 
@@ -113,13 +113,13 @@ INTERNAL_IP=$(hostname -I | awk '{print $1}')
 
 # 测试服务连接
 print_message "测试服务连接..."
-if curl -s http://localhost:3002/api/check-init > /dev/null; then
+if curl -s http://localhost:13082/api/check-init > /dev/null; then
     print_message "✅ 后端API正常"
 else
     print_warning "⚠️  后端API可能有问题"
 fi
 
-if curl -s http://localhost:3000 > /dev/null; then
+if curl -s http://localhost:13080 > /dev/null; then
     print_message "✅ 前端服务正常"
 else
     print_warning "⚠️  前端服务可能有问题"
@@ -135,10 +135,10 @@ print_message "🎉 KBird 服务启动完成！"
 print_message "========================================"
 echo
 print_message "📊 服务信息:"
-print_message "  • 前端: http://$PUBLIC_IP:3000"
-print_message "  • 后端: http://$PUBLIC_IP:3002"
-print_message "  • 内网: http://$INTERNAL_IP:3000 (前端)"
-print_message "  • 内网: http://$INTERNAL_IP:3002 (后端)"
+print_message "  • 前端: http://$PUBLIC_IP:13080"
+print_message "  • 后端: http://$PUBLIC_IP:13082"
+print_message "  • 内网: http://$INTERNAL_IP:13080 (前端)"
+print_message "  • 内网: http://$INTERNAL_IP:13082 (后端)"
 echo
 print_message "🛠️ 管理命令:"
 print_message "  • 查看状态: pm2 status"

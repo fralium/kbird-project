@@ -1,4 +1,4 @@
-const isDevelopment = process.env.NODE_ENV === 'development';
+const { isDevelopment } = require('../utils/devLogger');
 
 // 自定义错误类
 class AppError extends Error {

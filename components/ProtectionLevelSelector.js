@@ -1,71 +1,87 @@
 import { useState, useEffect } from 'react';
-import { 
-  getChinaProtectionLevels, 
+import {
+  getChinaProtectionLevels,
   getIucnProtectionLevels,
   getProtectionLevelInfo,
   buildProtectionStatusText,
-  parseProtectionStatusText
+  parseProtectionStatusText,
+  normalizeChinaProtectionLevel,
+  normalizeIucnProtectionLevel,
 } from '../data/protectionLevels';
 import styles from '../styles/ProtectionLevelSelector.module.css';
 
-const ProtectionLevelSelector = ({ 
-  value = '', 
-  onChange, 
-  className = '' 
+/**
+ * 兼容两种用法：
+ * 1) value + onChange(text) — 新增页
+ * 2) chinaValue/iucnValue + onChange(china, iucn) — 编辑页
+ */
+const ProtectionLevelSelector = ({
+  value = '',
+  chinaValue,
+  iucnValue,
+  onChange,
+  className = '',
 }) => {
   const [chinaLevel, setChinaLevel] = useState('');
   const [iucnLevel, setIucnLevel] = useState('');
-  
   const [chinaLevels, setChinaLevels] = useState([]);
   const [iucnLevels, setIucnLevels] = useState([]);
 
-  // 初始化数据
+  const usesSplitApi = chinaValue !== undefined || iucnValue !== undefined;
+
   useEffect(() => {
     setChinaLevels(getChinaProtectionLevels());
     setIucnLevels(getIucnProtectionLevels());
   }, []);
 
-  // 解析初始值
   useEffect(() => {
+    if (usesSplitApi) {
+      setChinaLevel(normalizeChinaProtectionLevel(chinaValue) || '');
+      setIucnLevel(normalizeIucnProtectionLevel(iucnValue) || '');
+      return;
+    }
     if (value) {
       const parsed = parseProtectionStatusText(value);
       setChinaLevel(parsed.china);
       setIucnLevel(parsed.iucn);
+    } else {
+      setChinaLevel('');
+      setIucnLevel('');
     }
-  }, [value]);
+  }, [usesSplitApi, chinaValue, iucnValue, value]);
 
-  // 处理中国保护级别变化
+  const emitChange = (china, iucn) => {
+    if (!onChange) return;
+    if (usesSplitApi) {
+      onChange(china, iucn);
+      return;
+    }
+    onChange(buildProtectionStatusText(china, iucn));
+  };
+
   const handleChinaLevelChange = (e) => {
     const level = e.target.value;
     setChinaLevel(level);
-    updateValue(level, iucnLevel);
+    emitChange(level, iucnLevel);
   };
 
-  // 处理IUCN保护级别变化
   const handleIucnLevelChange = (e) => {
     const level = e.target.value;
     setIucnLevel(level);
-    updateValue(chinaLevel, level);
+    emitChange(chinaLevel, level);
   };
 
-  // 更新值
-  const updateValue = (china, iucn) => {
-    const text = buildProtectionStatusText(china, iucn);
-    if (onChange) {
-      onChange(text);
-    }
-  };
-
-  // 清空选择
   const clearSelection = () => {
     setChinaLevel('');
     setIucnLevel('');
-    if (onChange) {
-      onChange('');
+    if (!onChange) return;
+    if (usesSplitApi) {
+      onChange('', '');
+      return;
     }
+    onChange('');
   };
 
-  // 获取保护级别信息
   const chinaInfo = getProtectionLevelInfo('china', chinaLevel);
   const iucnInfo = getProtectionLevelInfo('iucn', iucnLevel);
 
@@ -73,9 +89,7 @@ const ProtectionLevelSelector = ({
     <div className={`${styles.protectionSelector} ${className}`}>
       <div className={styles.selectorRow}>
         <div className={styles.selectorGroup}>
-          <label htmlFor="chinaLevel">
-            🇨🇳 中国保护级别
-          </label>
+          <label htmlFor="chinaLevel">🇨🇳 中国保护级别</label>
           <select
             id="chinaLevel"
             value={chinaLevel}
@@ -83,7 +97,7 @@ const ProtectionLevelSelector = ({
             className={styles.selector}
           >
             <option value="">请选择中国保护级别</option>
-            {chinaLevels.map(level => (
+            {chinaLevels.map((level) => (
               <option key={level} value={level}>
                 {level}
               </option>
@@ -94,17 +108,13 @@ const ProtectionLevelSelector = ({
               <span className={styles.levelIcon} style={{ color: chinaInfo.color }}>
                 {chinaInfo.icon}
               </span>
-              <span className={styles.levelDescription}>
-                {chinaInfo.description}
-              </span>
+              <span className={styles.levelDescription}>{chinaInfo.description}</span>
             </div>
           )}
         </div>
 
         <div className={styles.selectorGroup}>
-          <label htmlFor="iucnLevel">
-            🌍 IUCN保护级别
-          </label>
+          <label htmlFor="iucnLevel">🌍 IUCN保护级别</label>
           <select
             id="iucnLevel"
             value={iucnLevel}
@@ -112,7 +122,7 @@ const ProtectionLevelSelector = ({
             className={styles.selector}
           >
             <option value="">请选择IUCN保护级别</option>
-            {iucnLevels.map(level => (
+            {iucnLevels.map((level) => (
               <option key={level} value={level}>
                 {level}
               </option>
@@ -123,15 +133,12 @@ const ProtectionLevelSelector = ({
               <span className={styles.levelIcon} style={{ color: iucnInfo.color }}>
                 {iucnInfo.icon}
               </span>
-              <span className={styles.levelDescription}>
-                {iucnInfo.description}
-              </span>
+              <span className={styles.levelDescription}>{iucnInfo.description}</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* 显示当前选择的完整状态 */}
       {(chinaLevel || iucnLevel) && (
         <div className={styles.selectedStatus}>
           <span className={styles.statusLabel}>当前保护状态：</span>
@@ -148,8 +155,8 @@ const ProtectionLevelSelector = ({
               </span>
             )}
           </div>
-          <button 
-            type="button" 
+          <button
+            type="button"
             onClick={clearSelection}
             className={styles.clearButton}
             title="清空选择"
@@ -159,7 +166,6 @@ const ProtectionLevelSelector = ({
         </div>
       )}
 
-      {/* 帮助信息 */}
       <div className={styles.helpText}>
         <p>💡 可以选择中国保护级别、IUCN保护级别，或两者都选择</p>
       </div>
@@ -168,25 +174,3 @@ const ProtectionLevelSelector = ({
 };
 
 export default ProtectionLevelSelector;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

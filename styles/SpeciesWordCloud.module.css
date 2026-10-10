@@ -1,0 +1,11 @@
+.root {
+  width: 100%;
+  min-height: 280px;
+  box-sizing: border-box;
+}
+
+.root canvas {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}

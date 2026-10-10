@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # KBird 服务停止脚本 (PM2管理)
 
@@ -58,13 +58,13 @@ sleep 3
 
 # 检查端口是否释放
 print_message "检查端口状态..."
-if lsof -i :3000 > /dev/null 2>&1; then
+if lsof -i :13080 > /dev/null 2>&1; then
     print_warning "⚠️  端口3000仍被占用"
 else
     print_message "✅ 端口3000已释放"
 fi
 
-if lsof -i :3002 > /dev/null 2>&1; then
+if lsof -i :13082 > /dev/null 2>&1; then
     print_warning "⚠️  端口3002仍被占用"
 else
     print_message "✅ 端口3002已释放"

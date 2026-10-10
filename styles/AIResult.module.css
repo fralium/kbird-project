@@ -1,0 +1,355 @@
+/* AI识别结果组件样式 */
+.container {
+  background: var(--background-white);
+  border-radius: var(--radius-large);
+  padding: 25px;
+  box-shadow: var(--shadow-medium);
+  margin-top: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--medium-gray);
+}
+
+.header h3 {
+  font-size: 1.3rem;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.provider {
+  font-size: 0.9rem;
+  color: var(--text-medium);
+  background: var(--background-light);
+  padding: 5px 10px;
+  border-radius: var(--radius-small);
+}
+
+.usageLine {
+  margin: -8px 0 16px;
+  font-size: var(--type-caption, 0.75rem);
+  color: var(--text-muted, #5c6b7a);
+  line-height: 1.4;
+}
+
+.mainResult {
+  margin-bottom: 20px;
+}
+
+.resultCard {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+  border-radius: var(--radius-medium);
+  margin-bottom: 15px;
+}
+
+.resultHeader {
+  margin-bottom: 15px;
+}
+
+.resultHeader h4 {
+  font-size: 1.5rem;
+  color: var(--text-dark);
+  margin: 0 0 5px 0;
+}
+
+.mainNameHover {
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+}
+
+.scientificName {
+  font-size: 1rem;
+  color: var(--text-medium);
+  font-style: italic;
+}
+
+.confidence {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.confidenceBar {
+  width: 100%;
+  height: 20px;
+  background: var(--background-light);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.confidenceFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  transition: width 0.3s ease;
+}
+
+.confidenceText {
+  font-size: 0.9rem;
+  color: var(--text-medium);
+  font-weight: 500;
+}
+
+.pickButton {
+  align-self: flex-start;
+  border: 1px solid var(--primary-green);
+  background: #fff;
+  color: var(--primary-green);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.matchedInfo {
+  background: var(--color-lake-light);
+  border: 2px solid var(--color-lake);
+  padding: 15px;
+  border-radius: var(--radius-medium);
+  margin-bottom: 15px;
+}
+
+.matchedHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: var(--color-deep-teal);
+}
+
+.matchedIcon {
+  font-size: 1.2rem;
+}
+
+.matchedContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.matchedName {
+  margin: 0;
+  color: var(--color-deep-teal);
+  font-weight: 500;
+}
+
+.matchHint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-medium);
+}
+
+.autoAlignHint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--primary-green);
+  font-weight: 500;
+}
+
+.birdLink {
+  color: var(--primary-green);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.birdLink:hover {
+  color: var(--secondary-green);
+  text-decoration: underline;
+}
+
+.candidates {
+  margin-bottom: 15px;
+}
+
+.candidates h5 {
+  font-size: 1rem;
+  color: var(--text-dark);
+  margin: 0 0 10px 0;
+}
+
+.candidateList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.candidateItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background: var(--background-light);
+  border: 2px solid var(--medium-gray);
+  border-radius: var(--radius-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.candidateItem:hover {
+  border-color: var(--primary-green);
+  background: var(--background-white);
+}
+
+.candidateItem.selected,
+.candidateItemActive {
+  border-color: var(--primary-green);
+  background: var(--color-lake-light);
+}
+
+.candidateName {
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.candidateConfidence {
+  font-size: 0.9rem;
+  color: var(--text-medium);
+}
+
+.candidateSelectButton {
+  margin-left: 10px;
+  border: 1px solid var(--primary-green);
+  background: #fff;
+  color: var(--primary-green);
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.encyclopedia {
+  margin-bottom: 15px;
+}
+
+.encyclopedia h5 {
+  font-size: 1rem;
+  color: var(--text-dark);
+  margin: 0 0 10px 0;
+}
+
+.encyclopediaContent {
+  background: var(--background-light);
+  padding: 15px;
+  border-radius: var(--radius-medium);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.encyclopediaContent p {
+  margin: 0;
+  color: var(--text-medium);
+  line-height: 1.6;
+}
+
+.encyclopediaContent pre {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-medium);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.mismatchWarning {
+  margin-bottom: 15px;
+  padding: 10px 12px;
+  border-radius: var(--radius-medium);
+  border: 1px solid #f2b94b;
+  background: #fff7e8;
+  color: #8a5a00;
+  font-size: 0.95rem;
+}
+
+.feedbackBlock {
+  margin-bottom: 15px;
+  background: var(--background-light);
+  border-radius: var(--radius-medium);
+  padding: 14px 15px;
+}
+
+.feedbackBlock h5 {
+  margin: 0 0 10px 0;
+}
+
+.feedbackBlock p {
+  margin: 0 0 8px 0;
+  color: var(--text-medium);
+  line-height: 1.6;
+}
+
+.feedbackBlock p:last-child {
+  margin-bottom: 0;
+}
+
+.lookalikeList {
+  margin: 8px 0 8px 18px;
+  padding: 0;
+  color: var(--text-medium);
+}
+
+.lookalikeList li {
+  margin-bottom: 4px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 2px solid var(--medium-gray);
+}
+
+.confirmButton,
+.rejectButton {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: var(--radius-medium);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.confirmButton {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  color: var(--text-white);
+}
+
+.confirmButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.rejectButton {
+  background: var(--background-light);
+  color: var(--text-dark);
+  border: 2px solid var(--medium-gray);
+}
+
+.rejectButton:hover {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}

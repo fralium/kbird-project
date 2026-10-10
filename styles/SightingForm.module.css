@@ -1,4 +1,4 @@
-/* SightingForm组件样式 */
+﻿/* SightingForm组件样式 */
 
 .form {
   background: white;
@@ -6,7 +6,7 @@
   padding: 20px;
   margin-top: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--gray-200);
 }
 
 .formGroup {
@@ -17,7 +17,7 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #2d5016;
+  color: var(--color-deep-teal);
 }
 
 .input,
@@ -35,8 +35,8 @@
 .textarea:focus,
 .select:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+  border-color: var(--color-lake);
+  box-shadow: var(--focus-ring-sm);
 }
 
 .textarea {
@@ -49,7 +49,7 @@
   display: inline-block;
   cursor: pointer;
   padding: 12px 20px;
-  background: #f8f9fa;
+  background: var(--bg-clean);
   border: 2px dashed #ddd;
   border-radius: 8px;
   text-align: center;
@@ -58,8 +58,8 @@
 }
 
 .fileInput:hover {
-  background: #e9ecef;
-  border-color: #4CAF50;
+  background: var(--gray-200);
+  border-color: var(--color-lake);
 }
 
 .fileInput input[type="file"] {
@@ -76,7 +76,7 @@
 }
 
 .fileInputText.hasFile {
-  color: #4CAF50;
+  color: var(--color-lake);
   font-weight: 500;
 }
 
@@ -98,14 +98,14 @@
 }
 
 .submitButton {
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  background: var(--color-lake);
   color: white;
 }
 
 .submitButton:hover {
-  background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  background: var(--color-lake-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .submitButton:disabled {
@@ -116,14 +116,15 @@
 }
 
 .cancelButton {
-  background: #f8f9fa;
-  color: #666;
-  border: 1px solid #ddd;
+  background: transparent;
+  color: var(--color-lake);
+  border: 2px solid var(--color-lake);
 }
 
 .cancelButton:hover {
-  background: #e9ecef;
-  color: #333;
+  background: var(--color-lake-light);
+  color: var(--color-lake-hover);
+  border-color: var(--color-lake-hover);
 }
 
 .errorMessage {
@@ -199,6 +200,8 @@
     justify-content: center;
   }
 }
+
+
 
 
 

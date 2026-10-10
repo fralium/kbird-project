@@ -24,24 +24,12 @@ const locationSchema = mongoose.Schema(
         required: true,
       },
     },
-    // 地址信息
+    // 地址信息（省、市、区/县、街道）
     address: {
-      province: {
-        type: String,
-        default: '',
-      },
-      city: {
-        type: String,
-        default: '',
-      },
-      district: {
-        type: String,
-        default: '',
-      },
-      street: {
-        type: String,
-        default: '',
-      },
+      province: { type: String, default: '' },
+      city: { type: String, default: '' },
+      district: { type: String, default: '' }, // 区或县
+      street: { type: String, default: '' },
     },
     // 地点类型
     type: {

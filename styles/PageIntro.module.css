@@ -1,0 +1,150 @@
+/* 统一介绍页头部 - 全站同高、同内边距、同字号；无图标 */
+.intro {
+  background-color: var(--color-lake);
+  color: var(--text-white);
+  padding: var(--page-header-padding);
+  min-height: var(--page-intro-min-height);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto var(--page-intro-gap) auto;
+  max-width: 100%;
+  width: 100%;
+  border-radius: var(--page-header-radius);
+  box-shadow: var(--page-header-shadow);
+}
+
+/* 鸟类图鉴：湖色底 + 右侧半透明展翅剪影，文字仍居中可读 */
+.introBirdCatalog {
+  background-color: var(--color-lake);
+  background-image:
+    linear-gradient(100deg, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.04) 42%, transparent 62%),
+    url('/bird-hero-silhouette.svg?v=2');
+  background-size: auto, min(920px, 120%) auto;
+  background-position: center, calc(100% + 24px) 52%;
+  background-repeat: no-repeat, no-repeat;
+}
+
+.introRecords {
+  background-color: var(--color-lake);
+  background-image:
+    linear-gradient(102deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.05) 40%, transparent 64%),
+    url('/bird-hero-swallow.svg?v=1');
+  background-size: auto, min(900px, 118%) auto;
+  background-position: center, calc(100% + 30px) 54%;
+  background-repeat: no-repeat, no-repeat;
+}
+
+.introLocations {
+  background-color: var(--color-lake);
+  background-image:
+    linear-gradient(98deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.03) 46%, transparent 68%),
+    url('/bird-hero-heron.svg?v=1');
+  background-size: auto, min(860px, 112%) auto;
+  background-position: center, calc(100% + 18px) 56%;
+  background-repeat: no-repeat, no-repeat;
+}
+
+.introKnowledge {
+  background-color: var(--color-lake);
+  background-image:
+    linear-gradient(104deg, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0.06) 42%, transparent 64%),
+    url('/bird-hero-owl.svg?v=1');
+  background-size: auto, min(780px, 102%) auto;
+  background-position: center, calc(100% + 8px) 52%;
+  background-repeat: no-repeat, no-repeat;
+}
+
+.introAI {
+  background-color: var(--color-lake);
+  background-image:
+    linear-gradient(98deg, rgba(0, 0, 0, 0.17) 0%, rgba(0, 0, 0, 0.07) 44%, transparent 66%),
+    url('/bird-hero-falcon.svg?v=1');
+  background-size: auto, min(900px, 120%) auto;
+  background-position: center, calc(100% + 22px) 53%;
+  background-repeat: no-repeat, no-repeat;
+}
+
+.introAchievement {
+  background-color: var(--color-lake);
+  background-image:
+    linear-gradient(102deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.05) 42%, transparent 64%),
+    url('/bird-hero-eagle.svg?v=1');
+  background-size: auto, min(940px, 125%) auto;
+  background-position: center, calc(100% + 26px) 52%;
+  background-repeat: no-repeat, no-repeat;
+}
+
+.intro::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.title {
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  margin: 0 0 var(--spacing-2) 0;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.description {
+  font-size: var(--page-subtitle-size);
+  opacity: 0.92;
+  position: relative;
+  z-index: 1;
+  font-weight: 400;
+  margin: 0;
+  max-width: 42rem;
+  line-height: var(--line-height-normal);
+}
+
+/*
+ * compact 与标准标题栏对齐（保留 prop，避免改各页调用）
+ */
+.compact {
+  min-height: var(--page-intro-min-height);
+  padding: var(--page-header-padding);
+  margin-bottom: var(--page-intro-gap);
+}
+
+.titleCompact {
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  margin: 0 0 var(--spacing-2) 0;
+  line-height: var(--line-height-tight);
+}
+
+.descriptionCompact {
+  font-size: var(--page-subtitle-size);
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .intro,
+  .compact {
+    padding: var(--spacing-5) var(--spacing-4);
+    min-height: 124px;
+  }
+
+  .title,
+  .titleCompact {
+    font-size: var(--type-scale-xl);
+  }
+
+  .description,
+  .descriptionCompact {
+    font-size: var(--type-scale-base);
+  }
+}

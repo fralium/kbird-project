@@ -1,98 +1,99 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
+import { useReportWebVitals } from 'next/web-vitals';
+
+const WEB_VITALS_ENDPOINT = '/api/observability/web-vitals';
+const ENABLE_WEB_VITALS =
+  typeof process !== 'undefined' && process.env.NODE_ENV === 'production';
+
+function sendMetric(metricPayload) {
+  const body = JSON.stringify(metricPayload);
+
+  if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+    const blob = new Blob([body], { type: 'application/json' });
+    navigator.sendBeacon(WEB_VITALS_ENDPOINT, blob);
+    return;
+  }
+
+  fetch(WEB_VITALS_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body,
+    keepalive: true,
+  }).catch(() => {
+    // 忽略上报失败，避免影响用户交互
+  });
+}
+
+function isBenignWebVitalsNoise(error) {
+  const message = String(error?.message || error || '');
+  return (
+    message.includes("reading 'startTime'") ||
+    message.includes('reading "startTime"') ||
+    (message.includes('startTime') && message.includes('undefined'))
+  );
+}
+
+/** 仅生产环境挂载，避免开发态 web-vitals 在布局抖动时抛 startTime */
+function WebVitalsReporter() {
+  const sentMetricsRef = useRef(new Set());
+
+  const reportMetric = useCallback((metric) => {
+    try {
+      if (!metric?.name || typeof window === 'undefined') return;
+
+      const key = `${metric.name}:${metric.id}:${metric.value}`;
+      if (sentMetricsRef.current.has(key)) return;
+      sentMetricsRef.current.add(key);
+
+      sendMetric({
+        name: metric.name,
+        value: metric.value,
+        id: metric.id,
+        rating: metric.rating,
+        delta: metric.delta,
+        navigationType: metric.navigationType,
+        path: window.location.pathname,
+        ts: Date.now(),
+      });
+    } catch {
+      // 指标上报绝不能打断主流程
+    }
+  }, []);
+
+  useReportWebVitals(reportMetric);
+  return null;
+}
 
 const PerformanceMonitor = ({ children }) => {
-  const [metrics, setMetrics] = useState({
-    loadTime: 0,
-    renderTime: 0,
-    memoryUsage: 0,
-    networkRequests: 0
-  });
-
   useEffect(() => {
-    // 监控页面加载时间
-    const startTime = performance.now();
-    
-    const handleLoad = () => {
-      const loadTime = performance.now() - startTime;
-      setMetrics(prev => ({ ...prev, loadTime }));
-    };
+    if (typeof window === 'undefined') return undefined;
 
-    // 监控内存使用
-    const updateMemoryUsage = () => {
-      if (performance.memory) {
-        setMetrics(prev => ({
-          ...prev,
-          memoryUsage: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024)
-        }));
+    const onError = (event) => {
+      if (isBenignWebVitalsNoise(event?.error || event?.message)) {
+        event.preventDefault();
+        event.stopImmediatePropagation?.();
+      }
+    };
+    const onRejection = (event) => {
+      if (isBenignWebVitalsNoise(event?.reason)) {
+        event.preventDefault();
       }
     };
 
-    // 监控网络请求
-    let requestCount = 0;
-    const originalFetch = window.fetch;
-    window.fetch = function(...args) {
-      requestCount++;
-      setMetrics(prev => ({ ...prev, networkRequests: requestCount }));
-      return originalFetch.apply(this, args);
-    };
-
-    // 监控渲染时间
-    const observer = new PerformanceObserver((list) => {
-      const entries = list.getEntries();
-      entries.forEach((entry) => {
-        if (entry.entryType === 'measure') {
-          setMetrics(prev => ({ ...prev, renderTime: entry.duration }));
-        }
-      });
-    });
-
-    observer.observe({ entryTypes: ['measure'] });
-
-    // 定期更新内存使用
-    const memoryInterval = setInterval(updateMemoryUsage, 5000);
-
-    // 页面加载完成
-    if (document.readyState === 'complete') {
-      handleLoad();
-    } else {
-      window.addEventListener('load', handleLoad);
-    }
-
-    // 清理
+    window.addEventListener('error', onError);
+    window.addEventListener('unhandledrejection', onRejection);
     return () => {
-      window.removeEventListener('load', handleLoad);
-      clearInterval(memoryInterval);
-      observer.disconnect();
-      window.fetch = originalFetch;
+      window.removeEventListener('error', onError);
+      window.removeEventListener('unhandledrejection', onRejection);
     };
   }, []);
 
-  // 在开发环境显示性能指标
-  if (process.env.NODE_ENV === 'development') {
-    return (
-      <>
-        {children}
-        <div style={{
-          position: 'fixed',
-          top: '10px',
-          left: '10px',
-          background: 'rgba(0,0,0,0.8)',
-          color: 'white',
-          padding: '10px',
-          borderRadius: '5px',
-          fontSize: '12px',
-          zIndex: 9999,
-          fontFamily: 'monospace'
-        }}>
-          <div>Load: {metrics.loadTime.toFixed(2)}ms</div>
-          <div>Memory: {metrics.memoryUsage}MB</div>
-          <div>Requests: {metrics.networkRequests}</div>
-        </div>
-      </>
-    );
-  }
-
-  return children;
+  return (
+    <>
+      {ENABLE_WEB_VITALS ? <WebVitalsReporter /> : null}
+      {children}
+    </>
+  );
 };
 
 export default PerformanceMonitor;

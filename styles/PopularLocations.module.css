@@ -1,0 +1,204 @@
+﻿/* 热门地点组件样式 */
+.popularLocations {
+  margin: 20px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--bg-clean) 0%, var(--gray-200) 100%);
+  border-radius: 12px;
+  border: 1px solid var(--border-input);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-lake);
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #666;
+  margin-left: 8px;
+}
+
+.locationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.locationCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: white;
+  border: 2px solid var(--border-input);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  width: 100%;
+  position: relative;
+  animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.locationCard:hover {
+  border-color: var(--color-lake);
+  box-shadow: 0 2px 8px rgba(44, 85, 48, 0.1);
+  transform: translateY(-1px);
+}
+
+.locationCard.selected {
+  border-color: var(--color-lake);
+  background: linear-gradient(135deg, var(--color-lake-light) 0%, var(--color-lake-light) 100%);
+  box-shadow: 0 2px 8px rgba(44, 85, 48, 0.15);
+}
+
+.locationIcon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.locationInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.locationName {
+  font-weight: 600;
+  color: var(--color-lake);
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.locationStats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.recordCount {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.lastRecord {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.newBadge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #ff4757;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+  line-height: 1;
+}
+
+.toggleButton {
+  background: transparent;
+  border: 1px solid var(--color-lake);
+  color: var(--color-lake);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+  display: block;
+}
+
+.toggleButton:hover {
+  background: var(--color-lake);
+  color: white;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeletonItem {
+  height: 50px;
+  background: var(--skeleton-shine);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .popularLocations {
+    margin: 16px 0;
+    padding: 16px;
+  }
+  
+  .locationsGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .locationCard {
+    padding: 10px 12px;
+  }
+  
+  .locationName {
+    font-size: 0.9rem;
+  }
+  
+  .recordCount {
+    font-size: 0.75rem;
+  }
+  
+  .lastRecord {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .subtitle {
+    margin-left: 0;
+  }
+}

@@ -7,28 +7,34 @@ services:
     container_name: kbird-mongodb
     restart: unless-stopped
     ports:
-      - "27017:27017"
+      - "127.0.0.1:27017:27017"
     volumes:
       - mongodb_data:/data/db
     environment:
       MONGO_INITDB_DATABASE: kbird
+    networks:
+      - kbird-network
 
   # KBird 应用
   kbird:
-    build: .
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:13082
     container_name: kbird-app
     restart: unless-stopped
     ports:
-      - "3000:3000"  # 前端
-      - "3002:3002"  # 后端
+      - "13080:13080"  # 前端
+      - "13082:13082"  # 后端
     volumes:
       - ./uploads:/app/uploads
       - ./public/images:/app/public/images
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://mongodb:27017/kbird
-      - PORT=3002
-      - NEXT_PUBLIC_API_URL=http://localhost:3002
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=13082
+      - NEXT_PUBLIC_API_URL=http://localhost:13082
     depends_on:
       - mongodb
     networks:
@@ -40,4 +46,3 @@ volumes:
 networks:
   kbird-network:
     driver: bridge
-

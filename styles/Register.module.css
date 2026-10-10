@@ -2,6 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--page-bg);
 }
 
 .main {
@@ -9,54 +10,88 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
+  padding: var(--spacing-8) var(--spacing-4);
 }
 
 .registerForm {
   width: 100%;
   max-width: 400px;
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: var(--page-section-bg);
+  padding: var(--spacing-8);
+  border-radius: var(--page-section-radius);
+  box-shadow: var(--page-section-shadow);
+  border: var(--page-section-border);
 }
 
 .registerForm h1 {
-  margin-top: 0;
-  margin-bottom: 30px;
+  margin: 0 0 var(--spacing-3) 0;
   text-align: center;
-  color: var(--primary-dark);
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  color: var(--text-dark);
+}
+
+.registerHint {
+  margin: 0 0 var(--spacing-6) 0;
+  text-align: center;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--text-medium, #666);
+}
+
+.fieldHint {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--text-medium, #666);
 }
 
 .formGroup {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-5);
 }
 
 .formGroup label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-2);
   font-weight: 500;
+  color: var(--text-dark);
 }
 
 .formGroup input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-size: var(--type-scale-base);
+  transition: border-color var(--transition-fast);
+  background: var(--bg-white);
+  color: var(--text-primary);
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: var(--color-lake);
+  box-shadow: 0 0 0 2px var(--color-lake-light);
 }
 
 .submitButton {
   width: 100%;
-  padding: 12px;
-  background-color: var(--primary-color);
+  padding: var(--spacing-3) var(--spacing-5);
+  background: var(--color-lake);
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: var(--radius-lg);
+  font-size: var(--type-scale-base);
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  margin-top: var(--spacing-2);
+}
+
+.submitButton:hover {
+  background: var(--color-lake-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .submitButton:hover {

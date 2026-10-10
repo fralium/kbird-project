@@ -1,0 +1,371 @@
+/* 个人观鸟报告页面样式 - 与设计系统一致 */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--page-bg);
+}
+
+.main {
+  flex: 1;
+  padding: var(--page-main-padding);
+  max-width: var(--page-content-max);
+  margin: 0 auto;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-dark-2) 100%);
+  color: var(--text-white);
+  padding: var(--page-header-padding);
+  border-radius: var(--page-header-radius);
+  box-shadow: var(--page-header-shadow);
+  margin-bottom: var(--spacing-6);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.title {
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  margin: 0 0 var(--spacing-2) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.titleIcon {
+  font-size: var(--page-title-size);
+}
+
+.subtitle {
+  font-size: var(--page-subtitle-size);
+  opacity: 0.92;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.reportConfig {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 16px;
+  margin: 0 0 14px;
+  align-items: end;
+}
+
+.configSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.label {
+  display: block;
+  margin: 0;
+  font-size: var(--type-scale-sm, 0.875rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-deep-teal, #023047);
+}
+
+.select,
+.input {
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--gray-200, #e5e7eb);
+  border-radius: var(--radius-panel, 8px);
+  font: inherit;
+  font-size: var(--type-scale-base, 1rem);
+  line-height: 1.4;
+  color: var(--color-deep-teal, #023047);
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.fileHint {
+  margin: 0 0 14px;
+  font-size: var(--type-scale-sm, 0.875rem);
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text-muted, #5c6b7a);
+}
+
+.alert {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border-radius: var(--radius-panel, 8px);
+  background: rgba(180, 60, 50, 0.1);
+  border: 1px solid rgba(180, 60, 50, 0.28);
+  color: #8b2e24;
+  font-size: var(--type-scale-sm, 0.875rem);
+  line-height: 1.5;
+}
+
+.reportContent {
+  margin-top: 8px;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.reportHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(2, 48, 71, 0.08);
+}
+
+.reportHeader h2 {
+  margin: 0;
+  font-size: var(--type-scale-lg, 1.125rem);
+  font-weight: 700;
+  color: var(--color-deep-teal, #023047);
+}
+
+.exportButton {
+  padding: 10px 20px;
+  background: var(--background-light);
+  border: 2px solid var(--medium-gray);
+  border-radius: var(--radius-medium);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.exportButton:hover {
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+}
+
+/* 统计摘要 */
+.summarySection {
+  margin-bottom: 30px;
+}
+
+.summarySection h3,
+.section h3 {
+  margin: 0 0 10px;
+  font-size: var(--type-scale-lg, 1.125rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-deep-teal, #023047);
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
+  gap: 8px;
+}
+
+.summaryCard {
+  padding: 10px 12px;
+  border-radius: var(--radius-panel, 8px);
+  background: rgba(2, 48, 71, 0.04);
+  text-align: left;
+}
+
+.summaryNumber {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-deep-teal, #023047);
+  margin-bottom: 2px;
+}
+
+.summaryLabel {
+  font-size: var(--type-caption, 0.75rem);
+  color: var(--text-muted, #5c6b7a);
+}
+
+/* 通用区块 */
+.section {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(2, 48, 71, 0.08);
+}
+
+.section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.section h3 {
+  margin: 0 0 10px;
+}
+
+.speciesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.speciesItem {
+  background: rgba(2, 48, 71, 0.04);
+  padding: 12px 14px;
+  border-radius: var(--radius-panel, 8px);
+  border: 1px solid rgba(2, 48, 71, 0.08);
+}
+
+.speciesName {
+  font-size: var(--type-scale-base, 1rem);
+  font-weight: 700;
+  color: var(--color-deep-teal, #023047);
+  margin-bottom: 2px;
+}
+
+.speciesScientific {
+  font-size: var(--type-scale-sm, 0.875rem);
+  color: var(--text-muted, #5c6b7a);
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.speciesDate {
+  font-size: var(--type-scale-sm, 0.875rem);
+  color: var(--text-muted, #5c6b7a);
+}
+
+.topList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid rgba(2, 48, 71, 0.1);
+  border-radius: var(--radius-panel, 8px);
+  overflow: hidden;
+}
+
+.topItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #fff;
+  border-top: 1px solid rgba(2, 48, 71, 0.08);
+}
+
+.topItem:first-child {
+  border-top: none;
+}
+
+.topRank {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(33, 158, 188, 0.14);
+  color: var(--color-deep-teal, #023047);
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: var(--type-caption, 0.75rem);
+}
+
+.topName {
+  flex: 1;
+  font-size: var(--type-scale-sm, 0.875rem);
+  font-weight: 500;
+  color: var(--color-deep-teal, #023047);
+}
+
+.topCount {
+  font-size: 0.9rem;
+  color: var(--text-medium);
+}
+
+/* 月度统计 */
+.monthlyStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.monthlyItem {
+  background: var(--background-light);
+  padding: 15px;
+  border-radius: var(--radius-medium);
+  text-align: center;
+}
+
+.monthLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.monthData {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.9rem;
+  color: var(--text-medium);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .main {
+    padding: 10px;
+  }
+
+  .header {
+    padding: 30px 20px;
+  }
+
+  .title {
+    font-size: var(--page-title-size);
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .reportConfig {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .configSection {
+    width: 100%;
+  }
+
+  .reportHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .summaryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

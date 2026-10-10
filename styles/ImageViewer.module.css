@@ -1,4 +1,4 @@
-/* 全屏图片查看器样式 */
+﻿/* 全屏图片查看器样式 */
 
 .overlay {
   position: fixed;
@@ -185,8 +185,8 @@
 }
 
 .thumbnail.active {
-  border-color: #4CAF50;
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+  border-color: var(--color-lake);
+  box-shadow: 0 0 10px var(--color-lake-light);
 }
 
 .thumbnailImage {

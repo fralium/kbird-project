@@ -1,6 +1,48 @@
-.container {
+﻿.container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: var(--page-bg, #f5f7f9);
+}
+
+.loadingContainer,
+.errorContainer {
+  max-width: 560px;
+  margin: 4rem auto;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  color: var(--text-dark, #1f2a24);
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 1rem;
+  border: 3px solid rgba(40, 167, 69, 0.2);
+  border-top-color: var(--color-lake, #28a745);
+  border-radius: 50%;
+  animation: addBirdSpin 0.8s linear infinite;
+}
+
+@keyframes addBirdSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loginButton {
+  margin-top: 1rem;
+  padding: 0.65rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-lake, #28a745);
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.loginButton:hover {
+  background: var(--color-lake-hover, #218838);
 }
 
 .main {
@@ -16,13 +58,13 @@
 }
 
 .header h1 {
-  font-size: 2.5rem;
+  font-size: var(--page-title-size);
   margin-bottom: 0.5rem;
   font-weight: 700;
 }
 
 .header p {
-  font-size: 1.1rem;
+  font-size: var(--page-subtitle-size);
   opacity: 0.9;
 }
 
@@ -31,7 +73,7 @@
 }
 
 .parseButton {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -70,7 +112,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .formGroup input,
@@ -78,7 +120,7 @@
 .formGroup textarea {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid #e1e5e9;
+  border: 2px solid var(--border-input);
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.3s ease;
@@ -88,8 +130,8 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  border-color: var(--color-lake);
+  box-shadow: var(--focus-ring);
 }
 
 .formGroup textarea {
@@ -107,7 +149,7 @@
 .sectionHeader {
   margin: 2rem 0 1rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #e1e5e9;
+  border-bottom: 2px solid var(--border-input);
 }
 
 .sectionHeader h3 {
@@ -126,11 +168,11 @@
   justify-content: flex-end;
   margin-top: 2rem;
   padding-top: 1rem;
-  border-top: 1px solid #e1e5e9;
+  border-top: 1px solid var(--border-input);
 }
 
 .submitButton {
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: var(--color-lake);
   color: white;
   border: none;
   padding: 0.75rem 2rem;
@@ -142,8 +184,9 @@
 }
 
 .submitButton:hover:not(:disabled) {
+  background: var(--color-lake-hover);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
 .submitButton:disabled {
@@ -153,11 +196,11 @@
 }
 
 .cancelButton {
-  background: #f8f9fa;
-  color: #6c757d;
-  border: 2px solid #e1e5e9;
-  padding: 0.75rem 2rem;
-  border-radius: 8px;
+  background: transparent;
+  color: var(--color-lake);
+  border: 2px solid var(--color-lake);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-lg);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -165,8 +208,30 @@
 }
 
 .cancelButton:hover {
-  background: #e9ecef;
-  border-color: #adb5bd;
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-hover);
+  color: var(--color-lake-hover);
+}
+
+.deleteButton {
+  margin-right: auto;
+  border: none;
+  background: transparent;
+  color: #8a4a4a;
+  padding: 0.75rem 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.deleteButton:hover:not(:disabled) {
+  color: #a12d2d;
+}
+
+.deleteButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .errorMessage {
@@ -187,9 +252,9 @@
 }
 
 .successMessage h2 {
-  color: #28a745;
+  color: var(--color-lake);
   margin-bottom: 1rem;
-  font-size: 1.5rem;
+  font-size: var(--type-scale-xl);
 }
 
 .successMessage p {
@@ -197,7 +262,18 @@
   font-size: 1.1rem;
 }
 
-/* 智能识别区域样式 */
+/* ???????? */
+.parserHintBanner {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: rgba(33, 158, 188, 0.12);
+  border: 1px solid rgba(33, 158, 188, 0.28);
+  color: var(--color-deep-teal, #023047);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 .parserSection {
   background: white;
   padding: 2rem;
@@ -234,7 +310,7 @@
 .parserTextarea {
   width: 100%;
   padding: 1rem;
-  border: 2px solid #e1e5e9;
+  border: 2px solid var(--border-input);
   border-radius: 8px;
   font-size: 1rem;
   line-height: 1.5;
@@ -246,7 +322,7 @@
 
 .parserTextarea:focus {
   outline: none;
-  border-color: #28a745;
+  border-color: var(--color-lake);
   box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
 }
 
@@ -262,7 +338,7 @@
 }
 
 .parseActionButton {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   color: white;
   border: none;
   padding: 0.75rem 2rem;
@@ -286,14 +362,14 @@
 }
 
 .parserSuggestions {
-  background: #f8f9fa;
+  background: var(--bg-clean);
   padding: 1.5rem;
   border-radius: 8px;
-  border-left: 4px solid #28a745;
+  border-left: 4px solid var(--color-lake);
 }
 
 .parserSuggestions h4 {
-  color: #28a745;
+  color: var(--color-lake);
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
@@ -311,10 +387,10 @@
 
 .parserSuggestions li:first-child {
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
 }
 
-/* 响应式设�?*/
+/* ??????*/
 @media (max-width: 768px) {
   .main {
     padding: 1rem;
@@ -329,8 +405,10 @@
   }
   
   .submitButton,
-  .cancelButton {
+  .cancelButton,
+  .deleteButton {
     width: 100%;
+    margin-right: 0;
   }
   
   .parserActions {

@@ -1,12 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import styles from '../styles/ImageViewer.module.css';
 
 const ImageViewer = ({ images, currentIndex, onClose }) => {
   const [activeIndex, setActiveIndex] = useState(currentIndex);
 
   useEffect(() => {
-    setActiveIndex(currentIndex);
-  }, [currentIndex]);
+    if (!images || images.length === 0) return;
+    const nextIndex = Number.isFinite(currentIndex) ? currentIndex : 0;
+    const clamped = Math.min(Math.max(nextIndex, 0), images.length - 1);
+    setActiveIndex(clamped);
+  }, [currentIndex, images]);
 
   const goToPrevious = useCallback(() => {
     setActiveIndex(prev => 
@@ -48,22 +52,35 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
 
   if (!images || images.length === 0) return null;
 
-  const currentImage = images[activeIndex];
+  const safeActiveIndex = Math.min(Math.max(activeIndex, 0), images.length - 1);
+  const currentImage = images[safeActiveIndex] || images[0];
   
   // 处理图片数据格式：可能是字符串URL或包含url属性的对象
   const getImageUrl = (image) => {
+    if (!image) return '';
     if (typeof image === 'string') {
       return image;
     }
-    return image.url || image;
+    return image.url || '';
   };
   
   const getImageCaption = (image) => {
+    if (!image) return '鸟类图片';
     if (typeof image === 'string') {
       return '鸟类图片';
     }
     return image.caption || '鸟类图片';
   };
+
+  const toAbsoluteImageUrl = (image) => {
+    const imageUrl = getImageUrl(image);
+    if (!imageUrl) return '/logo.png';
+    if (imageUrl.startsWith('http')) return imageUrl;
+    return imageUrl;
+  };
+
+  const currentImageUrl = toAbsoluteImageUrl(currentImage);
+  const currentImageUnoptimized = !currentImageUrl.startsWith('/');
 
   return (
     <div className={styles.overlay} onClick={handleOverlayClick}>
@@ -79,23 +96,26 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
             {getImageCaption(currentImage)}
           </h3>
           <p className={styles.imageMeta}>
-            {currentImage.location && `📍 ${currentImage.location}`}
-            {currentImage.date && ` • ${new Date(currentImage.date).toLocaleDateString()}`}
+            {currentImage && typeof currentImage === 'object' && currentImage.location && `📍 ${currentImage.location}`}
+            {currentImage && typeof currentImage === 'object' && currentImage.date && ` • ${new Date(currentImage.date).toLocaleDateString()}`}
           </p>
         </div>
 
         {/* 主图片 */}
         <div className={styles.imageContainer}>
-          <img
-            src={(() => {
-              const imageUrl = getImageUrl(currentImage);
-              return imageUrl.startsWith('http') ? imageUrl : (typeof window !== 'undefined' ? `${window.location.origin}${imageUrl}` : imageUrl);
-            })()}
+          <Image
+            src={currentImageUrl}
             alt={getImageCaption(currentImage)}
+            width={1600}
+            height={1000}
+            unoptimized={currentImageUnoptimized}
             className={styles.mainImage}
             onError={(e) => {
               e.target.style.display = 'none';
-              e.target.nextElementSibling.style.display = 'flex';
+              const placeholder = e.target.nextElementSibling;
+              if (placeholder) {
+                placeholder.style.display = 'flex';
+              }
             }}
           />
           <div className={styles.imageError} style={{ display: 'none' }}>
@@ -127,17 +147,26 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
         {images.length > 1 && (
           <div className={styles.thumbnailContainer}>
             {images.map((image, index) => (
-              <button
-                key={index}
-                className={`${styles.thumbnail} ${index === activeIndex ? styles.active : ''}`}
-                onClick={() => setActiveIndex(index)}
-              >
-                <img
-                  src={image.url.startsWith('http') ? image.url : (typeof window !== 'undefined' ? `${window.location.origin}${image.url}` : image.url)}
-                  alt={`缩略图 ${index + 1}`}
-                  className={styles.thumbnailImage}
-                />
-              </button>
+              (() => {
+                const thumbnailUrl = toAbsoluteImageUrl(image);
+                const thumbnailUnoptimized = !thumbnailUrl.startsWith('/');
+                return (
+                  <button
+                    key={index}
+                    className={`${styles.thumbnail} ${index === activeIndex ? styles.active : ''}`}
+                    onClick={() => setActiveIndex(index)}
+                  >
+                    <Image
+                      src={thumbnailUrl}
+                      alt={`缩略图 ${index + 1}`}
+                      width={200}
+                      height={140}
+                      unoptimized={thumbnailUnoptimized}
+                      className={styles.thumbnailImage}
+                    />
+                  </button>
+                );
+              })()
             ))}
           </div>
         )}

@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { api } from '../utils/api';
+import { findMatchedAlias } from '../utils/birdAliasMatch';
 import styles from '../styles/BirdAutocomplete.module.css';
 
 export default function BirdAutocomplete({ 
@@ -18,13 +21,10 @@ export default function BirdAutocomplete({
 
   // 当外部value变化时更新内部状态
   useEffect(() => {
-    console.log('BirdAutocomplete收到value:', value);
     if (value && value.name) {
-      console.log('设置完整鸟类对象:', value);
       setSelectedBird(value);
       setInputValue(value.name);
     } else {
-      console.log('清空值');
       setSelectedBird(null);
       setInputValue('');
     }
@@ -39,8 +39,7 @@ export default function BirdAutocomplete({
 
     setLoading(true);
     try {
-      const response = await fetch(`/api/birds?search=${encodeURIComponent(query)}&limit=10`);
-      const data = await response.json();
+      const data = await api.birds.getAll({ search: query, limit: '10' });
       
       if (data.success) {
         setSuggestions(data.data || []);
@@ -73,20 +72,21 @@ export default function BirdAutocomplete({
     onChange && onChange(null);
     
     // 延迟搜索，避免频繁请求
-    const timeoutId = setTimeout(async () => {
+    setTimeout(async () => {
       if (query.length >= 2) {
-        const response = await fetch(`/api/birds?search=${encodeURIComponent(query)}&limit=10`);
-        const data = await response.json();
+        const data = await api.birds.getAll({ search: query, limit: '10' });
         
         if (data.success && data.data && data.data.length > 0) {
           setSuggestions(data.data);
           
           // 尝试精确匹配
-          const exactMatch = data.data.find(bird => bird.name === query);
+          const exactMatch = data.data.find(
+            (bird) =>
+              bird.name === query ||
+              (Array.isArray(bird.nameAliases) && bird.nameAliases.includes(query))
+          );
           if (exactMatch) {
-            console.log('自动匹配成功:', exactMatch);
             setSelectedBird(exactMatch);
-            console.log('自动匹配调用onChange，传递鸟类对象:', exactMatch);
             onChange && onChange(exactMatch);
             // 不清空建议列表，让用户可以看到其他候选选项
           }
@@ -97,17 +97,13 @@ export default function BirdAutocomplete({
         setSuggestions([]);
       }
     }, 300);
-    
-    return () => clearTimeout(timeoutId);
   };
 
   // 选择鸟类
   const handleSelectSuggestion = (bird) => {
-    console.log('手动选择鸟类:', bird);
     setSelectedBird(bird);
     setInputValue(bird.name);
     setIsOpen(false);
-    console.log('调用onChange，传递鸟类对象:', bird);
     onChange && onChange(bird);
   };
 
@@ -121,9 +117,7 @@ export default function BirdAutocomplete({
 
   // 处理输入框焦点
   const handleFocus = () => {
-    console.log('输入框获得焦点, inputValue:', inputValue, 'length:', inputValue.length);
     if (inputValue.length >= 2) {
-      console.log('设置isOpen为true');
       setIsOpen(true);
     }
   };
@@ -149,14 +143,6 @@ export default function BirdAutocomplete({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  // 调试信息
-  console.log('BirdAutocomplete渲染状态:', {
-    inputValue,
-    isOpen,
-    suggestionsCount: suggestions.length,
-    selectedBird: selectedBird?.name || null
-  });
 
   return (
     <div className={`${styles.container} ${className}`} ref={dropdownRef}>
@@ -201,15 +187,21 @@ export default function BirdAutocomplete({
             >
               <div className={styles.birdInfo}>
                 <div className={styles.birdName}>{bird.name}</div>
+                {findMatchedAlias(bird, inputValue) ? (
+                  <div className={styles.scientificName}>别名 {findMatchedAlias(bird, inputValue)}</div>
+                ) : null}
                 {bird.scientificName && (
                   <div className={styles.scientificName}>{bird.scientificName}</div>
                 )}
               </div>
               {bird.images && bird.images.length > 0 && (
                 <div className={styles.birdImage}>
-                  <img 
+                  <Image 
                     src={bird.images[0].url} 
                     alt={bird.name}
+                    width={72}
+                    height={72}
+                    unoptimized
                     onError={(e) => e.target.style.display = 'none'}
                   />
                 </div>

@@ -130,6 +130,7 @@ export const sanitizeInput = (input) => {
 
 // XSS防护
 export const escapeHtml = (text) => {
+  if (text === null || text === undefined) return '';
   const map = {
     '&': '&amp;',
     '<': '&lt;',
@@ -138,7 +139,7 @@ export const escapeHtml = (text) => {
     "'": '&#039;'
   };
   
-  return text.replace(/[&<>"']/g, (m) => map[m]);
+  return String(text).replace(/[&<>"']/g, (m) => map[m]);
 };
 
 // CSRF Token生成

@@ -1,0 +1,153 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--page-bg);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--page-content-max);
+  margin: 0 auto;
+  padding: var(--page-main-padding);
+  box-sizing: border-box;
+}
+
+.panel {
+  background: var(--bg-white, #fff);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 20px;
+}
+
+.hint {
+  margin: 0 0 12px;
+  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-secondary);
+  line-height: 1.5;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 220px;
+  resize: vertical;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid var(--gray-200, #e5e7eb);
+  border-radius: var(--radius-md, 8px);
+  font: inherit;
+  font-size: var(--type-body);
+  color: var(--text-dark, #023047);
+  line-height: 1.5;
+}
+
+.textarea:focus {
+  outline: 2px solid var(--color-lake, #219ebc);
+  border-color: transparent;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.primaryButton,
+.secondaryButton {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: var(--type-secondary);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primaryButton {
+  background: var(--color-lake, #219ebc);
+  color: #fff;
+}
+
+.primaryButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.message {
+  margin: 14px 0 0;
+  font-size: var(--type-secondary);
+  line-height: 1.5;
+}
+
+.error {
+  color: #9f1239;
+}
+
+.preview {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-200, #e5e7eb);
+}
+
+.preview h2 {
+  margin: 0 0 8px;
+  font-size: var(--type-section);
+}
+
+.usageLine {
+  margin: 0 0 10px;
+  font-size: var(--type-caption);
+  color: var(--text-muted, #5c6b7a);
+  line-height: 1.4;
+}
+
+.meta {
+  margin: 0 0 10px;
+  font-size: var(--type-body);
+  color: var(--text-dark, #023047);
+}
+
+.birdList {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.birdList li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #f8fafc;
+  font-size: var(--type-secondary);
+}
+
+.matched {
+  color: #0f766e;
+  font-weight: 700;
+}
+
+.unmatched {
+  color: #9a3412;
+  font-weight: 700;
+}
+
+.warnings {
+  margin: 0 0 14px;
+  padding-left: 18px;
+  color: #9a3412;
+  font-size: var(--type-secondary);
+  line-height: 1.5;
+}
+
+.loading {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted, #5c6b7a);
+}

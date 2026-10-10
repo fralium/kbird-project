@@ -1,0 +1,39 @@
+.layerSwitch {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1200;
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid rgba(2, 48, 71, 0.16);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 2px 8px rgba(15, 40, 60, 0.12);
+}
+
+.layerSwitch button {
+  appearance: none;
+  margin: 0;
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: #5c6b7a;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.layerSwitch button + button {
+  border-left: 1px solid rgba(2, 48, 71, 0.12);
+}
+
+.layerSwitch button:hover {
+  color: #1a7f98;
+}
+
+.layerSwitch .layerOn {
+  background: rgba(33, 158, 188, 0.14);
+  color: #023047;
+}

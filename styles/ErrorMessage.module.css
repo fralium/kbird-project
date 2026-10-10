@@ -2,7 +2,7 @@
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 1000;
+  z-index: var(--z-toast);
   max-width: 400px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -77,9 +77,9 @@
 }
 
 .success {
-  background: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
+  background: var(--color-lake-light);
+  border: 1px solid var(--color-lake);
+  color: var(--color-deep-teal);
 }
 
 /* 移动端响应式 */

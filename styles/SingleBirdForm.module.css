@@ -1,11 +1,11 @@
-/* 单鸟类表单样式 */
+﻿/* 单鸟类表单样式 */
 
 .container {
   background: white;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--gray-200);
   max-width: 600px;
   margin: 0 auto;
 }
@@ -13,11 +13,11 @@
 .header {
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--gray-200);
 }
 
 .title {
-  color: #2d5016;
+  color: var(--color-deep-teal);
   font-size: 1.4rem;
   margin: 0 0 8px 0;
   font-weight: 600;
@@ -38,7 +38,7 @@
 }
 
 .birdName {
-  color: #2d5016;
+  color: var(--color-deep-teal);
   font-size: 1.1rem;
   font-weight: 500;
 }
@@ -63,7 +63,7 @@
 .label {
   margin-bottom: 6px;
   font-weight: 500;
-  color: #2d5016;
+  color: var(--color-deep-teal);
 }
 
 .required {
@@ -73,7 +73,7 @@
 
 .input, .textarea {
   padding: 12px;
-  border: 2px solid #e1e5e9;
+  border: 2px solid var(--border-input);
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.2s ease;
@@ -81,8 +81,8 @@
 
 .input:focus, .textarea:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  border-color: var(--color-lake);
+  box-shadow: var(--focus-ring);
 }
 
 .textarea {
@@ -100,16 +100,16 @@
 .fileInput {
   width: 100%;
   padding: 8px;
-  border: 2px dashed #4CAF50;
+  border: 2px dashed var(--color-lake);
   border-radius: 8px;
-  background: #f8fff8;
+  background: var(--color-lake-light);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .fileInput:hover {
-  border-color: #45a049;
-  background: #f0fff0;
+  border-color: var(--color-lake-hover);
+  background: var(--color-lake-light);
 }
 
 .imagePreview {
@@ -188,39 +188,45 @@
   justify-content: flex-end;
   gap: 16px;
   padding-top: 20px;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid var(--gray-200);
   margin-top: 20px;
 }
 
 .cancelButton, .submitButton {
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 16px;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--type-scale-base);
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
+  transition: all var(--transition-fast);
   min-width: 120px;
+}
+.submitButton {
+  border: none;
 }
 
 .cancelButton {
-  background: #6c757d;
-  color: white;
+  background: transparent;
+  color: var(--color-lake);
+  border: 2px solid var(--color-lake);
 }
 
 .cancelButton:hover:not(:disabled) {
-  background: #5a6268;
+  background: var(--color-lake-light);
+  color: var(--color-lake-hover);
+  border-color: var(--color-lake-hover);
   transform: translateY(-1px);
 }
 
 .submitButton {
-  background: #4CAF50;
+  background: var(--color-lake);
   color: white;
 }
 
 .submitButton:hover:not(:disabled) {
-  background: #45a049;
-  transform: translateY(-1px);
+  background: var(--color-lake-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .submitButton:disabled, .cancelButton:disabled {
@@ -254,6 +260,8 @@
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   }
 }
+
+
 
 
 

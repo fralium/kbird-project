@@ -1,40 +1,112 @@
 /* 移除smartAdderContainer，按钮现在直接在父容器中 */
 
-.smartAddButton {
-  display: flex;
+/* 智能添加 / Excel 导入：统一主按钮样式 */
+.smartAddButton,
+.importButton {
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  justify-content: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-6);
+  background: var(--color-lake);
   color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
+  border: 2px solid var(--color-lake);
+  border-radius: var(--radius-full);
+  font-size: var(--type-scale-base);
+  font-weight: 600;
   line-height: 1;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
-  height: 32px;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+  min-height: 40px;
   box-sizing: border-box;
 }
 
-.smartAddButton:hover {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+.smartAddButton:hover,
+.importButton:hover {
+  background: var(--color-lake-hover);
+  border-color: var(--color-lake-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.smartAddButton:active,
+.importButton:active {
+  transform: translateY(0);
 }
 
 .plusIcon {
-  font-size: 14px;
-  font-weight: 500;
-  color: white;
-  display: inline;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
   line-height: 1;
 }
 
-.smartAddButton:active {
-  transform: translateY(0);
+/* Excel 导入：包裹按钮和面板，保证面板相对按钮定位 */
+.importWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.fileInput {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.fileName {
+  margin: 0.5rem 0 0;
+  font-size: 13px;
+  color: #6B7280;
+}
+
+/* Excel 导入：固定居中模态，避免从底部冒出、支持整框滚动 */
+.importOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.importPanel {
+  position: relative;
+  z-index: 9999;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 560px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.importPanel .panelHeader {
+  flex-shrink: 0;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.importPanel .inputSection,
+.importPanel .actionButtons {
+  flex-shrink: 0;
+}
+
+.importPanel .scrollBody {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
 }
 
 .smartAddPanel {
@@ -100,7 +172,7 @@
 
 .birdListInput:focus {
   outline: none;
-  border-color: #10B981;
+  border-color: var(--color-lake);
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
@@ -118,8 +190,8 @@
 
 .addButton {
   flex: 1;
-  padding: 0.75rem 1rem;
-  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--color-lake);
   color: white;
   border: none;
   border-radius: 8px;
@@ -130,8 +202,9 @@
 }
 
 .addButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
-  transform: translateY(-1px);
+  background: var(--color-lake-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .addButton:disabled {
@@ -141,11 +214,11 @@
 }
 
 .resetButton {
-  padding: 0.75rem 1rem;
-  background: #F3F4F6;
-  color: #374151;
-  border: 1px solid #D1D5DB;
-  border-radius: 8px;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: transparent;
+  color: var(--color-lake);
+  border: 2px solid var(--color-lake);
+  border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -153,8 +226,9 @@
 }
 
 .resetButton:hover {
-  background: #E5E7EB;
-  border-color: #9CA3AF;
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-hover);
+  color: var(--color-lake-hover);
 }
 
 .closeButton {
@@ -189,7 +263,7 @@
 
 .successResult {
   background: white;
-  border: 1px solid #D1FAE5;
+  border: 1px solid var(--color-lake-light);
   border-radius: 8px;
   padding: 1rem;
 }
@@ -204,7 +278,7 @@
 .statItem {
   text-align: center;
   padding: 0.75rem;
-  background: #F0FDF4;
+  background: var(--color-lake-light);
   border-radius: 6px;
 }
 
@@ -219,7 +293,7 @@
   display: block;
   font-size: 18px;
   font-weight: 600;
-  color: #10B981;
+  color: var(--color-lake);
 }
 
 .matchedBirdsList,
@@ -232,7 +306,7 @@
   margin: 0 0 0.5rem;
   font-size: 14px;
   font-weight: 600;
-  color: #10B981;
+  color: var(--color-lake);
 }
 
 .unmatchedBirdsList h5 {
@@ -255,6 +329,39 @@
   margin: 0;
   padding-left: 1.25rem;
   list-style: disc;
+}
+
+.unmatchedRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  list-style: none;
+  margin-left: -1.25rem;
+  padding: 4px 0;
+}
+
+.requestLink {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--color-lake, #0d9488);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.requestLink:hover:not(:disabled) {
+  color: var(--color-lake-hover, #0f766e);
+}
+
+.requestLink:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .matchedBirdsList li,

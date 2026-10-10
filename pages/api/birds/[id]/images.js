@@ -1,28 +1,27 @@
 // Next.js API代理路由 - 鸟类图片上传
+import { resolveBackendApiBase } from '../../../../utils/backendApiBase';
+import { devLog } from '../../../../utils/devLogger';
+import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../../utils/proxyApi';
+
 export const config = {
   api: {
-    bodyParser: {
-      sizeLimit: '10mb',
-    },
+    bodyParser: false,
   },
-}
+};
 
 export default async function handler(req, res) {
   const { method, query, headers } = req;
   
   if (method !== 'POST') {
-    return res.status(405).json({
-      success: false,
-      message: '方法不允许'
-    });
+    return sendMethodNotAllowed(res, ['POST']);
   }
   
   // 构建后端API URL
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
-  const url = `${baseUrl}/api/birds/${query.id}/images`;
+  const baseUrl = resolveBackendApiBase();
+  const url = `${baseUrl}/birds/${query.id}/images`;
   
   try {
-    console.log('图片上传代理请求:', {
+    devLog('图片上传代理请求:', {
       url,
       method,
       hasAuth: !!headers.authorization,
@@ -30,27 +29,30 @@ export default async function handler(req, res) {
     });
 
     // 直接转发请求到后端
+    const forwardHeaders = {
+      Authorization: headers.authorization || '',
+    };
+    if (headers['content-type']) {
+      forwardHeaders['Content-Type'] = headers['content-type'];
+    }
+
     const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Authorization': headers.authorization,
-        // 保持原始的Content-Type
-        'Content-Type': headers['content-type'] || 'multipart/form-data',
-      },
-      body: req.body, // 直接转发原始body
+      headers: forwardHeaders,
+      // bodyParser=false 时，req 是可读流；用原始流转发 multipart body
+      body: req,
+      duplex: 'half',
     });
 
-    console.log('后端响应状态:', response.status);
+    devLog('后端响应状态:', response.status);
     
-    const data = await response.json();
+    const data = await parseProxyJsonResponse(response);
     
     res.status(response.status).json(data);
   } catch (error) {
-    console.error('图片上传代理错误:', error);
-    res.status(500).json({
-      success: false,
+    return sendProxyError(res, error, {
       message: '服务器错误',
-      error: error.message
+      code: 'UPLOAD_PROXY_FAILED',
     });
   }
 }

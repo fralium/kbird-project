@@ -1,4 +1,4 @@
-/* 鸟类自动补全组件样式 */
+﻿/* 鸟类自动补全组件样式 */
 
 .container {
   position: relative;
@@ -14,7 +14,7 @@
 .input {
   width: 100%;
   padding: 12px 40px 12px 12px;
-  border: 2px solid #e1e5e9;
+  border: 2px solid var(--border-input);
   border-radius: 8px;
   font-size: 16px;
   background: white;
@@ -23,12 +23,12 @@
 
 .input:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  border-color: var(--color-lake);
+  box-shadow: var(--focus-ring);
 }
 
 .input:disabled {
-  background-color: #f8f9fa;
+  background-color: var(--bg-clean);
   color: #6c757d;
   cursor: not-allowed;
 }
@@ -44,7 +44,7 @@
   width: 16px;
   height: 16px;
   border: 2px solid #f3f3f3;
-  border-top: 2px solid #4CAF50;
+  border-top: 2px solid var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -70,8 +70,8 @@
 }
 
 .clearButton:hover {
-  background-color: #f8f9fa;
-  color: #495057;
+  background-color: var(--bg-clean);
+  color: var(--text-muted);
 }
 
 .dropdown {
@@ -80,7 +80,7 @@
   left: 0;
   right: 0;
   background: white;
-  border: 1px solid #e1e5e9;
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -95,7 +95,7 @@
   padding: 12px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid #f8f9fa;
+  border-bottom: 1px solid var(--bg-clean);
 }
 
 .suggestion:last-child {
@@ -103,7 +103,7 @@
 }
 
 .suggestion:hover {
-  background-color: #f8f9fa;
+  background-color: var(--bg-clean);
 }
 
 .birdInfo {
@@ -113,7 +113,7 @@
 
 .birdName {
   font-weight: 600;
-  color: #2d5016;
+  color: var(--color-deep-teal);
   margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -135,7 +135,7 @@
   margin-left: 12px;
   border-radius: 6px;
   overflow: hidden;
-  background-color: #f8f9fa;
+  background-color: var(--bg-clean);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,6 +180,8 @@
     margin-left: 8px;
   }
 }
+
+
 
 
 

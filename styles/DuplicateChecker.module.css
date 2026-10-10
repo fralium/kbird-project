@@ -1,4 +1,4 @@
-.duplicateChecker {
+﻿.duplicateChecker {
   position: fixed;
   top: 0;
   left: 0;
@@ -8,11 +8,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: var(--z-modal-backdrop);
   padding: 20px;
 }
 
 .loading {
+  position: relative;
+  z-index: var(--z-modal);
   background: white;
   border-radius: 12px;
   padding: 40px;
@@ -74,7 +76,7 @@
 }
 
 .noDuplicates h3 {
-  color: #27ae60;
+  color: var(--color-lake);
   margin-bottom: 10px;
 }
 
@@ -116,11 +118,11 @@
 }
 
 .duplicateItem {
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--gray-200);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
-  background: #f8f9fa;
+  background: var(--bg-clean);
 }
 
 .duplicateHeader {
@@ -144,7 +146,7 @@
 }
 
 .description {
-  color: #495057;
+  color: var(--text-muted);
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.4;
@@ -174,7 +176,7 @@
 .detailItem {
   margin-bottom: 5px;
   font-size: 0.9rem;
-  color: #495057;
+  color: var(--text-muted);
 }
 
 .detailItem strong {
@@ -228,22 +230,24 @@
 
 .cancelButton,
 .confirmButton {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--type-scale-base);
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .cancelButton {
-  background: #95a5a6;
-  color: white;
+  background: transparent;
+  color: var(--color-lake);
+  border: 2px solid var(--color-lake);
 }
 
 .cancelButton:hover {
-  background: #7f8c8d;
+  background: var(--color-lake-light);
+  color: var(--color-lake-hover);
+  border-color: var(--color-lake-hover);
 }
 
 .confirmButton {
@@ -284,6 +288,8 @@
     width: 100%;
   }
 }
+
+
 
 
 

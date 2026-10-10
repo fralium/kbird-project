@@ -1,0 +1,140 @@
+/* 键盘导航样式 */
+.keyboardNavigation {
+  position: relative;
+  outline: none;
+}
+
+.keyboardNavigation:focus {
+  outline: 2px solid var(--color-lake);
+  outline-offset: 2px;
+}
+
+.navigating {
+  animation: focusPulse 0.3s ease-in-out;
+}
+
+@keyframes focusPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 焦点指示器 */
+.keyboardNavigation [tabindex="0"]:focus,
+.keyboardNavigation button:focus,
+.keyboardNavigation [href]:focus,
+.keyboardNavigation input:focus,
+.keyboardNavigation select:focus,
+.keyboardNavigation textarea:focus {
+  outline: 2px solid var(--color-lake);
+  outline-offset: 2px;
+  position: relative;
+}
+
+.keyboardNavigation [tabindex="0"]:focus::after,
+.keyboardNavigation button:focus::after,
+.keyboardNavigation [href]:focus::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid var(--color-lake);
+  border-radius: 8px;
+  pointer-events: none;
+  animation: focusRing 0.2s ease-in-out;
+}
+
+@keyframes focusRing {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 导航提示 */
+.keyboardNavigation::before {
+  content: '使用方向键导航，Enter选择，Esc退出';
+  position: absolute;
+  top: -30px;
+  left: 0;
+  background: rgba(44, 85, 48, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.keyboardNavigation:focus::before {
+  opacity: 1;
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+  .keyboardNavigation:focus {
+    outline: 3px solid #000;
+    outline-offset: 3px;
+  }
+  
+  .keyboardNavigation [tabindex="0"]:focus,
+  .keyboardNavigation button:focus,
+  .keyboardNavigation [href]:focus {
+    outline: 3px solid #000;
+    outline-offset: 3px;
+  }
+}
+
+/* 减少动画模式支持 */
+@media (prefers-reduced-motion: reduce) {
+  .navigating {
+    animation: none;
+  }
+  
+  .keyboardNavigation [tabindex="0"]:focus::after,
+  .keyboardNavigation button:focus::after,
+  .keyboardNavigation [href]:focus::after {
+    animation: none;
+  }
+}
+
+/* 屏幕阅读器专用样式 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 焦点可见性 */
+.keyboardNavigation:focus-visible {
+  outline: 2px solid var(--color-lake);
+  outline-offset: 2px;
+}
+
+.keyboardNavigation [tabindex="0"]:focus-visible,
+.keyboardNavigation button:focus-visible,
+.keyboardNavigation [href]:focus-visible {
+  outline: 2px solid var(--color-lake);
+  outline-offset: 2px;
+}
+

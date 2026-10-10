@@ -1,0 +1,31 @@
+.root {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: var(--type-scale-base, 1rem);
+  line-height: var(--line-height-relaxed, 1.65);
+  color: var(--text-primary, #1f2937);
+}
+
+.linkBird,
+.linkLocation,
+.linkBird:link,
+.linkLocation:link,
+.linkBird:visited,
+.linkLocation:visited {
+  color: var(--color-lake, #219ebc);
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: var(--color-lake, #219ebc);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  border-radius: 2px;
+}
+
+.linkBird:hover,
+.linkLocation:hover,
+.linkBird:focus-visible,
+.linkLocation:focus-visible {
+  color: var(--color-lake-hover, #1780a0);
+  text-decoration-color: var(--color-lake-hover, #1780a0);
+  background: var(--color-lake-light, rgba(33, 158, 188, 0.12));
+}

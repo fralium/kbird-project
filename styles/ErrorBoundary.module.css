@@ -1,44 +1,141 @@
-.errorContainer {
+﻿/* 错误边界样式 */
+.errorBoundary {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 400px;
-  padding: 40px 20px;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
 }
 
-.errorContent {
+.errorContainer {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   text-align: center;
   max-width: 500px;
-  padding: 40px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
+  width: 100%;
 }
 
-.errorContent h2 {
-  color: #dc3545;
-  margin-bottom: 16px;
-  font-size: 1.5rem;
-}
-
-.errorContent p {
-  color: #6c757d;
+.errorIcon {
+  color: #e74c3c;
   margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.errorTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 16px;
+}
+
+.errorMessage {
+  color: #7f8c8d;
+  font-size: 16px;
   line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+.errorDetails {
+  margin: 24px 0;
+  text-align: left;
+  background: var(--bg-clean);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.errorDetails summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.errorStack {
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.errorActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.retryButton,
+.reloadButton,
+.backButton {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
 }
 
 .retryButton {
-  background: #007bff;
+  background: #3498db;
   color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .retryButton:hover {
-  background: #0056b3;
+  background: #2980b9;
+  transform: translateY(-1px);
+}
+
+.reloadButton {
+  background: var(--color-lake);
+  color: white;
+}
+
+.reloadButton:hover {
+  background: #1e3a24;
+  transform: translateY(-1px);
+}
+
+.backButton {
+  background: #95a5a6;
+  color: white;
+}
+
+.backButton:hover {
+  background: #7f8c8d;
+  transform: translateY(-1px);
+}
+
+.errorHelp {
+  color: #95a5a6;
+  font-size: 14px;
+  border-top: 1px solid #ecf0f1;
+  padding-top: 16px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .errorContainer {
+    padding: 24px;
+    margin: 16px;
+  }
+  
+  .errorActions {
+    flex-direction: column;
+  }
+  
+  .retryButton,
+  .reloadButton,
+  .backButton {
+    width: 100%;
+  }
 }

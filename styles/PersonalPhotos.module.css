@@ -1,0 +1,445 @@
+/* 个人照片库页面样式 */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-gradient);
+}
+
+.main {
+  flex: 1;
+  padding: var(--page-main-padding);
+  max-width: var(--page-content-max);
+  margin: 0 auto;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.foldPanel {
+  margin-bottom: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbfd 100%);
+  border: 1px solid rgba(2, 48, 71, 0.1);
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: 0 1px 0 rgba(2, 48, 71, 0.03);
+  overflow: hidden;
+}
+
+.foldToggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.foldToggle:hover {
+  background: rgba(33, 158, 188, 0.06);
+}
+
+.foldToggleTitle {
+  flex: 0 0 auto;
+  font-size: var(--type-scale-base);
+  font-weight: 700;
+  color: var(--color-deep-teal, #023047);
+  letter-spacing: 0.01em;
+}
+
+.foldToggleSummary {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--type-scale-sm);
+  font-weight: 500;
+  color: #3d4f57;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.foldToggleChevron {
+  flex: 0 0 auto;
+  width: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-lake, #219ebc);
+}
+
+.foldBody {
+  padding: 12px 16px 14px;
+  border-top: 1px solid rgba(2, 48, 71, 0.06);
+}
+
+/* 页面标题 */
+.header {
+  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-dark-2) 100%);
+  color: var(--text-white);
+  padding: 40px 30px;
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-medium);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.title {
+  font-size: var(--page-title-size);
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.titleIcon {
+  font-size: 3rem;
+}
+
+.subtitle {
+  font-size: var(--page-subtitle-size);
+  opacity: 0.9;
+  margin: 0;
+}
+
+.listMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 12px;
+  padding: 0 2px;
+}
+
+.listMetaLead,
+.listMetaTools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.listMetaLead {
+  flex: 0 0 auto;
+  min-width: max-content;
+}
+
+.listMetaTools {
+  margin-left: auto;
+}
+
+.listMetaCount {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  font-weight: 700;
+  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-scale-sm);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pageNote {
+  margin: 16px 2px 0;
+  color: #5c6b7a;
+  font-size: var(--type-scale-sm);
+  line-height: 1.5;
+}
+
+.pageNoteLink {
+  margin-left: 6px;
+  color: var(--color-lake, #219ebc);
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* 筛选器 */
+.filters {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+.filterRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filterRow:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 250px;
+  padding: 12px 15px;
+  border: 2px solid var(--medium-gray);
+  border-radius: var(--radius-medium);
+  font-size: 1rem;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary-green);
+}
+
+.filterSelect,
+.filterInput {
+  padding: 10px 15px;
+  border: 2px solid var(--medium-gray);
+  border-radius: var(--radius-medium);
+  font-size: 0.9rem;
+}
+
+.filterSelect:focus,
+.filterInput:focus {
+  outline: none;
+  border-color: var(--primary-green);
+}
+
+.sortButton,
+.clearButton {
+  padding: 10px 20px;
+  border: 2px solid var(--medium-gray);
+  border-radius: var(--radius-medium);
+  background: var(--background-white);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.sortButton:hover {
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+}
+
+.clearButton {
+  background: transparent;
+  color: var(--type-muted-color, #5c6b7a);
+  border: 1px solid rgba(2, 48, 71, 0.14);
+}
+
+.clearButton:hover {
+  color: var(--color-lake, #219ebc);
+  border-color: rgba(33, 158, 188, 0.45);
+}
+
+/* 照片网格 */
+.viewBar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 12px;
+}
+
+.viewModeToggle {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.viewModeButton {
+  appearance: none;
+  border: 1px solid rgba(2, 48, 71, 0.14);
+  background: #fff;
+  color: #5a6a72;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.viewModeButton:hover {
+  color: var(--color-lake, #1a7f98);
+  background: rgba(33, 158, 188, 0.07);
+  border-color: rgba(33, 158, 188, 0.4);
+}
+
+.viewModeActive {
+  color: var(--color-lake, #1a7f98);
+  background: rgba(33, 158, 188, 0.12);
+  border-color: rgba(33, 158, 188, 0.55);
+}
+
+.photosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.photoCard {
+  background: var(--background-white);
+  border-radius: var(--radius-medium);
+  overflow: hidden;
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.photoCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-medium);
+}
+
+.photoImageButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.photoImage {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: var(--background-light);
+}
+
+.photoImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.photoCard:hover .photoImage img {
+  transform: scale(1.1);
+}
+
+.photoBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--color-lake-strong);
+  color: var(--text-white);
+  padding: 5px 10px;
+  border-radius: var(--radius-small);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.photoBadgeWarn {
+  background: rgba(230, 126, 34, 0.92);
+}
+
+.photoInfo {
+  padding: 15px;
+}
+
+.photoCaption {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.photoMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-medium);
+}
+
+.photoActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 0.82rem;
+}
+
+.photoRecordLink,
+.photoFixLink {
+  color: var(--color-lake);
+  text-decoration: underline;
+}
+
+.photoUnlinked {
+  color: var(--text-medium);
+}
+
+
+/* 空状态 */
+.emptyState {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.emptyState p {
+  color: var(--text-medium);
+  margin: 10px 0;
+}
+
+.emptyHint {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 1.2rem;
+  color: var(--text-medium);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .main {
+    padding: 10px;
+  }
+
+  .header {
+    padding: 30px 20px;
+  }
+
+  .title {
+    font-size: var(--page-title-size);
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filterRow {
+    flex-direction: column;
+  }
+
+  .searchInput,
+  .filterSelect,
+  .filterInput {
+    width: 100%;
+  }
+
+  .photosGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+  }
+
+  .photoImage {
+    height: 150px;
+  }
+}

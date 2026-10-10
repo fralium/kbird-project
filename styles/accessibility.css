@@ -1,4 +1,4 @@
-/* 无障碍访问样式 */
+﻿/* 无障碍访问样式 */
 
 /* 高对比度模式 */
 .high-contrast {
@@ -61,7 +61,7 @@
 
 /* 焦点指示器增强 */
 *:focus {
-  outline: 3px solid #4CAF50 !important;
+  outline: 3px solid var(--color-lake) !important;
   outline-offset: 2px !important;
 }
 
@@ -101,9 +101,9 @@
 .keyboard-navigation select:focus,
 .keyboard-navigation textarea:focus,
 .keyboard-navigation a:focus {
-  outline: 3px solid #4CAF50;
+  outline: 3px solid var(--color-lake);
   outline-offset: 2px;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+  box-shadow: var(--focus-ring);
 }
 
 /* 高对比度按钮 */
@@ -157,7 +157,7 @@ label {
   height: 20px;
   margin: -10px 0 0 -10px;
   border: 2px solid #f3f3f3;
-  border-top: 2px solid #4CAF50;
+  border-top: 2px solid var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -170,7 +170,7 @@ label {
 /* 减少动画时禁用加载动画 */
 .reduced-motion .loading-indicator::after {
   animation: none;
-  border: 2px solid #4CAF50;
+  border: 2px solid var(--color-lake);
 }
 
 /* 表格无障碍优化 */
@@ -196,11 +196,11 @@ img {
   height: auto;
 }
 
-/* 链接状态指示 */
-a:link { color: #1976d2; }
-a:visited { color: #7b1fa2; }
-a:hover { color: #1565c0; text-decoration: underline; }
-a:active { color: #0d47a1; }
+/* 链接状态：湖泊蓝 + 站点灰，不用浏览器默认紫 */
+a:link { color: var(--link-color, #219ebc); }
+a:visited { color: var(--text-muted, #5c6b7a); }
+a:hover { color: var(--link-hover, #1a7a94); text-decoration: underline; }
+a:active { color: var(--color-deep-teal, #023047); }
 
 /* 导航栏链接特殊处理 */
 /* 注意：.navLink 样式已在 globals.css 中统一定义，此处删除重复定义 */

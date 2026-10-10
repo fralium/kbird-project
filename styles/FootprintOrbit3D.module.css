@@ -1,0 +1,102 @@
+.stage {
+  position: relative;
+  height: 420px;
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(33, 158, 188, 0.16), transparent 55%),
+    linear-gradient(165deg, #eef6f8 0%, #f7fbfd 55%, #e8f0f3 100%);
+  border: 1px solid rgba(2, 48, 71, 0.08);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.stage:active {
+  cursor: grabbing;
+}
+
+.world {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+}
+
+.dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-deep-teal, #023047);
+  will-change: transform, opacity;
+}
+
+.dotCore {
+  display: block;
+  width: 14px;
+  height: 14px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: var(--color-lake, #219ebc);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 2px 8px rgba(2, 48, 71, 0.2);
+}
+
+.dotActive .dotCore {
+  width: 18px;
+  height: 18px;
+  background: var(--color-deep-teal, #023047);
+  box-shadow: 0 0 0 4px rgba(33, 158, 188, 0.35), 0 2px 10px rgba(2, 48, 71, 0.25);
+}
+
+.dotActive .dotLabel {
+  border-color: rgba(2, 48, 71, 0.28);
+  background: #fff;
+}
+
+.dotLabel {
+  display: block;
+  margin-top: 4px;
+  max-width: 88px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(2, 48, 71, 0.08);
+  font-size: 0.65rem;
+  font-weight: 650;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hint {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  z-index: 2;
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--text-medium, #6b7a88);
+  pointer-events: none;
+}
+
+.empty {
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-medium, #666);
+  background: #f7fafb;
+  border-radius: var(--radius-md, 8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    will-change: auto;
+  }
+}

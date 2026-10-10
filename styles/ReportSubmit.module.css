@@ -1,7 +1,7 @@
-/* 报告提交页面样式 */
+﻿/* ???????? */
 .reportSubmit {
   min-height: 100vh;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   padding: 2rem 0;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .header h1 {
-  font-size: 2.5rem;
+  font-size: var(--page-title-size);
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -28,7 +28,7 @@
   opacity: 0.9;
 }
 
-/* 表单样式 */
+/* ???? */
 .form {
   background: white;
   border-radius: 15px;
@@ -64,8 +64,8 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  border-color: var(--color-lake);
+  box-shadow: var(--focus-ring);
 }
 
 .formGroup textarea {
@@ -80,7 +80,7 @@
   margin-top: 0.3rem;
 }
 
-/* 表单操作按钮 */
+/* ?????? */
 .formActions {
   display: flex;
   gap: 1rem;
@@ -102,25 +102,26 @@
 }
 
 .cancelButton {
-  background: #f7fafc;
-  color: #4a5568;
-  border: 2px solid #e2e8f0;
+  background: transparent;
+  color: var(--color-lake);
+  border: 2px solid var(--color-lake);
 }
 
 .cancelButton:hover {
-  background: #edf2f7;
-  border-color: #cbd5e0;
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-hover);
+  color: var(--color-lake-hover);
 }
 
 .submitButton {
-  background: #4CAF50;
+  background: var(--color-lake);
   color: white;
 }
 
 .submitButton:hover:not(:disabled) {
-  background: #5a67d8;
+  background: var(--color-lake-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .submitButton:disabled {
@@ -130,14 +131,14 @@
   box-shadow: none;
 }
 
-/* 加载状�?*/
+/* ?????*/
 .loadingContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   color: white;
 }
 
@@ -156,36 +157,36 @@
   100% { transform: rotate(360deg); }
 }
 
-/* 错误状�?*/
+/* ?????*/
 .errorContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   color: white;
   text-align: center;
 }
 
 .errorContainer h1 {
-  font-size: 2rem;
+  font-size: var(--page-title-size);
   margin-bottom: 1rem;
 }
 
 .errorContainer p {
-  font-size: 1.1rem;
+  font-size: var(--page-subtitle-size);
   opacity: 0.9;
 }
 
-/* 响应式设�?*/
+/* ??????*/
 @media (max-width: 768px) {
   .container {
     padding: 0 0.5rem;
   }
   
   .header h1 {
-    font-size: 2rem;
+    font-size: var(--page-title-size);
   }
   
   .form {
@@ -202,7 +203,7 @@
   }
 }
 
-/* 表单验证样式 */
+/* ?????? */
 .formGroup input:invalid,
 .formGroup select:invalid,
 .formGroup textarea:invalid {
@@ -212,10 +213,10 @@
 .formGroup input:valid,
 .formGroup select:valid,
 .formGroup textarea:valid {
-  border-color: #48bb78;
+  border-color: var(--color-lake);
 }
 
-/* 选择框样�?*/
+/* ??????*/
 .formGroup select {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
   background-position: right 0.5rem center;

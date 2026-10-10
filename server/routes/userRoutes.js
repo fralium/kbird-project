@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { 
   registerUser, 
-  loginUser, 
+  loginUser,
+  createLocalSession,
   getUserProfile, 
   updateUserProfile,
   getUserContributions,
@@ -10,11 +11,15 @@ const {
   getUserSightings,
   addToFavorites,
   removeFromFavorites,
-  uploadAvatar,
-  getPendingSightings
+  uploadAvatar
 } = require('../controllers/userController');
 const { protect } = require('../middleware/auth');
 const multer = require('multer');
+const {
+  validateUserRegistration,
+  validateUserLogin,
+} = require('../middleware/validation');
+const { isRegistrationEnabled } = require('../config/appMode');
 
 // 配置multer用于头像上传
 const storage = multer.memoryStorage();
@@ -24,25 +29,52 @@ const upload = multer({
     fileSize: 2 * 1024 * 1024, // 2MB限制
   },
   fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
+    const allowed = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']);
+    if (allowed.has(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('只允许上传图片文件'), false);
+      cb(new Error('只允许上传 JPG/PNG/GIF/WebP 图片'), false);
     }
   }
 });
 
 // 用户注册
-router.post('/register', registerUser);
+router.post(
+  '/register',
+  (req, res, next) => {
+    if (!isRegistrationEnabled()) {
+      return res.status(403).json({
+        success: false,
+        message: '当前为单机自用模式，已关闭注册',
+        code: 'REGISTRATION_DISABLED',
+      });
+    }
+    // 兼容旧版 username 字段
+    if (req.body.username && !req.body.name) {
+      req.body.name = req.body.username;
+    }
+    next();
+  },
+  validateUserRegistration,
+  registerUser
+);
+
+// 本机自动登录（单机 + AUTO_LOGIN + 回环）
+router.post('/local-session', createLocalSession);
 
 // 用户登录 (兼容email和usernameOrEmail参数)
-router.post('/login', (req, res, next) => {
-  // 将旧版email参数转换为usernameOrEmail
-  if (req.body.email && !req.body.usernameOrEmail) {
-    req.body.usernameOrEmail = req.body.email;
-  }
-  next();
-}, loginUser);
+router.post(
+  '/login',
+  (req, res, next) => {
+    // 将旧版email参数转换为usernameOrEmail
+    if (req.body.email && !req.body.usernameOrEmail) {
+      req.body.usernameOrEmail = req.body.email;
+    }
+    next();
+  },
+  validateUserLogin,
+  loginUser
+);
 
 // 获取用户个人资料 (需要登录)
 router.get('/profile', protect, getUserProfile);
@@ -58,9 +90,6 @@ router.get('/favorites', protect, getUserFavorites);
 
 // 获取用户观察记录 (需要登录)
 router.get('/sightings', protect, getUserSightings);
-
-// 获取用户待审核的观鸟记录 (需要登录)
-router.get('/pending-sightings', protect, getPendingSightings);
 
 // 添加鸟类到收藏 (需要登录)
 router.post('/favorites/:id', protect, addToFavorites);

@@ -1,57 +1,46 @@
-import axios from 'axios';
+import { resolveBackendApiBase } from '../../../../../utils/backendApiBase';
+import {
+  buildJsonHeaders,
+  parseProxyJsonResponse,
+  sendMethodNotAllowed,
+  sendProxyError,
+} from '../../../../../utils/proxyApi';
 
-const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3002/api';
+const API_BASE_URL = `${resolveBackendApiBase()}`;
 
 export default async function handler(req, res) {
   const { method, query } = req;
   const { id, imageIndex } = query;
-  const token = req.headers.authorization;
+
+  if (!['PUT', 'DELETE'].includes(method)) {
+    return sendMethodNotAllowed(res, ['PUT', 'DELETE']);
+  }
+
+  if (!id || imageIndex === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: '缺少图片更新参数',
+      code: 'MISSING_IMAGE_PARAMS',
+    });
+  }
 
   try {
-    let response;
-    
-    switch (method) {
-      case 'PUT':
-        // 更新鸟类图片信息
-        response = await axios.put(`${API_BASE_URL}/birds/${id}/images/${imageIndex}`, req.body, {
-          headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json',
-          },
-        });
-        break;
-        
-      case 'DELETE':
-        // 删除鸟类图片
-        response = await axios.delete(`${API_BASE_URL}/birds/${id}/images/${imageIndex}`, {
-          headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json',
-          },
-        });
-        break;
-        
-      default:
-        res.setHeader('Allow', ['PUT', 'DELETE']);
-        return res.status(405).json({ 
-          success: false, 
-          message: `方法 ${method} 不被允许` 
-        });
-    }
+    const response = await fetch(`${API_BASE_URL}/birds/${id}/images/${imageIndex}`, {
+      method,
+      headers: buildJsonHeaders(req),
+      body: method === 'PUT' ? JSON.stringify(req.body) : undefined,
+    });
 
-    res.status(response.status).json(response.data);
+    const data = await parseProxyJsonResponse(response, {
+      invalidMessage: '鸟类图片响应解析失败',
+      invalidCode: 'UPSTREAM_INVALID_RESPONSE',
+    });
+    return res.status(response.status).json(data);
   } catch (error) {
-    console.error('API代理错误:', error.response?.data || error.message);
-    
-    if (error.response) {
-      res.status(error.response.status).json(error.response.data);
-    } else {
-      res.status(500).json({
-        success: false,
-        message: '服务器错误',
-        error: error.message,
-      });
-    }
+    return sendProxyError(res, error, {
+      message: '服务器错误',
+      code: 'BIRD_IMAGE_ITEM_PROXY_FAILED',
+    });
   }
 }
 

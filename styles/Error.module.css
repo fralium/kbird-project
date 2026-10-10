@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, var(--background-light) 0%, #e8f5e8 100%);
+  background: linear-gradient(135deg, var(--background-light) 0%, var(--color-lake-light) 100%);
   position: relative;
 }
 
@@ -23,7 +23,7 @@
 .main {
   flex: 1;
   padding: 40px 20px;
-  max-width: 1200px;
+  max-width: var(--page-content-max);
   margin: 0 auto;
   width: 100%;
 }
@@ -138,11 +138,11 @@
 }
 
 .secondaryButton {
-  background: rgba(255, 255, 255, 0.8);
-  color: var(--text-dark);
-  border: 2px solid rgba(45, 80, 22, 0.2);
-  padding: 12px 24px;
-  border-radius: var(--radius-medium);
+  background: transparent;
+  color: var(--color-lake);
+  border: 2px solid var(--color-lake);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-lg);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -150,10 +150,11 @@
 }
 
 .secondaryButton:hover {
-  background: rgba(255, 255, 255, 1);
-  border-color: rgba(45, 80, 22, 0.3);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-hover);
+  color: var(--color-lake-hover);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-light);
+  box-shadow: var(--shadow-sm);
 }
 
 .birdInfo {
@@ -207,7 +208,7 @@
 }
 
 .conservationMessage {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-dark-2) 100%);
   color: white;
   padding: 40px;
   border-radius: var(--radius-xl);
@@ -337,6 +338,8 @@
     font-size: 1rem;
   }
 }
+
+
 
 
 

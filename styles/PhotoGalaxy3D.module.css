@@ -1,0 +1,97 @@
+.wrap {
+  margin: 0 0 20px;
+  width: 100%;
+}
+
+.stage {
+  position: relative;
+  height: min(68vh, 640px);
+  min-height: 420px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at 50% 42%, #1a2430 0%, #05070a 62%);
+  perspective: 1100px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.stage:active {
+  cursor: grabbing;
+}
+
+.world {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 5px;
+  overflow: hidden;
+  background: #111;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.card:hover,
+.cardHot {
+  outline: 2px solid #7dd3fc;
+  z-index: 2;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+
+.caption {
+  margin: 0;
+  min-width: 0;
+  color: var(--text-muted, #5c6b7a);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty {
+  margin: 12px 0 24px;
+  color: #5a6a72;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .stage {
+    height: 72vh;
+    min-height: 360px;
+  }
+}

@@ -79,9 +79,12 @@ jspm_packages/
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-# Uploads
+# Uploads（个人媒体；迁到仓库外 KBird-Data 后仍忽略仓库内残留）
 uploads/
 public/images/
+
+# 个人数据根若误放进仓库目录
+KBird-Data/
 
 # IDE
 .vscode/
@@ -99,6 +102,10 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+~$*
+temp/
+lint-report.json
+temp-import-birds.js
 
 # Project specific files
 bird.csv
@@ -107,41 +114,55 @@ config.json
 reports/
 backups/
 
-# Development and debugging files
-*.debug.js
-*test*.js
-*temp*.js
-*fix*.js
-*parse*.js
-*check*.js
-*verify*.js
-*update*.js
-*import*.js
-*export*.js
-*generate*.js
-*create*.js
-*backup*.js
-*restore*.js
-*analyze*.js
-*find*.js
-*search*.js
-*replace*.js
-*clear*.js
-*cleanup*.js
-*final*.js
-*ultimate*.js
-*advanced*.js
-*fixed*.js
-*decoded*.js
-*wiki*.js
-*mhtml*.js
-*garbled*.js
-*encoding*.js
+# Ad-hoc local scratch scripts (root only; do not blanket-ignore scripts/)
+/*.debug.js
+/*test*.js
+/*temp*.js
+/*fix*.js
+/*parse*.js
+/*check*.js
+/*verify*.js
+/*update*.js
+/*import*.js
+/*export*.js
+/*generate*.js
+/*create*.js
+/*backup*.js
+/*restore*.js
+/*analyze*.js
+/*find*.js
+/*search*.js
+/*replace*.js
+/*clear*.js
+/*cleanup*.js
+/*final*.js
+/*ultimate*.js
+/*advanced*.js
+/*fixed*.js
+/*decoded*.js
+/*wiki*.js
+/*mhtml*.js
+/*garbled*.js
+/*encoding*.js
 
-# Data files
+# Data files (JSON ignored by default; whitelist public seeds / package manifests)
 *.html
 *.csv
 *.json
 !package.json
 !package-lock.json
+!data/basic-info-maintained.json
+!seeds/birds-public.json
 
+# Local full bird seed (may contain personal media refs) — never push
+seeds/birds-array.json
+
+# Personal explore overlay (optional local restore from KBird-Data)
+data/exploreDemo.personal/
+
+# Local / personal working materials (keep outside Git or in KBird-LocalArchive)
+*.xlsx
+*.xls
+query
+temp_plant_table.png
+乐平市*

@@ -1,56 +1,57 @@
+import { resolveBackendApiBase } from '../../../../../utils/backendApiBase';
+import { devLog } from '../../../../../utils/devLogger';
+import {
+  buildJsonHeaders,
+  parseProxyJsonResponse,
+  sendMethodNotAllowed,
+  sendProxyError,
+} from '../../../../../utils/proxyApi';
+
 export default async function handler(req, res) {
   const { id, birdId } = req.query;
+  if (req.method !== 'DELETE') {
+    return sendMethodNotAllowed(res, ['DELETE']);
+  }
 
   if (!id || !birdId) {
     return res.status(400).json({
       success: false,
-      message: '缺少必要参数'
+      message: '缺少必要参数',
+      code: 'MISSING_REQUIRED_PARAMS',
     });
   }
 
   try {
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
-    const url = `${backendUrl}/api/records/${id}/bird/${birdId}`;
+    const backendUrl = resolveBackendApiBase();
+    const url = `${backendUrl}/records/${id}/bird/${birdId}`;
 
-    console.log('代理请求到后端:', url);
+    devLog('代理请求到后端:', url);
 
     const response = await fetch(url, {
       method: req.method,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': req.headers.authorization || '',
-      },
+      headers: buildJsonHeaders(req),
       body: req.method === 'DELETE' ? JSON.stringify({}) : undefined,
     });
 
-    console.log('后端响应状态:', response.status);
-    console.log('后端响应头:', response.headers.get('content-type'));
+    devLog('后端响应状态:', response.status);
+    devLog('后端响应头:', response.headers.get('content-type'));
 
-    // 检查响应是否为JSON
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-      const text = await response.text();
-      console.log('后端响应文本:', text);
-      return res.status(response.status).json({
-        success: false,
-        message: '服务器返回了非JSON响应',
-        error: text,
-      });
-    }
-
-    const data = await response.json();
-    console.log('后端响应数据:', data);
+    const data = await parseProxyJsonResponse(response, {
+      invalidMessage: '服务器返回了非JSON响应',
+      invalidCode: 'UPSTREAM_INVALID_RESPONSE',
+    });
+    devLog('后端响应数据:', data);
 
     res.status(response.status).json(data);
   } catch (error) {
-    console.error('API代理错误:', error);
-    res.status(500).json({
-      success: false,
+    return sendProxyError(res, error, {
       message: '服务器内部错误',
-      error: error.message,
+      code: 'RECORD_BIRD_PROXY_FAILED',
     });
   }
 }
+
+
 
 
 

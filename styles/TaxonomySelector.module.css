@@ -1,4 +1,4 @@
-.taxonomySelector {
+﻿.taxonomySelector {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
@@ -30,7 +30,7 @@
 .select:focus {
   outline: none;
   border-color: var(--secondary-green);
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  box-shadow: var(--focus-ring);
 }
 
 .select:disabled {

@@ -26,7 +26,8 @@ const recordSchema = mongoose.Schema(
         },
         coordinates: {
           type: [Number], // [经度, 纬度]
-          default: [120.1551, 30.2741], // 默认杭州坐标
+          // [0,0] 表示「未设置」；地图/足迹逻辑会跳过，避免误标杭州
+          default: [0, 0],
         },
       },
       address: {
@@ -100,6 +101,42 @@ const recordSchema = mongoose.Schema(
     wind: {
       type: String,
     },
+
+    // 观察努力信息（用于观鸟效率统计与完整清单分析）
+    effort: {
+      startTime: {
+        type: Date,
+        default: null,
+      },
+      endTime: {
+        type: Date,
+        default: null,
+      },
+      durationMinutes: {
+        type: Number,
+        min: 0,
+        default: null,
+      },
+      distanceKm: {
+        type: Number,
+        min: 0,
+        default: null,
+      },
+      observersCount: {
+        type: Number,
+        min: 1,
+        default: null,
+      },
+      isCompleteChecklist: {
+        type: Boolean,
+        default: false,
+      },
+      observationMethod: {
+        type: [String],
+        enum: ['walk', 'stationary', 'car', 'other'],
+        default: ['other'],
+      },
+    },
     
     // 观察记录图片
     images: [
@@ -125,23 +162,11 @@ const recordSchema = mongoose.Schema(
       default: '',
     },
     
-    // 审核状态
+    // 记录状态（已移除审核功能，保留draft状态用于草稿）
     status: {
       type: String,
-      enum: ['draft', 'pending', 'approved', 'rejected'],
-      default: 'draft',
-    },
-    
-    // 审核信息
-    reviewedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    reviewedAt: {
-      type: Date,
-    },
-    reviewNotes: {
-      type: String,
+      enum: ['draft', 'published'],
+      default: 'published',
     },
     
     // 统计信息
@@ -162,6 +187,12 @@ const recordSchema = mongoose.Schema(
         type: String,
       },
     ],
+
+    /** 中国鸟类记录中心导出表「报告编号」，用于导入去重与人工核对 */
+    cbrcReportId: {
+      type: String,
+      trim: true,
+    },
     
     // 是否公开
     isPublic: {
@@ -187,6 +218,7 @@ recordSchema.index({ observer: 1, date: -1 });
 recordSchema.index({ status: 1 });
 recordSchema.index({ 'birds.birdId': 1 });
 recordSchema.index({ tags: 1 });
+recordSchema.index({ observer: 1, cbrcReportId: 1 }, { sparse: true });
 
 // 地理位置索引
 recordSchema.index({ 'location.coordinates.coordinates': '2dsphere' });
@@ -228,6 +260,8 @@ recordSchema.pre('save', function(next) {
 const Record = mongoose.models.Record || mongoose.model('Record', recordSchema);
 
 module.exports = Record;
+
+
 
 
 

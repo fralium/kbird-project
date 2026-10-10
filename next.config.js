@@ -1,17 +1,29 @@
 /** @type {import('next').NextConfig} */
+const nextApiCorsOrigin =
+  process.env.NEXT_PUBLIC_NEXT_API_CORS_ORIGIN ||
+  process.env.SITE_URL ||
+  'http://localhost:13080';
+
 const nextConfig = {
   reactStrictMode: true,
+  // Workaround for Next 16 pages-router HMR invalid isrManifest noise.
+  devIndicators: false,
   images: {
-    domains: ['localhost', '47.121.183.57', '172.31.55.167'],
+    remotePatterns: [
+      { protocol: 'http', hostname: 'localhost' },
+      { protocol: 'http', hostname: '127.0.0.1' },
+      { protocol: 'http', hostname: '47.121.183.57' },
+      { protocol: 'http', hostname: '172.31.55.167' },
+      { protocol: 'https', hostname: '47.121.183.57' },
+      { protocol: 'https', hostname: '172.31.55.167' },
+    ],
   },
-  swcMinify: false,
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
   
   experimental: {
     optimizeCss: false,
-    optimizePackageImports: ['antd'],
   },
   
   webpack: (config, { isServer, dev }) => {
@@ -26,6 +38,26 @@ const nextConfig = {
     return config;
   },
   
+  async redirects() {
+    return [
+      {
+        source: '/personal/plots',
+        destination: '/records/plots',
+        permanent: false,
+      },
+      {
+        source: '/personal/plots/:path*',
+        destination: '/records/plots/:path*',
+        permanent: false,
+      },
+      {
+        source: '/ai/identify',
+        destination: '/ai?mode=identify',
+        permanent: false,
+      },
+    ];
+  },
+
   async rewrites() {
     return [
       {
@@ -50,7 +82,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
-            value: '*',
+            value: nextApiCorsOrigin,
           },
           {
             key: 'Access-Control-Allow-Methods',

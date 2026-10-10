@@ -1,56 +1,54 @@
-import axios from 'axios';
-
-const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3002/api';
+import { resolveBackendApiBase } from '../../../../utils/backendApiBase';
+import {
+  buildJsonHeaders,
+  parseProxyJsonResponse,
+  sendMethodNotAllowed,
+  sendProxyError,
+} from '../../../../utils/proxyApi';
 
 export default async function handler(req, res) {
   const { method, query } = req;
   const { id } = query;
   const token = req.headers.authorization;
 
-  try {
-    let response;
-    
-    switch (method) {
-      case 'POST':
-        // 添加鸟类到收藏
-        response = await axios.post(`${API_BASE_URL}/users/favorites/${id}`, {}, {
-          headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json',
-          },
-        });
-        break;
-        
-      case 'DELETE':
-        // 从收藏中移除鸟类
-        response = await axios.delete(`${API_BASE_URL}/users/favorites/${id}`, {
-          headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json',
-          },
-        });
-        break;
-        
-      default:
-        res.setHeader('Allow', ['POST', 'DELETE']);
-        return res.status(405).json({ 
-          success: false, 
-          message: `方法 ${method} 不被允许` 
-        });
-    }
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: '未授权访问，请提供token',
+      code: 'UNAUTHORIZED',
+    });
+  }
 
-    res.status(response.status).json(response.data);
+  if (!['POST', 'DELETE'].includes(method)) {
+    return sendMethodNotAllowed(res, ['POST', 'DELETE']);
+  }
+
+  if (!id) {
+    return res.status(400).json({
+      success: false,
+      message: '缺少收藏ID',
+      code: 'MISSING_FAVORITE_ID',
+    });
+  }
+
+  const API_BASE_URL = resolveBackendApiBase();
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/favorites/${id}`, {
+      method,
+      headers: buildJsonHeaders(req),
+      body: method === 'POST' ? JSON.stringify({}) : undefined,
+    });
+
+    const data = await parseProxyJsonResponse(response, {
+      invalidMessage: '收藏操作响应解析失败',
+      invalidCode: 'UPSTREAM_INVALID_RESPONSE',
+    });
+    return res.status(response.status).json(data);
   } catch (error) {
-    console.error('API代理错误:', error.response?.data || error.message);
-    
-    if (error.response) {
-      res.status(error.response.status).json(error.response.data);
-    } else {
-      res.status(500).json({
-        success: false,
-        message: '服务器错误',
-        error: error.message,
-      });
-    }
+    return sendProxyError(res, error, {
+      message: '服务器错误',
+      code: 'FAVORITE_ITEM_PROXY_FAILED',
+    });
   }
 }

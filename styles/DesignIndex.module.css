@@ -1,0 +1,66 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--page-content-max, 1360px);
+  margin: 0 auto;
+  padding: var(--page-main-padding, 20px);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 4px 16px;
+  padding: 16px 18px;
+  background: var(--surface-card, #fff);
+  border: 1px solid rgba(33, 158, 188, 0.16);
+  border-radius: var(--radius-panel);
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  border-color: var(--color-lake, #219ebc);
+}
+
+.cardTitle {
+  font-weight: 700;
+  color: var(--color-deep-teal, #023047);
+}
+
+.cardNote {
+  grid-column: 1;
+  font-size: var(--type-secondary, 0.9rem);
+  color: var(--type-muted-color, #5c6b7a);
+}
+
+.live,
+.stale {
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.live {
+  color: var(--color-lake, #219ebc);
+}
+
+.stale {
+  color: var(--type-muted-color, #5c6b7a);
+}

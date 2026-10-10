@@ -1,12 +1,12 @@
-.avatarUpload {
+﻿.avatarUpload {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
   padding: 20px;
-  border: 2px dashed #e9ecef;
+  border: 2px dashed var(--gray-200);
   border-radius: 12px;
-  background: #f8f9fa;
+  background: var(--bg-clean);
 }
 
 .avatarPreview {
@@ -35,7 +35,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   color: white;
   font-size: 48px;
 }
@@ -69,7 +69,7 @@
 
 .uploadButton {
   padding: 10px 20px;
-  background: #28a745;
+  background: var(--color-lake);
   color: white;
   border: none;
   border-radius: 8px;
@@ -95,7 +95,15 @@
   margin: 0;
 }
 
-/* 响应式设�?*/
+.error {
+  color: #dc3545;
+}
+
+.success {
+  color: #198754;
+}
+
+/* ??????*/
 @media (max-width: 768px) {
   .avatarUpload {
     padding: 15px;

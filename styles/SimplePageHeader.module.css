@@ -1,0 +1,197 @@
+.pageHeader {
+  display: flex;
+  margin: 0 auto 16px;
+  max-width: var(--page-content-max);
+  width: 100%;
+  background-color: var(--surface-card, #fff);
+  background-image: var(--surface-card-image, none);
+  border: var(--surface-card-border, 1px solid rgba(33, 158, 188, 0.16));
+  border-radius: var(--radius-panel, 8px);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.pageHeaderAccent {
+  width: 6px;
+  flex-shrink: 0;
+  background: var(--color-lake, #219ebc);
+}
+
+.pageHeaderBody {
+  flex: 1;
+  padding: 18px 20px 16px;
+}
+
+.pageHeaderTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 28px;
+}
+
+.pageEyebrow {
+  margin: 0 0 4px;
+  font-size: var(--type-caption, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-lake, #219ebc);
+}
+
+.pageTitle {
+  margin: 0 0 6px;
+  font-size: var(--type-page-title, var(--type-scale-2xl));
+  font-weight: var(--page-title-weight, 700);
+  color: var(--color-deep-teal, #023047);
+  line-height: var(--line-height-tight, 1.25);
+}
+
+.pageTitle:last-child {
+  margin-bottom: 0;
+}
+
+.pageLede {
+  margin: 0;
+  font-size: var(--type-page-lede, var(--type-scale-md));
+  color: var(--text-muted, #5c6b7a);
+  line-height: 1.45;
+  max-width: 40rem;
+}
+
+.pageLede strong {
+  color: var(--color-deep-teal, #023047);
+  font-weight: 700;
+}
+
+.pageCaption {
+  margin: 0;
+  font-size: var(--type-caption, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-lake, #219ebc);
+  line-height: 1.35;
+}
+
+.pageHeaderActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-left: 12px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.pageHeaderActions :global(.kb-view-seg) {
+  flex: 0 0 auto;
+}
+
+.pageHeaderActions :global(.kb-view-tab) {
+  padding: 6px 12px;
+  min-height: 32px;
+}
+
+.headerPrimaryBtn,
+.headerSecondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-panel, 8px);
+  padding: 8px 14px;
+  font-size: var(--type-scale-sm);
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1.2;
+  cursor: pointer;
+  font-family: inherit;
+  min-height: 36px;
+}
+
+.headerPrimaryBtn,
+.headerPrimaryBtn:link,
+.headerPrimaryBtn:visited {
+  border: 1px solid var(--color-lake-cta, #0e6b82);
+  background: var(--color-lake-cta, #0e6b82);
+  color: #fff;
+}
+
+.headerPrimaryBtn:hover:not(:disabled),
+.headerPrimaryBtn:hover:visited:not(:disabled) {
+  background: var(--color-lake-cta-hover, #0b5668);
+  border-color: var(--color-lake-cta-hover, #0b5668);
+  color: #fff;
+  text-decoration: none;
+}
+
+.headerPrimaryBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.headerSecondaryBtn,
+.headerSecondaryBtn:link,
+.headerSecondaryBtn:visited {
+  border: 1px solid var(--gray-200, #e5e7eb);
+  background: var(--surface-card, #fff);
+  color: var(--color-deep-teal, #023047);
+}
+
+.headerSecondaryBtn:hover:not(:disabled),
+.headerSecondaryBtn:hover:visited:not(:disabled) {
+  border-color: rgba(33, 158, 188, 0.45);
+  color: var(--color-lake, #219ebc);
+  text-decoration: none;
+}
+
+.headerSecondaryBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.headerTextLink,
+.headerTextLink:link,
+.headerTextLink:visited {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 4px;
+  font-size: var(--type-scale-sm);
+  font-weight: 600;
+  color: var(--text-muted, #5c6b7a);
+  text-decoration: none;
+  line-height: 1.2;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.headerTextLink:hover,
+.headerTextLink:hover:visited {
+  color: var(--color-lake, #219ebc);
+  text-decoration: none;
+}
+
+.headerTextLink:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .pageHeaderTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .pageHeaderActions {
+    margin-left: 0;
+    padding-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .pageHeaderBody {
+    padding: 14px 14px 12px;
+  }
+}

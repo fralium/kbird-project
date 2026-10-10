@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import styles from '../styles/Error.module.css';
@@ -71,8 +70,6 @@ const endangeredBirds = [
 ];
 
 export default function Error({ statusCode }) {
-  const router = useRouter();
-  
   // 根据状态码选择不同的濒危鸟类
   const birdIndex = statusCode ? statusCode % endangeredBirds.length : 0;
   const bird = endangeredBirds[birdIndex];
@@ -136,8 +133,11 @@ export default function Error({ statusCode }) {
               <Link href="/" className={styles.primaryButton}>
                 🏠 {errorInfo.action}
               </Link>
-              <button 
-                onClick={() => router.back()} 
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== 'undefined') window.history.back();
+                }}
                 className={styles.secondaryButton}
               >
                 ← 返回上页
@@ -147,26 +147,26 @@ export default function Error({ statusCode }) {
         </div>
 
         <div className={styles.birdInfo}>
-          <h3 className={styles.infoTitle}>🐦 认识这只濒危鸟类</h3>
+          <h3 className={styles.infoTitle}>认识这只濒危鸟类</h3>
           <div className={styles.infoGrid}>
             <div className={styles.infoCard}>
-              <h4>📝 描述</h4>
+              <h4>描述</h4>
               <p>{bird.description}</p>
             </div>
             <div className={styles.infoCard}>
-              <h4>🏞️ 栖息地</h4>
+              <h4>栖息地</h4>
               <p>{bird.habitat}</p>
             </div>
             <div className={styles.infoCard}>
-              <h4>🌍 分布</h4>
+              <h4>分布</h4>
               <p>{bird.distribution}</p>
             </div>
             <div className={styles.infoCard}>
-              <h4>⚠️ 威胁</h4>
+              <h4>威胁</h4>
               <p>{bird.threats}</p>
             </div>
             <div className={styles.infoCard}>
-              <h4>🛡️ 保护措施</h4>
+              <h4>保护措施</h4>
               <p>{bird.conservation}</p>
             </div>
           </div>
@@ -193,6 +193,8 @@ Error.getInitialProps = ({ res, err }) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
   return { statusCode };
 };
+
+
 
 
 

@@ -1,73 +1,69 @@
-// 鸟类主题图标组件 - 现代化简洁设计
-// 使用柔和的颜色和简洁的线条
+// 鸟类主题图标 - 简约线型，统一 stroke 与 viewBox
+/* 细线图标 2px 统一线宽，配合湿地晨曦风格 */
+const strokeProps = (color, w = 2) => ({ stroke: color, strokeWidth: w, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' });
 
-// 主要鸟类图标 - 简洁的鸟形轮廓
+// 鸟类图标 - 极简侧影（单线体+翼）
 export const BirdIcon = ({ size = 24, color = "#6B7280" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-    <path d="M12 2C8 2 5 5 5 9c0 4 3 7 7 7s7-3 7-7c0-4-3-7-7-7z"/>
-    <path d="M8 12c0 1.5 1 3 3 3s3-1.5 3-3"/>
-    <path d="M12 2v4"/>
-    <path d="M12 18v4"/>
-    <path d="M6 6l2 2"/>
-    <path d="M18 6l-2 2"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <path d="M12 3c-3 0-5 2.5-5 6s2 6 5 6 5-2.5 5-6-2-6-5-6z" />
+    <path d="M7 9c1 1 2.5 1.5 5 1.5s4-.5 5-1.5" />
   </svg>
 );
 
-// 简洁的鸟类轮廓图标
+// 简洁鸟类轮廓
 export const SimpleBirdIcon = ({ size = 24, color = "#6B7280" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-    <path d="M12 2C8.5 2 6 4.5 6 8c0 3.5 2.5 6 6 6s6-2.5 6-6c0-3.5-2.5-6-6-6z"/>
-    <path d="M9 8c0 1 1 2 3 2s3-1 3-2"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <path d="M12 5a4 4 0 0 0-4 4c0 2 1.5 3.5 4 5s4-3 4-5a4 4 0 0 0-4-4z" />
+    <path d="M8 9h8" />
   </svg>
 );
 
-// 飞翔的鸟类图标
+// 飞翔的鸟 - 单线抽象
 export const FlyingBirdIcon = ({ size = 24, color = "#6B7280" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-    <path d="M6 12c0-2 1-4 3-4s3 2 3 4-1 4-3 4-3-2-3-4z"/>
-    <path d="M18 12c0-2 1-4 3-4s3 2 3 4-1 4-3 4-3-2-3-4z"/>
-    <path d="M12 8c0-1 1-2 2-2s2 1 2 2-1 2-2 2-2-1-2-2z"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <path d="M4 12s2-3 8-3 8 3 8 3-2 3-8 3-8-3-8-3z" />
+    <path d="M4 12h16" />
   </svg>
 );
 
-// 相机图标 - 简化设计
+// 相机 - 线框
 export const CameraIcon = ({ size = 24, color = "#6B7280" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
-    <circle cx="12" cy="13" r="3"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <rect x="2" y="6" width="20" height="14" rx="2" />
+    <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+    <circle cx="12" cy="13" r="3" />
   </svg>
 );
 
-// 位置图标 - 简化设计
+// 位置 - 图钉
 export const LocationIcon = ({ size = 24, color = "#6B7280" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-    <circle cx="12" cy="10" r="3"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <path d="M12 22s8-6 8-12a8 8 0 1 0-16 0c0 6 8 12 8 12z" />
+    <circle cx="12" cy="10" r="2.5" />
   </svg>
 );
 
-// 搜索图标 - 简化设计
+// 搜索 - 放大镜
 export const SearchIcon = ({ size = 24, color = "#6B7280" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-    <circle cx="11" cy="11" r="8"/>
-    <path d="m21 21-4.35-4.35"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-4.2-4.2" />
   </svg>
 );
 
-// 添加图标 - 简化设计
+// 添加 - 正圆加号
 export const AddIcon = ({ size = 24, color = "#6B7280" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-    <circle cx="12" cy="12" r="10"/>
-    <path d="M12 8v8"/>
-    <path d="M8 12h8"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 8v8M8 12h8" />
   </svg>
 );
 
-// 编辑图标 - 简化设计
+// 编辑 - 笔
 export const EditIcon = ({ size = 24, color = "#6B7280" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+    <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
   </svg>
 );
 
@@ -140,7 +136,7 @@ export const WarningIcon = ({ size = 24, color = "#F59E0B" }) => (
 );
 
 // 成功图标 - 简化设计
-export const SuccessIcon = ({ size = 24, color = "#10B981" }) => (
+export const SuccessIcon = ({ size = 24, color = "#219EBC" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
     <polyline points="22,4 12,14.01 9,11.01"/>
@@ -156,23 +152,23 @@ export const ErrorIcon = ({ size = 24, color = "#EF4444" }) => (
   </svg>
 );
 
-// 奖杯图标 - 简化设计
+// 奖杯 - 线型
 export const TrophyIcon = ({ size = 24, color = "#6B7280" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-    <path d="M6 9H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h2"/>
-    <path d="M18 9h2a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-2"/>
-    <path d="M4 22h16"/>
-    <path d="M10 14.66V17c0 .55.47.98 1.03.98h1.94c.56 0 1.03-.44 1.03-.98v-2.34"/>
-    <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <path d="M8 4H6a2 2 0 0 0-2 2v2h4V4z" />
+    <path d="M16 4h2a2 2 0 0 1 2 2v2h-4V4z" />
+    <path d="M4 8v2a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V8H4z" />
+    <path d="M4 20h16" />
+    <path d="M12 12v8M8 20h8" />
+    <path d="M12 4v2" />
   </svg>
 );
 
-// 地图图标 - 简化设计
+// 地图 - 折线
 export const MapIcon = ({ size = 24, color = "#6B7280" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-    <polygon points="1,6 1,22 8,18 16,22 23,18 23,2 16,6 8,2"/>
-    <line x1="8" y1="2" x2="8" y2="18"/>
-    <line x1="16" y1="6" x2="16" y2="22"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <path d="M1 6v14l7-3 8 3 7-3V3l-7 3-8-3-7 3z" />
+    <path d="M8 3v14M16 6v14" />
   </svg>
 );
 
@@ -227,6 +223,23 @@ export const MenuIcon = ({ size = 24, color = "#6B7280" }) => (
     <line x1="3" y1="6" x2="21" y2="6"/>
     <line x1="3" y1="12" x2="21" y2="12"/>
     <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+);
+
+// 书本/知识 - 线型
+export const BookIcon = ({ size = 24, color = "#6B7280" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+    <path d="M8 7h8M8 11h8" />
+  </svg>
+);
+
+// 记录/文档 - 线型（单页带横线）
+export const DocumentIcon = ({ size = 24, color = "#6B7280" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" {...strokeProps(color)}>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <path d="M14 2v6h6M8 11h8M8 15h8M8 19h4" />
   </svg>
 );
 
@@ -357,7 +370,7 @@ export const getColoredIcon = (IconComponent, color = "#6B7280", size = 24) => (
 export const colors = {
   primary: "#4F46E5",      // 靛蓝色
   secondary: "#6B7280",    // 灰色
-  success: "#10B981",      // 绿色
+  success: "#219EBC",      // 湖泊蓝
   warning: "#F59E0B",      // 橙色
   error: "#EF4444",        // 红色
   info: "#3B82F6",         // 蓝色

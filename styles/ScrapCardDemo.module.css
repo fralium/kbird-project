@@ -1,0 +1,282 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--page-bg, #f4f7f8);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--page-content-max-wide, 1180px);
+  margin: 0 auto;
+  padding: 28px 24px 56px;
+  box-sizing: border-box;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  align-items: start;
+}
+
+.column h2 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #023047;
+}
+
+.column > p {
+  margin: 0 0 12px;
+  min-height: 2.8em;
+  color: #5c6b73;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.sheet {
+  background: #f3eadc;
+  border-radius: 2px;
+  padding: 12px 12px 14px;
+  box-shadow: inset 0 0 0 1px rgba(90, 62, 32, 0.14);
+}
+
+.sheet + .sheet {
+  margin-top: 16px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.head h3 {
+  margin: 0;
+  font-family: "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: #1c1915;
+}
+
+.head p {
+  margin: 5px 0 0;
+  font-family: var(--font-scientific);
+  font-style: italic;
+  font-size: 0.84rem;
+  line-height: 1.2;
+  color: #5c4632;
+}
+
+.stamp {
+  flex: none;
+  width: 68px;
+  padding: 5px 5px 4px;
+  background-color: #f7f1e4;
+  background-image: radial-gradient(circle, rgba(90, 62, 32, 0.45) 1.15px, transparent 1.35px);
+  background-size: 7px 7px;
+  box-shadow: 0 1px 0 rgba(28, 25, 21, 0.12);
+}
+
+.stampPhoto {
+  position: relative;
+  height: 58px;
+  background: #1c6b48;
+  border: 2px solid #145538;
+  overflow: hidden;
+}
+
+.stampPhoto img {
+  object-fit: cover;
+  filter: saturate(0.85) contrast(1.05);
+}
+
+.stampName {
+  display: block;
+  margin-top: 3px;
+  text-align: center;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: #145538;
+  line-height: 1.2;
+}
+
+.torn {
+  position: relative;
+  height: 168px;
+  background: #f7f3ea;
+  clip-path: polygon(
+    1.2% 3%, 7% 0.4%, 14% 2.6%, 22% 0%, 30% 2.2%, 39% 0.3%, 47% 2.4%,
+    56% 0%, 64% 2.1%, 73% 0.4%, 81% 2.5%, 89% 0.2%, 96% 2.2%, 100% 4%,
+    99.2% 14%, 100% 26%, 98.6% 38%, 100% 50%, 98.8% 63%, 100% 76%, 99% 88%, 100% 97%,
+    94% 100%, 86% 98.2%, 77% 100%, 68% 98.4%, 58% 100%, 48% 98.3%, 38% 100%,
+    28% 98.5%, 18% 100%, 8% 98.2%, 0 100%,
+    0.6% 86%, 0 72%, 1.4% 58%, 0 44%, 1.2% 30%, 0 16%
+  );
+}
+
+.torn img {
+  object-fit: cover;
+}
+
+.facts {
+  margin: 10px 2px 0;
+}
+
+.facts div {
+  display: grid;
+  grid-template-columns: 2.6em minmax(0, 1fr);
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(90, 62, 32, 0.14);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.facts dt {
+  color: #6b5138;
+}
+
+.facts dd {
+  margin: 0;
+  color: #1c1915;
+}
+
+.bookSection {
+  margin-top: 36px;
+}
+
+.bookSection h2 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #023047;
+}
+
+.bookSection > p {
+  margin: 0 0 14px;
+  color: #5c6b73;
+  font-size: 0.84rem;
+}
+
+.bookGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 560px);
+  gap: 18px;
+  align-items: start;
+}
+
+.book {
+  position: relative;
+  padding: 16px 14px 14px 18px;
+  background-color: #efe2cc;
+  background-image:
+    radial-gradient(rgba(92, 58, 28, 0.09) 0.6px, transparent 0.75px),
+    linear-gradient(90deg, rgba(92, 48, 18, 0.16), transparent 14px);
+  background-size: 4px 4px, auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(92, 58, 28, 0.2),
+    inset 0 0 36px rgba(120, 72, 28, 0.14);
+}
+
+.bookHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.bookHead h3 {
+  margin: 0;
+  font-family: "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  color: #2a2118;
+}
+
+.bookHead p {
+  margin: 6px 0 0;
+  font-family: var(--font-scientific);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: #5c4632;
+}
+
+.bookMeta {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: none;
+  padding-top: 4px;
+}
+
+.bookFacts p {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 5px;
+  font-family: var(--font-ui);
+  font-style: normal;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: #2a2118;
+}
+
+.bookFacts span {
+  flex: none;
+  color: #7a6248;
+}
+
+.postmark {
+  flex: none;
+  width: 74px;
+  height: 74px;
+  margin-top: -6px;
+  transform: rotate(-14deg);
+  opacity: 0.8;
+}
+
+.bookFrame {
+  margin: 0 2px;
+  padding: 7px 7px 12px;
+  background: #f7f3ea;
+  border: 1px solid rgba(42, 33, 24, 0.28);
+  box-shadow: 0 1px 0 rgba(42, 33, 24, 0.08);
+}
+
+.bookPhoto {
+  position: relative;
+  height: 180px;
+}
+
+.bookPhoto img {
+  object-fit: cover;
+}
+
+@media (max-width: 720px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+
+  .column > p {
+    min-height: 0;
+  }
+
+  .bookGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1100px) {
+  .bookGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

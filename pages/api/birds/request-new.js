@@ -1,43 +1,32 @@
 // Next.js API代理路由 - 申请添加新鸟类
+import { resolveBackendApiBase } from '../../../utils/backendApiBase';
+import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../utils/proxyApi';
+
 export default async function handler(req, res) {
   const { method, body } = req;
   
   if (method !== 'POST') {
-    return res.status(405).json({
-      success: false,
-      message: '方法不允许'
-    });
+    return sendMethodNotAllowed(res, ['POST']);
   }
   
   // 构建后端API URL
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
-  const url = `${baseUrl}/api/birds/request-new`;
-  
-  // 准备请求头
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-  
-  // 如果有token，添加到请求头
-  if (req.headers.authorization) {
-    headers.Authorization = req.headers.authorization;
-  }
+  const baseUrl = resolveBackendApiBase();
+  const url = `${baseUrl}/birds/request-new`;
   
   try {
     const response = await fetch(url, {
       method,
-      headers,
+      headers: buildJsonHeaders(req),
       body: JSON.stringify(body),
     });
     
-    const data = await response.json();
+    const data = await parseProxyJsonResponse(response);
     
     res.status(response.status).json(data);
   } catch (error) {
-    res.status(500).json({
-      success: false,
+    return sendProxyError(res, error, {
       message: '服务器错误',
-      error: error.message,
+      code: 'BIRD_REQUEST_PROXY_FAILED',
     });
   }
 }

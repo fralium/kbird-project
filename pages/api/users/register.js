@@ -1,11 +1,14 @@
 // Next.js API代理路由 - 用户注册
+import { resolveBackendApiBase } from '../../../utils/backendApiBase';
+import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../utils/proxyApi';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
+    return sendMethodNotAllowed(res, ['POST']);
   }
   
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
-  const url = `${baseUrl}/api/users/register`;
+  const baseUrl = resolveBackendApiBase();
+  const url = `${baseUrl}/users/register`;
   
   try {
     const response = await fetch(url, {
@@ -16,14 +19,13 @@ export default async function handler(req, res) {
       body: JSON.stringify(req.body),
     });
     
-    const data = await response.json();
+    const data = await parseProxyJsonResponse(response);
     
     res.status(response.status).json(data);
   } catch (error) {
-    res.status(500).json({
-      success: false,
+    return sendProxyError(res, error, {
       message: '服务器错误',
-      error: error.message,
+      code: 'REGISTER_PROXY_FAILED',
     });
   }
 }

@@ -1,7 +1,12 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 export const useErrorHandler = () => {
   const [errors, setErrors] = useState([]);
+  const timeoutIdsRef = useRef(new Set());
+
+  const removeError = useCallback((errorId) => {
+    setErrors(prev => prev.filter(error => error.id !== errorId));
+  }, []);
 
   const addError = useCallback((error, type = 'error') => {
     const errorId = Date.now() + Math.random();
@@ -10,17 +15,23 @@ export const useErrorHandler = () => {
     setErrors(prev => [...prev, { id: errorId, message: errorMessage, type }]);
     
     // 自动移除错误（5秒后）
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       removeError(errorId);
+      timeoutIdsRef.current.delete(timeoutId);
     }, 5000);
-  }, []);
-
-  const removeError = useCallback((errorId) => {
-    setErrors(prev => prev.filter(error => error.id !== errorId));
-  }, []);
+    timeoutIdsRef.current.add(timeoutId);
+  }, [removeError]);
 
   const clearErrors = useCallback(() => {
     setErrors([]);
+  }, []);
+
+  useEffect(() => {
+    const timeoutIds = timeoutIdsRef.current;
+    return () => {
+      timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId));
+      timeoutIds.clear();
+    };
   }, []);
 
   const handleApiError = useCallback((error, context = '') => {
@@ -28,9 +39,9 @@ export const useErrorHandler = () => {
     
     let message = '操作失败，请重试';
     
-    if (error.response) {
+    if (error.response || error.status) {
       // API响应错误
-      const status = error.response.status;
+      const status = error.response?.status || error.status;
       switch (status) {
         case 400:
           message = '请求参数错误';

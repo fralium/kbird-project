@@ -1,12 +1,12 @@
-/* 管理员审核页面样式 */
+﻿/* 管理员审核页面样式 */
 .adminReview {
   min-height: 100vh;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   padding: 2rem 0;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: var(--page-content-max);
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -18,7 +18,7 @@
 }
 
 .header h1 {
-  font-size: 2.5rem;
+  font-size: var(--page-title-size);
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -39,7 +39,7 @@
 .statCard {
   background: white;
   padding: 2rem;
-  border-radius: 15px;
+  border-radius: var(--radius-lg);
   text-align: center;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -52,7 +52,7 @@
 
 .statCard h3 {
   color: #4a5568;
-  font-size: 1.1rem;
+  font-size: var(--page-subtitle-size);
   margin-bottom: 1rem;
   font-weight: 600;
 }
@@ -60,12 +60,12 @@
 .statNumber {
   font-size: 3rem;
   font-weight: bold;
-  color: #4CAF50;
+  color: var(--color-lake);
   margin-bottom: 0.5rem;
 }
 
 .statCard p {
-  color: #718096;
+  color: var(--text-muted);
   font-size: 0.9rem;
 }
 
@@ -73,7 +73,7 @@
 .tabNavigation {
   display: flex;
   background: white;
-  border-radius: 15px;
+  border-radius: var(--radius-lg);
   padding: 0.5rem;
   margin-bottom: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -93,29 +93,29 @@
 }
 
 .tabButton:hover {
-  background: #f7fafc;
-  color: #4CAF50;
+  background: var(--bg-clean);
+  color: var(--color-lake);
 }
 
 .tabButton.active {
-  background: #4CAF50;
+  background: var(--color-lake);
   color: white;
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 /* 标签页内容 */
 .tabContent {
   background: white;
-  border-radius: 15px;
+  border-radius: var(--radius-lg);
   padding: 2rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .tabContent h2 {
-  color: #2d3748;
+  color: var(--text-primary);
   margin-bottom: 2rem;
-  font-size: 1.8rem;
-  border-bottom: 3px solid #4CAF50;
+  font-size: var(--page-title-size);
+  border-bottom: 3px solid var(--color-lake);
   padding-bottom: 0.5rem;
 }
 
@@ -123,7 +123,7 @@
 .emptyState {
   text-align: center;
   padding: 3rem;
-  color: #718096;
+  color: var(--text-muted);
 }
 
 .emptyState p {
@@ -137,16 +137,16 @@
 }
 
 .requestCard {
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
-  background: #f8fafc;
+  background: var(--bg-clean);
   transition: all 0.3s ease;
 }
 
 .requestCard:hover {
-  border-color: #4CAF50;
-  box-shadow: 0 4px 20px rgba(76, 175, 80, 0.1);
+  border-color: var(--color-lake);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
@@ -156,21 +156,21 @@
   align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--gray-200);
 }
 
 .requestHeader h3 {
-  color: #2d3748;
+  color: var(--text-primary);
   font-size: 1.3rem;
   margin: 0;
 }
 
 .requestDate {
-  color: #718096;
+  color: var(--text-muted);
   font-size: 0.9rem;
-  background: #edf2f7;
+  background: var(--gray-200);
   padding: 0.3rem 0.8rem;
-  border-radius: 20px;
+  border-radius: var(--radius-full);
 }
 
 .requestDetails {
@@ -184,7 +184,7 @@
 }
 
 .requestDetails strong {
-  color: #2d3748;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -235,7 +235,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   color: white;
 }
 
@@ -261,13 +261,13 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   color: white;
   text-align: center;
 }
 
 .errorContainer h1 {
-  font-size: 2rem;
+  font-size: var(--page-title-size);
   margin-bottom: 1rem;
 }
 
@@ -283,7 +283,7 @@
   }
   
   .header h1 {
-    font-size: 2rem;
+    font-size: var(--page-title-size);
   }
   
   .statsGrid {

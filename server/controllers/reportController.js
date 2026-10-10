@@ -1,6 +1,8 @@
 const Report = require('../models/reportModel');
 const User = require('../models/userModel');
 const Bird = require('../models/birdModel');
+const { sendControllerError } = require('../middleware/controllerError');
+const { devError } = require('../utils/devLogger');
 
 // @desc    创建用户报告
 // @route   POST /api/reports
@@ -11,9 +13,13 @@ const createReport = async (req, res) => {
 
     // 验证必填字段
     if (!title || !type || !content) {
-      return res.status(400).json({
-        success: false,
-        message: '标题、类型和内容不能为空'
+      const validationError = new Error('标题、类型和内容不能为空');
+      validationError.statusCode = 400;
+      validationError.code = 'MISSING_REQUIRED_FIELDS';
+      return sendControllerError(res, validationError, {
+        defaultMessage: '标题、类型和内容不能为空',
+        defaultCode: 'MISSING_REQUIRED_FIELDS',
+        fallbackStatus: 400,
       });
     }
 
@@ -41,11 +47,10 @@ const createReport = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('创建报告失败:', error);
-    res.status(500).json({
-      success: false,
-      message: '服务器错误',
-      error: error.message
+    devError('创建报告失败:', error);
+    return sendControllerError(res, error, {
+      defaultMessage: '服务器错误',
+      defaultCode: 'REPORT_OPERATION_FAILED',
     });
   }
 };
@@ -95,11 +100,10 @@ const getUserReports = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('获取用户报告失败:', error);
-    res.status(500).json({
-      success: false,
-      message: '服务器错误',
-      error: error.message
+    devError('获取用户报告失败:', error);
+    return sendControllerError(res, error, {
+      defaultMessage: '服务器错误',
+      defaultCode: 'REPORT_OPERATION_FAILED',
     });
   }
 };
@@ -116,17 +120,25 @@ const getReportById = async (req, res) => {
       .populate('handledBy', 'name email');
 
     if (!report) {
-      return res.status(404).json({
-        success: false,
-        message: '报告不存在'
+      const notFoundError = new Error('报告不存在');
+      notFoundError.statusCode = 404;
+      notFoundError.code = 'REPORT_NOT_FOUND';
+      return sendControllerError(res, notFoundError, {
+        defaultMessage: '报告不存在',
+        defaultCode: 'REPORT_NOT_FOUND',
+        fallbackStatus: 404,
       });
     }
 
     // 检查权限：只有报告者或管理员可以查看
     if (report.reporter._id.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
-      return res.status(403).json({
-        success: false,
-        message: '无权访问此报告'
+      const forbiddenError = new Error('无权访问此报告');
+      forbiddenError.statusCode = 403;
+      forbiddenError.code = 'REPORT_ACCESS_FORBIDDEN';
+      return sendControllerError(res, forbiddenError, {
+        defaultMessage: '无权访问此报告',
+        defaultCode: 'REPORT_ACCESS_FORBIDDEN',
+        fallbackStatus: 403,
       });
     }
 
@@ -136,11 +148,10 @@ const getReportById = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('获取报告详情失败:', error);
-    res.status(500).json({
-      success: false,
-      message: '服务器错误',
-      error: error.message
+    devError('获取报告详情失败:', error);
+    return sendControllerError(res, error, {
+      defaultMessage: '服务器错误',
+      defaultCode: 'REPORT_OPERATION_FAILED',
     });
   }
 };
@@ -153,17 +164,25 @@ const updateReportStatus = async (req, res) => {
     const { status, adminResponse } = req.body;
 
     if (!status || !['pending', 'in_progress', 'resolved', 'rejected'].includes(status)) {
-      return res.status(400).json({
-        success: false,
-        message: '无效的状态值'
+      const invalidStatusError = new Error('无效的状态值');
+      invalidStatusError.statusCode = 400;
+      invalidStatusError.code = 'INVALID_REPORT_STATUS';
+      return sendControllerError(res, invalidStatusError, {
+        defaultMessage: '无效的状态值',
+        defaultCode: 'INVALID_REPORT_STATUS',
+        fallbackStatus: 400,
       });
     }
 
     const report = await Report.findById(req.params.id);
     if (!report) {
-      return res.status(404).json({
-        success: false,
-        message: '报告不存在'
+      const notFoundError = new Error('报告不存在');
+      notFoundError.statusCode = 404;
+      notFoundError.code = 'REPORT_NOT_FOUND';
+      return sendControllerError(res, notFoundError, {
+        defaultMessage: '报告不存在',
+        defaultCode: 'REPORT_NOT_FOUND',
+        fallbackStatus: 404,
       });
     }
 
@@ -183,11 +202,10 @@ const updateReportStatus = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('更新报告状态失败:', error);
-    res.status(500).json({
-      success: false,
-      message: '服务器错误',
-      error: error.message
+    devError('更新报告状态失败:', error);
+    return sendControllerError(res, error, {
+      defaultMessage: '服务器错误',
+      defaultCode: 'REPORT_OPERATION_FAILED',
     });
   }
 };
@@ -252,11 +270,10 @@ const getAllReports = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('获取所有报告失败:', error);
-    res.status(500).json({
-      success: false,
-      message: '服务器错误',
-      error: error.message
+    devError('获取所有报告失败:', error);
+    return sendControllerError(res, error, {
+      defaultMessage: '服务器错误',
+      defaultCode: 'REPORT_OPERATION_FAILED',
     });
   }
 };

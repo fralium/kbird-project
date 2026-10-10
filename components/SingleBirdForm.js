@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import LocationAutocomplete from './LocationAutocomplete';
+import { todayLocalDateKey } from '../utils/localDate';
+import { useConfirmDialog } from './ConfirmDialog';
 import styles from '../styles/SingleBirdForm.module.css';
 
 export default function SingleBirdForm({ bird, onSubmit, onCancel }) {
+  const { ask, dialog: confirmDialog } = useConfirmDialog();
   const [formData, setFormData] = useState({
     location: { name: '', coordinates: [0, 0] },
-    date: new Date().toISOString().split('T')[0],
+    date: todayLocalDateKey(),
     notes: '',
     weather: '',
     temperature: '',
@@ -34,7 +38,9 @@ export default function SingleBirdForm({ bird, onSubmit, onCancel }) {
   };
 
   // 删除图片
-  const removeImage = (index) => {
+  const removeImage = async (index) => {
+    const ok = await ask('去掉这张照片？');
+    if (!ok) return;
     setFormData(prev => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index)
@@ -60,10 +66,8 @@ export default function SingleBirdForm({ bird, onSubmit, onCancel }) {
   // 提交表单
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('SingleBirdForm提交表单，当前formData:', formData);
     
     if (!validateForm()) {
-      console.log('表单验证失败');
       return;
     }
 
@@ -79,10 +83,7 @@ export default function SingleBirdForm({ bird, onSubmit, onCancel }) {
         }))
       };
 
-      console.log('准备提交的数据:', submitData);
-      console.log('调用onSubmit函数');
       await onSubmit(submitData);
-      console.log('onSubmit调用完成');
     } catch (error) {
       console.error('SingleBirdForm提交失败:', error);
       console.error('错误堆栈:', error.stack);
@@ -243,7 +244,13 @@ export default function SingleBirdForm({ bird, onSubmit, onCancel }) {
             <div className={styles.imagePreview}>
               {formData.images.map((image, index) => (
                 <div key={index} className={styles.imageItem}>
-                  <img src={image.url} alt={image.caption} />
+                  <Image
+                    src={image.url}
+                    alt={image.caption}
+                    width={220}
+                    height={140}
+                    unoptimized
+                  />
                   <div className={styles.imageInfo}>
                     <span className={styles.imageCaption}>{image.caption}</span>
                     <button
@@ -279,6 +286,7 @@ export default function SingleBirdForm({ bird, onSubmit, onCancel }) {
           </button>
         </div>
       </form>
+      {confirmDialog}
     </div>
   );
 }

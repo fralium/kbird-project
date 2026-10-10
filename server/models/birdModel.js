@@ -5,12 +5,23 @@ const birdSchema = mongoose.Schema(
     name: {
       type: String,
       required: [true, '请输入鸟类名称'],
-      index: true, // 添加索引
+      index: true,
+      unique: true,
     },
     scientificName: {
       type: String,
       required: [true, '请输入鸟类学名'],
       index: true, // 添加索引
+    },
+    englishName: {
+      type: String,
+      default: '',
+      index: true,
+    },
+    taxonomyCode: {
+      type: String,
+      default: '',
+      index: true,
     },
     namePinyin: {
       type: String,
@@ -81,6 +92,63 @@ const birdSchema = mongoose.Schema(
           type: Number,
           default: 0,
         },
+        // 固定标签：雄性/雌性/幼鸟/繁殖羽/飞翔 等
+        tags: {
+          type: [String],
+          default: [],
+        },
+        source: {
+          type: String,
+          default: '',
+        },
+        sourceHash: {
+          type: String,
+          default: '',
+        },
+        sourceFileName: {
+          type: String,
+          default: '',
+        },
+        sourceBytes: {
+          type: Number,
+          default: 0,
+        },
+      },
+    ],
+    calls: [
+      {
+        url: {
+          type: String,
+          required: true,
+        },
+        caption: {
+          type: String,
+        },
+        location: {
+          type: String,
+        },
+        date: {
+          type: Date,
+        },
+        recorder: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+        },
+        order: {
+          type: Number,
+          default: 0,
+        },
+        tags: {
+          type: [String],
+          default: [],
+        },
+        mimeType: {
+          type: String,
+          default: '',
+        },
+        durationSec: {
+          type: Number,
+        },
       },
     ],
     sightings: [
@@ -132,29 +200,10 @@ const birdSchema = mongoose.Schema(
             },
           },
         ],
-        // 审核相关字段
-        status: {
-          type: String,
-          enum: ['pending', 'approved', 'rejected'],
-          default: 'pending'
-        },
+        // 提交时间
         submittedAt: {
           type: Date,
           default: Date.now
-        },
-        isTemporary: {
-          type: Boolean,
-          default: false
-        },
-        reviewedBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User'
-        },
-        reviewedAt: {
-          type: Date
-        },
-        reviewNotes: {
-          type: String
         }
       },
     ],
@@ -185,10 +234,40 @@ const birdSchema = mongoose.Schema(
         type: String,
       },
     ],
+    // 中文别名（名录异名、旧称），用于导入匹配与搜索
+    nameAliases: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+    nameAliasPinyin: {
+      type: [String],
+      default: [],
+    },
+    nameAliasPinyinInitials: {
+      type: [String],
+      default: [],
+      index: true,
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
+    },
+    // 用户申请入库的临时档案（待管理员补全）
+    isTemporary: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+    requestedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    requestStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
     },
     // 形态特征
     size: {
@@ -248,11 +327,13 @@ const birdSchema = mongoose.Schema(
 
 // 创建索引以支持搜索功能
 birdSchema.index({ name: 'text', scientificName: 'text', description: 'text', tags: 'text' });
+birdSchema.index({ nameAliases: 1 });
 
 // 添加复合索引优化查询性能
 birdSchema.index({ category: 1, createdAt: -1 });
 birdSchema.index({ conservationStatus: 1, createdAt: -1 });
-birdSchema.index({ namePinyin: 1, scientificNamePinyin: 1 });
+birdSchema.index({ nameAliasPinyinInitials: 1 });
+birdSchema.index({ nameAliasPinyin: 1 });
 birdSchema.index({ namePinyinInitials: 1, scientificNamePinyinInitials: 1 });
 
 // 添加地理位置索引

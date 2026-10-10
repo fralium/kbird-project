@@ -43,30 +43,35 @@
 .compactContainer {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-height: 40px; /* 确保所有卡片高度一致 */
+  gap: 6px;
+  min-height: 74px; /* 与右侧两行标签高度一致 */
+  justify-content: space-between;
 }
 
 .compactRow {
   display: flex;
   gap: 4px;
-  min-height: 18px; /* 确保每行高度一致 */
+  height: 34px; /* 与右侧单行标签高度一致 */
   align-items: center;
 }
 
 .compactLabel {
-  padding: 4px 10px;
-  border-radius: 12px;
+  padding: 0 10px;
+  border-radius: 16px;
   color: white;
   font-size: 0.75rem;
   font-weight: 600;
+  line-height: 1;
+  height: 34px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
   white-space: nowrap;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   border: none;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .compactLabel::before {
@@ -97,27 +102,36 @@
   margin-left: 2px;
 }
 
-/* 内联模式 - 用分隔符连接 */
+/* 内联模式：继承父级字号，仅用颜色/字重区分 */
 .inlineCategory {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  display: inline;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
 }
 
 .inlineLabel {
-  color: var(--text-dark);
-  font-weight: 600;
-  transition: color 0.3s ease;
+  color: inherit;
+  font-weight: 400;
+  font-size: inherit;
 }
 
-.inlineLabel:hover {
-  text-decoration: underline;
+.inlineMuted {
+  color: var(--bd-muted, #5c6b7a);
+  font-weight: 600;
+  font-size: inherit;
+}
+
+.inlineLatin {
+  color: var(--bd-muted, #5c6b7a);
+  font-style: italic;
+  font-weight: 400;
+  font-size: inherit;
 }
 
 .separator {
-  color: var(--text-light);
+  color: var(--bd-quiet, #7a8b98);
   font-weight: 400;
   user-select: none;
 }
@@ -127,32 +141,28 @@
   .defaultContainer {
     gap: 4px;
   }
-  
+
   .defaultLabel {
     padding: 4px 8px;
     font-size: 0.8rem;
   }
-  
+
   .level {
     font-size: 0.7rem;
     padding: 1px 4px;
   }
-  
+
   .compactContainer {
     min-height: 36px;
   }
-  
+
   .compactRow {
     min-height: 16px;
   }
-  
+
   .compactLabel {
     padding: 2px 6px;
     font-size: 0.7rem;
-  }
-  
-  .inlineCategory {
-    font-size: 0.85rem;
   }
 }
 
@@ -161,23 +171,17 @@
     padding: 3px 6px;
     font-size: 0.75rem;
   }
-  
+
   .compactContainer {
     min-height: 32px;
   }
-  
+
   .compactRow {
     min-height: 14px;
   }
-  
+
   .compactLabel {
     padding: 2px 4px;
     font-size: 0.65rem;
   }
-  
-  .inlineCategory {
-    font-size: 0.8rem;
-  }
 }
-
-

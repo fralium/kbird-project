@@ -1,7 +1,18 @@
 const NodeCache = require('node-cache');
+const { devLog, devError } = require('../utils/devLogger');
 
-// 创建缓存实例，TTL为5分钟
-const cache = new NodeCache({ stdTTL: 300 });
+// 创建缓存实例，TTL为5分钟；限制 key 数量防止查询参数刷爆内存
+const cache = new NodeCache({ stdTTL: 300, maxKeys: 2000, useClones: false });
+const cacheMetrics = {
+  hits: 0,
+  misses: 0,
+  sets: 0,
+  evictions: 0,
+};
+
+const logCache = (...args) => {
+  devLog(...args);
+};
 
 // 缓存中间件
 const cacheMiddleware = (duration = 300) => {
@@ -11,22 +22,30 @@ const cacheMiddleware = (duration = 300) => {
       return next();
     }
 
-    // 生成缓存键
-    const key = `${req.originalUrl}_${JSON.stringify(req.query)}`;
+    // 含认证头的请求通常返回用户相关内容，避免跨身份缓存污染。
+    if (req.headers.authorization) {
+      return next();
+    }
+
+    // 生成缓存键（仅用 pathname，避免任意 query 刷爆缓存）
+    const pathname = String(req.originalUrl || '').split('?')[0];
+    const key = `${pathname}_${JSON.stringify(req.query || {})}`;
     
     // 检查缓存
     const cachedData = cache.get(key);
     if (cachedData) {
-      console.log('缓存命中:', key);
+      cacheMetrics.hits += 1;
+      logCache('缓存命中:', key);
       return res.json(cachedData);
     }
+    cacheMetrics.misses += 1;
 
     // 拦截响应
     const originalJson = res.json;
     res.json = function(data) {
       // 只缓存成功的响应
       if (res.statusCode === 200 && data.success) {
-        console.log('缓存数据:', key);
+        logCache('缓存数据:', key);
         try {
           // 安全地将Mongoose文档转换为纯JavaScript对象
           let serializableData;
@@ -50,8 +69,9 @@ const cacheMiddleware = (duration = 300) => {
             serializableData = data;
           }
           cache.set(key, serializableData, duration);
+          cacheMetrics.sets += 1;
         } catch (error) {
-          console.error('缓存序列化失败:', error);
+          devError('缓存序列化失败:', error);
           // 如果序列化失败，不缓存数据，但继续正常响应
         }
       }
@@ -62,20 +82,57 @@ const cacheMiddleware = (duration = 300) => {
   };
 };
 
-// 清除缓存
+// 清除缓存：兼容历史写法 `/api/birds\\?`，实际 key 形如 `/api/birds_{...}`
 const clearCache = (pattern) => {
   const keys = cache.keys();
-  const regex = new RegExp(pattern);
-  keys.forEach(key => {
-    if (regex.test(key)) {
+  const testKey = (key) => {
+    if (pattern instanceof RegExp) {
+      return pattern.test(key);
+    }
+    const raw = String(pattern || '');
+    // 去掉为匹配 query 而加的 \? / ?
+    const prefix = raw
+      .replace(/\\\?/g, '')
+      .replace(/\?$/g, '')
+      .replace(/\/$/g, '');
+    if (!prefix) return false;
+    if (
+      key === prefix ||
+      key.startsWith(`${prefix}_`) ||
+      key.startsWith(`${prefix}/`) ||
+      key.startsWith(`${prefix}?`)
+    ) {
+      return true;
+    }
+    try {
+      return new RegExp(raw).test(key);
+    } catch {
+      return key.includes(prefix);
+    }
+  };
+
+  keys.forEach((key) => {
+    if (testKey(key)) {
       cache.del(key);
-      console.log('清除缓存:', key);
+      cacheMetrics.evictions += 1;
+      logCache('清除缓存:', key);
     }
   });
 };
 
+const clearLeaderboardCache = () => {
+  clearCache(/^\/api\/leaderboard(?:\/|\?|_)/);
+};
+
+const getCacheMetrics = () => ({
+  ...cacheMetrics,
+  keyCount: cache.keys().length,
+});
+
 module.exports = {
   cacheMiddleware,
   clearCache,
+  clearLeaderboardCache,
+  getCacheMetrics,
   cache
 };

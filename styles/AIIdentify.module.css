@@ -1,0 +1,146 @@
+/* AI识别页面样式 */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-gradient);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  max-width: var(--page-content-max);
+  margin: 0 auto;
+  padding: var(--page-main-padding);
+  box-sizing: border-box;
+}
+
+/* 页面标题 */
+.header {
+  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-dark-2) 100%);
+  color: var(--text-white);
+  padding: 40px 30px;
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-medium);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.title {
+  font-size: var(--page-title-size);
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.titleIcon {
+  font-size: 3rem;
+}
+
+.subtitle {
+  font-size: var(--page-subtitle-size);
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* 状态卡片 */
+.statusCard {
+  background: var(--background-white);
+  padding: 20px;
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-medium);
+  margin-bottom: 30px;
+}
+
+.statusHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.statusIcon {
+  font-size: 1.5rem;
+}
+
+.statusText {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.statusInfo {
+  padding-left: 35px;
+}
+
+.statusInfo p {
+  margin: 5px 0;
+  color: var(--text-medium);
+  font-size: 0.9rem;
+}
+
+/* 错误消息 */
+.errorMessage {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 15px 20px;
+  border-radius: var(--radius-medium);
+  margin-bottom: 20px;
+  border: 1px solid #f5c6cb;
+}
+
+/* 上传区域 */
+.uploadSection {
+  margin-bottom: 30px;
+}
+
+/* 结果区域 */
+.resultSection {
+  margin-bottom: 30px;
+}
+
+/* 使用说明 */
+.instructions {
+  background: var(--background-white);
+  padding: 25px;
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-medium);
+}
+
+.instructions h3 {
+  font-size: 1.3rem;
+  color: var(--text-dark);
+  margin: 0 0 15px 0;
+}
+
+.instructions ol {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text-medium);
+  line-height: 1.8;
+}
+
+.instructions li {
+  margin-bottom: 8px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .main {
+    padding: var(--spacing-4);
+  }
+
+  .header {
+    padding: 30px 20px;
+  }
+
+  .title {
+    font-size: var(--page-title-size);
+    flex-direction: column;
+    gap: 10px;
+  }
+}

@@ -1,7 +1,5 @@
 const rateLimit = require('express-rate-limit');
-
-// 检查是否为开发环境
-const isDevelopment = process.env.NODE_ENV === 'development';
+const { isDevelopment } = require('../utils/devLogger');
 
 // 通用API限流配置
 const createRateLimit = (windowMs, max, message, skipSuccessfulRequests = false) => {
@@ -39,7 +37,7 @@ const loginLimiter = createRateLimit(
 // 注册限流 - 防止垃圾注册
 const registerLimiter = createRateLimit(
   60 * 60 * 1000, // 1小时
-  3, // 最多3次注册
+  isDevelopment ? 100 : 3, // 开发环境宽松，生产环境严格
   '注册尝试次数过多，请1小时后再试',
   false
 );
@@ -47,9 +45,9 @@ const registerLimiter = createRateLimit(
 // 通用API限流 - 防止API滥用
 const apiLimiter = createRateLimit(
   15 * 60 * 1000, // 15分钟
-  isDevelopment ? 100000 : 100, // 开发环境非常宽松，生产环境严格
+  isDevelopment ? 100000 : 200, // 开发环境非常宽松，生产环境计入全部请求
   'API请求过于频繁，请稍后再试',
-  true // 成功请求不计入限制
+  false
 );
 
 // 上传文件限流 - 防止大量文件上传
@@ -60,12 +58,19 @@ const uploadLimiter = createRateLimit(
   false
 );
 
+const draftLimiter = createRateLimit(
+  60 * 1000,
+  isDevelopment ? 30 : 8,
+  '草稿生成过于频繁，请稍后再试',
+  false
+);
+
 // 搜索限流 - 防止搜索API滥用
 const searchLimiter = createRateLimit(
   1 * 60 * 1000, // 1分钟
   isDevelopment ? 1000 : 30, // 开发环境非常宽松，生产环境严格
   '搜索请求过于频繁，请稍后再试',
-  true // 成功请求不计入限制
+  false
 );
 
 // 用户认证限流 - 专门用于用户相关的API
@@ -73,7 +78,7 @@ const authLimiter = createRateLimit(
   15 * 60 * 1000, // 15分钟
   isDevelopment ? 10000 : 100, // 开发环境非常宽松，生产环境适中
   '用户认证请求过于频繁，请稍后再试',
-  true // 成功请求不计入限制
+  false
 );
 
 // 严格限流 - 用于敏感操作
@@ -81,6 +86,14 @@ const strictLimiter = createRateLimit(
   5 * 60 * 1000, // 5分钟
   isDevelopment ? 100 : 10, // 开发环境宽松，生产环境严格
   '操作过于频繁，请5分钟后再试',
+  false
+);
+
+// 地点同步限流 - 防止批量同步被频繁触发
+const locationSyncLimiter = createRateLimit(
+  10 * 60 * 1000, // 10分钟
+  isDevelopment ? 30 : 3, // 开发环境宽松，生产环境严格
+  '地点同步过于频繁，请10分钟后再试',
   false
 );
 
@@ -150,9 +163,11 @@ module.exports = {
   registerLimiter,
   apiLimiter,
   uploadLimiter,
+  draftLimiter,
   searchLimiter,
   authLimiter,
   strictLimiter,
+  locationSyncLimiter,
   adminLimiter,
   createIPWhitelist,
   createDynamicLimiter,

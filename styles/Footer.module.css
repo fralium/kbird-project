@@ -1,26 +1,32 @@
 .footer {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-  color: white;
-  margin-top: auto;
   position: relative;
+  margin-top: auto;
   overflow: hidden;
+  color: rgba(255, 255, 255, 0.88);
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(33, 158, 188, 0.22) 0%, transparent 48%),
+    radial-gradient(ellipse at 88% 100%, rgba(255, 183, 3, 0.08) 0%, transparent 42%),
+    linear-gradient(180deg, #034a6b 0%, var(--color-deep-teal, #023047) 55%, #012233 100%);
+  border-top: 1px solid rgba(142, 202, 230, 0.18);
 }
 
-.footer::before {
-  content: '';
+.accent {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
-  pointer-events: none;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-lake, #219ebc) 0%,
+    var(--color-sky, #8ecae6) 45%,
+    var(--color-reed, #ffb703) 100%
+  );
+  opacity: 0.9;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: var(--page-content-max, 1360px);
   margin: 0 auto;
   padding: 0 20px;
   position: relative;
@@ -29,35 +35,88 @@
 
 .content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  padding: 60px 0 40px;
+  grid-template-columns: minmax(140px, 0.9fr) repeat(5, minmax(0, 1fr));
+  gap: 28px 12px;
+  padding: 48px 0 32px;
 }
 
 .section {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+}
+
+.brandSection {
+  padding-right: 12px;
+}
+
+.brandLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 12px;
+}
+
+.brandLink:hover .title {
+  color: #fff;
+}
+
+.brandMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  flex-shrink: 0;
+}
+
+.brandLogo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .title {
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: clamp(1.5rem, 2.4vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  line-height: 1.1;
 }
 
 .subtitle {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-reed, #ffb703);
+}
+
+.subtitle::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 2px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: var(--color-reed, #ffb703);
+  opacity: 0.85;
 }
 
 .description {
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0;
+  margin: 0 0 8px;
+  max-width: 18rem;
+  line-height: 1.65;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .links {
@@ -67,174 +126,80 @@
 }
 
 .links li {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .link {
-  color: white !important;
+  color: rgba(255, 255, 255, 0.78) !important;
   text-decoration: none;
-  transition: all 0.3s ease;
   display: inline-block;
-  padding: 4px 0;
+  padding: 3px 0;
+  font-size: 0.92rem;
+  transition: color 0.15s ease, transform 0.15s ease;
 }
 
-.link:hover {
-  color: #f0f9ff !important;
-  transform: translateX(5px);
+.link:hover,
+.link:focus-visible {
+  color: #fff !important;
+  transform: translateX(3px);
   text-decoration: none;
-}
-
-.feature {
-  color: rgba(255, 255, 255, 0.8);
-  display: inline-block;
-  padding: 4px 0;
-  position: relative;
-}
-
-.feature::before {
-  content: '✨';
-  margin-right: 8px;
-  font-size: 0.9rem;
-}
-
-.contact {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.contactItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0;
-}
-
-.icon {
-  font-size: 1.1rem;
-  width: 20px;
-  text-align: center;
 }
 
 .bottom {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  padding: 30px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  flex-wrap: wrap;
-  gap: 20px;
+  padding: 16px 0 22px;
+  border-top: 1px solid rgba(142, 202, 230, 0.16);
 }
 
 .copyright {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.copyright p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
-}
-
-.motto {
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.6);
   font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
 }
 
-.social {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+@media (max-width: 1200px) {
+  .content {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 22px 8px;
+  }
+
+  .brandSection {
+    grid-column: 1 / -1;
+    padding-right: 0;
+  }
+
+  .subtitle {
+    margin-bottom: 10px;
+    font-size: 0.84rem;
+  }
+
+  .link {
+    font-size: 0.86rem;
+  }
 }
 
-.socialText {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
-}
-
-.socialLinks {
-  display: flex;
-  gap: 10px;
-}
-
-.socialIcon {
-  width: 35px;
-  height: 35px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.socialIcon:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* 响应式设计 */
 @media (max-width: 768px) {
   .content {
-    grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 40px 0 30px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px 12px;
+    padding: 36px 0 24px;
   }
-  
-  .bottom {
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
-  }
-  
-  .social {
-    justify-content: center;
-  }
-  
-  .title {
-    font-size: 1.5rem;
-  }
-  
-  .subtitle {
-    font-size: 1.1rem;
+
+  .brandSection {
+    grid-column: 1 / -1;
+    padding-right: 0;
   }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: 0 15px;
+    padding: 0 16px;
   }
-  
+
   .content {
-    padding: 30px 0 20px;
-  }
-  
-  .socialLinks {
-    gap: 8px;
-  }
-  
-  .socialIcon {
-    width: 30px;
-    height: 30px;
-    font-size: 1rem;
+    grid-template-columns: 1fr;
+    padding: 28px 0 20px;
   }
 }
-
-
-
-
-
-
-
-
-
-

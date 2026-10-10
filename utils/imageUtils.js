@@ -10,19 +10,27 @@
  */
 export function normalizeImageUrl(url) {
   if (!url) return '';
-  
-  // 如果已经是完整的uploads路径，直接返回
-  if (url.startsWith('/uploads/')) {
-    return url;
+
+  const raw = String(url).trim();
+  if (!raw) return '';
+
+  // 完整外链 / data URI 原样返回
+  if (/^(https?:|data:|blob:)/i.test(raw)) {
+    return raw;
   }
-  
-  // 如果是相对路径，添加uploads/active前缀
-  if (url.startsWith('uploads/') || url.startsWith('./uploads/')) {
-    return `/${url}`;
+
+  // 已经是站点绝对路径（含 /uploads、/images、/api 等）
+  if (raw.startsWith('/')) {
+    return raw;
   }
-  
-  // 如果是文件名，添加完整路径
-  return `/uploads/active/${url}`;
+
+  // 相对 uploads 路径
+  if (raw.startsWith('uploads/') || raw.startsWith('./uploads/')) {
+    return `/${raw.replace(/^\.\//, '')}`;
+  }
+
+  // 裸文件名：补全到上传目录
+  return `/uploads/active/${raw}`;
 }
 
 /**
@@ -33,13 +41,10 @@ export function normalizeImageUrl(url) {
  */
 export function getFullImageUrl(url, baseUrl = '') {
   const normalizedUrl = normalizeImageUrl(url);
-  
-  if (typeof window !== 'undefined') {
-    // 客户端环境
-    return normalizedUrl.startsWith('http') ? normalizedUrl : `${window.location.origin}${normalizedUrl}`;
+  if (normalizedUrl.startsWith('http')) {
+    return normalizedUrl;
   }
-  
-  // 服务端环境
+
   return baseUrl ? `${baseUrl}${normalizedUrl}` : normalizedUrl;
 }
 
@@ -83,6 +88,8 @@ export function getImageKey(url, index) {
   const fileName = getImageFileName(url);
   return fileName || `image-${index}`;
 }
+
+
 
 
 

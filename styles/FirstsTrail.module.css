@@ -1,0 +1,396 @@
+.panelRoot {
+  width: 100%;
+  min-width: 0;
+}
+
+.intro {
+  margin: 0 0 18px;
+  font-size: var(--type-scale-sm, 0.9rem);
+  color: var(--type-muted-color, #5c6b7a);
+  line-height: 1.45;
+}
+
+.snake {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 8px 0 24px;
+}
+
+@keyframes firstsStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes firstsTrackPulse {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.snakeRow {
+  display: grid;
+  grid-template-columns: repeat(var(--snake-cols, 4), minmax(0, 1fr));
+  gap: 36px 12px;
+  position: relative;
+  padding: 12px 4px;
+  align-items: center;
+}
+
+.snakeRowReverse {
+  direction: rtl;
+}
+
+.snakeRowReverse > * {
+  direction: ltr;
+}
+
+.step {
+  --step-i: 0;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  z-index: 1;
+  opacity: 0;
+  animation: firstsStepIn 0.45s ease both;
+  animation-delay: calc(min(var(--step-i), 24) * 28ms);
+}
+
+.step:hover {
+  z-index: 3;
+}
+
+.step:hover .node {
+  transform: scale(1.08);
+  border-color: var(--color-lake, #219ebc);
+}
+
+.step:hover .card {
+  border-color: rgba(33, 158, 188, 0.5);
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 5px var(--page-bg, #f5f7f8),
+    0 8px 18px rgba(2, 48, 71, 0.12);
+}
+
+/* 逆向行：序号在卡片右侧（沿路径在前） */
+.snakeRowReverse .step {
+  flex-direction: row-reverse;
+}
+
+/* 轨道从卡片垂直中心穿过 */
+.snakeRow::before {
+  content: '';
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(33, 158, 188, 0.18),
+    rgba(33, 158, 188, 0.75),
+    rgba(2, 128, 144, 0.55),
+    rgba(2, 48, 71, 0.3)
+  );
+  background-size: 200% 100%;
+  z-index: 0;
+  animation: firstsTrackPulse 4.5s ease-in-out infinite;
+}
+
+.snakeRowReverse::before {
+  background: linear-gradient(
+    270deg,
+    rgba(33, 158, 188, 0.18),
+    rgba(33, 158, 188, 0.75),
+    rgba(2, 128, 144, 0.55),
+    rgba(2, 48, 71, 0.3)
+  );
+  background-size: 200% 100%;
+}
+
+.turn {
+  position: relative;
+  height: 32px;
+  margin: -8px 0 0;
+  pointer-events: none;
+}
+
+.turnRight::before,
+.turnLeft::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 22%;
+  height: 100%;
+  border: 3px solid rgba(33, 158, 188, 0.45);
+  border-top: none;
+  box-sizing: border-box;
+  animation: firstsTrackPulse 4.5s ease-in-out infinite;
+}
+
+.turnRight::before {
+  right: 4%;
+  border-left: none;
+  border-radius: 0 0 14px 0;
+}
+
+.turnLeft::before {
+  left: 4%;
+  border-right: none;
+  border-radius: 0 0 0 14px;
+}
+
+/* 序号压在轨道上，紧挨卡片 */
+.node {
+  position: relative;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2px solid var(--color-lake, #219ebc);
+  color: var(--color-deep-teal, #023047);
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  box-shadow:
+    0 0 0 4px var(--page-bg, #f5f7f8),
+    0 1px 4px rgba(2, 48, 71, 0.1);
+  z-index: 2;
+  pointer-events: none;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.nodeMilestone {
+  background: var(--color-lake, #219ebc);
+  color: #fff;
+  border-color: var(--color-lake, #219ebc);
+}
+
+/* 卡片居中压在轨道上：白边切断轨道，形成「穿过」感 */
+.card {
+  position: relative;
+  margin: 0;
+  width: calc(100% - 34px);
+  max-width: 120px;
+  min-width: 0;
+  padding: 0;
+  background: #fff;
+  border: 1px solid rgba(2, 48, 71, 0.1);
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 5px var(--page-bg, #f5f7f8),
+    0 2px 10px rgba(2, 48, 71, 0.07);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #edf5f8;
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.step:hover .thumbImg {
+  transform: scale(1.04);
+}
+
+.thumbPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-lake, #219ebc);
+  background: linear-gradient(160deg, #e8f4f8, #f7fbfd);
+}
+
+.cardBody {
+  padding: 7px 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  background: #fff;
+}
+
+.name {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-deep-teal, #023047);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sci {
+  margin: 0;
+  font-size: 0.68rem;
+  font-style: italic;
+  color: var(--color-lake, #219ebc);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  margin: 2px 0 0;
+  font-size: 0.68rem;
+  color: var(--type-muted-color, #5c6b7a);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.empty {
+  padding: 28px 16px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid rgba(2, 48, 71, 0.08);
+  border-radius: var(--radius-panel, 8px);
+}
+
+.empty h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  color: var(--color-deep-teal, #023047);
+}
+
+.empty p {
+  margin: 0;
+  color: var(--type-muted-color, #5c6b7a);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 760px) {
+  .snakeRow {
+    gap: 28px 12px;
+  }
+
+  .snakeRow::before {
+    left: 8%;
+    right: 8%;
+  }
+
+  .turnRight::before {
+    right: 8%;
+    width: 32%;
+  }
+
+  .turnLeft::before {
+    left: 8%;
+    width: 32%;
+  }
+
+  .card {
+    max-width: 132px;
+  }
+}
+
+@media (max-width: 520px) {
+  .snakeRow {
+    gap: 16px 10px;
+    padding: 4px 0;
+  }
+
+  .snakeRow::before {
+    display: none;
+  }
+
+  .turn {
+    display: none;
+  }
+
+  .step {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .snakeRowReverse .step {
+    flex-direction: row;
+  }
+
+  .node {
+    width: 24px;
+    height: 24px;
+    font-size: 0.6rem;
+  }
+
+  .card {
+    width: auto;
+    flex: 1;
+    max-width: none;
+    box-shadow: 0 2px 8px rgba(2, 48, 71, 0.06);
+  }
+
+  .snakeRowReverse {
+    direction: ltr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step {
+    opacity: 1;
+    animation: none;
+  }
+
+  .snakeRow::before,
+  .turnRight::before,
+  .turnLeft::before {
+    animation: none;
+  }
+
+  .node,
+  .card,
+  .thumbImg {
+    transition: none;
+  }
+
+  .step:hover .card,
+  .step:hover .node,
+  .step:hover .thumbImg {
+    transform: none;
+  }
+}

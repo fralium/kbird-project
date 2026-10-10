@@ -4,7 +4,7 @@ export const GreenBirdIcon = ({ size = 24, className = "", style = {} }) => (
     width={size} 
     height={size} 
     viewBox="0 0 24 24" 
-    fill="#4CAF50"
+    fill="#219EBC"
     className={className}
     style={style}
   >
@@ -18,7 +18,7 @@ export const SimpleBirdIcon = ({ size = 24, className = "", style = {} }) => (
     width={size} 
     height={size} 
     viewBox="0 0 24 24" 
-    fill="#4CAF50"
+    fill="#219EBC"
     className={className}
     style={style}
   >
@@ -32,7 +32,7 @@ export const FlyingBirdIcon = ({ size = 24, className = "", style = {} }) => (
     width={size} 
     height={size} 
     viewBox="0 0 24 24" 
-    fill="#4CAF50"
+    fill="#219EBC"
     className={className}
     style={style}
   >

@@ -1,28 +1,27 @@
 // Next.js API代理路由 - 获取用户报告
+import { resolveBackendApiBase } from '../../../utils/backendApiBase';
+import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../utils/proxyApi';
+
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
-    return res.status(405).json({ success: false, message: '方法不允许' });
+    return sendMethodNotAllowed(res, ['GET']);
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
-  const url = `${baseUrl}/api/admin/user-reports`;
+  const baseUrl = resolveBackendApiBase();
+  const url = `${baseUrl}/admin/user-reports`;
 
   try {
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': req.headers.authorization || '',
-      },
+      headers: buildJsonHeaders(req),
     });
 
-    const data = await response.json();
+    const data = await parseProxyJsonResponse(response);
     res.status(response.status).json(data);
   } catch (error) {
-    res.status(500).json({
-      success: false,
+    return sendProxyError(res, error, {
       message: '服务器错误',
-      error: error.message,
+      code: 'ADMIN_USER_REPORTS_PROXY_FAILED',
     });
   }
 }

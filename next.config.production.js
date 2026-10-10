@@ -1,11 +1,20 @@
 /** @type {import('next').NextConfig} */
+const nextApiCorsOrigin =
+  process.env.NEXT_PUBLIC_NEXT_API_CORS_ORIGIN ||
+  process.env.SITE_URL ||
+  'http://localhost:13080';
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['47.121.183.57', 'localhost'],
+    remotePatterns: [
+      { protocol: 'http', hostname: 'localhost' },
+      { protocol: 'http', hostname: '127.0.0.1' },
+      { protocol: 'http', hostname: '47.121.183.57' },
+      { protocol: 'https', hostname: '47.121.183.57' },
+    ],
   },
   // 生产环境优化
-  swcMinify: true,
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
@@ -16,7 +25,6 @@ const nextConfig = {
   // 构建优化
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['antd', 'react', 'react-dom'],
   },
   
   // 重写规则
@@ -45,7 +53,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
-            value: '*',
+            value: nextApiCorsOrigin,
           },
           {
             key: 'Access-Control-Allow-Methods',

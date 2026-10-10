@@ -1,0 +1,3305 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-09T05:08:05.728Z",
+  "note": "已维护基本信息的已见鸟种名单。用 diff 找出新增已见种，补完后用 add 写入，避免整库反复更新。",
+  "source": "snapshot: observed AND description not stub",
+  "birds": [
+    {
+      "name": "白腹鹞",
+      "scientificName": "Circus spilonotus",
+      "englishName": "Eastern Marsh Harrier",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "苍鹰",
+      "scientificName": "Astur gentilis",
+      "englishName": "Eurasian Goshawk",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "赤腹鹰",
+      "scientificName": "Tachyspiza soloensis",
+      "englishName": "Chinese Sparrowhawk",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大鵟",
+      "scientificName": "Buteo hemilasius",
+      "englishName": "Upland Buzzard",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鹗",
+      "scientificName": "Pandion haliaetus",
+      "englishName": "Osprey",
+      "order": "Accipitriformes",
+      "family": "Pandionidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "凤头蜂鹰",
+      "scientificName": "Pernis ptilorhynchus",
+      "englishName": "Crested Honey-buzzard",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "凤头鹰",
+      "scientificName": "Lophospiza trivirgata",
+      "englishName": "Crested Goshawk",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "高山兀鹫",
+      "scientificName": "Gyps himalayensis",
+      "englishName": "Himalayan Vulture",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑翅鸢",
+      "scientificName": "Elanus caeruleus",
+      "englishName": "Black-winged Kite",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑冠鹃隼",
+      "scientificName": "Aviceda leuphotes",
+      "englishName": "Black Baza",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑鸢",
+      "scientificName": "Milvus migrans",
+      "englishName": "Black Kite",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "胡兀鹫",
+      "scientificName": "Gypaetus barbatus",
+      "englishName": "Lammergeier",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰脸鵟鹰",
+      "scientificName": "Butastur indicus",
+      "englishName": "Grey-faced Buzzard",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "金雕",
+      "scientificName": "Aquila chrysaetos",
+      "englishName": "Golden Eagle",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "林雕",
+      "scientificName": "Ictinaetus malaiensis",
+      "englishName": "Black Eagle",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通鵟",
+      "scientificName": "Buteo japonicus",
+      "englishName": "Eastern Buzzard",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蛇雕",
+      "scientificName": "Spilornis cheela",
+      "englishName": "Crested Serpent Eagle",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "松雀鹰",
+      "scientificName": "Tachyspiza virgata",
+      "englishName": "Besra",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鹰雕",
+      "scientificName": "Nisaetus nipalensis",
+      "englishName": "Mountain Hawk-Eagle",
+      "order": "Accipitriformes",
+      "family": "Accipitridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白额雁",
+      "scientificName": "Anser albifrons",
+      "englishName": "Greater White-fronted Goose",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白眉鸭",
+      "scientificName": "Spatula querquedula",
+      "englishName": "Garganey",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白眼潜鸭",
+      "scientificName": "Aythya nyroca",
+      "englishName": "Ferruginous Pochard",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "斑背潜鸭",
+      "scientificName": "Aythya marila",
+      "englishName": "Greater Scaup",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "斑头雁",
+      "scientificName": "Anser indicus",
+      "englishName": "Bar-headed Goose",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "斑嘴鸭",
+      "scientificName": "Anas zonorhyncha",
+      "englishName": "Chinese Spot-billed Duck",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "赤膀鸭",
+      "scientificName": "Mareca strepera",
+      "englishName": "Gadwall",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "赤颈鸭",
+      "scientificName": "Mareca penelope",
+      "englishName": "Eurasian Wigeon",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "赤麻鸭",
+      "scientificName": "Tadorna ferruginea",
+      "englishName": "Ruddy Shelduck",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "赤嘴潜鸭",
+      "scientificName": "Netta rufina",
+      "englishName": "Red-crested Pochard",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "豆雁",
+      "scientificName": "Anser fabalis",
+      "englishName": "Taiga Bean Goose",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "短嘴豆雁",
+      "scientificName": "Anser serrirostris",
+      "englishName": "Tundra Bean Goose",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "凤头潜鸭",
+      "scientificName": "Aythya fuligula",
+      "englishName": "Tufted Duck",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红头潜鸭",
+      "scientificName": "Aythya ferina",
+      "englishName": "Common Pochard",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鸿雁",
+      "scientificName": "Anser cygnoides",
+      "englishName": "Swan Goose",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰雁",
+      "scientificName": "Anser anser",
+      "englishName": "Greylag Goose",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "绿翅鸭",
+      "scientificName": "Anas crecca",
+      "englishName": "Eurasian Teal",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "绿眉鸭",
+      "scientificName": "Mareca americana",
+      "englishName": "American Wigeon",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "绿头鸭",
+      "scientificName": "Anas platyrhynchos",
+      "englishName": "Mallard",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "罗纹鸭",
+      "scientificName": "Mareca falcata",
+      "englishName": "Falcated Duck",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棉凫",
+      "scientificName": "Nettapus coromandelianus",
+      "englishName": "Cotton Pygmy Goose",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "琵嘴鸭",
+      "scientificName": "Spatula clypeata",
+      "englishName": "Northern Shoveler",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通秋沙鸭",
+      "scientificName": "Mergus merganser",
+      "englishName": "Common Merganser",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小天鹅",
+      "scientificName": "Cygnus columbianus",
+      "englishName": "Tundra Swan",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鸳鸯",
+      "scientificName": "Aix galericulata",
+      "englishName": "Mandarin Duck",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "针尾鸭",
+      "scientificName": "Anas acuta",
+      "englishName": "Northern Pintail",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "中华秋沙鸭",
+      "scientificName": "Mergus squamatus",
+      "englishName": "Scaly-sided Merganser",
+      "order": "Anseriformes",
+      "family": "Anatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白腰雨燕",
+      "scientificName": "Apus pacificus",
+      "englishName": "Pacific Swift",
+      "order": "Apodiformes",
+      "family": "Apodidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "短嘴金丝燕",
+      "scientificName": "Aerodramus brevirostris",
+      "englishName": "Himalayan Swiftlet",
+      "order": "Apodiformes",
+      "family": "Apodidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "华西白腰雨燕",
+      "scientificName": "Apus salimalii",
+      "englishName": "Salim Ali's Swift",
+      "order": "Apodiformes",
+      "family": "Apodidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通雨燕",
+      "scientificName": "Apus apus",
+      "englishName": "Common Swift",
+      "order": "Apodiformes",
+      "family": "Apodidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小白腰雨燕",
+      "scientificName": "Apus nipalensis",
+      "englishName": "House Swift",
+      "order": "Apodiformes",
+      "family": "Apodidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "戴胜",
+      "scientificName": "Upupa epops",
+      "englishName": "Common Hoopoe",
+      "order": "Bucerotiformes",
+      "family": "Upupidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通夜鹰",
+      "scientificName": "Caprimulgus jotaka",
+      "englishName": "Grey Nightjar",
+      "order": "Caprimulgiformes",
+      "family": "Caprimulgidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白翅浮鸥",
+      "scientificName": "Chlidonias leucopterus",
+      "englishName": "White-winged Tern",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白腰杓鹬",
+      "scientificName": "Numenius arquata",
+      "englishName": "Eurasian Curlew",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白腰草鹬",
+      "scientificName": "Tringa ochropus",
+      "englishName": "Green Sandpiper",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "斑尾塍鹬",
+      "scientificName": "Limosa lapponica",
+      "englishName": "Bar-tailed Godwit",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "斑胸滨鹬",
+      "scientificName": "Calidris melanotos",
+      "englishName": "Pectoral Sandpiper",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "半蹼鹬",
+      "scientificName": "Limnodromus semipalmatus",
+      "englishName": "Asian Dowitcher",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "彩鹬",
+      "scientificName": "Rostratula benghalensis",
+      "englishName": "Greater Painted Snipe",
+      "order": "Charadriiformes",
+      "family": "Rostratulidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大杓鹬",
+      "scientificName": "Numenius madagascariensis",
+      "englishName": "Eastern Curlew",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大滨鹬",
+      "scientificName": "Calidris tenuirostris",
+      "englishName": "Great Knot",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大沙锥",
+      "scientificName": "Gallinago megala",
+      "englishName": "Swinhoe's Snipe",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "东方鸻",
+      "scientificName": "Anarhynchus veredus",
+      "englishName": "Oriental Plover",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "翻石鹬",
+      "scientificName": "Arenaria interpres",
+      "englishName": "Ruddy Turnstone",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "反嘴鹬",
+      "scientificName": "Recurvirostra avosetta",
+      "englishName": "Pied Avocet",
+      "order": "Charadriiformes",
+      "family": "Recurvirostridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "凤头麦鸡",
+      "scientificName": "Vanellus vanellus",
+      "englishName": "Northern Lapwing",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鹤鹬",
+      "scientificName": "Tringa erythropus",
+      "englishName": "Spotted Redshank",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑翅长脚鹬",
+      "scientificName": "Himantopus himantopus",
+      "englishName": "Black-winged Stilt",
+      "order": "Charadriiformes",
+      "family": "Recurvirostridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑腹滨鹬",
+      "scientificName": "Calidris alpina",
+      "englishName": "Dunlin",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑尾塍鹬",
+      "scientificName": "Limosa limosa",
+      "englishName": "Black-tailed Godwit",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑尾鸥",
+      "scientificName": "Larus crassirostris",
+      "englishName": "Black-tailed Gull",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑嘴鸥",
+      "scientificName": "Saundersilarus saundersi",
+      "englishName": "Saunders's Gull",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红腹滨鹬",
+      "scientificName": "Calidris canutus",
+      "englishName": "Red Knot",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红脚鹬",
+      "scientificName": "Tringa totanus",
+      "englishName": "Common Redshank",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红颈瓣蹼鹬",
+      "scientificName": "Phalaropus lobatus",
+      "englishName": "Red-necked Phalarope",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红颈滨鹬",
+      "scientificName": "Calidris ruficollis",
+      "englishName": "Red-necked Stint",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红嘴巨燕鸥",
+      "scientificName": "Hydroprogne caspia",
+      "englishName": "Caspian Tern",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红嘴鸥",
+      "scientificName": "Chroicocephalus ridibundus",
+      "englishName": "Black-headed Gull",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "环颈鸻",
+      "scientificName": "Anarhynchus alexandrinus",
+      "englishName": "Kentish Plover",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鹮嘴鹬",
+      "scientificName": "Ibidorhyncha struthersii",
+      "englishName": "Ibisbill",
+      "order": "Charadriiformes",
+      "family": "Ibidorhynchidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰斑鸻",
+      "scientificName": "Pluvialis squatarola",
+      "englishName": "Grey Plover",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰背燕鸥",
+      "scientificName": "Onychoprion lunatus",
+      "englishName": "Grey-backed Tern / Spectacled Tern",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰头麦鸡",
+      "scientificName": "Vanellus cinereus",
+      "englishName": "Grey-headed Lapwing",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰尾漂鹬",
+      "scientificName": "Tringa brevipes",
+      "englishName": "Grey-tailed Tattler",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "矶鹬",
+      "scientificName": "Actitis hypoleucos",
+      "englishName": "Common Sandpiper",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "尖尾滨鹬",
+      "scientificName": "Calidris acuminata",
+      "englishName": "Sharp-tailed Sandpiper",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "金斑鸻",
+      "scientificName": "Pluvialis fulva",
+      "englishName": "Pacific Golden Plover",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "金眶鸻",
+      "scientificName": "Charadrius dubius",
+      "englishName": "Little Ringed Plover",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "阔嘴鹬",
+      "scientificName": "Calidris falcinellus",
+      "englishName": "Broad-billed Sandpiper",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "林鹬",
+      "scientificName": "Tringa glareola",
+      "englishName": "Wood Sandpiper",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蒙古沙鸻",
+      "scientificName": "Anarhynchus mongolus",
+      "englishName": "Siberian Sand Plover",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鸥嘴噪鸥",
+      "scientificName": "Gelochelidon nilotica",
+      "englishName": "Gull-billed Tern",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通海鸥",
+      "scientificName": "Larus canus",
+      "englishName": "Mew Gull",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通燕鸻",
+      "scientificName": "Glareola maldivarum",
+      "englishName": "Oriental Pratincole",
+      "order": "Charadriiformes",
+      "family": "Glareolidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通燕鸥",
+      "scientificName": "Sterna hirundo",
+      "englishName": "Common Tern",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "翘嘴鹬",
+      "scientificName": "Xenus cinereus",
+      "englishName": "Terek Sandpiper",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "青藏沙鸻",
+      "scientificName": "Anarhynchus atrifrons",
+      "englishName": "Tibetan Sand Plover",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "青脚滨鹬",
+      "scientificName": "Calidris temminckii",
+      "englishName": "Temminck's Stint",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "青脚鹬",
+      "scientificName": "Tringa nebularia",
+      "englishName": "Common Greenshank",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "三趾滨鹬",
+      "scientificName": "Calidris alba",
+      "englishName": "Sanderling",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "扇尾沙锥",
+      "scientificName": "Gallinago gallinago",
+      "englishName": "Common Snipe",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "水雉",
+      "scientificName": "Hydrophasianus chirurgus",
+      "englishName": "Pheasant-tailed Jacana",
+      "order": "Charadriiformes",
+      "family": "Jacanidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "铁嘴沙鸻",
+      "scientificName": "Anarhynchus leschenaultii",
+      "englishName": "Greater Sand Plover",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "弯嘴滨鹬",
+      "scientificName": "Calidris ferruginea",
+      "englishName": "Curlew Sandpiper",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "西伯利亚银鸥",
+      "scientificName": "Larus vegae",
+      "englishName": "Vega Gull",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小滨鹬",
+      "scientificName": "Calidris minuta",
+      "englishName": "Little Stint",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "须浮鸥",
+      "scientificName": "Chlidonias hybrida",
+      "englishName": "Whiskered Tern",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "渔鸥",
+      "scientificName": "Ichthyaetus ichthyaetus",
+      "englishName": "Pallas's Gull",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "泽鹬",
+      "scientificName": "Tringa stagnatilis",
+      "englishName": "Marsh Sandpiper",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "长趾滨鹬",
+      "scientificName": "Calidris subminuta",
+      "englishName": "Long-toed Stint",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "长嘴剑鸻",
+      "scientificName": "Charadrius placidus",
+      "englishName": "Long-billed Plover",
+      "order": "Charadriiformes",
+      "family": "Charadriidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "针尾沙锥",
+      "scientificName": "Gallinago stenura",
+      "englishName": "Pin-tailed Snipe",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "中杓鹬",
+      "scientificName": "Numenius phaeopus",
+      "englishName": "Eurasian Whimbrel",
+      "order": "Charadriiformes",
+      "family": "Scolopacidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕头鸥",
+      "scientificName": "Chroicocephalus brunnicephalus",
+      "englishName": "Brown-headed Gull",
+      "order": "Charadriiformes",
+      "family": "Laridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "东方白鹳",
+      "scientificName": "Ciconia boyciana",
+      "englishName": "Oriental Stork",
+      "order": "Ciconiiformes",
+      "family": "Ciconiidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑林鸽",
+      "scientificName": "Columba janthina",
+      "englishName": "Japanese Wood Pigeon",
+      "order": "Columbiformes",
+      "family": "Columbidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红翅绿鸠",
+      "scientificName": "Treron sieboldii",
+      "englishName": "White-bellied Green Pigeon",
+      "order": "Columbiformes",
+      "family": "Columbidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰斑鸠",
+      "scientificName": "Streptopelia decaocto",
+      "englishName": "Eurasian Collared Dove",
+      "order": "Columbiformes",
+      "family": "Columbidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "火斑鸠",
+      "scientificName": "Streptopelia tranquebarica",
+      "englishName": "Red Collared Dove",
+      "order": "Columbiformes",
+      "family": "Columbidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "山斑鸠",
+      "scientificName": "Streptopelia orientalis",
+      "englishName": "Oriental Turtle Dove",
+      "order": "Columbiformes",
+      "family": "Columbidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "雪鸽",
+      "scientificName": "Columba leuconota",
+      "englishName": "Snow Pigeon",
+      "order": "Columbiformes",
+      "family": "Columbidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "岩鸽",
+      "scientificName": "Columba rupestris",
+      "englishName": "Hill Pigeon",
+      "order": "Columbiformes",
+      "family": "Columbidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "原鸽",
+      "scientificName": "Columba livia",
+      "englishName": "Rock Pigeon",
+      "order": "Columbiformes",
+      "family": "Columbidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "珠颈斑鸠",
+      "scientificName": "Spilopelia chinensis",
+      "englishName": "Spotted Dove",
+      "order": "Columbiformes",
+      "family": "Columbidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白胸翡翠",
+      "scientificName": "Halcyon smyrnensis",
+      "englishName": "White-throated Kingfisher",
+      "order": "Coraciiformes",
+      "family": "Alcedinidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "斑鱼狗",
+      "scientificName": "Ceryle rudis",
+      "englishName": "Pied Kingfisher",
+      "order": "Coraciiformes",
+      "family": "Alcedinidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "冠鱼狗",
+      "scientificName": "Megaceryle lugubris",
+      "englishName": "Crested Kingfisher",
+      "order": "Coraciiformes",
+      "family": "Alcedinidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蓝喉蜂虎",
+      "scientificName": "Merops viridis",
+      "englishName": "Blue-throated Bee-eater",
+      "order": "Coraciiformes",
+      "family": "Meropidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通翠鸟",
+      "scientificName": "Alcedo atthis",
+      "englishName": "Common Kingfisher",
+      "order": "Coraciiformes",
+      "family": "Alcedinidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "三宝鸟",
+      "scientificName": "Eurystomus orientalis",
+      "englishName": "Oriental Dollarbird",
+      "order": "Coraciiformes",
+      "family": "Coraciidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大杜鹃",
+      "scientificName": "Cuculus canorus",
+      "englishName": "Common Cuckoo",
+      "order": "Cuculiformes",
+      "family": "Cuculidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大鹰鹃",
+      "scientificName": "Hierococcyx sparverioides",
+      "englishName": "Large Hawk-Cuckoo",
+      "order": "Cuculiformes",
+      "family": "Cuculidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "褐翅鸦鹃",
+      "scientificName": "Centropus sinensis",
+      "englishName": "Greater Coucal",
+      "order": "Cuculiformes",
+      "family": "Cuculidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红翅凤头鹃",
+      "scientificName": "Clamator coromandus",
+      "englishName": "Chestnut-winged Cuckoo",
+      "order": "Cuculiformes",
+      "family": "Cuculidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "栗斑杜鹃",
+      "scientificName": "Cacomantis sonneratii",
+      "englishName": "Banded Bay Cuckoo",
+      "order": "Cuculiformes",
+      "family": "Cuculidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "四声杜鹃",
+      "scientificName": "Cuculus micropterus",
+      "englishName": "Indian Cuckoo",
+      "order": "Cuculiformes",
+      "family": "Cuculidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小杜鹃",
+      "scientificName": "Cuculus poliocephalus",
+      "englishName": "Asian Lesser Cuckoo",
+      "order": "Cuculiformes",
+      "family": "Cuculidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小鸦鹃",
+      "scientificName": "Centropus bengalensis",
+      "englishName": "Lesser Coucal",
+      "order": "Cuculiformes",
+      "family": "Cuculidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "噪鹃",
+      "scientificName": "Eudynamys scolopaceus",
+      "englishName": "Asian Koel",
+      "order": "Cuculiformes",
+      "family": "Cuculidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红脚隼",
+      "scientificName": "Falco amurensis",
+      "englishName": "Amur Falcon",
+      "order": "Falconiformes",
+      "family": "Falconidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红隼",
+      "scientificName": "Falco tinnunculus",
+      "englishName": "Common Kestrel",
+      "order": "Falconiformes",
+      "family": "Falconidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "猎隼",
+      "scientificName": "Falco cherrug",
+      "englishName": "Saker Falcon",
+      "order": "Falconiformes",
+      "family": "Falconidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "燕隼",
+      "scientificName": "Falco subbuteo",
+      "englishName": "Eurasian Hobby",
+      "order": "Falconiformes",
+      "family": "Falconidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "游隼",
+      "scientificName": "Falco peregrinus",
+      "englishName": "Peregrine Falcon",
+      "order": "Falconiformes",
+      "family": "Falconidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鹌鹑",
+      "scientificName": "Coturnix japonica",
+      "englishName": "Japanese Quail",
+      "order": "Galliformes",
+      "family": "Phasianidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白鹇",
+      "scientificName": "Lophura nycthemera",
+      "englishName": "Silver Pheasant",
+      "order": "Galliformes",
+      "family": "Phasianidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰胸竹鸡",
+      "scientificName": "Bambusicola thoracicus",
+      "englishName": "Chinese Bamboo Partridge",
+      "order": "Galliformes",
+      "family": "Phasianidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蓝马鸡",
+      "scientificName": "Crossoptilon auritum",
+      "englishName": "Blue Eared Pheasant",
+      "order": "Galliformes",
+      "family": "Phasianidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "雉鸡",
+      "scientificName": "Phasianus colchicus",
+      "englishName": "Common Pheasant",
+      "order": "Galliformes",
+      "family": "Phasianidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红喉潜鸟",
+      "scientificName": "Gavia stellata",
+      "englishName": "Red-throated Loon",
+      "order": "Gaviiformes",
+      "family": "Gaviidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白骨顶",
+      "scientificName": "Fulica atra",
+      "englishName": "Eurasian Coot",
+      "order": "Gruiformes",
+      "family": "Rallidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白鹤",
+      "scientificName": "Leucogeranus leucogeranus",
+      "englishName": "Siberian Crane",
+      "order": "Gruiformes",
+      "family": "Gruidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白胸苦恶鸟",
+      "scientificName": "Amaurornis phoenicurus",
+      "englishName": "White-breasted Waterhen",
+      "order": "Gruiformes",
+      "family": "Rallidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑颈鹤",
+      "scientificName": "Grus nigricollis",
+      "englishName": "Black-necked Crane",
+      "order": "Gruiformes",
+      "family": "Gruidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑水鸡",
+      "scientificName": "Gallinula chloropus",
+      "englishName": "Common Moorhen",
+      "order": "Gruiformes",
+      "family": "Rallidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红脚田鸡",
+      "scientificName": "Zapornia akool",
+      "englishName": "Brown Crake",
+      "order": "Gruiformes",
+      "family": "Rallidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红胸田鸡",
+      "scientificName": "Zapornia fusca",
+      "englishName": "Ruddy-breasted Crake",
+      "order": "Gruiformes",
+      "family": "Rallidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰鹤",
+      "scientificName": "Grus grus",
+      "englishName": "Common Crane",
+      "order": "Gruiformes",
+      "family": "Gruidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通秧鸡",
+      "scientificName": "Rallus indicus",
+      "englishName": "Brown-cheeked Rail",
+      "order": "Gruiformes",
+      "family": "Rallidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "暗灰鹃鵙",
+      "scientificName": "Lalage melaschistos",
+      "englishName": "Black-winged Cuckooshrike",
+      "order": "Passeriformes",
+      "family": "Campephagidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "暗绿柳莺",
+      "scientificName": "Phylloscopus trochiloides",
+      "englishName": "Greenish Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "暗绿绣眼鸟",
+      "scientificName": "Zosterops simplex",
+      "englishName": "Swinhoe's White-eye",
+      "order": "Passeriformes",
+      "family": "Zosteropidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "八哥",
+      "scientificName": "Acridotheres cristatellus",
+      "englishName": "Crested Myna",
+      "order": "Passeriformes",
+      "family": "Sturnidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白顶溪鸲",
+      "scientificName": "Phoenicurus leucocephalus",
+      "englishName": "White-capped Water Redstart",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白腹鸫",
+      "scientificName": "Turdus pallidus",
+      "englishName": "Pale Thrush",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白腹蓝鹟",
+      "scientificName": "Cyanoptila cyanomelana",
+      "englishName": "Blue-and-white Flycatcher",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白冠燕尾",
+      "scientificName": "Enicurus leschenaulti",
+      "englishName": "White-crowned Forktail",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白喉红臀鹎",
+      "scientificName": "Pycnonotus aurigaster",
+      "englishName": "Sooty-headed Bulbul",
+      "order": "Passeriformes",
+      "family": "Pycnonotidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白喉红尾鸲",
+      "scientificName": "Phoenicurus schisticeps",
+      "englishName": "White-throated Redstart",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白喉林鹟",
+      "scientificName": "Cyornis brunneatus",
+      "englishName": "Brown-chested Jungle Flycatcher",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白鹡鸰",
+      "scientificName": "Motacilla alba",
+      "englishName": "White Wagtail",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白颊噪鹛",
+      "scientificName": "Pterorhinus sannio",
+      "englishName": "White-browed Laughingthrush",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白眉地鸫",
+      "scientificName": "Geokichla sibirica",
+      "englishName": "Siberian Thrush",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白眉姬鹟",
+      "scientificName": "Ficedula zanthopygia",
+      "englishName": "Yellow-rumped Flycatcher",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白眉鹀",
+      "scientificName": "Emberiza tristrami",
+      "englishName": "Tristram's Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白眉朱雀",
+      "scientificName": "Carpodacus dubius",
+      "englishName": "Chinese White-browed Rosefinch",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白头鹎",
+      "scientificName": "Pycnonotus sinensis",
+      "englishName": "Light-vented Bulbul",
+      "order": "Passeriformes",
+      "family": "Pycnonotidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白头鹀",
+      "scientificName": "Emberiza leucocephalos",
+      "englishName": "Pine Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白腰文鸟",
+      "scientificName": "Lonchura striata",
+      "englishName": "White-rumped Munia",
+      "order": "Passeriformes",
+      "family": "Estrildidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白腰雪雀",
+      "scientificName": "Onychostruthus taczanowskii",
+      "englishName": "White-rumped Snowfinch",
+      "order": "Passeriformes",
+      "family": "Passeridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "斑鸫",
+      "scientificName": "Turdus eunomus",
+      "englishName": "Dusky Thrush",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "斑文鸟",
+      "scientificName": "Lonchura punctulata",
+      "englishName": "Scaly-breasted Munia",
+      "order": "Passeriformes",
+      "family": "Estrildidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "北红尾鸲",
+      "scientificName": "Phoenicurus auroreus",
+      "englishName": "Daurian Redstart",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "北灰鹟",
+      "scientificName": "Muscicapa dauurica",
+      "englishName": "Asian Brown Flycatcher",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "北椋鸟",
+      "scientificName": "Agropsar sturninus",
+      "englishName": "Daurian Starling",
+      "order": "Passeriformes",
+      "family": "Sturnidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "草地鹨",
+      "scientificName": "Anthus pratensis",
+      "englishName": "Meadow Pipit",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "叉尾太阳鸟",
+      "scientificName": "Aethopyga christinae",
+      "englishName": "Fork-tailed Sunbird",
+      "order": "Passeriformes",
+      "family": "Nectariniidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "橙斑翅柳莺",
+      "scientificName": "Phylloscopus pulcher",
+      "englishName": "Buff-barred Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "橙翅噪鹛",
+      "scientificName": "Trochalopteron elliotii",
+      "englishName": "Elliot's Laughingthrush",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "橙腹叶鹎",
+      "scientificName": "Chloropsis lazulina",
+      "englishName": "Greyish-crowned Leafbird",
+      "order": "Passeriformes",
+      "family": "Chloropseidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "橙头地鸫",
+      "scientificName": "Geokichla citrina",
+      "englishName": "Orange-headed Thrush",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "纯色山鹪莺",
+      "scientificName": "Prinia inornata",
+      "englishName": "Plain Prinia",
+      "order": "Passeriformes",
+      "family": "Cisticolidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "达乌里寒鸦",
+      "scientificName": "Coloeus dauuricus",
+      "englishName": "Daurian Jackdaw",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大山雀",
+      "scientificName": "Parus cinereus",
+      "englishName": "Cinereous Tit",
+      "order": "Passeriformes",
+      "family": "Paridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大嘴乌鸦",
+      "scientificName": "Corvus macrorhynchos",
+      "englishName": "Large-billed Crow",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "戴菊",
+      "scientificName": "Regulus regulus",
+      "englishName": "Goldcrest",
+      "order": "Passeriformes",
+      "family": "Regulidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "淡绿鵙鹛",
+      "scientificName": "Pteruthius xanthochlorus",
+      "englishName": "Green Shrike Babbler",
+      "order": "Passeriformes",
+      "family": "Vireonidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "淡眉柳莺",
+      "scientificName": "Phylloscopus humei",
+      "englishName": "Hume's Leaf Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "淡眉雀鹛",
+      "scientificName": "Alcippe hueti",
+      "englishName": "Huet's Fulvetta",
+      "order": "Passeriformes",
+      "family": "Alcippeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "淡色沙燕",
+      "scientificName": "Riparia diluta",
+      "englishName": "Pale Martin",
+      "order": "Passeriformes",
+      "family": "Hirundinidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "地山雀",
+      "scientificName": "Pseudopodoces humilis",
+      "englishName": "Ground Tit",
+      "order": "Passeriformes",
+      "family": "Paridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "靛冠噪鹛",
+      "scientificName": "Pterorhinus courtoisi",
+      "englishName": "Blue-crowned Laughingthrush",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "东方大苇莺",
+      "scientificName": "Acrocephalus orientalis",
+      "englishName": "Oriental Reed Warbler",
+      "order": "Passeriformes",
+      "family": "Acrocephalidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "东亚石䳭",
+      "scientificName": "Saxicola stejnegeri",
+      "englishName": "Stejneger's Stonechat",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "发冠卷尾",
+      "scientificName": "Dicrurus hottentottus",
+      "englishName": "Hair-crested Drongo",
+      "order": "Passeriformes",
+      "family": "Dicruridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "粉红胸鹨",
+      "scientificName": "Anthus roseatus",
+      "englishName": "Rosy Pipit",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "凤头雀莺",
+      "scientificName": "Leptopoecile elegans",
+      "englishName": "Crested Tit Warbler",
+      "order": "Passeriformes",
+      "family": "Aegithalidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "凤头鹀",
+      "scientificName": "Emberiza lathami",
+      "englishName": "Crested Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "甘肃柳莺",
+      "scientificName": "Phylloscopus kansuensis",
+      "englishName": "Gansu Leaf Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "高山岭雀",
+      "scientificName": "Leucosticte brandti",
+      "englishName": "Brandt's Mountain Finch",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "河乌",
+      "scientificName": "Cinclus cinclus",
+      "englishName": "White-throated Dipper",
+      "order": "Passeriformes",
+      "family": "Cinclidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "褐翅雪雀",
+      "scientificName": "Montifringilla adamsi",
+      "englishName": "Black-winged Snowfinch",
+      "order": "Passeriformes",
+      "family": "Passeridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "褐河乌",
+      "scientificName": "Cinclus pallasii",
+      "englishName": "Brown Dipper",
+      "order": "Passeriformes",
+      "family": "Cinclidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "褐柳莺",
+      "scientificName": "Phylloscopus fuscatus",
+      "englishName": "Dusky Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "褐头山雀",
+      "scientificName": "Poecile montanus",
+      "englishName": "Willow Tit",
+      "order": "Passeriformes",
+      "family": "Paridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "褐岩鹨",
+      "scientificName": "Prunella fulvescens",
+      "englishName": "Brown Accentor",
+      "order": "Passeriformes",
+      "family": "Prunellidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑短脚鹎",
+      "scientificName": "Hypsipetes leucocephalus",
+      "englishName": "Black Bulbul",
+      "order": "Passeriformes",
+      "family": "Pycnonotidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑冠山雀",
+      "scientificName": "Periparus rubidiventris",
+      "englishName": "Rufous-vented Tit",
+      "order": "Passeriformes",
+      "family": "Paridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑喉红尾鸲",
+      "scientificName": "Phoenicurus hodgsoni",
+      "englishName": "Hodgson's Redstart",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑喉石䳭",
+      "scientificName": "Saxicola maurus",
+      "englishName": "Siberian Stonechat",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑喉噪鹛",
+      "scientificName": "Pterorhinus chinensis",
+      "englishName": "Black-throated Laughingthrush",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑卷尾",
+      "scientificName": "Dicrurus macrocercus",
+      "englishName": "Black Drongo",
+      "order": "Passeriformes",
+      "family": "Dicruridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑脸噪鹛",
+      "scientificName": "Pterorhinus perspicillatus",
+      "englishName": "Masked Laughingthrush",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑领椋鸟",
+      "scientificName": "Gracupica nigricollis",
+      "englishName": "Black-collared Starling",
+      "order": "Passeriformes",
+      "family": "Sturnidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑领噪鹛",
+      "scientificName": "Pterorhinus pectoralis",
+      "englishName": "Greater Necklaced Laughingthrush",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑眉柳莺",
+      "scientificName": "Phylloscopus ricketti",
+      "englishName": "Sulphur-breasted Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑眉苇莺",
+      "scientificName": "Acrocephalus bistrigiceps",
+      "englishName": "Black-browed Reed Warbler",
+      "order": "Passeriformes",
+      "family": "Acrocephalidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑头蜡嘴雀",
+      "scientificName": "Eophona personata",
+      "englishName": "Japanese Grosbeak",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑头䴓",
+      "scientificName": "Sitta villosa",
+      "englishName": "Chinese Nuthatch",
+      "order": "Passeriformes",
+      "family": "Sittidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑尾地鸦",
+      "scientificName": "Podoces hendersoni",
+      "englishName": "Mongolian Ground Jay",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑尾蜡嘴雀",
+      "scientificName": "Eophona migratoria",
+      "englishName": "Chinese Grosbeak",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑枕黄鹂",
+      "scientificName": "Oriolus chinensis",
+      "englishName": "Black-naped Oriole",
+      "order": "Passeriformes",
+      "family": "Oriolidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑枕王鹟",
+      "scientificName": "Hypothymis azurea",
+      "englishName": "Black-naped Monarch",
+      "order": "Passeriformes",
+      "family": "Monarchidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红翅旋壁雀",
+      "scientificName": "Tichodroma muraria",
+      "englishName": "Wallcreeper",
+      "order": "Passeriformes",
+      "family": "Tichodromidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红耳鹎",
+      "scientificName": "Pycnonotus jocosus",
+      "englishName": "Red-whiskered Bulbul",
+      "order": "Passeriformes",
+      "family": "Pycnonotidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红腹红尾鸲",
+      "scientificName": "Phoenicurus erythrogastrus",
+      "englishName": "White-winged Redstart",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红喉姬鹟",
+      "scientificName": "Ficedula albicilla",
+      "englishName": "Taiga Flycatcher",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红喉鹨",
+      "scientificName": "Anthus cervinus",
+      "englishName": "Red-throated Pipit",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红交嘴雀",
+      "scientificName": "Loxia curvirostra",
+      "englishName": "Red Crossbill",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红眉朱雀",
+      "scientificName": "Carpodacus pulcherrimus",
+      "englishName": "Himalayan Beautiful Rosefinch",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红头穗鹛",
+      "scientificName": "Cyanoderma ruficeps",
+      "englishName": "Rufous-capped Babbler",
+      "order": "Passeriformes",
+      "family": "Timaliidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红头长尾山雀",
+      "scientificName": "Aegithalos concinnus",
+      "englishName": "Black-throated Bushtit",
+      "order": "Passeriformes",
+      "family": "Aegithalidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红尾斑鸫",
+      "scientificName": "Turdus naumanni",
+      "englishName": "Naumann's Thrush",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红尾伯劳",
+      "scientificName": "Lanius cristatus",
+      "englishName": "Brown Shrike",
+      "order": "Passeriformes",
+      "family": "Laniidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红尾歌鸲",
+      "scientificName": "Larvivora sibilans",
+      "englishName": "Rufous-tailed Robin",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红尾水鸲",
+      "scientificName": "Phoenicurus fuliginosus",
+      "englishName": "Plumbeous Water Redstart",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红胁蓝尾鸲",
+      "scientificName": "Tarsiger cyanurus",
+      "englishName": "Orange-flanked Bluetail",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红胸朱雀",
+      "scientificName": "Carpodacus puniceus",
+      "englishName": "Red-fronted Rosefinch",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红胸啄花鸟",
+      "scientificName": "Dicaeum ignipectus",
+      "englishName": "Fire-breasted Flowerpecker",
+      "order": "Passeriformes",
+      "family": "Dicaeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红嘴蓝鹊",
+      "scientificName": "Urocissa erythroryncha",
+      "englishName": "Red-billed Blue Magpie",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红嘴山鸦",
+      "scientificName": "Pyrrhocorax pyrrhocorax",
+      "englishName": "Red-billed Chough",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红嘴相思鸟",
+      "scientificName": "Leiothrix lutea",
+      "englishName": "Red-billed Leiothrix",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "虎纹伯劳",
+      "scientificName": "Lanius tigrinus",
+      "englishName": "Tiger Shrike",
+      "order": "Passeriformes",
+      "family": "Laniidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "花彩雀莺",
+      "scientificName": "Leptopoecile sophiae",
+      "englishName": "White-browed Tit Warbler",
+      "order": "Passeriformes",
+      "family": "Aegithalidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "华南斑胸钩嘴鹛",
+      "scientificName": "Erythrogenys swinhoei",
+      "englishName": "Grey-sided Scimitar Babbler",
+      "order": "Passeriformes",
+      "family": "Timaliidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "华南冠纹柳莺",
+      "scientificName": "Phylloscopus goodsoni",
+      "englishName": "Hartert's Leaf Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "华西柳莺",
+      "scientificName": "Phylloscopus occisinensis",
+      "englishName": "Alpine Leaf Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "画眉",
+      "scientificName": "Garrulax canorus",
+      "englishName": "Hwamei",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "荒漠伯劳",
+      "scientificName": "Lanius isabellinus",
+      "englishName": "Isabelline Shrike",
+      "order": "Passeriformes",
+      "family": "Laniidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄腹鹨",
+      "scientificName": "Anthus japonicus",
+      "englishName": "Siberian Pipit",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄腹山鹪莺",
+      "scientificName": "Prinia flaviventris",
+      "englishName": "Yellow-bellied Prinia",
+      "order": "Passeriformes",
+      "family": "Cisticolidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄腹山雀",
+      "scientificName": "Pardaliparus venustulus",
+      "englishName": "Yellow-bellied Tit",
+      "order": "Passeriformes",
+      "family": "Paridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄喉鹀",
+      "scientificName": "Emberiza elegans",
+      "englishName": "Yellow-throated Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄鹡鸰",
+      "scientificName": "Motacilla tschutschensis",
+      "englishName": "Eastern Yellow Wagtail",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄眉柳莺",
+      "scientificName": "Phylloscopus inornatus",
+      "englishName": "Yellow-browed Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄眉鹀",
+      "scientificName": "Emberiza chrysophrys",
+      "englishName": "Yellow-browed Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄雀",
+      "scientificName": "Spinus spinus",
+      "englishName": "Eurasian Siskin",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄头鹡鸰",
+      "scientificName": "Motacilla citreola",
+      "englishName": "Citrine Wagtail",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄臀鹎",
+      "scientificName": "Pycnonotus xanthorrhous",
+      "englishName": "Brown-breasted Bulbul",
+      "order": "Passeriformes",
+      "family": "Pycnonotidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄胸鹀",
+      "scientificName": "Emberiza aureola",
+      "englishName": "Yellow-breasted Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄腰柳莺",
+      "scientificName": "Phylloscopus proregulus",
+      "englishName": "Pallas's Leaf Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄嘴朱顶雀",
+      "scientificName": "Linaria flavirostris",
+      "englishName": "Twite",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰背伯劳",
+      "scientificName": "Lanius tephronotus",
+      "englishName": "Grey-backed Shrike",
+      "order": "Passeriformes",
+      "family": "Laniidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰背鸫",
+      "scientificName": "Turdus hortulorum",
+      "englishName": "Grey-backed Thrush",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰翅噪鹛",
+      "scientificName": "Ianthocincla cineracea",
+      "englishName": "Moustached Laughingthrush",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰喉山椒鸟",
+      "scientificName": "Pericrocotus solaris",
+      "englishName": "Grey-chinned Minivet",
+      "order": "Passeriformes",
+      "family": "Campephagidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰鹡鸰",
+      "scientificName": "Motacilla cinerea",
+      "englishName": "Grey Wagtail",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰卷尾",
+      "scientificName": "Dicrurus leucophaeus",
+      "englishName": "Ashy Drongo",
+      "order": "Passeriformes",
+      "family": "Dicruridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰椋鸟",
+      "scientificName": "Spodiopsar cineraceus",
+      "englishName": "White-cheeked Starling",
+      "order": "Passeriformes",
+      "family": "Sturnidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰树鹊",
+      "scientificName": "Dendrocitta formosae",
+      "englishName": "Grey Treepie",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰头鸫",
+      "scientificName": "Turdus rubrocanus",
+      "englishName": "Chestnut Thrush",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰头灰雀",
+      "scientificName": "Pyrrhula erythaca",
+      "englishName": "Grey-headed Bullfinch",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰头鹀",
+      "scientificName": "Emberiza spodocephala",
+      "englishName": "Black-faced Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰头鸦雀",
+      "scientificName": "Paradoxornis gularis",
+      "englishName": "Grey-headed Parrotbill",
+      "order": "Passeriformes",
+      "family": "Paradoxornithidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰纹鹟",
+      "scientificName": "Muscicapa griseisticta",
+      "englishName": "Grey-streaked Flycatcher",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰喜鹊",
+      "scientificName": "Cyanopica cyanus",
+      "englishName": "Azure-winged Magpie",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "极北柳莺",
+      "scientificName": "Phylloscopus borealis",
+      "englishName": "Arctic Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "家燕",
+      "scientificName": "Hirundo rustica",
+      "englishName": "Barn Swallow",
+      "order": "Passeriformes",
+      "family": "Hirundinidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鹪鹩",
+      "scientificName": "Troglodytes troglodytes",
+      "englishName": "Eurasian Wren",
+      "order": "Passeriformes",
+      "family": "Troglodytidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "角百灵",
+      "scientificName": "Eremophila alpestris",
+      "englishName": "Horned Lark",
+      "order": "Passeriformes",
+      "family": "Alaudidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "金翅雀",
+      "scientificName": "Chloris sinica",
+      "englishName": "Grey-capped Greenfinch",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "金腰燕",
+      "scientificName": "Cecropis daurica",
+      "englishName": "Red-rumped Swallow",
+      "order": "Passeriformes",
+      "family": "Hirundinidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蓝大翅鸲",
+      "scientificName": "Grandala coelicolor",
+      "englishName": "Grandala",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蓝额红尾鸲",
+      "scientificName": "Phoenicurus frontalis",
+      "englishName": "Blue-fronted Redstart",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蓝歌鸲",
+      "scientificName": "Larvivora cyane",
+      "englishName": "Siberian Blue Robin",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蓝喉歌鸲",
+      "scientificName": "Luscinia svecica",
+      "englishName": "Bluethroat",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蓝矶鸫",
+      "scientificName": "Monticola solitarius",
+      "englishName": "Blue Rock Thrush",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "栗背短脚鹎",
+      "scientificName": "Hemixos castanonotus",
+      "englishName": "Chestnut Bulbul",
+      "order": "Passeriformes",
+      "family": "Pycnonotidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "栗耳鹀",
+      "scientificName": "Emberiza fucata",
+      "englishName": "Chestnut-eared Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "栗颈凤鹛",
+      "scientificName": "Staphida torqueola",
+      "englishName": "Chestnut-collared Yuhina",
+      "order": "Passeriformes",
+      "family": "Zosteropidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "栗头鹟莺",
+      "scientificName": "Phylloscopus castaniceps",
+      "englishName": "Chestnut-crowned Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "林岭雀",
+      "scientificName": "Leucosticte nemoricola",
+      "englishName": "Plain Mountain Finch",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "领雀嘴鹎",
+      "scientificName": "Spizixos semitorques",
+      "englishName": "Collared Finchbill",
+      "order": "Passeriformes",
+      "family": "Pycnonotidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "领岩鹨",
+      "scientificName": "Prunella collaris",
+      "englishName": "Alpine Accentor",
+      "order": "Passeriformes",
+      "family": "Prunellidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "芦鹀",
+      "scientificName": "Emberiza schoeniclus",
+      "englishName": "Reed Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "绿翅短脚鹎",
+      "scientificName": "Ixos mcclellandii",
+      "englishName": "Mountain Bulbul",
+      "order": "Passeriformes",
+      "family": "Pycnonotidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "麻雀",
+      "scientificName": "Passer montanus",
+      "englishName": "Eurasian Tree Sparrow",
+      "order": "Passeriformes",
+      "family": "Passeridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "矛斑蝗莺",
+      "scientificName": "Locustella lanceolata",
+      "englishName": "Lanceolated Warbler",
+      "order": "Passeriformes",
+      "family": "Locustellidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "煤山雀",
+      "scientificName": "Periparus ater",
+      "englishName": "Coal Tit",
+      "order": "Passeriformes",
+      "family": "Paridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蒙古百灵",
+      "scientificName": "Melanocorypha mongolica",
+      "englishName": "Mongolian Lark",
+      "order": "Passeriformes",
+      "family": "Alaudidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蒙古沙雀",
+      "scientificName": "Bucanetes mongolicus",
+      "englishName": "Mongolian Finch",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "冕柳莺",
+      "scientificName": "Phylloscopus coronatus",
+      "englishName": "Eastern Crowned Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "漠䳭",
+      "scientificName": "Oenanthe deserti",
+      "englishName": "Desert Wheatear",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "拟大朱雀",
+      "scientificName": "Carpodacus rubicilloides",
+      "englishName": "Streaked Rosefinch",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "牛头伯劳",
+      "scientificName": "Lanius bucephalus",
+      "englishName": "Bull-headed Shrike",
+      "order": "Passeriformes",
+      "family": "Laniidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通䴓",
+      "scientificName": "Sitta europaea",
+      "englishName": "Eurasian Nuthatch",
+      "order": "Passeriformes",
+      "family": "Sittidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通朱雀",
+      "scientificName": "Carpodacus erythrinus",
+      "englishName": "Common Rosefinch",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "祁连山蓝尾鸲",
+      "scientificName": "Tarsiger albocoeruleus",
+      "englishName": "Qilian Blutetail",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "强脚树莺",
+      "scientificName": "Horornis fortipes",
+      "englishName": "Brownish-flanked Bush Warbler",
+      "order": "Passeriformes",
+      "family": "Cettiidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "青藏喜鹊",
+      "scientificName": "Pica bottanensis",
+      "englishName": "Black-rumped Magpie",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鸲姬鹟",
+      "scientificName": "Ficedula mugimaki",
+      "englishName": "Mugimaki Flycatcher",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鸲岩鹨",
+      "scientificName": "Prunella rubeculoides",
+      "englishName": "Robin Accentor",
+      "order": "Passeriformes",
+      "family": "Prunellidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "鹊鸲",
+      "scientificName": "Copsychus saularis",
+      "englishName": "Oriental Magpie Robin",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "沙䳭",
+      "scientificName": "Oenanthe isabellina",
+      "englishName": "Isabelline Wheatear",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "山麻雀",
+      "scientificName": "Passer cinnamomeus",
+      "englishName": "Russet Sparrow",
+      "order": "Passeriformes",
+      "family": "Passeridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "山噪鹛",
+      "scientificName": "Pterorhinus davidi",
+      "englishName": "Plain Laughingthrush",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "石雀",
+      "scientificName": "Petronia petronia",
+      "englishName": "Rock Sparrow",
+      "order": "Passeriformes",
+      "family": "Passeridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "寿带",
+      "scientificName": "Terpsiphone incei",
+      "englishName": "Amur Paradise Flycatcher",
+      "order": "Passeriformes",
+      "family": "Monarchidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "树鹨",
+      "scientificName": "Anthus hodgsoni",
+      "englishName": "Olive-backed Pipit",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "水鹨",
+      "scientificName": "Anthus spinoletta",
+      "englishName": "Water Pipit",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "丝光椋鸟",
+      "scientificName": "Spodiopsar sericeus",
+      "englishName": "Red-billed Starling",
+      "order": "Passeriformes",
+      "family": "Sturnidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "四川柳莺",
+      "scientificName": "Phylloscopus forresti",
+      "englishName": "Sichuan Leaf Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "松鸦",
+      "scientificName": "Garrulus glandarius",
+      "englishName": "Eurasian Jay",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "田鹨",
+      "scientificName": "Anthus rufulus",
+      "englishName": "Paddyfield Pipit",
+      "order": "Passeriformes",
+      "family": "Motacillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "田鹀",
+      "scientificName": "Emberiza rustica",
+      "englishName": "Rustic Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "铜蓝鹟",
+      "scientificName": "Eumyias thalassinus",
+      "englishName": "Verditer Flycatcher",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "秃鼻乌鸦",
+      "scientificName": "Corvus frugilegus",
+      "englishName": "Rook",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "苇鹀",
+      "scientificName": "Emberiza pallasi",
+      "englishName": "Pallas's Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "乌鸫",
+      "scientificName": "Turdus mandarinus",
+      "englishName": "Chinese Blackbird",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "乌灰鸫",
+      "scientificName": "Turdus cardis",
+      "englishName": "Japanese Thrush",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "乌鹟",
+      "scientificName": "Muscicapa sibirica",
+      "englishName": "Dark-sided Flycatcher",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "西域山鹛",
+      "scientificName": "Rhopophilus albosuperciliaris",
+      "englishName": "Tarim Babbler",
+      "order": "Passeriformes",
+      "family": "Paradoxornithidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "喜鹊",
+      "scientificName": "Pica serica",
+      "englishName": "Oriental Magpie",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "细嘴短趾百灵",
+      "scientificName": "Calandrella acutirostris",
+      "englishName": "Hume's Short-toed Lark",
+      "order": "Passeriformes",
+      "family": "Alaudidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "仙八色鸫",
+      "scientificName": "Pitta nympha",
+      "englishName": "Fairy Pitta",
+      "order": "Passeriformes",
+      "family": "Pittidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小灰山椒鸟",
+      "scientificName": "Pericrocotus cantonensis",
+      "englishName": "Swinhoe's Minivet",
+      "order": "Passeriformes",
+      "family": "Campephagidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小鹀",
+      "scientificName": "Emberiza pusilla",
+      "englishName": "Little Bunting",
+      "order": "Passeriformes",
+      "family": "Emberizidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小燕尾",
+      "scientificName": "Enicurus scouleri",
+      "englishName": "Little Forktail",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小云雀",
+      "scientificName": "Alauda gulgula",
+      "englishName": "Oriental Skylark",
+      "order": "Passeriformes",
+      "family": "Alaudidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小嘴乌鸦",
+      "scientificName": "Corvus corone",
+      "englishName": "Carrion Crow",
+      "order": "Passeriformes",
+      "family": "Corvidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "楔尾伯劳",
+      "scientificName": "Lanius sphenocercus",
+      "englishName": "Chinese Grey Shrike",
+      "order": "Passeriformes",
+      "family": "Laniidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "锈胸蓝姬鹟",
+      "scientificName": "Ficedula erithacus",
+      "englishName": "Slaty-backed Flycatcher",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "旋木雀",
+      "scientificName": "Certhia familiaris",
+      "englishName": "Eurasian Treecreeper",
+      "order": "Passeriformes",
+      "family": "Certhiidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "亚洲短趾百灵",
+      "scientificName": "Alaudala cheleensis",
+      "englishName": "Asian Short-toed Lark",
+      "order": "Passeriformes",
+      "family": "Alaudidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "烟腹毛脚燕",
+      "scientificName": "Delichon dasypus",
+      "englishName": "Asian House Martin",
+      "order": "Passeriformes",
+      "family": "Hirundinidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "烟柳莺",
+      "scientificName": "Phylloscopus fuligiventer",
+      "englishName": "Smoky Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "岩燕",
+      "scientificName": "Ptyonoprogne rupestris",
+      "englishName": "Eurasian Crag Martin",
+      "order": "Passeriformes",
+      "family": "Hirundinidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "燕雀",
+      "scientificName": "Fringilla montifringilla",
+      "englishName": "Brambling",
+      "order": "Passeriformes",
+      "family": "Fringillidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "银喉长尾山雀",
+      "scientificName": "Aegithalos glaucogularis",
+      "englishName": "Silver-throated Bushtit",
+      "order": "Passeriformes",
+      "family": "Aegithalidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "远东树莺",
+      "scientificName": "Horornis canturians",
+      "englishName": "Manchurian Bush Warbler",
+      "order": "Passeriformes",
+      "family": "Cettiidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "云雀",
+      "scientificName": "Alauda arvensis",
+      "englishName": "Eurasian Skylark",
+      "order": "Passeriformes",
+      "family": "Alaudidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "长嘴百灵",
+      "scientificName": "Melanocorypha maxima",
+      "englishName": "Tibetan Lark",
+      "order": "Passeriformes",
+      "family": "Alaudidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "赭红尾鸲",
+      "scientificName": "Phoenicurus ochruros",
+      "englishName": "Black Redstart",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "紫寿带",
+      "scientificName": "Terpsiphone atrocaudata",
+      "englishName": "Japanese Paradise-flycatcher",
+      "order": "Passeriformes",
+      "family": "Monarchidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "紫啸鸫",
+      "scientificName": "Myophonus caeruleus",
+      "englishName": "Blue Whistling Thrush",
+      "order": "Passeriformes",
+      "family": "Muscicapidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕背伯劳",
+      "scientificName": "Lanius schach",
+      "englishName": "Long-tailed Shrike",
+      "order": "Passeriformes",
+      "family": "Laniidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕背黑头鸫",
+      "scientificName": "Turdus kessleri",
+      "englishName": "Kessler's Thrush",
+      "order": "Passeriformes",
+      "family": "Turdidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕背雪雀",
+      "scientificName": "Pyrgilauda blanfordi",
+      "englishName": "Blanford's Snowfinch",
+      "order": "Passeriformes",
+      "family": "Passeridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕颈钩嘴鹛",
+      "scientificName": "Pomatorhinus ruficollis",
+      "englishName": "Streak-breasted Scimitar Babbler",
+      "order": "Passeriformes",
+      "family": "Timaliidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕颈雪雀",
+      "scientificName": "Pyrgilauda ruficollis",
+      "englishName": "Rufous-necked Snowfinch",
+      "order": "Passeriformes",
+      "family": "Passeridae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕脸鹟莺",
+      "scientificName": "Abroscopus albogularis",
+      "englishName": "Rufous-faced Warbler",
+      "order": "Passeriformes",
+      "family": "Cettiidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕眉柳莺",
+      "scientificName": "Phylloscopus armandii",
+      "englishName": "Yellow-streaked Warbler",
+      "order": "Passeriformes",
+      "family": "Phylloscopidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕扇尾莺",
+      "scientificName": "Cisticola juncidis",
+      "englishName": "Zitting Cisticola",
+      "order": "Passeriformes",
+      "family": "Cisticolidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕头鸦雀",
+      "scientificName": "Suthora webbiana",
+      "englishName": "Vinous-throated Parrotbill",
+      "order": "Passeriformes",
+      "family": "Paradoxornithidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕胸岩鹨",
+      "scientificName": "Prunella strophiata",
+      "englishName": "Rufous-breasted Accentor",
+      "order": "Passeriformes",
+      "family": "Prunellidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "棕噪鹛",
+      "scientificName": "Pterorhinus berthemyi",
+      "englishName": "Buffy Laughingthrush",
+      "order": "Passeriformes",
+      "family": "Leiothrichidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白鹭",
+      "scientificName": "Egretta garzetta",
+      "englishName": "Little Egret",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白琵鹭",
+      "scientificName": "Platalea leucorodia",
+      "englishName": "Eurasian Spoonbill",
+      "order": "Pelecaniformes",
+      "family": "Threskiornithidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "苍鹭",
+      "scientificName": "Ardea cinerea",
+      "englishName": "Grey Heron",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "草鹭",
+      "scientificName": "Ardea purpurea",
+      "englishName": "Purple Heron",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "池鹭",
+      "scientificName": "Ardeola bacchus",
+      "englishName": "Chinese Pond Heron",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大白鹭",
+      "scientificName": "Ardea alba",
+      "englishName": "Great Egret",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大麻鳽",
+      "scientificName": "Botaurus stellaris",
+      "englishName": "Great Bittern",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑鳽",
+      "scientificName": "Botaurus flavicollis",
+      "englishName": "Black Bittern",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑脸琵鹭",
+      "scientificName": "Platalea minor",
+      "englishName": "Black-faced Spoonbill",
+      "order": "Pelecaniformes",
+      "family": "Threskiornithidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄苇鳽",
+      "scientificName": "Botaurus sinensis",
+      "englishName": "Yellow Bittern",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "卷羽鹈鹕",
+      "scientificName": "Pelecanus crispus",
+      "englishName": "Dalmatian Pelican",
+      "order": "Pelecaniformes",
+      "family": "Pelecanidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "绿鹭",
+      "scientificName": "Butorides striata",
+      "englishName": "Striated Heron",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "牛背鹭",
+      "scientificName": "Ardea coromanda",
+      "englishName": "Eastern Cattle Egret",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "夜鹭",
+      "scientificName": "Nycticorax nycticorax",
+      "englishName": "Black-crowned Night Heron",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "中白鹭",
+      "scientificName": "Ardea intermedia",
+      "englishName": "Intermediate Egret",
+      "order": "Pelecaniformes",
+      "family": "Ardeidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "朱鹮",
+      "scientificName": "Nipponia nippon",
+      "englishName": "Crested Ibis",
+      "order": "Pelecaniformes",
+      "family": "Threskiornithidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "斑姬啄木鸟",
+      "scientificName": "Picumnus innominatus",
+      "englishName": "Speckled Piculet",
+      "order": "Piciformes",
+      "family": "Picidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大斑啄木鸟",
+      "scientificName": "Dendrocopos major",
+      "englishName": "Great Spotted Woodpecker",
+      "order": "Piciformes",
+      "family": "Picidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "大拟啄木鸟",
+      "scientificName": "Psilopogon virens",
+      "englishName": "Great Barbet",
+      "order": "Piciformes",
+      "family": "Megalaimidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "灰头绿啄木鸟",
+      "scientificName": "Picus canus",
+      "englishName": "Grey-headed Woodpecker",
+      "order": "Piciformes",
+      "family": "Picidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "星头啄木鸟",
+      "scientificName": "Yungipicus canicapillus",
+      "englishName": "Grey-capped Pygmy Woodpecker",
+      "order": "Piciformes",
+      "family": "Picidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "蚁䴕",
+      "scientificName": "Jynx torquilla",
+      "englishName": "Eurasian Wryneck",
+      "order": "Piciformes",
+      "family": "Picidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "凤头䴙䴘",
+      "scientificName": "Podiceps cristatus",
+      "englishName": "Great Crested Grebe",
+      "order": "Podicipediformes",
+      "family": "Podicipedidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黑颈䴙䴘",
+      "scientificName": "Podiceps nigricollis",
+      "englishName": "Black-necked Grebe",
+      "order": "Podicipediformes",
+      "family": "Podicipedidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "小䴙䴘",
+      "scientificName": "Tachybaptus ruficollis",
+      "englishName": "Little Grebe",
+      "order": "Podicipediformes",
+      "family": "Podicipedidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "黄蹼洋海燕",
+      "scientificName": "Oceanites oceanicus",
+      "englishName": "Wilson's Storm Petrel",
+      "order": "Procellariiformes",
+      "family": "Oceanitidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "斑头鸺鹠",
+      "scientificName": "Glaucidium cuculoides",
+      "englishName": "Asian Barred Owlet",
+      "order": "Strigiformes",
+      "family": "Strigidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "短耳鸮",
+      "scientificName": "Asio flammeus",
+      "englishName": "Short-eared Owl",
+      "order": "Strigiformes",
+      "family": "Strigidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "褐林鸮",
+      "scientificName": "Strix leptogrammica",
+      "englishName": "Brown Wood Owl",
+      "order": "Strigiformes",
+      "family": "Strigidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "红角鸮",
+      "scientificName": "Otus sunia",
+      "englishName": "Oriental Scops Owl",
+      "order": "Strigiformes",
+      "family": "Strigidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "领角鸮",
+      "scientificName": "Otus lettia",
+      "englishName": "Collared Scops Owl",
+      "order": "Strigiformes",
+      "family": "Strigidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "纵纹腹小鸮",
+      "scientificName": "Athene noctua",
+      "englishName": "Little Owl",
+      "order": "Strigiformes",
+      "family": "Strigidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "暗绿背鸬鹚",
+      "scientificName": "Phalacrocorax capillatus",
+      "englishName": "Japanese Cormorant",
+      "order": "Suliformes",
+      "family": "Phalacrocoracidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "白斑军舰鸟",
+      "scientificName": "Fregata ariel",
+      "englishName": "Lesser Frigatebird",
+      "order": "Suliformes",
+      "family": "Fregatidae",
+      "maintainedAt": "2026-09-09"
+    },
+    {
+      "name": "普通鸬鹚",
+      "scientificName": "Phalacrocorax carbo",
+      "englishName": "Great Cormorant",
+      "order": "Suliformes",
+      "family": "Phalacrocoracidae",
+      "maintainedAt": "2026-09-09"
+    }
+  ],
+  "count": 412
+}

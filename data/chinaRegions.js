@@ -59,7 +59,7 @@ export const cities = {
   'SX': [
     { code: 'TY', name: '太原市' },
     { code: 'DT', name: '大同市' },
-    { code: 'YC', name: '阳泉市' },
+    { code: 'YQ', name: '阳泉市' },
     { code: 'CZ', name: '长治市' },
     { code: 'JN', name: '晋城市' },
     { code: 'SX', name: '朔州市' },
@@ -107,7 +107,7 @@ export const cities = {
     { code: 'TH', name: '通化市' },
     { code: 'BC', name: '白城市' },
     { code: 'SY', name: '松原市' },
-    { code: 'BC', name: '白山市' },
+    { code: 'BS', name: '白山市' },
     { code: 'YB', name: '延边朝鲜族自治州' }
   ],
   'HL': [
@@ -115,14 +115,14 @@ export const cities = {
     { code: 'QQHE', name: '齐齐哈尔市' },
     { code: 'JX', name: '鸡西市' },
     { code: 'HG', name: '鹤岗市' },
-    { code: 'DQ', name: '双鸭山市' },
-    { code: 'DX', name: '大庆市' },
+    { code: 'SYS', name: '双鸭山市' },
+    { code: 'DQ', name: '大庆市' },
     { code: 'YC', name: '伊春市' },
     { code: 'JMS', name: '佳木斯市' },
     { code: 'QTH', name: '七台河市' },
     { code: 'MDJ', name: '牡丹江市' },
     { code: 'SUI', name: '绥化市' },
-    { code: 'DX', name: '大兴安岭地区' }
+    { code: 'DXAL', name: '大兴安岭地区' }
   ],
   'SH': [
     { code: 'SH', name: '上海市' }
@@ -165,7 +165,7 @@ export const cities = {
     { code: 'TL', name: '铜陵市' },
     { code: 'AQ', name: '安庆市' },
     { code: 'HS', name: '黄山市' },
-    { code: 'CZ', name: '滁州市' },
+    { code: 'CHZ', name: '滁州市' },
     { code: 'FY', name: '阜阳市' },
     { code: 'SZ', name: '宿州市' },
     { code: 'LA', name: '六安市' },
@@ -205,7 +205,7 @@ export const cities = {
     { code: 'DY', name: '东营市' },
     { code: 'YT', name: '烟台市' },
     { code: 'WF', name: '潍坊市' },
-    { code: 'JN', name: '济宁市' },
+    { code: 'JNI', name: '济宁市' },
     { code: 'TA', name: '泰安市' },
     { code: 'WH', name: '威海市' },
     { code: 'RZ', name: '日照市' },
@@ -263,7 +263,7 @@ export const cities = {
     { code: 'YY', name: '岳阳市' },
     { code: 'CD', name: '常德市' },
     { code: 'ZJJ', name: '张家界市' },
-    { code: 'YY', name: '益阳市' },
+    { code: 'YIY', name: '益阳市' },
     { code: 'CZ', name: '郴州市' },
     { code: 'YZ', name: '永州市' },
     { code: 'HH', name: '怀化市' },
@@ -283,7 +283,6 @@ export const cities = {
     { code: 'HZ', name: '惠州市' },
     { code: 'DG', name: '东莞市' },
     { code: 'ZS', name: '中山市' },
-    { code: 'JY', name: '江门市' },
     { code: 'YJ', name: '阳江市' },
     { code: 'QY', name: '清远市' },
     { code: 'CZ', name: '潮州市' },
@@ -314,14 +313,14 @@ export const cities = {
     { code: 'QH', name: '琼海市' },
     { code: 'WN', name: '万宁市' },
     { code: 'DF', name: '东方市' },
-    { code: 'DZ', name: '定安县' },
+    { code: 'DA', name: '定安县' },
     { code: 'TC', name: '屯昌县' },
     { code: 'CM', name: '澄迈县' },
     { code: 'LG', name: '临高县' },
-    { code: 'LS', name: '乐东黎族自治县' },
+    { code: 'LD', name: '乐东黎族自治县' },
     { code: 'QZ', name: '琼中黎族苗族自治县' },
     { code: 'BT', name: '保亭黎族苗族自治县' },
-    { code: 'LS', name: '陵水黎族自治县' },
+    { code: 'LSX', name: '陵水黎族自治县' },
     { code: 'CZ', name: '昌江黎族自治县' },
     { code: 'BD', name: '白沙黎族自治县' }
   ],
@@ -338,7 +337,7 @@ export const cities = {
     { code: 'GY', name: '广元市' },
     { code: 'SN', name: '遂宁市' },
     { code: 'NJ', name: '内江市' },
-    { code: 'LS', name: '乐山市' },
+    { code: 'LES', name: '乐山市' },
     { code: 'NC', name: '南充市' },
     { code: 'MS', name: '眉山市' },
     { code: 'YB', name: '宜宾市' },
@@ -403,7 +402,7 @@ export const cities = {
   ],
   'GS': [
     { code: 'LZ', name: '兰州市' },
-    { code: 'JQ', name: '嘉峪关市' },
+    { code: 'JYG', name: '嘉峪关市' },
     { code: 'JY', name: '金昌市' },
     { code: 'BY', name: '白银市' },
     { code: 'TS', name: '天水市' },
@@ -422,7 +421,7 @@ export const cities = {
     { code: 'HD', name: '海东市' },
     { code: 'HB', name: '海北藏族自治州' },
     { code: 'HN', name: '黄南藏族自治州' },
-    { code: 'HX', name: '海南藏族自治州' },
+    { code: 'HNZZ', name: '海南藏族自治州' },
     { code: 'GL', name: '果洛藏族自治州' },
     { code: 'YS', name: '玉树藏族自治州' },
     { code: 'HX', name: '海西蒙古族藏族自治州' }
@@ -440,25 +439,25 @@ export const cities = {
     { code: 'TLF', name: '吐鲁番市' },
     { code: 'HM', name: '哈密市' },
     { code: 'CJ', name: '昌吉回族自治州' },
-    { code: 'BT', name: '博尔塔拉蒙古自治州' },
+    { code: 'BE', name: '博尔塔拉蒙古自治州' },
     { code: 'BYGL', name: '巴音郭楞蒙古自治州' },
     { code: 'AKS', name: '阿克苏地区' },
-    { code: 'KS', name: '克孜勒苏柯尔克孜自治州' },
-    { code: 'KZ', name: '喀什地区' },
+    { code: 'KZLS', name: '克孜勒苏柯尔克孜自治州' },
+    { code: 'KS', name: '喀什地区' },
     { code: 'HT', name: '和田地区' },
     { code: 'YL', name: '伊犁哈萨克自治州' },
     { code: 'TC', name: '塔城地区' },
-    { code: 'AL', name: '阿勒泰地区' },
+    { code: 'ALT', name: '阿勒泰地区' },
     { code: 'SHZ', name: '石河子市' },
-    { code: 'AL', name: '阿拉尔市' },
+    { code: 'ALE', name: '阿拉尔市' },
     { code: 'TMSK', name: '图木舒克市' },
     { code: 'WJQ', name: '五家渠市' },
-    { code: 'BT', name: '北屯市' },
+    { code: 'BTN', name: '北屯市' },
     { code: 'TL', name: '铁门关市' },
-    { code: 'SHZ', name: '双河市' },
-    { code: 'KZ', name: '可克达拉市' },
-    { code: 'KZ', name: '昆玉市' },
-    { code: 'HM', name: '胡杨河市' }
+    { code: 'SHH', name: '双河市' },
+    { code: 'KKDL', name: '可克达拉市' },
+    { code: 'KY', name: '昆玉市' },
+    { code: 'HYH', name: '胡杨河市' }
   ],
   'HK': [
     { code: 'HK', name: '香港特别行政区' }
@@ -468,26 +467,24 @@ export const cities = {
   ],
   'TW': [
     { code: 'TP', name: '台北市' },
-    { code: 'KH', name: '高雄市' },
-    { code: 'TC', name: '台中市' },
-    { code: 'TN', name: '台南市' },
-    { code: 'TY', name: '桃园市' },
-    { code: 'HS', name: '新竹市' },
-    { code: 'CY', name: '嘉义市' },
     { code: 'NT', name: '新北市' },
     { code: 'TY', name: '桃园市' },
-    { code: 'HS', name: '新竹县' },
+    { code: 'TC', name: '台中市' },
+    { code: 'TN', name: '台南市' },
+    { code: 'KH', name: '高雄市' },
+    { code: 'KL', name: '基隆市' },
+    { code: 'HS', name: '新竹市' },
+    { code: 'CY', name: '嘉义市' },
+    { code: 'HSC', name: '新竹县' },
     { code: 'ML', name: '苗栗县' },
-    { code: 'TC', name: '台中县' },
     { code: 'CH', name: '彰化县' },
-    { code: 'NT', name: '南投县' },
+    { code: 'NAN', name: '南投县' },
     { code: 'YL', name: '云林县' },
-    { code: 'CY', name: '嘉义县' },
-    { code: 'TN', name: '台南县' },
-    { code: 'KH', name: '高雄县' },
+    { code: 'CYC', name: '嘉义县' },
     { code: 'PT', name: '屏东县' },
-    { code: 'TT', name: '台东县' },
+    { code: 'IL', name: '宜兰县' },
     { code: 'HL', name: '花莲县' },
+    { code: 'TT', name: '台东县' },
     { code: 'PN', name: '澎湖县' },
     { code: 'KM', name: '金门县' },
     { code: 'LJ', name: '连江县' }
@@ -499,15 +496,46 @@ export const getCitiesByProvince = (provinceCode) => {
   return cities[provinceCode] || [];
 };
 
-// 根据省份名称获取省份代码
+/** 去掉省/市/自治区等后缀，便于「江西」与「江西省」互认 */
+export const normalizeRegionLabel = (name) =>
+  String(name || '')
+    .trim()
+    .replace(/(特别行政区|维吾尔自治区|壮族自治区|回族自治区|自治区|省|市)$/g, '');
+
+export const regionNamesMatch = (a, b) => {
+  const left = String(a || '').trim();
+  const right = String(b || '').trim();
+  if (!left || !right) return false;
+  if (left === right) return true;
+  const na = normalizeRegionLabel(left);
+  const nb = normalizeRegionLabel(right);
+  if (!na || !nb) return false;
+  return na === nb || left.includes(right) || right.includes(left) || na.includes(nb) || nb.includes(na);
+};
+
+// 根据省份名称获取省份代码（支持简称）
 export const getProvinceCodeByName = (provinceName) => {
-  const province = provinces.find(p => p.name === provinceName);
-  return province ? province.code : null;
+  if (!provinceName) return null;
+  const exact = provinces.find((p) => p.name === provinceName);
+  if (exact) return exact.code;
+  const fuzzy = provinces.find((p) => regionNamesMatch(p.name, provinceName));
+  return fuzzy ? fuzzy.code : null;
+};
+
+export const getProvinceByName = (provinceName) => {
+  if (!provinceName) return null;
+  return (
+    provinces.find((p) => p.name === provinceName) ||
+    provinces.find((p) => regionNamesMatch(p.name, provinceName)) ||
+    null
+  );
 };
 
 // 根据城市名称获取城市代码
 export const getCityCodeByName = (cityName, provinceCode) => {
   const cityList = cities[provinceCode] || [];
-  const city = cityList.find(c => c.name === cityName);
+  const city =
+    cityList.find((c) => c.name === cityName) ||
+    cityList.find((c) => regionNamesMatch(c.name, cityName));
   return city ? city.code : null;
 };

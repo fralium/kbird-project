@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import LocationAutocomplete from './LocationAutocomplete';
+import { todayLocalDateKey } from '../utils/localDate';
 import styles from '../styles/SightingForm.module.css';
 
 export default function SightingForm({ onSubmit, onCancel }) {
@@ -8,12 +10,13 @@ export default function SightingForm({ onSubmit, onCancel }) {
       name: '',
       coordinates: [0, 0]
     },
-    date: new Date().toISOString().split('T')[0],
+    date: todayLocalDateKey(),
     notes: '',
     images: []
   });
 
   const [imageFiles, setImageFiles] = useState([]);
+  const [error, setError] = useState('');
 
   // 清理对象URL，防止内存泄漏
   useEffect(() => {
@@ -46,13 +49,14 @@ export default function SightingForm({ onSubmit, onCancel }) {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
+    setError('');
     
     // 检查文件大小
     const maxSize = 10 * 1024 * 1024; // 10MB
     const oversizedFiles = files.filter(file => file.size > maxSize);
     
     if (oversizedFiles.length > 0) {
-      alert(`以下文件过大，请选择小于10MB的图片文件：\n${oversizedFiles.map(f => f.name).join('\n')}`);
+      setError(`以下文件过大，请选择小于10MB的图片文件：${oversizedFiles.map(f => f.name).join('、')}`);
       e.target.value = ''; // 清空文件输入
       return;
     }
@@ -73,14 +77,15 @@ export default function SightingForm({ onSubmit, onCancel }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
     
     if (!formData.location?.name || !formData.location.name.trim()) {
-      alert('请输入观察地点');
+      setError('请输入观察地点');
       return;
     }
     
     if (!formData.notes.trim()) {
-      alert('请输入观察记录');
+      setError('请输入观察记录');
       return;
     }
 
@@ -96,6 +101,7 @@ export default function SightingForm({ onSubmit, onCancel }) {
   return (
     <div className={styles.sightingForm}>
       <h3>添加观察记录</h3>
+      {error && <div className={styles.errorMessage}>{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <label htmlFor="locationName">观察地点 *</label>
@@ -149,7 +155,13 @@ export default function SightingForm({ onSubmit, onCancel }) {
             <div className={styles.imagePreviews}>
               {formData.images.map((image, index) => (
                 <div key={index} className={styles.imagePreview}>
-                  <img src={image.url} alt={image.caption} />
+                  <Image
+                    src={image.url}
+                    alt={image.caption}
+                    width={220}
+                    height={140}
+                    unoptimized
+                  />
                   <span>{image.caption}</span>
                 </div>
               ))}

@@ -1,0 +1,445 @@
+﻿/* 鸟类知识页面样式 - 与设计系统一致 */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--page-bg);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  max-width: var(--page-content-max);
+  margin: 0 auto;
+  padding: var(--page-main-padding);
+  box-sizing: border-box;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-dark-2) 100%);
+  color: var(--text-white);
+  padding: var(--page-header-padding);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto var(--spacing-6) auto;
+  max-width: var(--page-content-max);
+  width: 100%;
+  border-radius: var(--page-header-radius);
+  box-shadow: var(--page-header-shadow);
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.title {
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  margin: 0 0 var(--spacing-2) 0;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.titleIcon {
+  font-size: var(--page-title-size);
+  color: var(--amber-100);
+}
+
+.subtitle {
+  font-size: var(--page-subtitle-size);
+  opacity: 0.9;
+  margin: 0;
+  font-weight: 300;
+  position: relative;
+  z-index: 1;
+}
+
+.filters {
+  background: var(--background-white);
+  padding: 30px;
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-medium);
+  margin-bottom: 30px;
+}
+
+.searchContainer {
+  display: flex;
+  margin-bottom: 20px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.searchInput {
+  flex: 1;
+  padding: 12px 20px;
+  border: 2px solid var(--medium-gray);
+  border-right: none;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  border-radius: var(--radius-full) 0 0 var(--radius-full);
+}
+
+.searchInput:focus {
+  border-color: var(--primary-green);
+}
+
+.searchButton {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  border: none;
+  color: var(--text-white);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0 25px 25px 0;
+}
+
+.searchButton:hover {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+  transform: translateY(-1px);
+}
+
+.categoryTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.categoryTab {
+  padding: 8px 20px;
+  border: 2px solid var(--medium-gray);
+  background: var(--background-white);
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-dark);
+}
+
+.categoryTab:hover {
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+  transform: translateY(-2px);
+}
+
+.categoryTab.active {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  border-color: var(--primary-green);
+  color: var(--text-white);
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+.content {
+  margin-bottom: 40px;
+}
+
+.knowledgeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.knowledgeCard {
+  background: var(--background-white);
+  border-radius: var(--radius-large);
+  overflow: hidden;
+  box-shadow: var(--shadow-medium);
+  transition: all 0.3s ease;
+}
+
+.knowledgeCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-heavy);
+}
+
+.cardLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cardImage {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.cardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.knowledgeCard:hover .cardImage img {
+  transform: scale(1.05);
+}
+
+.cardOverlay {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.categoryTag {
+  padding: 4px 12px;
+  border-radius: var(--radius-lg);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-white);
+  background: var(--primary-green);
+}
+
+.difficultyTag {
+  padding: 4px 12px;
+  border-radius: var(--radius-lg);
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+}
+
+.difficultyTag.初级 {
+  background: var(--success);
+}
+
+.difficultyTag.中级 {
+  background: var(--warning);
+}
+
+.difficultyTag.高级 {
+  background: var(--error);
+}
+
+.cardContent {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 120px;
+}
+
+.cardTitle {
+  font-size: var(--type-subsection);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.cardDescription {
+  color: var(--text-medium);
+  line-height: 1.4;
+  margin: 0;
+  font-size: var(--type-secondary);
+  flex: 1;
+}
+
+.expandedContent {
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--background-light);
+  border-radius: var(--radius-medium);
+  border-left: 4px solid var(--primary-green);
+}
+
+.expandedContent h3 {
+  color: var(--text-dark);
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+.expandedContent h4 {
+  color: var(--text-medium);
+  margin: 20px 0 10px 0;
+  font-size: 1.1rem;
+}
+
+.expandedContent ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.expandedContent li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.expandedContent strong {
+  color: var(--primary-green);
+  font-weight: 600;
+}
+
+.tips {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--secondary-gold) 100%);
+  padding: 15px;
+  border-radius: var(--radius-medium);
+  margin-top: 20px;
+}
+
+.tips h4 {
+  color: var(--text-dark);
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.tips ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.tips li {
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.cardActions {
+  display: flex;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.viewDetailButton {
+  flex: 1;
+  padding: 6px 10px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  color: var(--text-white);
+  border: none;
+  border-radius: var(--radius-medium);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 12px;
+}
+
+.viewDetailButton:hover {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+  transform: translateY(-2px);
+}
+
+.expandButton {
+  flex: 1;
+  padding: 6px 10px;
+  background: var(--background-light);
+  color: var(--text-dark);
+  border: 2px solid var(--medium-gray);
+  border-radius: var(--radius-medium);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 12px;
+}
+
+.expandButton:hover {
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+  transform: translateY(-2px);
+}
+
+.noResults {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--background-white);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-medium);
+}
+
+.noResultsIcon {
+  font-size: 4rem;
+  color: var(--medium-gray);
+  margin-bottom: 20px;
+}
+
+.noResults p {
+  color: var(--text-medium);
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .container {
+    padding: 0;
+  }
+
+  .main {
+    padding: var(--spacing-4);
+  }
+  
+  .title {
+    font-size: var(--page-title-size);
+  }
+  
+  .titleIcon {
+    font-size: var(--page-title-size);
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .filters {
+    padding: 20px;
+  }
+  
+  .categoryTabs {
+    justify-content: flex-start;
+  }
+  
+  .knowledgeGrid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .cardImage {
+    height: 160px;
+  }
+
+  .cardContent {
+    padding: 10px;
+    gap: 6px;
+    min-height: 100px;
+  }
+  
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: var(--page-title-size);
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .cardImage {
+    height: 120px;
+  }
+  
+  .cardContent {
+    padding: 8px;
+    gap: 4px;
+    min-height: 80px;
+  }
+  
+  .expandedContent {
+    padding: 15px;
+  }
+}

@@ -1,11 +1,11 @@
-/* 地点时间线页面样�?*/
+﻿/* 地点时间线页面样�?*/
 .container {
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .content {
-  max-width: 1200px;
+  max-width: var(--page-content-max-wide);
   margin: 0 auto;
   padding: 20px;
 }
@@ -24,7 +24,7 @@
   width: 40px;
   height: 40px;
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #28a745;
+  border-top: 4px solid var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -45,7 +45,7 @@
 }
 
 .emptyState h1 {
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 16px;
   font-size: 2rem;
 }
@@ -81,28 +81,28 @@
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   color: white;
   text-decoration: none;
   border-radius: 8px;
   font-weight: 500;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .viewDetailsButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
+  box-shadow: var(--shadow-lg);
   color: white;
   text-decoration: none;
 }
 
 .locationName {
   color: #2c3e50;
-  font-size: 2.2rem;
+  font-size: var(--page-title-size);
   font-weight: 700;
   margin: 0;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -117,16 +117,16 @@
 .statItem {
   text-align: center;
   padding: 16px 20px;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   border-radius: 12px;
   color: white;
   min-width: 100px;
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .statNumber {
   display: block;
-  font-size: 1.8rem;
+  font-size: var(--page-title-size);
   font-weight: 700;
   line-height: 1;
   margin-bottom: 4px;
@@ -152,7 +152,7 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background: linear-gradient(180deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(180deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   border-radius: 2px;
 }
 
@@ -172,10 +172,10 @@
   top: 20px;
   width: 16px;
   height: 16px;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   border-radius: 50%;
   border: 4px solid white;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  box-shadow: var(--shadow-sm);
   z-index: 2;
 }
 
@@ -208,7 +208,7 @@
   display: block;
   font-size: 0.9rem;
   color: #7f8c8d;
-  background: #f8f9fa;
+  background: var(--bg-clean);
   padding: 4px 8px;
   border-radius: 6px;
   font-weight: 500;
@@ -234,7 +234,7 @@
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--gray-200);
 }
 
 .birdCard:hover {
@@ -247,7 +247,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background: #4CAF50;
+  background: var(--color-lake);
   color: white;
   padding: 6px 8px;
   border-radius: 50%;
@@ -262,7 +262,7 @@
 }
 
 .editButton:hover {
-  background: #45a049;
+  background: var(--color-lake-hover);
   transform: scale(1.1);
   color: white;
   text-decoration: none;
@@ -327,7 +327,7 @@
   font-size: 0.85rem;
   color: #95a5a6;
   margin: 0;
-  background: #f8f9fa;
+  background: var(--bg-clean);
   padding: 6px 10px;
   border-radius: 6px;
   display: inline-block;
@@ -338,8 +338,8 @@
   display: flex;
   gap: 8px;
   padding: 16px 20px;
-  background: #f8f9fa;
-  border-top: 1px solid #e9ecef;
+  background: var(--bg-clean);
+  border-top: 1px solid var(--gray-200);
   overflow-x: auto;
 }
 
@@ -360,7 +360,7 @@
 .moreImages {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   color: white;
   border-radius: 8px;
   display: flex;
@@ -389,18 +389,18 @@
   align-items: center !important;
   gap: 8px !important;
   padding: 12px 24px !important;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%) !important;
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%) !important;
   color: white !important; /* 默认文字颜色为白色 */
   text-decoration: none !important;
   border-radius: 8px !important;
   font-weight: 500 !important;
   transition: all 0.3s ease !important;
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3) !important;
+  box-shadow: var(--shadow-md) !important;
 }
 
 .backButton:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4) !important;
+  box-shadow: var(--shadow-lg) !important;
   color: #FFD700 !important; /* 悬浮时文字颜色为金色 */
   text-decoration: none !important;
 }
@@ -418,7 +418,7 @@
   }
   
   .locationName {
-    font-size: 1.8rem;
+    font-size: var(--page-title-size);
   }
   
   .locationStats {

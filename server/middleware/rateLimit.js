@@ -1,9 +1,10 @@
 const rateLimit = require('express-rate-limit');
+const { isDevelopment } = require('../utils/devLogger');
 
 // 通用API限流
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15分钟
-  max: process.env.NODE_ENV === 'development' ? 2000 : 100, // 开发环境更宽松
+  max: isDevelopment ? 2000 : 100, // 开发环境更宽松
   message: {
     success: false,
     message: '请求过于频繁，请稍后再试',
@@ -16,7 +17,7 @@ const generalLimiter = rateLimit({
 // 严格限流（用于敏感操作）
 const strictLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15分钟
-  max: process.env.NODE_ENV === 'development' ? 1000 : 10, // 开发环境更宽松
+  max: isDevelopment ? 1000 : 10, // 开发环境更宽松
   message: {
     success: false,
     message: '操作过于频繁，请稍后再试',

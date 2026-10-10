@@ -1,0 +1,127 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  width: min(1100px, 92%);
+  margin: 0 auto;
+  padding: 24px 0 48px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.toolbar select,
+.toolbar button {
+  height: 34px;
+  border: 1px solid #d7dce6;
+  border-radius: 8px;
+  padding: 0 10px;
+  background: #fff;
+}
+
+.toolbar button {
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.metricCard {
+  background: #fff;
+  border: 1px solid #e7ebf3;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.metricTitle {
+  color: #5e6573;
+  font-size: 13px;
+}
+
+.metricValue {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 6px 0;
+}
+
+.metricHint {
+  color: #828b9a;
+  font-size: 12px;
+}
+
+.section {
+  background: #fff;
+  border: 1px solid #e7ebf3;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.muted {
+  color: #7a8394;
+  margin: 10px 0;
+}
+
+.groupList {
+  display: grid;
+  gap: 10px;
+}
+
+.groupItem {
+  border: 1px solid #edf1f8;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.groupName {
+  font-weight: 600;
+}
+
+.groupMeta {
+  display: flex;
+  gap: 10px;
+  margin: 5px 0;
+  color: #6e7788;
+  font-size: 12px;
+}
+
+.barTrack {
+  height: 8px;
+  border-radius: 999px;
+  background: #eef2f8;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd166 0%, #ef476f 100%);
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  border-bottom: 1px solid #edf1f8;
+  padding: 8px;
+  font-size: 13px;
+}

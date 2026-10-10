@@ -1,0 +1,125 @@
+﻿.autocompleteContainer {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px; /* 与其他表单输入保持一致高度 */
+  border: 2px solid var(--border-input); /* 与地点/日期输入框统一边框粗细与颜色 */
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all var(--transition-base);
+  background: var(--white);
+  color: var(--gray-900);
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px var(--emerald-100);
+}
+
+.input::placeholder {
+  color: var(--gray-400);
+}
+
+.loadingIndicator {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.875rem;
+  color: var(--gray-500);
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: #ffffff;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.dropdownItem {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  border-bottom: 1px solid var(--gray-200);
+  background-color: #ffffff;
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.dropdownItem:hover {
+  background-color: var(--emerald-50) !important;
+}
+
+.birdName {
+  font-weight: 600;
+  color: #111827;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.scientificName {
+  font-size: 0.875rem;
+  color: #4b5563;
+  font-style: italic;
+  margin-bottom: 2px;
+}
+
+.category {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.noResults {
+  padding: 16px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.noResultsText {
+  margin: 0;
+}
+
+.requestButton {
+  appearance: none;
+  border: 1px solid var(--primary-green, #059669);
+  background: var(--emerald-50, #ecfdf5);
+  color: var(--primary-green, #047857);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.requestButton:hover:not(:disabled) {
+  background: var(--emerald-100, #d1fae5);
+}
+
+.requestButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}

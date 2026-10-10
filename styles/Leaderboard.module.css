@@ -2,123 +2,231 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: var(--page-bg);
+}
+
+.panelRoot {
+  width: 100%;
+  min-width: 0;
+}
+
+.panelRoot .tabContainer {
+  justify-content: flex-start;
+  margin-bottom: 16px;
+  gap: 8px;
+}
+
+.panelRoot .tab {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 14px;
+}
+
+.panelRoot .tab.active {
+  font-weight: 600;
+}
+
+.panelRoot .content {
+  padding: 0;
+  max-width: none;
+}
+
+.panelRoot .leaderboardSection {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 8px 0 0;
+}
+
+.panelRoot .sectionTitle {
+  font-size: var(--type-scale-lg);
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 6px;
+  color: var(--text-dark, #1f2a2e);
+}
+
+.panelRoot .sectionDescription {
+  font-size: var(--type-scale-sm);
+  font-weight: 500;
+  text-align: left;
+  margin-bottom: 20px;
+  color: var(--text-medium, #666);
+}
+
+.panelRoot .birdName,
+.panelRoot .locationName {
+  font-size: var(--type-scale-lg);
+  font-weight: 700;
+}
+
+.panelRoot .scientificName {
+  font-size: var(--type-scale-sm);
+}
+
+.panelRoot .userName {
+  font-size: var(--type-scale-base);
+  font-weight: 700;
+}
+
+.panelRoot .userTitle {
+  font-size: var(--type-scale-sm);
+  font-weight: 600;
+}
+
+.panelRoot .emptyState h3 {
+  font-size: var(--type-scale-lg);
+  font-weight: 700;
+}
+
+.panelRoot .emptyState p {
+  font-size: var(--type-scale-base);
+}
+
+.panelHint {
+  margin: 0 0 var(--spacing-4);
+  font-size: var(--type-scale-sm);
+  font-weight: 500;
+  color: var(--text-secondary, #5a6a6e);
+}
+
+.panelHint a {
+  color: var(--brand-dark, #1a5f4a);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .main {
   flex: 1;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  min-width: 0;
   width: 100%;
+  max-width: var(--page-content-max);
+  margin: 0 auto;
+  padding: var(--page-main-padding);
+  box-sizing: border-box;
 }
 
 .header {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-dark-2) 100%);
   color: var(--text-white);
-  padding: 60px 20px;
+  padding: var(--page-header-padding);
   text-align: center;
   position: relative;
   overflow: hidden;
-  margin: 0 auto 30px auto;
-  max-width: 1200px;
+  margin: 0 auto var(--spacing-6) auto;
+  max-width: var(--page-content-max);
   width: 100%;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+  border-radius: var(--page-header-radius);
+  box-shadow: var(--page-header-shadow);
 }
 
 .header::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
   pointer-events: none;
 }
 
 .title {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: var(--page-title-size);
+  font-weight: var(--page-title-weight);
+  margin: 0 0 var(--spacing-2) 0;
   position: relative;
   z-index: 1;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .description {
-  font-size: 1.2rem;
-  opacity: 0.9;
+  font-size: var(--page-subtitle-size);
+  opacity: 0.92;
   position: relative;
   z-index: 1;
-  font-weight: 300;
+  font-weight: 400;
+}
+
+.tabBar {
+  position: sticky;
+  top: 72px;
+  z-index: 10;
+  margin-bottom: 16px;
 }
 
 .tabContainer {
-  background-color: white;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
   position: sticky;
-  top: 70px;
+  top: 72px;
   z-index: 10;
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  border-radius: 15px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
 .tab {
-  background: none;
-  border: 2px solid #e0e0e0;
-  padding: 12px 24px;
-  border-radius: 25px;
-  font-size: 1rem;
+  appearance: none;
+  background: #fff;
+  border: 1px solid rgba(2, 48, 71, 0.14);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
   font-weight: 600;
+  line-height: 1.25;
   cursor: pointer;
-  transition: all 0.3s ease;
-  color: #666;
+  color: #5a6a72;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
 }
 
 .tab:hover {
-  border-color: var(--primary-green);
-  color: var(--primary-green);
-  transform: translateY(-2px);
+  background: rgba(33, 158, 188, 0.07);
+  border-color: rgba(33, 158, 188, 0.4);
+  color: var(--color-lake, #1a7f98);
+  transform: none;
 }
 
 .tab.active {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-  border-color: var(--primary-green);
-  color: white;
-  box-shadow: 0 4px 15px rgba(45, 80, 22, 0.3);
+  background: rgba(33, 158, 188, 0.12);
+  border-color: rgba(33, 158, 188, 0.55);
+  color: var(--color-lake, #1a7f98);
+  box-shadow: none;
 }
 
 .content {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 40px 0;
   width: 100%;
 }
 
 .leaderboardSection {
   background: white;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   padding: 40px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(45, 80, 22, 0.1);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sectionTitle {
-  font-size: 2rem;
+  font-size: var(--page-title-size);
   margin-bottom: 10px;
   color: var(--primary-dark);
   text-align: center;
 }
 
 .sectionDescription {
-  font-size: 1.1rem;
+  font-size: var(--page-subtitle-size);
   color: #666;
   text-align: center;
   margin-bottom: 40px;
@@ -157,8 +265,8 @@
 .emptyState {
   text-align: center;
   padding: 80px 20px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 20px;
+  background: linear-gradient(135deg, var(--bg-clean) 0%, var(--gray-200) 100%);
+  border-radius: var(--radius-lg);
   margin: 20px 0;
 }
 
@@ -171,7 +279,7 @@
 .emptyState h3 {
   color: var(--primary-dark);
   margin-bottom: 10px;
-  font-size: 1.5rem;
+  font-size: var(--type-section);
 }
 
 .emptyState p {
@@ -185,7 +293,7 @@
   background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
   color: white;
   padding: 12px 24px;
-  border-radius: 25px;
+  border-radius: var(--radius-full);
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -211,12 +319,25 @@
   align-items: center;
   gap: 20px;
   padding: 25px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 15px;
+  background: linear-gradient(135deg, var(--bg-clean) 0%, var(--gray-200) 100%);
+  border-radius: var(--radius-lg);
   border: 1px solid rgba(45, 80, 22, 0.1);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  animation: slideInUp 0.5s ease-out;
+  margin-bottom: 15px;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .leaderboardItem::before {
@@ -257,7 +378,7 @@
 .birdImage {
   width: 80px;
   height: 80px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -287,7 +408,7 @@
 }
 
 .birdName {
-  font-size: 1.3rem;
+  font-size: var(--type-section);
   font-weight: 600;
   color: var(--primary-dark);
   margin: 0 0 5px 0;
@@ -311,7 +432,7 @@
   color: #666;
   background: rgba(255, 255, 255, 0.7);
   padding: 4px 8px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
 }
 
 .locationInfo {
@@ -322,7 +443,7 @@
 }
 
 .locationIcon {
-  font-size: 2rem;
+  font-size: var(--page-title-size);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -357,12 +478,16 @@
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+  position: relative;
+  background: var(--gray-100);
+  border: 2px solid var(--border-input);
 }
 
 .userAvatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .avatarPlaceholder {
@@ -374,40 +499,53 @@
   justify-content: center;
   color: white;
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: var(--type-section);
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .userDetails {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  flex: 1;
 }
 
 .userName {
   font-weight: 600;
   color: var(--primary-dark);
   font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
 }
 
 .userTitle {
   font-size: 0.85rem;
   color: #666;
   font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
 }
 
 @media (max-width: 768px) {
   .main {
-    padding: 10px;
+    padding: var(--spacing-4);
   }
   
   .header {
     padding: 50px 20px;
     margin: 0 auto 20px auto;
-    max-width: 1200px;
+    max-width: var(--page-content-max);
     width: 100%;
   }
   
   .title {
-    font-size: 2rem;
+    font-size: var(--page-title-size);
   }
   
   .description {
@@ -430,7 +568,7 @@
   }
   
   .sectionTitle {
-    font-size: 1.5rem;
+    font-size: var(--type-section);
   }
   
   .leaderboardItem {
@@ -463,12 +601,12 @@
   .header {
     padding: 50px 20px;
     margin: 0 auto 20px auto;
-    max-width: 1200px;
+    max-width: var(--page-content-max);
     width: 100%;
   }
   
   .title {
-    font-size: 1.8rem;
+    font-size: var(--page-title-size);
   }
   
   .birdImage {
@@ -489,5 +627,10 @@
   
   .avatarPlaceholder {
     font-size: 1rem;
+  }
+  
+  .userName,
+  .userTitle {
+    max-width: 100px;
   }
 }

@@ -29,4 +29,6 @@ class RequestCache {
   }
 }
 
-export default new RequestCache();
+const requestCache = new RequestCache();
+
+export default requestCache;

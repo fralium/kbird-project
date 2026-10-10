@@ -1,44 +1,43 @@
-/* 页面容器样式 */
+/* 页面容器样式 - 与设计系统一致 */
 .container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: var(--page-bg);
 }
 
 .main {
   flex: 1;
-  padding: 20px;
-  max-width: 1000px;
+  padding: var(--page-main-padding);
+  max-width: var(--page-content-max-wide);
   margin: 0 auto;
   width: 100%;
 }
 
-/* 面包屑导航 */
 .breadcrumb {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-5);
+  font-size: var(--type-scale-sm);
 }
 
 .breadcrumb a {
-  color: #4CAF50;
+  color: var(--link-color);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color var(--transition-fast);
 }
 
 .breadcrumb a:hover {
-  color: #45a049;
+  color: var(--link-hover);
 }
 
 .separator {
-  color: #666;
+  color: var(--text-light);
 }
 
 .current {
-  color: #333;
+  color: var(--text-dark);
   font-weight: 500;
 }
 
@@ -48,12 +47,12 @@
   text-align: center;
   padding: 60px 20px;
   background: white;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .errorContainer h2 {
-  color: #f44336;
+  color: var(--color-danger);
   margin-bottom: 10px;
 }
 
@@ -67,7 +66,7 @@
   background: rgba(255, 255, 255, 0.2);
   color: var(--primary-gold);
   padding: 12px 20px;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   text-decoration: none;
   font-weight: 500;
   transition: all 0.2s ease;
@@ -88,12 +87,12 @@
 
 /* 记录头部 */
 .recordHeader {
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   color: white;
   padding: 40px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   margin-bottom: 30px;
-  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+  box-shadow: var(--shadow-lg);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -104,7 +103,7 @@
 }
 
 .recordTitle {
-  font-size: 2.2rem;
+  font-size: var(--page-title-size);
   margin-bottom: 20px;
   font-weight: 600;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -146,11 +145,11 @@
 
 /* 通用章节样式 */
 .sectionTitle {
-  font-size: 1.5rem;
-  color: #333;
+  font-size: var(--type-section);
+  color: var(--text-primary);
   margin-bottom: 15px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #4CAF50;
+  border-bottom: 2px solid var(--color-lake);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -158,28 +157,69 @@
 
 .sectionTitle::before {
   content: '📋';
-  font-size: 1.2rem;
+  font-size: var(--type-body);
 }
 
 /* 描述章节 */
 .descriptionSection {
   background: white;
   padding: 25px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .description {
-  color: #555;
+  color: var(--text-muted);
   line-height: 1.8;
-  font-size: 1.1rem;
+  font-size: var(--type-body);
 }
 
 /* 环境信息章节 */
+/* 地图章节 */
+.mapSection {
+  background: white;
+  padding: 25px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.habitatBlock {
+  margin-bottom: 20px;
+}
+
+.locationInfo {
+  margin-bottom: 15px;
+}
+
+.locationName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.mapMissingHint {
+  margin: 0;
+  padding: 20px 16px;
+  border-radius: var(--radius-lg);
+  background: #f5f7f8;
+  border: 1px dashed #c5d0d4;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.locationIcon {
+  font-size: 1.2rem;
+}
+
 .environmentSection {
   background: white;
   padding: 25px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -194,9 +234,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border-left: 4px solid #4CAF50;
+  background: var(--bg-clean);
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--color-lake);
 }
 
 .environmentLabel {
@@ -205,7 +245,7 @@
 }
 
 .environmentValue {
-  color: #333;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -213,22 +253,570 @@
 .birdsSection {
   background: white;
   padding: 25px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.birdsProtectHint {
+  margin: -4px 0 14px;
+  font-size: var(--type-scale-sm);
+  color: #78909c;
+  line-height: 1.45;
+}
+
+/* 鸟类统计总结 */
+.birdsSummary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: var(--page-bg, #f0f4f3);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.birdsSummaryStats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  min-width: 0;
+}
+
+.summaryStatCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 14px 10px;
+  background: var(--background-white, #fff);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  min-height: 88px;
+  min-width: 0;
+}
+
+.summaryNumber {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-lake);
+  line-height: 1.1;
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.summaryLabel {
+  font-size: 0.82rem;
+  color: var(--text-medium, #5c6c6c);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.detailsToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  align-self: center;
+  padding: 10px 16px;
+  background: transparent;
+  color: var(--color-lake);
+  border: 1px solid rgba(0, 121, 107, 0.45);
+  border-radius: var(--radius-xl);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.detailsToggle:hover {
+  background: rgba(0, 121, 107, 0.06);
+  border-color: var(--color-lake-hover);
+}
+
+.detailsToggleIcon {
+  font-size: 0.65rem;
+  opacity: 0.85;
+}
+
+.detailsSection {
+  margin-bottom: 24px;
+  padding: 0;
+  background: transparent;
+  animation: slideDown 0.3s ease-out;
+}
+
+.taxonomyLinkHint {
+  font-size: 0.8rem;
+  color: var(--text-medium, #5c6c6c);
+  margin: 0 0 14px 0;
+  line-height: 1.45;
+  padding: 10px 14px;
+  background: rgba(0, 121, 107, 0.06);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(0, 121, 107, 0.12);
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.detailsCard {
+  background: var(--background-white, #fff);
+  padding: 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.detailsCardHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: linear-gradient(180deg, rgba(0, 121, 107, 0.04) 0%, transparent 100%);
+}
+
+.detailsCardIcon {
+  font-size: var(--type-section);
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.detailsCardHeadText {
+  min-width: 0;
+  text-align: left;
+}
+
+.detailsTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dark, #1a2e2a);
+  margin: 0 0 2px 0;
+}
+
+.detailsSubtitle {
+  font-size: 0.78rem;
+  color: var(--text-medium, #5c6c6c);
+  font-weight: 500;
+}
+
+.detailsTagGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 10px;
+  padding: 16px;
+}
+
+.detailsTagOrder,
+.detailsTagFamily {
+  display: block;
+  padding: 10px 12px;
+  border-radius: var(--radius-xl);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.35;
+  word-break: break-word;
+  text-align: left;
+  border: 1px solid transparent;
+  cursor: default;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.detailsTagOrder:focus-visible,
+.detailsTagFamily:focus-visible {
+  outline: 2px solid var(--color-lake);
+  outline-offset: 2px;
+}
+
+.detailsTagOrder {
+  background: rgba(0, 131, 143, 0.08);
+  color: #006064;
+  border-color: rgba(0, 131, 143, 0.18);
+  cursor: pointer;
+  font-family: inherit;
+  width: 100%;
+}
+
+button.detailsTagOrder:hover {
+  background: rgba(0, 131, 143, 0.14);
+  border-color: rgba(0, 131, 143, 0.38);
+}
+
+.detailsTagOrderActive {
+  background: rgba(0, 131, 143, 0.22);
+  border-color: rgba(0, 131, 143, 0.45);
+  box-shadow: 0 0 0 1px rgba(0, 131, 143, 0.25);
+  font-weight: 700;
+}
+
+.detailsTagOrderLinked {
+  background: rgba(0, 131, 143, 0.16);
+  border-color: rgba(0, 131, 143, 0.35);
+  font-weight: 600;
+}
+
+.detailsTagFamily {
+  background: rgba(25, 118, 210, 0.08);
+  color: #1565c0;
+  border-color: rgba(25, 118, 210, 0.2);
+  cursor: pointer;
+  font-family: inherit;
+  width: 100%;
+}
+
+button.detailsTagFamily:hover {
+  background: rgba(25, 118, 210, 0.14);
+  border-color: rgba(25, 118, 210, 0.38);
+}
+
+.detailsTagFamilyActive {
+  background: rgba(25, 118, 210, 0.22);
+  border-color: rgba(25, 118, 210, 0.5);
+  box-shadow: 0 0 0 1px rgba(25, 118, 210, 0.28);
+  font-weight: 700;
+}
+
+.detailsTagFamilyLinked {
+  background: rgba(46, 125, 50, 0.16);
+  color: #1b5e20;
+  border-color: rgba(46, 125, 50, 0.45);
+  font-weight: 600;
+}
+
+.detailsSpeciesHint {
+  margin: 0;
+  padding: 0 16px 14px;
+  font-size: var(--type-caption, 0.75rem);
+  color: var(--text-muted, #5c6b7a);
+}
+
+.detailsSpeciesPanel {
+  padding: 0 16px 14px;
+}
+
+.detailsSpeciesCaption {
+  margin: 0 0 8px;
+  font-size: var(--type-scale-sm);
+  font-weight: 650;
+  color: var(--color-deep-teal, #023047);
+}
+
+.detailsSpeciesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+
+.detailsSpeciesLink {
+  color: var(--color-lake, #219ebc);
+  text-decoration: none;
+  font-size: var(--type-scale-sm);
+  font-weight: 600;
+}
+
+.detailsSpeciesLink:hover {
+  text-decoration: underline;
+  color: var(--color-lake-hover, #1780a0);
+}
+
+.detailsTagMuted {
+  opacity: 0.38;
+  filter: saturate(0.55);
+}
+
+button.detailsTagMuted:hover {
+  opacity: 0.62;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 960px) {
+  .birdsSummary {
+    grid-template-columns: 1fr;
+  }
+
+  .birdsSummaryStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .detailsToggle {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* 观察鸟类：表格总览 */
+.birdsTableWrap {
+  overflow-x: auto;
+  margin-top: 8px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--background-white, #fff);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  -webkit-overflow-scrolling: touch;
+}
+
+.birdsTable {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+  font-size: var(--type-scale-base);
+}
+
+.birdsTable thead {
+  background: #e8ecef;
+  color: var(--text-dark, #1a2e2a);
+}
+
+.birdsTable th {
+  padding: 12px 10px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.birdTableThIndex {
+  width: 2.25rem;
+  text-align: center !important;
+}
+
+.birdTableTdIndex {
+  text-align: center;
+  color: var(--text-medium, #5c6c6c);
+  font-variant-numeric: tabular-nums;
+}
+
+.birdTableSortBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.birdTableSortBtn:hover {
+  color: var(--color-lake);
+}
+
+.birdTableSortIcon {
+  font-size: var(--type-scale-xs);
+  opacity: 0.5;
+  font-weight: 700;
+}
+
+.birdTableSortBtn:hover .birdTableSortIcon {
+  opacity: 0.95;
+}
+
+.birdsTable tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.birdsTable tbody tr:hover {
+  background: rgba(0, 121, 107, 0.07);
+}
+
+.birdTableRowNotable {
+  background: color-mix(in srgb, var(--color-lake, #219ebc) 8%, #fff) !important;
+  box-shadow: inset 3px 0 0 var(--color-lake, #219ebc);
+}
+
+.birdTableRowNotable:hover {
+  background: color-mix(in srgb, var(--color-lake, #219ebc) 14%, #fff) !important;
+}
+
+.birdsTable td {
+  padding: 11px 10px;
+  border-bottom: 1px solid #eceff1;
+  vertical-align: middle;
+  color: var(--text-primary);
+}
+
+.birdTableNameCell {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.birdTableNameLink {
+  color: var(--color-lake);
+  font-size: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1.35;
+}
+
+.birdTableNameNotable {
+  font-weight: 800;
+  color: var(--color-deep-teal, #023047);
+}
+
+.birdTableProtectBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: var(--color-lake, #219ebc);
+  line-height: 1.3;
+}
+
+.birdTableNameLink:hover {
+  text-decoration: underline;
+}
+
+.birdTableLatin {
+  font-style: italic;
+  color: #455a64;
+}
+
+.birdTableEnglish {
+  color: #546e7a;
+  max-width: 180px;
+}
+
+.birdTableTdMono {
+  font-family: ui-monospace, 'Cascadia Mono', monospace;
+  font-size: var(--type-scale-sm);
+  color: #607d8b;
+}
+
+.birdTableThPhoto,
+.birdTableTdPhoto {
+  text-align: center;
+  width: 56px;
+}
+
+.birdTableThNotes {
+  min-width: 88px;
+  max-width: 220px;
+}
+
+.birdTableNotes {
+  color: #666;
+  font-size: inherit;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.birdTableTdCount {
+  text-align: center;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.birdTableDash {
+  color: #bbb;
+}
+
+.birdTableThumbBtn {
+  position: relative;
+  display: inline-flex;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.birdTableThumbBtn:focus-visible {
+  outline: 2px solid var(--color-lake);
+  outline-offset: 2px;
+}
+
+.birdTableThumbBtn:hover {
+  box-shadow: 0 0 0 2px var(--color-lake);
+}
+
+.birdTableThumb {
+  display: block;
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+}
+
+.birdTableThumbBadge {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.68);
+  color: #fff;
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  line-height: 1.2;
+}
+
+.birdsTableEmpty {
+  text-align: center;
+  color: var(--text-medium);
+  padding: 28px 16px;
+  margin: 0;
 }
 
 .birdsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
 }
 
 .birdCard {
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
   padding: 20px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  background: #fafafa;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .birdCard:hover {
@@ -237,12 +825,12 @@
 }
 
 .birdHeader {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 .birdName {
-  font-size: 1.3rem;
-  color: #333;
+  font-size: var(--type-section);
+  color: var(--text-primary);
   margin-bottom: 5px;
   font-weight: 600;
 }
@@ -255,11 +843,11 @@
 }
 
 .birdNameLink:hover {
-  color: #4CAF50;
+  color: var(--color-lake);
 }
 
 .birdNameLink:hover .birdName {
-  color: #4CAF50;
+  color: var(--color-lake);
 }
 
 .birdScientific {
@@ -273,7 +861,7 @@
 }
 
 .birdNotes p {
-  color: #555;
+  color: var(--text-muted);
   line-height: 1.6;
   font-size: 0.95rem;
 }
@@ -282,7 +870,7 @@
   background: #e3f2fd;
   color: #1976d2;
   padding: 6px 12px;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   font-size: 0.9rem;
   font-weight: 500;
   display: inline-block;
@@ -295,25 +883,29 @@
 
 .birdImageGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
 }
 
 .birdImageItem {
-  aspect-ratio: 1;
-  border-radius: 8px;
+  position: relative;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #f7f7f7;
 }
 
 .birdImageItem:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
 }
 
 .birdImage {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  display: block;
   object-fit: cover;
 }
 
@@ -324,12 +916,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #f8f9fa;
+  background: var(--bg-clean);
   border: 2px dashed #dee2e6;
   color: #6c757d;
   text-align: center;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .imagePlaceholder span {
@@ -347,7 +939,7 @@
 .imagesSection {
   background: white;
   padding: 25px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -359,11 +951,11 @@
 
 .imageItem {
   position: relative;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s ease;
-  background: #f8f9fa;
+  background: var(--bg-clean);
 }
 
 .imageItem:hover {
@@ -392,12 +984,12 @@
 .notesSection {
   background: white;
   padding: 25px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .notes {
-  color: #555;
+  color: var(--text-muted);
   line-height: 1.8;
   font-size: 1.1rem;
 }
@@ -415,7 +1007,7 @@
   }
   
   .recordTitle {
-    font-size: 1.8rem;
+    font-size: var(--page-title-size);
   }
   
   .recordMeta {
@@ -424,6 +1016,39 @@
   }
   
   .birdsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .birdsSummary {
+    grid-template-columns: 1fr;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .birdsSummaryStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .summaryStatCard {
+    min-height: 80px;
+    padding: 12px 8px;
+  }
+
+  .summaryNumber {
+    font-size: 1.45rem;
+  }
+
+  .detailsToggle {
+    width: 100%;
+    white-space: normal;
+  }
+  
+  .detailsGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .detailsTagGrid {
     grid-template-columns: 1fr;
   }
   
@@ -442,7 +1067,7 @@
   color: var(--primary-gold);
   border: 1px solid rgba(255, 215, 0, 0.3);
   padding: 12px 20px;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
@@ -462,18 +1087,47 @@
   transform: translateY(-1px);
 }
 
+.deleteButton {
+  background: rgba(231, 76, 60, 0.2);
+  color: #ffe5e2;
+  border: 1px solid rgba(231, 76, 60, 0.45);
+  padding: 12px 20px;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteButton:hover:not(:disabled) {
+  background: rgba(231, 76, 60, 0.32);
+  border-color: rgba(231, 76, 60, 0.7);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.deleteButton:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
 .successMessage,
 .errorMessage {
   padding: 15px 20px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   margin-bottom: 20px;
   font-weight: 500;
 }
 
 .successMessage {
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background: var(--color-lake-light);
+  color: var(--color-deep-teal);
+  border: 1px solid var(--color-lake);
 }
 
 .errorMessage {
@@ -485,11 +1139,11 @@
 /* 编辑表单样式 */
 .editForm {
   background: white;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 30px;
   margin-bottom: 30px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--gray-200);
 }
 
 .editFormHeader {
@@ -503,8 +1157,8 @@
 
 .editFormHeader h2 {
   margin: 0;
-  color: #333;
-  font-size: 24px;
+  color: var(--text-primary);
+  font-size: var(--type-section);
 }
 
 .editActions {
@@ -514,37 +1168,50 @@
 
 .cancelButton,
 .saveButton {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-lg);
   cursor: pointer;
+  transition: all var(--transition-fast);
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
 .cancelButton {
-  background: #6c757d;
-  color: white;
+  background: transparent;
+  color: var(--color-lake);
+  border: 2px solid var(--color-lake);
 }
 
 .cancelButton:hover {
-  background: #5a6268;
+  background: var(--color-lake-light);
+  color: var(--color-lake-hover);
+  border-color: var(--color-lake-hover);
 }
 
 .saveButton {
-  background: #4CAF50;
+  background: var(--color-lake);
+  border: none;
   color: white;
 }
 
-.saveButton:hover {
-  background: #45a049;
+.saveButton:hover:not(:disabled) {
+  background: var(--color-lake-hover);
 }
 
 .saveButton:disabled,
 .cancelButton:disabled {
-  background: #ccc;
+  opacity: 0.6;
   cursor: not-allowed;
+}
+.cancelButton:disabled {
+  background: var(--gray-200);
+  color: var(--text-muted);
+  border-color: var(--gray-300);
+}
+.saveButton:disabled {
+  background: var(--gray-300);
+  color: white;
 }
 
 /* 表单样式 */
@@ -555,16 +1222,16 @@
 }
 
 .formSection {
-  background: #f8f9fa;
+  background: var(--bg-clean);
   padding: 25px;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
 }
 
 .formSection h3 {
   margin: 0 0 20px 0;
-  color: #4CAF50;
-  font-size: 18px;
+  color: var(--color-lake);
+  font-size: var(--type-subsection);
   font-weight: 600;
 }
 
@@ -580,7 +1247,7 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .input,
@@ -588,7 +1255,7 @@
   width: 100%;
   padding: 12px;
   border: 2px solid #ddd;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: 14px;
   transition: border-color 0.2s ease;
   box-sizing: border-box;
@@ -597,7 +1264,7 @@
 .input:focus,
 .textarea:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: var(--color-lake);
 }
 
 .textarea {
@@ -621,7 +1288,7 @@
   width: 100%;
   padding: 12px;
   border: 2px solid #ddd;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: 16px;
   transition: border-color 0.2s ease;
   box-sizing: border-box;
@@ -629,7 +1296,7 @@
 
 .searchInput:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: var(--color-lake);
 }
 
 .searchResults {
@@ -639,7 +1306,7 @@
   right: 0;
   background: white;
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-height: 300px;
   overflow-y: auto;
@@ -666,7 +1333,7 @@
 
 .birdInfo h4 {
   margin: 0 0 4px 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 16px;
 }
 
@@ -678,7 +1345,7 @@
 }
 
 .addButton {
-  background: #4CAF50;
+  background: var(--color-lake);
   color: white;
   border: none;
   border-radius: 50%;
@@ -692,7 +1359,7 @@
 }
 
 .addButton:hover {
-  background: #45a049;
+  background: var(--color-lake-hover);
 }
 
 .selectedBirds {
@@ -700,7 +1367,7 @@
 }
 
 .selectedBirds h4 {
-  color: #4CAF50;
+  color: var(--color-lake);
   margin-bottom: 15px;
 }
 
@@ -709,7 +1376,7 @@
   padding: 30px;
   color: #999;
   background: white;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   border: 2px dashed #ddd;
 }
 
@@ -725,8 +1392,8 @@
 
 .birdCard {
   background: white;
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
   padding: 20px;
 }
 
@@ -741,7 +1408,7 @@
 
 .birdHeader .birdInfo h4 {
   margin: 0 0 4px 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 16px;
 }
 
@@ -757,7 +1424,7 @@
   color: white;
   border: none;
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 14px;
 }
@@ -777,7 +1444,7 @@
   width: 80px;
   padding: 8px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   text-align: center;
 }
 
@@ -785,7 +1452,7 @@
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   resize: vertical;
   min-height: 60px;
@@ -793,21 +1460,21 @@
 
 .birdNotes:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: var(--color-lake);
 }
 
 /* 鸟类图片管理样式 */
 .birdImagesSection {
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid var(--gray-200);
 }
 
 .birdImagesSection label {
   display: block;
   margin-bottom: 10px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .imageUploadArea {
@@ -820,9 +1487,9 @@
 
 .uploadButton {
   display: inline-block;
-  background: #f8f9fa;
+  background: var(--bg-clean);
   border: 2px dashed #dee2e6;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   padding: 12px 20px;
   cursor: pointer;
   color: #6c757d;
@@ -832,9 +1499,9 @@
 }
 
 .uploadButton:hover {
-  background: #e9ecef;
-  border-color: #4CAF50;
-  color: #4CAF50;
+  background: var(--gray-200);
+  border-color: var(--color-lake);
+  color: var(--color-lake);
 }
 
 .birdImageGrid {
@@ -845,8 +1512,8 @@
 
 .birdImageItem {
   background: white;
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
   padding: 10px;
 }
 
@@ -859,7 +1526,7 @@
   width: 100%;
   height: 120px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .removeImageButton {
@@ -888,17 +1555,17 @@
   width: 100%;
   padding: 6px 8px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 12px;
   box-sizing: border-box;
   position: static;
   background: white;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .birdImageItem .imageCaption:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: var(--color-lake);
 }
 
 /* 编辑表单响应式设计 */

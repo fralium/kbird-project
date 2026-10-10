@@ -1,4 +1,4 @@
-/* 鸟类搜索添加器样式 */
+﻿/* 鸟类搜索添加器样式 */
 .birdSearchAdder {
   margin-bottom: 1rem;
 }
@@ -17,7 +17,7 @@
 .searchInput {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid #e1e5e9;
+  border: 2px solid var(--border-input);
   border-radius: 8px;
   font-size: 16px;
   background-color: #fff;
@@ -27,8 +27,8 @@
 
 .searchInput:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  border-color: var(--color-lake);
+  box-shadow: var(--focus-ring);
 }
 
 .searchInput::placeholder {
@@ -46,8 +46,8 @@
 .spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid #e1e5e9;
-  border-top: 2px solid #4CAF50;
+  border: 2px solid var(--border-input);
+  border-top: 2px solid var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -64,7 +64,7 @@
   left: 0;
   right: 0;
   background: white;
-  border: 1px solid #e1e5e9;
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -76,7 +76,7 @@
 .suggestionItem {
   padding: 12px 16px;
   cursor: pointer;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--gray-100);
   transition: background-color 0.2s ease;
 }
 
@@ -85,16 +85,16 @@
 }
 
 .suggestionItem:hover {
-  background-color: #f8f9fa;
+  background-color: var(--bg-clean);
 }
 
 .suggestionItem:active {
-  background-color: #e9ecef;
+  background-color: var(--gray-200);
 }
 
 .birdName {
   font-weight: 500;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 2px;
 }
 
@@ -110,8 +110,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background-color: #f8f9fa;
-  border: 1px solid #e1e5e9;
+  background-color: var(--bg-clean);
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   margin-top: 8px;
 }
@@ -124,7 +124,7 @@
 
 .selectedName {
   font-weight: 500;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .selectedScientific {
@@ -134,8 +134,8 @@
 }
 
 .addButton {
-  padding: 8px 16px;
-  background-color: #4CAF50;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--color-lake);
   color: white;
   border: none;
   border-radius: 6px;
@@ -147,11 +147,9 @@
 }
 
 .addButton:hover {
-  background-color: #45a049;
-}
-
-.addButton:active {
-  background-color: #3d8b40;
+  background: var(--color-lake-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* 无结果提示 */
@@ -162,7 +160,7 @@
   right: 0;
   padding: 12px 16px;
   background: white;
-  border: 1px solid #e1e5e9;
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -170,6 +168,35 @@
   color: #666;
   text-align: center;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.noResultsText {
+  margin: 0;
+}
+
+.requestButton {
+  appearance: none;
+  border: 1px solid var(--color-lake, #0d9488);
+  background: #f0fdfa;
+  color: var(--color-lake, #0f766e);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.requestButton:hover:not(:disabled) {
+  background: #ccfbf1;
+}
+
+.requestButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 /* 响应式设计 */
@@ -196,6 +223,8 @@
     align-self: flex-end;
   }
 }
+
+
 
 
 

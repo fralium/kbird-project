@@ -1,21 +1,19 @@
 import { useState, useRef } from 'react';
+import Image from 'next/image';
+import { api } from '../utils/api';
 import styles from '../styles/AvatarUpload.module.css';
 
 export default function AvatarUpload({ currentAvatar, onAvatarChange }) {
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('success');
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log('文件选择事件:', file);
     if (file) {
-      console.log('文件信息:', {
-        name: file.name,
-        size: file.size,
-        type: file.type
-      });
       setSelectedFile(file);
       // 创建预览
       const reader = new FileReader();
@@ -23,37 +21,20 @@ export default function AvatarUpload({ currentAvatar, onAvatarChange }) {
         setPreview(e.target.result);
       };
       reader.readAsDataURL(file);
-    } else {
-      console.log('没有选择文件');
     }
   };
 
   const handleUpload = async () => {
-    console.log('开始上传，selectedFile:', selectedFile);
+    setMessage('');
     if (!selectedFile) {
-      console.log('没有选择文件，显示警告');
-      alert('请选择头像文件');
+      setMessageType('error');
+      setMessage('请选择头像文件');
       return;
     }
 
     setUploading(true);
     try {
-      const token = localStorage.getItem('token');
-      console.log('Token:', token ? '存在' : '不存在');
-      const formData = new FormData();
-      formData.append('avatar', selectedFile);
-      console.log('FormData已创建，准备发送请求');
-
-      // 直接访问后端API，绕过Next.js代理
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002'}/api/users/avatar`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const data = await response.json();
+      const data = await api.users.uploadAvatar(selectedFile);
 
       if (data.success) {
         onAvatarChange(data.data.avatar);
@@ -62,13 +43,16 @@ export default function AvatarUpload({ currentAvatar, onAvatarChange }) {
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
-        alert('头像上传成功！');
+        setMessageType('success');
+        setMessage('头像上传成功');
       } else {
-        alert(data.message || '头像上传失败');
+        setMessageType('error');
+        setMessage(data.message || '头像上传失败');
       }
     } catch (error) {
       console.error('头像上传失败:', error);
-      alert('头像上传失败，请重试');
+      setMessageType('error');
+      setMessage('头像上传失败，请重试');
     } finally {
       setUploading(false);
     }
@@ -78,14 +62,23 @@ export default function AvatarUpload({ currentAvatar, onAvatarChange }) {
     <div className={styles.avatarUpload}>
       <div className={styles.avatarPreview}>
         {preview ? (
-          <img src={preview} alt="头像预览" className={styles.previewImage} />
+          <Image
+            src={preview}
+            alt="头像预览"
+            width={160}
+            height={160}
+            className={styles.previewImage}
+            unoptimized
+          />
         ) : currentAvatar && currentAvatar !== 'default-avatar.jpg' ? (
-          <img 
+          <Image 
             src={currentAvatar.startsWith('/images/avatars/') ? currentAvatar : `/images/avatars/${currentAvatar}`}
             alt="当前头像" 
+            width={160}
+            height={160}
             className={styles.currentImage}
+            unoptimized
             onError={(e) => {
-              console.log('头像加载失败:', e.target.src);
               e.target.style.display = 'none';
             }}
           />
@@ -123,6 +116,11 @@ export default function AvatarUpload({ currentAvatar, onAvatarChange }) {
       <p className={styles.uploadTip}>
         支持 JPG、PNG 格式，文件大小不超过 2MB
       </p>
+      {message && (
+        <p className={`${styles.uploadTip} ${messageType === 'error' ? styles.error : styles.success}`}>
+          {message}
+        </p>
+      )}
     </div>
   );
 }

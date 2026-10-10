@@ -1,10 +1,26 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import Toast from './Toast';
+
+const TOAST_DEDUP_TTL_MS = 10_000;
 
 const ToastManager = () => {
   const [toasts, setToasts] = useState([]);
+  const recentToastTimesRef = useRef(new Map());
 
-  const addToast = useCallback((message, type = 'success', duration = 3000) => {
+  const addToast = useCallback((message, type = 'success', duration = 3000, options = {}) => {
+    const { dedupe = type === 'error', dedupeTtlMs = TOAST_DEDUP_TTL_MS } = options || {};
+    const toastKey = `${type}|${String(message || '').trim()}`;
+    if (dedupe && toastKey) {
+      const now = Date.now();
+      const lastAt = recentToastTimesRef.current.get(toastKey) || 0;
+      if (now - lastAt < dedupeTtlMs) return;
+      recentToastTimesRef.current.set(toastKey, now);
+      if (recentToastTimesRef.current.size > 200) {
+        recentToastTimesRef.current.clear();
+        recentToastTimesRef.current.set(toastKey, now);
+      }
+    }
+
     const id = Date.now() + Math.random();
     const newToast = { id, message, type, duration };
     

@@ -5,7 +5,7 @@ module.exports = {
       script: 'server/index.js',
       env: {
         NODE_ENV: 'production',
-        PORT: 3002
+        PORT: 13082
       },
       instances: 1,
       autorestart: true,
@@ -18,7 +18,7 @@ module.exports = {
       args: 'start',
       env: {
         NODE_ENV: 'production',
-        PORT: 3000
+        PORT: 13080
       },
       instances: 1,
       autorestart: true,

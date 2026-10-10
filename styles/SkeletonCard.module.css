@@ -1,0 +1,112 @@
+﻿/* 骨架屏样式 */
+.birdCard {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonImage {
+  width: 100%;
+  height: 200px;
+  background: var(--skeleton-shine);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.skeletonContent {
+  padding: 8px 0;
+}
+
+.skeletonTitle {
+  height: 20px;
+  background: var(--skeleton-shine);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  width: 70%;
+}
+
+.skeletonSubtitle {
+  height: 16px;
+  background: var(--skeleton-shine);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  width: 50%;
+}
+
+.skeletonText {
+  height: 14px;
+  background: var(--skeleton-shine);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.skeletonText:last-child {
+  width: 60%;
+}
+
+/* 列表项骨架屏 */
+.listItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.skeletonAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--skeleton-shine);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+/* 表格骨架屏 */
+.tableRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.skeletonCell {
+  height: 16px;
+  background: var(--skeleton-shine);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* 动画 */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+

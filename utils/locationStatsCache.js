@@ -1,4 +1,5 @@
 // 地点统计数据缓存模块
+const { isDevelopment, devLog } = require('../server/utils/devLogger');
 const statsCache = new Map();
 const CACHE_DURATION = 5 * 60 * 1000; // 5分钟缓存
 
@@ -11,8 +12,8 @@ async function calculateLocationStats(locationName, Bird) {
     
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
       // 只在开发环境或数据非零时打印缓存日志
-      if (process.env.NODE_ENV === 'development' && (cached.data.totalSightings > 0 || cached.data.uniqueSpecies > 0)) {
-        console.log(`✅ 使用缓存数据 [${locationName}]: ${JSON.stringify(cached.data)}`);
+      if (isDevelopment && (cached.data.totalSightings > 0 || cached.data.uniqueSpecies > 0)) {
+        devLog(`✅ 使用缓存数据 [${locationName}]: ${JSON.stringify(cached.data)}`);
       }
       return cached.data;
     }
@@ -56,10 +57,10 @@ async function calculateLocationStats(locationName, Bird) {
     };
 
     // 只在有数据或开发环境时打印详细日志
-    if (totalSightings > 0 || speciesSet.size > 0 || process.env.NODE_ENV === 'development') {
-      console.log(`📊 计算统计 [${locationName}]: ${JSON.stringify(result)}`);
+    if (totalSightings > 0 || speciesSet.size > 0 || isDevelopment) {
+      devLog(`📊 计算统计 [${locationName}]: ${JSON.stringify(result)}`);
       if (totalSightings > 0) {
-        console.log(`🔍 批次详情 [${locationName}]: ${Array.from(observationBatches.keys()).join(', ')}`);
+        devLog(`🔍 批次详情 [${locationName}]: ${Array.from(observationBatches.keys()).join(', ')}`);
       }
     }
 
@@ -90,8 +91,8 @@ async function calculateDetailedLocationStats(locationName, Bird) {
       const baseStats = cached.data;
       // 需要重新计算详细统计，但使用缓存的基础数据
       // 这里我们继续执行下面的计算逻辑
-      if (process.env.NODE_ENV === 'development' && (baseStats.totalSightings > 0 || baseStats.uniqueSpecies > 0)) {
-        console.log(`✅ 使用缓存基础数据 [${locationName}]: ${JSON.stringify(baseStats)}`);
+      if (isDevelopment && (baseStats.totalSightings > 0 || baseStats.uniqueSpecies > 0)) {
+        devLog(`✅ 使用缓存基础数据 [${locationName}]: ${JSON.stringify(baseStats)}`);
       }
     }
 

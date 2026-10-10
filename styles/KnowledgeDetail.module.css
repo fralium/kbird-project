@@ -1,0 +1,457 @@
+﻿/* 知识详情页面样式 - 与其他功能页面保持一致 */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-gradient);
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+  max-width: var(--page-content-max);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.backSection {
+  margin-bottom: 20px;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--background-white);
+  color: var(--text-dark);
+  text-decoration: none;
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.backButton:hover {
+  background: var(--primary-green);
+  color: var(--text-white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.article {
+  background: var(--background-white);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-medium);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.articleHeader {
+  padding: 40px;
+  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-dark-2) 100%);
+  color: var(--text-white);
+  position: relative;
+  overflow: hidden;
+}
+
+.articleHeader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.categoryInfo {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.categoryTag {
+  padding: 6px 16px;
+  border-radius: var(--radius-lg);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-white);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.difficultyTag {
+  padding: 6px 16px;
+  border-radius: var(--radius-lg);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-white);
+}
+
+.difficultyTag.初级 {
+  background: var(--success);
+}
+
+.difficultyTag.中级 {
+  background: var(--warning);
+}
+
+.difficultyTag.高级 {
+  background: var(--error);
+}
+
+.articleTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  line-height: 1.2;
+}
+
+.articleMeta {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.metaIcon {
+  font-size: 16px;
+}
+
+.articleImage {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+}
+
+.articleImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.articleImage:hover img {
+  transform: scale(1.02);
+}
+
+.articleContent {
+  padding: 40px;
+  line-height: 1.8;
+  color: var(--text-dark);
+}
+
+.articleContent h3 {
+  color: var(--primary-green);
+  font-size: 1.5rem;
+  margin: 30px 0 15px 0;
+  font-weight: 600;
+}
+
+.articleContent h4 {
+  color: var(--text-dark);
+  font-size: 1.2rem;
+  margin: 25px 0 10px 0;
+  font-weight: 600;
+}
+
+.articleContent p {
+  margin-bottom: 15px;
+  color: var(--text-medium);
+}
+
+.articleContent ul {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+
+.articleContent li {
+  margin-bottom: 8px;
+  color: var(--text-medium);
+}
+
+.articleContent strong {
+  color: var(--primary-green);
+  font-weight: 600;
+}
+
+.tipsSection {
+  margin: 40px;
+  padding: 30px;
+  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--secondary-gold) 100%);
+  border-radius: var(--radius-large);
+  border-left: 5px solid var(--primary-gold);
+}
+
+.tipsTitle {
+  color: var(--text-dark);
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.tipsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tipItem {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  border-radius: var(--radius-medium);
+  color: var(--text-dark);
+  font-weight: 500;
+  position: relative;
+  padding-left: 50px;
+}
+
+.tipItem::before {
+  content: '💡';
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+
+.relatedSection {
+  padding: 40px;
+  background: var(--background-light);
+  border-top: 1px solid var(--medium-gray);
+}
+
+.relatedTitle {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.relatedCard {
+  display: flex;
+  background: var(--background-white);
+  border-radius: var(--radius-large);
+  overflow: hidden;
+  box-shadow: var(--shadow-light);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.relatedCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-medium);
+}
+
+.relatedImage {
+  width: 120px;
+  height: 100px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.relatedImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.relatedContent {
+  padding: 20px;
+  flex: 1;
+}
+
+.relatedCardTitle {
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.relatedCardMeta {
+  color: var(--text-medium);
+  font-size: 14px;
+  margin: 0;
+}
+
+.quickNav {
+  background: var(--background-white);
+  padding: 30px;
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-medium);
+  text-align: center;
+}
+
+.quickNav h3 {
+  color: var(--text-dark);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.navLinks {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.navLink {
+  padding: 12px 25px;
+  background: var(--background-white);
+  border: 2px solid var(--medium-gray);
+  border-radius: var(--radius-full);
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.navLink:hover {
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.2);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 20px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--medium-gray);
+  border-top: 4px solid var(--primary-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--background-white);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-medium);
+}
+
+.error h2 {
+  color: var(--text-dark);
+  margin-bottom: 15px;
+}
+
+.error p {
+  color: var(--text-medium);
+  margin-bottom: 25px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .articleHeader {
+    padding: 30px 20px;
+  }
+  
+  .articleTitle {
+    font-size: 2rem;
+  }
+  
+  .articleMeta {
+    gap: 20px;
+  }
+  
+  .articleContent {
+    padding: 30px 20px;
+  }
+  
+  .tipsSection {
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .relatedSection {
+    padding: 30px 20px;
+  }
+  
+  .relatedGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .relatedCard {
+    flex-direction: column;
+  }
+  
+  .relatedImage {
+    width: 100%;
+    height: 150px;
+  }
+  
+  .navLinks {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .navLink {
+    width: 200px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .articleTitle {
+    font-size: 1.8rem;
+  }
+  
+  .articleMeta {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .articleImage {
+    height: 250px;
+  }
+  
+  .tipItem {
+    padding-left: 40px;
+  }
+  
+  .tipItem::before {
+    left: 10px;
+  }
+}

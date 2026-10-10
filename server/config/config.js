@@ -1,3 +1,6 @@
+const { getJwtSecret } = require('./jwtSecret');
+const { getUploadsRoot, getDataRoot } = require('./dataPaths');
+
 // 应用配置
 module.exports = {
   // 数据库配置
@@ -7,18 +10,29 @@ module.exports = {
   
   // JWT配置
   jwt: {
-    secret: process.env.JWT_SECRET || 'your_super_secret_jwt_key_here_change_in_production',
+    get secret() {
+      return getJwtSecret();
+    },
     expiresIn: '30d'
   },
   
   // 服务器配置
   server: {
-    port: process.env.PORT || 3001
+    port: process.env.PORT || 13082
+  },
+
+  // 个人数据根（仓库外）
+  data: {
+    get root() {
+      return getDataRoot();
+    },
   },
   
-  // 文件上传配置
+  // 文件上传配置（物理目录在 KBIRD_DATA_ROOT/uploads，URL 仍为 /uploads/...）
   upload: {
-    path: process.env.UPLOAD_PATH || './uploads',
+    get path() {
+      return getUploadsRoot();
+    },
     maxFileSize: process.env.MAX_FILE_SIZE || 5242880 // 5MB
   }
 };

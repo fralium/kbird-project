@@ -11,6 +11,14 @@ const compressionMiddleware = compression({
     if (req.headers['x-no-compression']) {
       return false;
     }
+    // SSE 不可压缩，否则会缓冲整段再吐出
+    if (String(req.headers.accept || '').includes('text/event-stream')) {
+      return false;
+    }
+    const contentType = String(res.getHeader('Content-Type') || '');
+    if (contentType.includes('text/event-stream')) {
+      return false;
+    }
     return compression.filter(req, res);
   }
 });

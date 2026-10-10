@@ -1,18 +1,18 @@
-.toast {
+﻿.toast {
   position: fixed;
   top: 20px;
   right: 20px;
   min-width: 300px;
   max-width: 400px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  z-index: 1000;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--glass-border);
+  z-index: var(--z-toast);
   transform: translateX(100%);
   opacity: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--transition-base), opacity var(--transition-base), box-shadow var(--transition-base);
   overflow: hidden;
   cursor: pointer;
 }
@@ -30,28 +30,28 @@
 .toastContent {
   display: flex;
   align-items: center;
-  padding: 16px 20px;
-  gap: 12px;
+  padding: var(--spacing-4) var(--spacing-5);
+  gap: var(--spacing-3);
 }
 
 .icon {
-  font-size: 1.2rem;
+  font-size: var(--type-scale-md);
   flex-shrink: 0;
 }
 
 .message {
   flex: 1;
-  font-size: 0.95rem;
+  font-size: var(--type-scale-sm);
   font-weight: 500;
-  color: #333;
-  line-height: 1.4;
+  color: var(--text-primary);
+  line-height: var(--line-height-snug);
 }
 
 .closeButton {
   background: none;
   border: none;
-  font-size: 1.5rem;
-  color: #666;
+  font-size: var(--type-scale-xl);
+  color: var(--text-muted);
   cursor: pointer;
   padding: 0;
   width: 24px;
@@ -59,14 +59,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s ease;
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast), color var(--transition-fast);
   flex-shrink: 0;
 }
 
 .closeButton:hover {
-  background: rgba(0, 0, 0, 0.1);
-  color: #333;
+  background: var(--color-lake-light);
+  color: var(--text-primary);
+}
+
+.closeButton:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .progressBar {
@@ -75,53 +80,51 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--gray-200);
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #4CAF50, #45a049);
+  background: linear-gradient(90deg, var(--color-lake), var(--color-lake-hover));
   width: 100%;
   transform: scaleX(1);
   transform-origin: left;
   animation: progress 3s linear forwards;
 }
 
-/* 不同类型的样式 */
 .toast.success {
-  border-left: 4px solid #4CAF50;
+  border-left: 4px solid var(--color-success);
 }
 
 .toast.success .progressFill {
-  background: linear-gradient(90deg, #4CAF50, #45a049);
+  background: linear-gradient(90deg, var(--color-success), var(--color-success-hover));
 }
 
 .toast.error {
-  border-left: 4px solid #f44336;
+  border-left: 4px solid var(--color-danger);
 }
 
 .toast.error .progressFill {
-  background: linear-gradient(90deg, #f44336, #d32f2f);
+  background: linear-gradient(90deg, var(--color-danger), var(--color-danger-hover));
 }
 
 .toast.info {
-  border-left: 4px solid #2196F3;
+  border-left: 4px solid var(--color-lake);
 }
 
 .toast.info .progressFill {
-  background: linear-gradient(90deg, #2196F3, #1976D2);
+  background: linear-gradient(90deg, var(--color-lake), var(--color-lake-hover));
 }
 
 .toast.warning {
-  border-left: 4px solid #ff9800;
+  border-left: 4px solid var(--color-warning);
 }
 
 .toast.warning .progressFill {
-  background: linear-gradient(90deg, #ff9800, #f57c00);
+  background: linear-gradient(90deg, var(--color-warning), var(--color-warning-hover));
 }
 
-/* 进度条动画 */
 @keyframes progress {
   from {
     transform: scaleX(1);
@@ -131,17 +134,15 @@
   }
 }
 
-/* 悬停效果 */
 .toast:hover {
   transform: translateX(-5px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-xl);
 }
 
 .toast:hover .progressFill {
   animation-play-state: paused;
 }
 
-/* 响应式设计 */
 @media (max-width: 768px) {
   .toast {
     top: 10px;
@@ -150,37 +151,12 @@
     min-width: auto;
     max-width: none;
   }
-  
+
   .toastContent {
     padding: 14px 16px;
   }
-  
-  .message {
-    font-size: 0.9rem;
-  }
-}
 
-/* 深色模式支持 */
-@media (prefers-color-scheme: dark) {
-  .toast {
-    background: rgba(30, 30, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
   .message {
-    color: #fff;
-  }
-  
-  .closeButton {
-    color: #ccc;
-  }
-  
-  .closeButton:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-  }
-  
-  .progressBar {
-    background: rgba(255, 255, 255, 0.1);
+    font-size: var(--type-scale-sm);
   }
 }

@@ -1,6 +1,8 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs').promises;
+const { getActiveUploadsRoot } = require('../config/dataPaths');
+const { isDevelopment, devLog, devError } = require('../utils/devLogger');
 
 // 允许的文件类型和MIME类型
 const ALLOWED_IMAGE_TYPES = {
@@ -17,16 +19,14 @@ const ALLOWED_EXTENSIONS = Object.values(ALLOWED_IMAGE_TYPES);
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 const MAX_FILES = 5; // 最多5个文件
 
-// 检查是否为开发环境
-const isDevelopment = process.env.NODE_ENV === 'development';
-
 // 生成安全的文件名
-const generateSafeFileName = (originalName, userId) => {
+const generateSafeFileName = (originalName, userId, mimeType) => {
   const timestamp = Date.now();
   const randomString = Math.random().toString(36).substring(2, 8);
-  const ext = path.extname(originalName).toLowerCase();
-  
-  // 确保扩展名是安全的
+  let ext = path.extname(originalName || '').toLowerCase();
+  if (!ALLOWED_EXTENSIONS.includes(ext)) {
+    ext = ALLOWED_IMAGE_TYPES[mimeType] || '';
+  }
   if (!ALLOWED_EXTENSIONS.includes(ext)) {
     throw new Error('不支持的文件类型');
   }
@@ -42,16 +42,10 @@ const fileFilter = (req, file, cb) => {
       return cb(new Error('只允许上传图片文件 (JPG, PNG, GIF, WebP)'), false);
     }
     
-    // 检查文件扩展名
-    const ext = path.extname(file.originalname).toLowerCase();
-    if (!ALLOWED_EXTENSIONS.includes(ext)) {
+    // 扩展名可选；MIME 已白名单。无扩展名时由 generateSafeFileName 按 MIME 补齐
+    const ext = path.extname(file.originalname || '').toLowerCase();
+    if (ext && !ALLOWED_EXTENSIONS.includes(ext)) {
       return cb(new Error('文件扩展名不被支持'), false);
-    }
-    
-    // 检查文件名是否包含危险字符
-    const fileName = path.basename(file.originalname, ext);
-    if (!/^[a-zA-Z0-9\u4e00-\u9fa5\s\-_\.]+$/.test(fileName)) {
-      return cb(new Error('文件名包含非法字符'), false);
     }
     
     cb(null, true);
@@ -64,7 +58,7 @@ const fileFilter = (req, file, cb) => {
 const storage = multer.diskStorage({
   destination: async (req, file, cb) => {
     try {
-      const uploadDir = path.join(process.cwd(), 'uploads', 'active');
+      const uploadDir = getActiveUploadsRoot();
       
       // 确保上传目录存在
       await fs.mkdir(uploadDir, { recursive: true });
@@ -77,7 +71,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     try {
       const userId = req.user?.id || 'anonymous';
-      const safeFileName = generateSafeFileName(file.originalname, userId);
+      const safeFileName = generateSafeFileName(file.originalname, userId, file.mimetype);
       cb(null, safeFileName);
     } catch (error) {
       cb(error);
@@ -132,10 +126,13 @@ const validateUploadedFiles = async (req, res, next) => {
           throw new Error(`文件 ${file.originalname} 不存在`);
         }
         
-        // 检查文件是否在允许的目录内
-        const uploadDir = path.join(process.cwd(), 'uploads');
-        const fileDir = path.dirname(file.path);
-        if (!fileDir.startsWith(uploadDir)) {
+        // 检查文件是否在允许的目录内（resolve + sep，避免 uploads_evil 前缀命中）
+        const uploadDir = path.resolve(getActiveUploadsRoot());
+        const resolvedFile = path.resolve(file.path);
+        if (
+          resolvedFile !== uploadDir &&
+          !resolvedFile.startsWith(`${uploadDir}${path.sep}`)
+        ) {
           throw new Error(`文件 ${file.originalname} 路径不安全`);
         }
         
@@ -147,7 +144,7 @@ const validateUploadedFiles = async (req, res, next) => {
             await fs.unlink(file.path);
           }
         } catch (unlinkError) {
-          console.error('删除问题文件失败:', unlinkError);
+          devError('删除问题文件失败:', unlinkError);
         }
         throw error;
       }
@@ -156,7 +153,7 @@ const validateUploadedFiles = async (req, res, next) => {
     await Promise.all(fileChecks);
     
     if (isDevelopment) {
-      console.log(`✅ 文件上传验证通过: ${req.files.length} 个文件`);
+      devLog(`✅ 文件上传验证通过: ${req.files.length} 个文件`);
     }
     
     next();
@@ -169,7 +166,7 @@ const validateUploadedFiles = async (req, res, next) => {
             await fs.unlink(file.path);
           }
         } catch (unlinkError) {
-          console.error('清理文件失败:', unlinkError);
+          devError('清理文件失败:', unlinkError);
         }
       }
     }
@@ -226,7 +223,7 @@ const cleanupTempFiles = async (req, res, next) => {
     if (req.files && req.files.length > 0) {
       // 这里可以添加额外的清理逻辑
       if (isDevelopment) {
-        console.log(`🧹 请求结束，清理 ${req.files.length} 个上传文件`);
+        devLog(`🧹 请求结束，清理 ${req.files.length} 个上传文件`);
       }
     }
   });
