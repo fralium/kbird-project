@@ -13,7 +13,7 @@ import { api } from '../../../utils/api';
 import { UI_STYLES, applyUiStyle, isValidUiStyle } from '../../../utils/uiStyle';
 import styles from '../../../styles/PersonalSettings.module.css';
 
-const VALID_TABS = ['account', 'favorites', 'app'];
+const VALID_TABS = ['account', 'favorites', 'app', 'services'];
 
 function PersonalSettingsPageClient() {
   const router = useRouter();
@@ -39,10 +39,30 @@ function PersonalSettingsPageClient() {
   const [favorites, setFavorites] = useState([]);
   const [favoritesLoading, setFavoritesLoading] = useState(false);
   const [favoritesFetched, setFavoritesFetched] = useState(false);
+  const [setupEnv, setSetupEnv] = useState(null);
+  const [setupEnvForm, setSetupEnvForm] = useState({
+    dbName: 'kbird',
+    dbHost: 'localhost',
+    dbPort: '27017',
+    baiduMapAk: '',
+    tiandituTk: '',
+    tiandituServerTk: '',
+    openaiApiKey: '',
+    openaiBaseUrl: '',
+    openaiModel: '',
+    hhoApiKey: '',
+    hhoApiUrl: '',
+  });
+  const [setupEnvLoading, setSetupEnvLoading] = useState(false);
+  const [setupEnvSaving, setSetupEnvSaving] = useState(false);
+  const [setupEnvFetched, setSetupEnvFetched] = useState(false);
+  const [restartNotice, setRestartNotice] = useState('');
   const hasRedirectedRef = useRef(false);
 
+  const isAdmin = user?.role === 'admin';
   const tabParam = searchParams?.get('tab');
-  const activeTab = VALID_TABS.includes(tabParam) ? tabParam : 'account';
+  const activeTab =
+    VALID_TABS.includes(tabParam) && (tabParam !== 'services' || isAdmin) ? tabParam : 'account';
 
   const setActiveTab = (tab) => {
     const next = VALID_TABS.includes(tab) ? tab : 'account';
@@ -99,9 +119,95 @@ function PersonalSettingsPageClient() {
     }
   }, [activeTab, user, favoritesFetched]);
 
+  useEffect(() => {
+    if (activeTab === 'services' && isAdmin && !setupEnvFetched) {
+      fetchSetupEnv();
+    }
+  }, [activeTab, isAdmin, setupEnvFetched]);
+
   const showMessage = (text, duration = 3000) => {
     setMessage(text);
     setTimeout(() => setMessage(''), duration);
+  };
+
+  const fetchSetupEnv = async () => {
+    setSetupEnvLoading(true);
+    try {
+      const data = await api.personal.getSetupEnv();
+      if (data.success && data.data) {
+        setSetupEnv(data.data);
+        setSetupEnvForm({
+          dbName: data.data.dbName || 'kbird',
+          dbHost: data.data.dbHost || 'localhost',
+          dbPort: data.data.dbPort || '27017',
+          baiduMapAk: '',
+          tiandituTk: '',
+          tiandituServerTk: '',
+          openaiApiKey: '',
+          openaiBaseUrl: data.data.openaiBaseUrl || '',
+          openaiModel: data.data.openaiModel || '',
+          hhoApiKey: '',
+          hhoApiUrl: data.data.hhoApiUrl || '',
+        });
+        setSetupEnvFetched(true);
+      } else {
+        showMessage(data.message || '无法读取本机配置（需管理员且在本机访问）', 4000);
+      }
+    } catch (error) {
+      showMessage(error.message || '无法读取本机配置', 4000);
+    } finally {
+      setSetupEnvLoading(false);
+    }
+  };
+
+  const handleSetupEnvChange = (field, value) => {
+    setSetupEnvForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSaveSetupEnv = async () => {
+    setSetupEnvSaving(true);
+    setRestartNotice('');
+    setMessage('');
+    try {
+      const data = await api.personal.updateSetupEnv(setupEnvForm);
+      if (data.success) {
+        if (data.data) {
+          setSetupEnv(data.data);
+          setSetupEnvForm((prev) => ({
+            ...prev,
+            dbName: data.data.dbName || prev.dbName,
+            dbHost: data.data.dbHost || prev.dbHost,
+            dbPort: data.data.dbPort || prev.dbPort,
+            baiduMapAk: '',
+            tiandituTk: '',
+            tiandituServerTk: '',
+            openaiApiKey: '',
+            openaiBaseUrl: data.data.openaiBaseUrl || '',
+            openaiModel: data.data.openaiModel || '',
+            hhoApiKey: '',
+            hhoApiUrl: data.data.hhoApiUrl || '',
+          }));
+        }
+        if (data.restartRequired) {
+          setRestartNotice(
+            data.message ||
+              '已写入本机 .env。请关闭并重新运行 KBird-Desktop.bat 后配置才会生效。'
+          );
+        }
+        showMessage(data.message || '已保存', 5000);
+      } else {
+        showMessage(data.message || '保存失败', 4000);
+      }
+    } catch (error) {
+      showMessage(error.message || '保存失败，请重试', 4000);
+    } finally {
+      setSetupEnvSaving(false);
+    }
+  };
+
+  const secretStatus = (secret) => {
+    if (!secret?.configured) return '未配置';
+    return `已配置（${secret.masked || '****'}）`;
   };
 
   const handleProfileChange = (e) => {
@@ -336,7 +442,11 @@ function PersonalSettingsPageClient() {
   }
 
   const messageIsSuccess =
-    message.includes('成功') || message.includes('已更新') || message.includes('已重置');
+    message.includes('成功') ||
+    message.includes('已更新') ||
+    message.includes('已重置') ||
+    message.includes('已写入') ||
+    message.includes('已保存');
 
   return (
     <div className={styles.container}>
@@ -384,13 +494,26 @@ function PersonalSettingsPageClient() {
             >
               应用偏好
             </button>
+            {isAdmin ? (
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === 'services'}
+                className={`kb-view-tab${activeTab === 'services' ? ' is-active' : ''}`}
+                onClick={() => setActiveTab('services')}
+              >
+                服务与密钥
+              </button>
+            ) : null}
           </div>
           <p className="kb-view-hint">
             {activeTab === 'account'
               ? '头像、昵称和账号信息。'
               : activeTab === 'favorites'
                 ? '收藏的鸟种。'
-                : '地图、显示等本机偏好。'}
+                : activeTab === 'services'
+                  ? '本机 .env：地图 / AI / 数据库（仅管理员，保存后需重启）。'
+                  : '地图、显示等本机偏好。'}
           </p>
         </div>
 
@@ -821,6 +944,219 @@ function PersonalSettingsPageClient() {
               </div>
             </div>
           )
+        ) : null}
+
+        {activeTab === 'services' && isAdmin ? (
+          <div className={styles.settingsContent} role="tabpanel">
+            {setupEnvLoading ? (
+              <PageState type="loading" title="读取本机配置中..." />
+            ) : (
+              <>
+                {restartNotice ? (
+                  <div className={`${styles.message} ${styles.error}`} style={{ marginBottom: '1rem' }}>
+                    {restartNotice}
+                    <ol style={{ margin: '0.75rem 0 0', paddingLeft: '1.25rem', lineHeight: 1.7 }}>
+                      <li>关闭前后端窗口，或运行 KBird-Stop.bat</li>
+                      <li>重新运行 KBird-Desktop.bat</li>
+                      <li>再打开本页确认掩码状态已更新</li>
+                    </ol>
+                  </div>
+                ) : null}
+
+                <div className={styles.settingsSection}>
+                  <h2 className={styles.sectionTitle}>数据库（高级）</h2>
+                  <p className={styles.settingHint}>
+                    写入本机仓库根目录 <code>.env</code> 的 <code>MONGODB_URI</code>。默认库名{' '}
+                    <code>kbird</code>；修改后必须重启才会连上新库。
+                  </p>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-db-name">
+                      数据库名称
+                    </label>
+                    <input
+                      id="setup-db-name"
+                      type="text"
+                      className={styles.settingInput}
+                      value={setupEnvForm.dbName}
+                      onChange={(e) => handleSetupEnvChange('dbName', e.target.value)}
+                    />
+                  </div>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-db-host">
+                      主机
+                    </label>
+                    <input
+                      id="setup-db-host"
+                      type="text"
+                      className={styles.settingInput}
+                      value={setupEnvForm.dbHost}
+                      onChange={(e) => handleSetupEnvChange('dbHost', e.target.value)}
+                    />
+                  </div>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-db-port">
+                      端口
+                    </label>
+                    <input
+                      id="setup-db-port"
+                      type="text"
+                      className={styles.settingInput}
+                      value={setupEnvForm.dbPort}
+                      onChange={(e) => handleSetupEnvChange('dbPort', e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.settingsSection}>
+                  <h2 className={styles.sectionTitle}>地图 Key</h2>
+                  <p className={styles.settingHint}>
+                    留空表示不修改已有密钥。当前状态：百度{' '}
+                    {secretStatus(setupEnv?.secrets?.baiduMapAk)}；天地图浏览器{' '}
+                    {secretStatus(setupEnv?.secrets?.tiandituTk)}；天地图服务端{' '}
+                    {secretStatus(setupEnv?.secrets?.tiandituServerTk)}。
+                  </p>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-baidu">
+                      百度地图 AK
+                    </label>
+                    <input
+                      id="setup-baidu"
+                      type="password"
+                      className={styles.settingInput}
+                      value={setupEnvForm.baiduMapAk}
+                      onChange={(e) => handleSetupEnvChange('baiduMapAk', e.target.value)}
+                      placeholder="新密钥，留空不改"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-tianditu">
+                      天地图浏览器 TK
+                    </label>
+                    <input
+                      id="setup-tianditu"
+                      type="password"
+                      className={styles.settingInput}
+                      value={setupEnvForm.tiandituTk}
+                      onChange={(e) => handleSetupEnvChange('tiandituTk', e.target.value)}
+                      placeholder="新密钥，留空不改"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-tianditu-server">
+                      天地图服务端 TK
+                    </label>
+                    <input
+                      id="setup-tianditu-server"
+                      type="password"
+                      className={styles.settingInput}
+                      value={setupEnvForm.tiandituServerTk}
+                      onChange={(e) => handleSetupEnvChange('tiandituServerTk', e.target.value)}
+                      placeholder="新密钥，留空不改"
+                      autoComplete="off"
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.settingsSection}>
+                  <h2 className={styles.sectionTitle}>AI Key</h2>
+                  <p className={styles.settingHint}>
+                    OpenAI {secretStatus(setupEnv?.secrets?.openaiApiKey)}；HHO{' '}
+                    {secretStatus(setupEnv?.secrets?.hhoApiKey)}。密钥留空不改。
+                  </p>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-openai-key">
+                      OpenAI API Key
+                    </label>
+                    <input
+                      id="setup-openai-key"
+                      type="password"
+                      className={styles.settingInput}
+                      value={setupEnvForm.openaiApiKey}
+                      onChange={(e) => handleSetupEnvChange('openaiApiKey', e.target.value)}
+                      placeholder="新密钥，留空不改"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-openai-url">
+                      OpenAI Base URL
+                    </label>
+                    <input
+                      id="setup-openai-url"
+                      type="text"
+                      className={styles.settingInput}
+                      value={setupEnvForm.openaiBaseUrl}
+                      onChange={(e) => handleSetupEnvChange('openaiBaseUrl', e.target.value)}
+                      placeholder="https://api.openai.com/v1"
+                    />
+                  </div>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-openai-model">
+                      OpenAI Model
+                    </label>
+                    <input
+                      id="setup-openai-model"
+                      type="text"
+                      className={styles.settingInput}
+                      value={setupEnvForm.openaiModel}
+                      onChange={(e) => handleSetupEnvChange('openaiModel', e.target.value)}
+                      placeholder="gpt-4o-mini"
+                    />
+                  </div>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-hho-key">
+                      HHO API Key
+                    </label>
+                    <input
+                      id="setup-hho-key"
+                      type="password"
+                      className={styles.settingInput}
+                      value={setupEnvForm.hhoApiKey}
+                      onChange={(e) => handleSetupEnvChange('hhoApiKey', e.target.value)}
+                      placeholder="新密钥，留空不改"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
+                    <label className={styles.settingLabel} htmlFor="setup-hho-url">
+                      HHO API URL
+                    </label>
+                    <input
+                      id="setup-hho-url"
+                      type="text"
+                      className={styles.settingInput}
+                      value={setupEnvForm.hhoApiUrl}
+                      onChange={(e) => handleSetupEnvChange('hhoApiUrl', e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.actions}>
+                  <button
+                    type="button"
+                    onClick={handleSaveSetupEnv}
+                    disabled={setupEnvSaving}
+                    className={styles.saveButton}
+                  >
+                    {setupEnvSaving ? '保存中...' : '写入 .env 并提示重启'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSetupEnvFetched(false);
+                      fetchSetupEnv();
+                    }}
+                    className={styles.resetButton}
+                    disabled={setupEnvLoading || setupEnvSaving}
+                  >
+                    重新读取
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         ) : null}
       </main>
 

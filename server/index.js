@@ -148,6 +148,7 @@ app.use('/api/personal/photos', require('./routes/personalPhotoRoutes')); // 个
 app.use('/api/personal/import', require('./routes/personalImportRoutes')); // 个人导入路由
 app.use('/api/personal/export', require('./routes/personalExportRoutes')); // 个人导出（CBRC / eBird）
 app.use('/api/personal/settings', require('./routes/userSettingsRoutes')); // 个人设置路由
+app.use('/api/personal/setup-env', require('./routes/setupEnvRoutes')); // 本机 .env 服务与密钥（admin+localhost）
 app.use('/api/personal/goals', require('./routes/personalGoalsRoutes')); // 观鸟目标路由
 app.use('/api/personal/trip-preview', require('./routes/personalTripPreviewRoutes')); // 名录对照（不写入记录）
 app.use('/api/personal/reports', require('./routes/personalReportRoutes')); // 个人报告路由

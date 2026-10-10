@@ -893,6 +893,12 @@ export const api = {
       apiRequest('/api/personal/settings/reset', {
         method: 'POST',
       }),
+    getSetupEnv: () => apiRequest('/api/personal/setup-env'),
+    updateSetupEnv: (payload) =>
+      apiRequest('/api/personal/setup-env', {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+      }),
     getPhotos: (params = {}) => {
       const queryString = new URLSearchParams(params).toString();
       return apiRequest(`/api/personal/photos${queryString ? `?${queryString}` : ''}`);
