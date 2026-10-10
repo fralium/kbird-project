@@ -90,9 +90,16 @@ if ($statusLines.Count -gt 0) {
     if ($toReset.Count -gt 0) {
         Write-Host "[NOTE] Discarding local npm noise before pull: $($toReset -join ', ')" -ForegroundColor Cyan
         foreach ($p in $toReset) {
-            git restore --source=HEAD --worked-tree -- "$p" 2>$null
+            # Prefer checkout (widely available); avoid failing the script on stderr
+            $prevEap = $ErrorActionPreference
+            $ErrorActionPreference = "Continue"
+            git checkout HEAD -- "$p" 2>&1 | Out-Null
             if ($LASTEXITCODE -ne 0) {
-                git checkout HEAD -- "$p" 2>$null
+                git restore --source=HEAD --worktree -- "$p" 2>&1 | Out-Null
+            }
+            $ErrorActionPreference = $prevEap
+            if ($LASTEXITCODE -ne 0) {
+                Write-Host "[WARN] Could not reset $p; pull may still ask about local changes." -ForegroundColor Yellow
             }
         }
         $statusLines = @(git status --porcelain)
