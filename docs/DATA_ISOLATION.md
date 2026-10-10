@@ -2,6 +2,8 @@
 
 目标：代码与可公开名录进 Gitee，隐私数据留在本机数据根。
 
+**本仓库目录只当程序用。** 个人媒体、备份、完整种子、`.env` 均在忽略列表或仓库外 `KBird-Data`。推送前可跑：`node scripts/check-share-hygiene.js`。
+
 ## 三层数据模型
 
 | 层 | 是否进 Gitee | 内容 |

@@ -4,117 +4,100 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Production builds
+# Production / local builds
 .next/
 out/
 build/
 dist/
 
-# Environment variables
+# Environment (never push — contains local paths & keys)
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
 
-# Logs
-logs
+# Logs & runtime
+logs/
 *.log
-
-# Runtime data
-pids
+pids/
 *.pid
 *.seed
 *.pid.lock
+.pm2/
 
-# Coverage directory used by tools like istanbul
+# Coverage / caches
 coverage/
-
-# nyc test coverage
-.nyc_output
-
-# Dependency directories
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
+.nyc_output/
+.npm/
+.cache/
+.parcel-cache/
+.fusebox/
+.dynamodb/
+.serverless/
+.tern-port
+.vscode-test/
+*.tgz
+.yarn-integrity
 .node_repl_history
 
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env
-
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
-
-# next.js build output
-.next
-
-# nuxt.js build output
-.nuxt
-
-# vuepress build output
-.vuepress/dist
-
-# Serverless directories
-.serverless
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
-
-# Stores VSCode versions used for testing VSCode extensions
-.vscode-test
-
-# Uploads（个人媒体；迁到仓库外 KBird-Data 后仍忽略仓库内残留）
-uploads/
-public/images/
-
-# 个人数据根若误放进仓库目录
-KBird-Data/
-
-# IDE
+# IDE / OS
 .vscode/
 .idea/
 *.swp
 *.swo
-
-# OS
 .DS_Store
 Thumbs.db
 
-# PM2
-.pm2/
+# ---- Personal data (program repo must stay clean) ----
+# Media & data root (live under sibling ../KBird-Data)
+uploads/
+KBird-Data/
+mongo-dumps/
+backups/
+reports/
 
-# Temporary files
+# User-generated under public/images; keep only bundled defaults
+public/images/*
+!public/images/default-bird.svg
+!public/images/knowledge/
+!public/images/knowledge/**
+
+# Local full seed (may reference personal media) — public seed is birds-public.json
+seeds/birds-array.json
+*.bson
+*.zip
+*.dump
+
+# Temp / scratch
+temp/
 *.tmp
 *.temp
 ~$*
-temp/
 lint-report.json
 temp-import-birds.js
 
-# Project specific files
+# Project leftovers
 bird.csv
 baohu.png
 config.json
-reports/
-backups/
+query
+temp_plant_table.png
+乐平市*
+*.xlsx
+*.xls
 
-# Ad-hoc local scratch scripts (root only; do not blanket-ignore scripts/)
+# Data dumps ignored by default; whitelist manifests + public seed
+*.html
+*.csv
+*.json
+!package.json
+!package-lock.json
+!data/basic-info-maintained.json
+!seeds/birds-public.json
+
+# Optional local explore overlay (restore from KBird-Data/personal/exploreDemo)
+data/exploreDemo.personal/
+
+# Ad-hoc scratch scripts at repo root only (do not blanket-ignore scripts/)
 /*.debug.js
 /*test*.js
 /*temp*.js
@@ -144,25 +127,3 @@ backups/
 /*mhtml*.js
 /*garbled*.js
 /*encoding*.js
-
-# Data files (JSON ignored by default; whitelist public seeds / package manifests)
-*.html
-*.csv
-*.json
-!package.json
-!package-lock.json
-!data/basic-info-maintained.json
-!seeds/birds-public.json
-
-# Local full bird seed (may contain personal media refs) — never push
-seeds/birds-array.json
-
-# Personal explore overlay (optional local restore from KBird-Data)
-data/exploreDemo.personal/
-
-# Local / personal working materials (keep outside Git or in KBird-LocalArchive)
-*.xlsx
-*.xls
-query
-temp_plant_table.png
-乐平市*

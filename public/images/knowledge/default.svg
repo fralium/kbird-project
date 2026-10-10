@@ -1,0 +1,7 @@
+<svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="300" height="200" fill="#F5F5F5"/>
+<path d="M150 70L170 100L150 130L130 100L150 70Z" fill="#4caf50"/>
+<circle cx="150" cy="100" r="30" fill="#66bb6a"/>
+<text x="150" y="160" text-anchor="middle" fill="#666" font-family="Arial" font-size="14">鸟类知识</text>
+</svg>
+

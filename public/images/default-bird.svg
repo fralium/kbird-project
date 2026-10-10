@@ -1,0 +1,43 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e9ecef;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bird" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6c757d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#495057;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="400" height="300" fill="url(#bg)"/>
+  
+  <!-- 鸟类轮廓 -->
+  <ellipse cx="200" cy="150" rx="60" ry="45" fill="url(#bird)"/>
+  
+  <!-- 头部 -->
+  <circle cx="200" cy="120" r="25" fill="url(#bird)"/>
+  
+  <!-- 眼睛 -->
+  <circle cx="190" cy="115" r="4" fill="white"/>
+  <circle cx="190" cy="115" r="2" fill="#333"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M200 130 Q210 125 220 130 Q210 135 200 130" fill="#ffc107"/>
+  
+  <!-- 翅膀 -->
+  <ellipse cx="180" cy="160" rx="25" ry="15" fill="url(#bird)" transform="rotate(-20 180 160)"/>
+  <ellipse cx="220" cy="160" rx="25" ry="15" fill="url(#bird)" transform="rotate(20 220 160)"/>
+  
+  <!-- 尾巴 -->
+  <path d="M160 180 Q140 200 160 220 Q180 200 160 180" fill="url(#bird)"/>
+  
+  <!-- 脚 -->
+  <line x1="190" y1="195" x2="185" y2="210" stroke="#ffc107" stroke-width="3"/>
+  <line x1="210" y1="195" x2="215" y2="210" stroke="#ffc107" stroke-width="3"/>
+  
+  <!-- 文字 -->
+  <text x="200" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#6c757d">默认鸟类图片</text>
+</svg>
+
