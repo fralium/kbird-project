@@ -39,23 +39,22 @@ node scripts/export-public-bird-seed.js
 
 ## 数据根布局
 
-推荐与仓库**同级**（不要写进仓库目录）：
+与仓库**同级**（不要写进仓库目录）。安装脚本会自动创建并写入 `.env`：
 
 ```text
 …/KBird/                 ← 代码 + 可公开数据（可推 Gitee）
-…/KBird-Data/            ← 个人数据（勿推）
+…/KBird-Data/            ← 个人数据（勿推；install / ensure-kbird-data 自动建）
   uploads/               照片 / 头像 / 项目附件
   backups/               自动 zip 备份包
   mongo-dumps/           mongodump 临时目录
   personal/              其它个人导出（含 exploreDemo）
 ```
 
-不配环境变量时，程序默认使用「仓库上一级 / `KBird-Data`」。也可在 `.env` 指定绝对路径（仅本机 `.env`，勿提交）：
-
-```env
-KBIRD_DATA_ROOT=C:/path/to/KBird-Data
+```powershell
+node scripts/ensure-kbird-data.js
 ```
 
+会设置 `KBIRD_DATA_ROOT` 与 `UPLOAD_PATH`（绝对路径，仅本机 `.env`，勿提交）。一般用户不必手改。
 ## 一次迁移（已有 uploads 时）
 
 在项目根目录：

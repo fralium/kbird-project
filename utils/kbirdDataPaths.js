@@ -2,14 +2,19 @@
 const path = require('path');
 
 /**
- * 涓汉鏁版嵁鏍圭洰褰曪紙涓庝唬鐮佷粨搴撻殧绂伙紝渚夸簬 Gitee 鍚屾涓嶅甫闅愮锛? *
- * 浼樺厛绾э細
- * 1) KBIRD_DATA_ROOT
- * 2) UPLOAD_PATH 鐨勪笂涓€绾э紙鑻ユ寚鍚?.../uploads锛? * 3) 浠撳簱鏃?../KBird-Data
+ * Personal data root (kept outside the code repo for Gitee sync).
  *
- * 甯冨眬锛? *   KBird-Data/
- *     uploads/          濯掍綋锛坅ctive / avatars / projects / temp锛? *     backups/          鑷姩鍘嬬缉澶囦唤鍖? *     mongo-dumps/      mongodump 涓存椂鐩綍
- *     personal/         瀵煎嚭/鍏跺畠涓汉鏂囦欢
+ * Priority:
+ * 1) KBIRD_DATA_ROOT
+ * 2) parent of UPLOAD_PATH when it ends with /uploads
+ * 3) sibling ../KBird-Data (default; created by scripts/ensure-kbird-data.js)
+ *
+ * Layout:
+ *   KBird-Data/
+ *     uploads/       media (active / avatars / projects / temp)
+ *     backups/       zip backups
+ *     mongo-dumps/   mongodump temp
+ *     personal/      other personal exports
  */
 
 function projectRoot() {
@@ -48,7 +53,7 @@ function getUploadsRoot() {
   const preferred = path.join(dataRoot, 'uploads');
   const legacy = path.join(projectRoot(), 'uploads');
 
-  // 灏氭湭杩佸埌鏁版嵁鏍规椂锛岀户缁敤浠撳簱鍐呮棫 uploads锛岄伩鍏嶇獊鐒惰涓嶅埌鐓х墖
+  // Keep using in-repo uploads until migration if data-root uploads is empty
   try {
     const preferredHas = fs.existsSync(preferred) && fs.readdirSync(preferred).length > 0;
     const legacyHas = fs.existsSync(legacy) && fs.readdirSync(legacy).length > 0;
@@ -125,4 +130,3 @@ module.exports = {
   ensureDir,
   ensureDataDirs,
 };
-

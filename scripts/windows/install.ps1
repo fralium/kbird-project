@@ -128,14 +128,13 @@ if (Test-Path "package.json") {
     exit 1
 }
 
-# 5) .env
+# 5) .env + sibling KBird-Data (parallel to repo)
 Write-Host ""
-Write-Host "[5/5] Environment file..." -ForegroundColor Yellow
+Write-Host "[5/5] Environment + personal data folder..." -ForegroundColor Yellow
 if (-not (Test-Path ".env")) {
     if (Test-Path "env.example") {
         Copy-Item "env.example" ".env"
         Write-Host "[OK] Created .env from env.example" -ForegroundColor Green
-        Write-Host "[NOTE] Edit .env if you need a different MongoDB URI or keys." -ForegroundColor Yellow
     } else {
         Write-Host "[WARN] env.example missing; create .env manually." -ForegroundColor Yellow
     }
@@ -143,14 +142,21 @@ if (-not (Test-Path ".env")) {
     Write-Host "[OK] .env already exists" -ForegroundColor Green
 }
 
+# Create ../KBird-Data (+ uploads/...) and write KBIRD_DATA_ROOT / UPLOAD_PATH into .env
+node scripts/ensure-kbird-data.js
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "[FAIL] ensure-kbird-data.js failed" -ForegroundColor Red
+    exit 1
+}
+Write-Host "[NOTE] Map/AI keys in .env are optional; edit only if you use those features." -ForegroundColor Yellow
+
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green
 Write-Host "Install finished" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Cyan
-Write-Host "  1. (Optional) edit .env" -ForegroundColor White
-Write-Host "  2. Import bird seed: .\scripts\windows\init-database.ps1" -ForegroundColor White
-Write-Host "  3. Start: KBird-Desktop.bat   (or scripts\windows\KBird-Desktop.bat)" -ForegroundColor White
+Write-Host "  1. Import bird seed: .\scripts\windows\init-database.ps1" -ForegroundColor White
+Write-Host "  2. Start: KBird-Desktop.bat" -ForegroundColor White
 Write-Host ""
 Read-Host "Press Enter to exit"

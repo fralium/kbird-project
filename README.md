@@ -1,104 +1,132 @@
 # KBird
 
-本机观鸟笔记本：整理鸟种名录、记观察、存照片、看地区名录与个人统计。默认**单机自用**（本机账号、不开放多人社交）。
+本机观鸟笔记本：整理鸟种名录、记观察、存照片、看地区名录与个人统计。默认**单机自用**。
 
-仓库地址：https://gitee.com/fralium/kbird.git
+仓库：https://gitee.com/fralium/kbird.git
 
-## 数据怎么分
+## 你会得到什么
 
-| 层 | 是否进仓库 | 内容 |
-|---|---|---|
-| 程序 | 是 | 代码、分类/保护等级/别名等静态参考 |
-| 可公开数据 | 是 | 鸟种**文字**种子、AI 封面、首页背景 |
-| 个人 | 否 | 地点、各地鸟种、自留地、探索 demo、记录、照片、MongoDB |
+Clone 后有程序和鸟种**文字**名录；**没有**别人的照片、地点和观察记录。那些都在各自本机积累。
 
-Clone 后只有名录文字，**没有**别人的照片和地点。MongoDB 在各自本机自动建库（见 `.env` 里的 `MONGODB_URI`）。说明见 [docs/DATA_ISOLATION.md](docs/DATA_ISOLATION.md)。
+| 进仓库 | 不进仓库（本机私有） |
+|--------|----------------------|
+| 程序、文字名录、AI 封面 / 首页背景 | 地点、各地鸟种、自留地、探索数据、记录、照片、MongoDB |
 
-## 功能概览
+## 功能
 
 - 鸟种名录（中文名 / 学名 / 分类 / 保护等级 / 别名）
 - 观察记录、地点、自留地与个人项目
 - 照片与鸣声（本机上传）
 - 个人统计、清单、目标；可选导出 eBird / CBRC
-- 各地鸟种名录；可选地图（天地图 / 百度等，需自备 Key）
-- 可选 AI 识鸟与对话草稿（自备兼容 API Key）
+- 各地鸟种名录；可选地图、AI（需自备 Key）
 
-## 环境要求
+## 环境
 
-- Windows 10/11（推荐；一键脚本按 Windows 写）
+- Windows 10 / 11
 - Node.js **≥ 20.9**
 - MongoDB 4.4+（本机服务）
 
-## 安装（新人 / 空库）
+## 安装与启动（到这里即可日常使用）
+
+在**管理员** PowerShell 中：
 
 ```powershell
 git clone https://gitee.com/fralium/kbird.git
 cd kbird
 
-# 检查 Node / 引导依赖（建议管理员 PowerShell）
 .\scripts\windows\install.ps1
-
-# 如未安装 MongoDB
+# 若还没有 MongoDB：
 .\scripts\windows\setup-mongodb.ps1
 
-npm install
-copy env.example .env
-# 按需改 MONGODB_URI；库名不存在时首次写入会自动创建
-
-# 导入公开鸟种文字种子（seeds/birds-public.json）
+# 空库首次：导入公开鸟种文字种子
 .\scripts\windows\init-database.ps1
 ```
 
-启动：
+`install.ps1` 会自动在仓库**同级**创建 `KBird-Data`（含 `uploads` 等），并写入 `.env`，一般不用手改路径。
+
+之后每次启动只需双击（或在项目根目录运行）：
 
 ```batch
 KBird-Desktop.bat
 ```
 
-浏览器打开 http://localhost:13080 ，首次走 `/init` 创建本机管理员。
+浏览器打开 http://localhost:13080 。第一次进站走 `/init` 创建本机管理员。
 
-更细的 Windows 说明：[docs/WINDOWS_QUICK_START.md](docs/WINDOWS_QUICK_START.md)
+停止可用 `KBird-Stop.bat`。
 
-### 开发时分别启动
+更细的步骤：[docs/WINDOWS_QUICK_START.md](docs/WINDOWS_QUICK_START.md)  
+数据与备份：[docs/DATA_ISOLATION.md](docs/DATA_ISOLATION.md)  
+全部文档：[docs/README.md](docs/README.md)
 
-需同时开后端（13082）和前端（13080）：
+## 可选配置
 
-```powershell
-npm run server
-npm run dev
-```
+`install.ps1` 会生成 `.env` 并自动设好与仓库同级的 `KBird-Data`。需要时再改：
 
-## 配置要点
+- 地图 Key、AI Key — 见 `env.example` 与 [docs/MAP_SETUP.md](docs/MAP_SETUP.md)
 
-复制 `env.example` 为 `.env`。常用项：
-
-- `MONGODB_URI` — 本机库，例如 `mongodb://localhost:27017/kbird`
-- `KBIRD_DATA_ROOT` — 个人数据根（建议仓库外；不配则默认同级 `../KBird-Data`），含 uploads / 备份
-- `PORT` / `NEXT_PUBLIC_API_URL` / `SITE_URL` — 默认 13082 / 13080
-- AI、地图 Key — 见 `env.example` 注释与 [docs/MAP_SETUP.md](docs/MAP_SETUP.md)
-
-## 备份
-
-个人数据在 MongoDB + `KBIRD_DATA_ROOT`（或仓库内 `uploads/`）。推荐：
+备份个人数据：
 
 ```powershell
 .\scripts\backup-personal-data.ps1
 ```
 
-详见 [docs/DATA_ISOLATION.md](docs/DATA_ISOLATION.md)。
+## 版权说明
 
-## 把代码推到 Gitee
+公开种子只含文字名录；照片请本机自加。使用地图 / AI 时请遵守对应服务商条款。
 
-推送前导出公开种子、确认无个人文件：见 [docs/GITEE_SHARE_GUIDE.md](docs/GITEE_SHARE_GUIDE.md)。
+---
+
+## 开发说明（一般用户可忽略）
+
+以下供改代码、排障或非 bat 启动时使用。日常观鸟**不必**看本节。
+
+### 手动分进程启动
+
+`KBird-Desktop.bat` 内部等价于同时开：
+
+```powershell
+npm run server   # 后端 API，端口 13082
+npm run dev      # 前端 Next，端口 13080
+```
+
+两个都要开着；只开前端会出现连不上服务端。
+
+### 常用开发命令
+
+```powershell
+npm install
+npm run lint
+npm test
+npm run build
+npm run start          # 生产模式前端（配合已构建产物）
+```
+
+生产向一键启动（若使用）：`KBird-Desktop-Prod.bat`。
+
+### 环境变量（开发）
+
+| 变量 | 含义 |
+|------|------|
+| `MONGODB_URI` | 默认 `mongodb://localhost:27017/kbird` |
+| `PORT` | 后端，默认 `13082` |
+| `NEXT_PUBLIC_API_URL` | 前端访问的 API，默认 `http://localhost:13082` |
+| `SITE_URL` | 前端地址，默认 `http://localhost:13080` |
+| `KBIRD_DATA_ROOT` | 个人 uploads / 备份根目录 |
+
+完整注释见 `env.example`。
+
+### 公开名录与推送 Gitee
+
+更新可分享的鸟种文字种子：
 
 ```powershell
 node scripts/export-public-bird-seed.js
 ```
 
-## 文档索引
+推送前检查个人路径 / 密钥字面量：
 
-见 [docs/README.md](docs/README.md)。
+```powershell
+node scripts/check-share-hygiene.js
+```
 
-## 许可证
-
-个人观鸟工具；分发与使用时请遵守第三方地图 / AI API 与鸟种资料的版权约定。公开种子仅含文字名录。
+清单见 [docs/GITEE_SHARE_GUIDE.md](docs/GITEE_SHARE_GUIDE.md)。

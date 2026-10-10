@@ -12,6 +12,18 @@ Write-Host ""
 
 $ErrorActionPreference = "Stop"
 
+# Prefer repo root
+if (-not (Test-Path "package.json")) {
+    if (Test-Path (Join-Path $PSScriptRoot "..\..\package.json")) {
+        Set-Location (Join-Path $PSScriptRoot "..\..")
+    }
+}
+
+# Ensure sibling KBird-Data + .env paths (idempotent)
+if (Test-Path "scripts\ensure-kbird-data.js") {
+    node scripts/ensure-kbird-data.js
+}
+
 # 检查MongoDB连接
 Write-Host "[1/3] 检查 MongoDB 连接..." -ForegroundColor Yellow
 try {
