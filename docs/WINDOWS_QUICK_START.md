@@ -227,6 +227,26 @@ mongorestore --db kbird ./backups/backup-20250101/kbird
 .\scripts\windows\init-database.ps1
 ```
 
+## 更新程序（git 安装）
+
+已 clone 并在用的电脑，收到新版本后：
+
+1. 关闭本机 KBird（或先让升级脚本停 Node）
+2. 双击根目录 `KBird-Update.bat`，或运行：
+
+```powershell
+.\scripts\windows\update.ps1
+```
+
+3. 再开 `KBird-Desktop.bat`
+
+说明：
+
+- 只更新程序与依赖；`.env`、同级 `KBird-Data`、Mongo 个人数据保留
+- **一般不必**重新 `/init`
+- 本地有未提交改动时脚本会询问；可用 `-Force` 继续
+- 可选：`.\scripts\windows\update.ps1 -SkipNpm`（仅 pull）
+
 ## 下一步
 
 1. 运行 `init-database.ps1` 导入公开鸟种文字种子（空库建议）

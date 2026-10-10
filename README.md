@@ -54,6 +54,23 @@ KBird-Desktop.bat
 
 停止可用 `KBird-Stop.bat`。
 
+## 更新程序（已安装用户）
+
+有新版本时，先关掉本机 KBird，再双击或在项目根目录运行：
+
+```batch
+KBird-Update.bat
+```
+
+等价 PowerShell：
+
+```powershell
+.\scripts\windows\update.ps1
+```
+
+脚本会：停止 Node → `git pull` → `npm install` → 检查 `KBird-Data` 路径。  
+**不会**覆盖 `.env`、个人数据、MongoDB 记录；一般**不必**再走 `/init`。完成后重新运行 `KBird-Desktop.bat`。
+
 更细的步骤：[docs/WINDOWS_QUICK_START.md](docs/WINDOWS_QUICK_START.md)  
 数据与备份：[docs/DATA_ISOLATION.md](docs/DATA_ISOLATION.md)  
 全部文档：[docs/README.md](docs/README.md)
