@@ -73,20 +73,45 @@ $branch = (git rev-parse --abbrev-ref HEAD 2>$null)
 if (-not $branch) { $branch = "master" }
 Write-Host "[OK] Branch: $branch" -ForegroundColor Green
 
-$status = git status --porcelain
-if ($status) {
-    Write-Host "[WARN] Working tree has local changes:" -ForegroundColor Yellow
-    git status --short
-    Write-Host ""
-    if (-not $Force) {
-        $ans = Read-Host "Continue pull anyway? Local edits may conflict (y/N)"
-        if ($ans -notin @("y", "Y", "yes", "YES")) {
-            Write-Host "Aborted. Commit/stash local changes, or re-run with -Force." -ForegroundColor Yellow
-            if (-not $NoPause) { Read-Host "Press Enter to exit" }
-            exit 1
+# npm install often dirties package-lock.json; discard before pull (npm install regenerates it)
+$safeResetPaths = @("package-lock.json")
+
+$statusLines = @(git status --porcelain)
+if ($statusLines.Count -gt 0) {
+    $toReset = @()
+    foreach ($line in $statusLines) {
+        if ($line.Length -lt 4) { continue }
+        $path = $line.Substring(3).Trim().Trim('"')
+        if ($safeResetPaths -contains $path) {
+            $toReset += $path
         }
-    } else {
-        Write-Host "[NOTE] -Force: continuing despite local changes" -ForegroundColor Cyan
+    }
+
+    if ($toReset.Count -gt 0) {
+        Write-Host "[NOTE] Discarding local npm noise before pull: $($toReset -join ', ')" -ForegroundColor Cyan
+        foreach ($p in $toReset) {
+            git restore --source=HEAD --worked-tree -- "$p" 2>$null
+            if ($LASTEXITCODE -ne 0) {
+                git checkout HEAD -- "$p" 2>$null
+            }
+        }
+        $statusLines = @(git status --porcelain)
+    }
+
+    if ($statusLines.Count -gt 0) {
+        Write-Host "[WARN] Working tree has local changes:" -ForegroundColor Yellow
+        git status --short
+        Write-Host ""
+        if (-not $Force) {
+            $ans = Read-Host "Continue pull anyway? Local edits may conflict (y/N)"
+            if ($ans -notin @("y", "Y", "yes", "YES")) {
+                Write-Host "Aborted. Commit/stash local changes, or re-run with -Force." -ForegroundColor Yellow
+                if (-not $NoPause) { Read-Host "Press Enter to exit" }
+                exit 1
+            }
+        } else {
+            Write-Host "[NOTE] -Force: continuing despite local changes" -ForegroundColor Cyan
+        }
     }
 }
 
