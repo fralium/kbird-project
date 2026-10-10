@@ -1,4 +1,4 @@
-# KBird Windows 生产环境启动脚本
+﻿# KBird Windows 生产环境启动脚本
 
 Write-Host "========================================" -ForegroundColor Green
 Write-Host "        KBird Windows生产环境启动" -ForegroundColor Green

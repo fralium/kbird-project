@@ -1,4 +1,4 @@
-param(
+﻿param(
   [string]$TagName,
   [string]$Message = "KBird stable release",
   [switch]$DryRun

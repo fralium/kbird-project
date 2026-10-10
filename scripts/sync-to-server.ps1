@@ -1,4 +1,4 @@
-# KBird 代码同步脚本
+﻿# KBird 代码同步脚本
 param(
     [string]$ServerPath = "~/ubuntu-release/build",
     [string]$ServerUser = "fral",

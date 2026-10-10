@@ -1,4 +1,4 @@
-# Build a real KBird launcher .exe (with logo) onto the Desktop.
+﻿# Build a real KBird launcher .exe (with logo) onto the Desktop.
 # Usage: .\scripts\windows\create-desktop-shortcut.ps1
 # Optional: -Name "Kbird" -Target "Desktop"|"Prod"
 

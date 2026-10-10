@@ -1,4 +1,4 @@
-# KBird 服务状态检查脚本
+﻿# KBird 服务状态检查脚本
 
 Write-Host "========================================" -ForegroundColor Green
 Write-Host "   KBird 服务状态检查" -ForegroundColor Green

@@ -1,4 +1,4 @@
-# 清除 Next.js 缓存脚本
+﻿# 清除 Next.js 缓存脚本
 Write-Host "正在清除 Next.js 缓存..." -ForegroundColor Yellow
 
 # 清除 .next 目录

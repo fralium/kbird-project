@@ -1,4 +1,4 @@
-#Requires -Version 5.1
+﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
   备份 KBird 个人数据：uploads + MongoDB dump，打成 zip 放入数据根 backups/。

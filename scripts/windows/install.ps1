@@ -1,5 +1,6 @@
-# KBird Windows 一键安装脚本
-# 自动检测并安装所需依赖
+﻿# KBird Windows install script
+# Detect dependencies and install npm packages.
+# Encoding: UTF-8 with BOM (required for Chinese Windows PowerShell).
 
 param(
     [switch]$SkipMongoDB = $false,
@@ -7,145 +8,149 @@ param(
 )
 
 Write-Host "========================================" -ForegroundColor Green
-Write-Host "   KBird Windows 本地安装向导" -ForegroundColor Green
+Write-Host "   KBird Windows Install" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
 
 $ErrorActionPreference = "Stop"
 
-# 检查管理员权限
+# Prefer running from repo root
+if (-not (Test-Path "package.json")) {
+    if (Test-Path (Join-Path $PSScriptRoot "..\..\package.json")) {
+        Set-Location (Join-Path $PSScriptRoot "..\..")
+    }
+}
+
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
-    Write-Host "⚠️  警告: 建议以管理员身份运行此脚本以获得完整功能" -ForegroundColor Yellow
+    Write-Host "[WARN] Run as Administrator for full MongoDB service setup." -ForegroundColor Yellow
     Write-Host ""
 }
 
-# 1. 检查Node.js
-Write-Host "[1/4] 检查 Node.js..." -ForegroundColor Yellow
+# 1) Node.js
+Write-Host "[1/5] Checking Node.js..." -ForegroundColor Yellow
 if (-not $SkipNodeJS) {
     try {
         $nodeVersion = node --version 2>$null
         if ($nodeVersion) {
-            Write-Host "✅ Node.js 已安装: $nodeVersion" -ForegroundColor Green
+            Write-Host "[OK] Node.js: $nodeVersion" -ForegroundColor Green
         } else {
             throw "Node.js not found"
         }
     } catch {
-        Write-Host "❌ Node.js 未安装" -ForegroundColor Red
-        Write-Host "正在打开 Node.js 下载页面..." -ForegroundColor Yellow
+        Write-Host "[FAIL] Node.js not found." -ForegroundColor Red
+        Write-Host "Opening Node.js download page..." -ForegroundColor Yellow
         Start-Process "https://nodejs.org/zh-cn/download/"
-        Write-Host "请安装 Node.js LTS 版本后重新运行此脚本" -ForegroundColor Yellow
-        Read-Host "按 Enter 键退出"
+        Write-Host "Install Node.js LTS (>= 20.9), then re-run this script." -ForegroundColor Yellow
+        Read-Host "Press Enter to exit"
         exit 1
     }
 } else {
-    Write-Host "⏭️  跳过 Node.js 检查" -ForegroundColor Cyan
+    Write-Host "[SKIP] Node.js check" -ForegroundColor Cyan
 }
 
-# 2. 检查npm
+# 2) npm
 Write-Host ""
-Write-Host "[2/4] 检查 npm..." -ForegroundColor Yellow
+Write-Host "[2/5] Checking npm..." -ForegroundColor Yellow
 try {
     $npmVersion = npm --version 2>$null
-    Write-Host "✅ npm 已安装: $npmVersion" -ForegroundColor Green
+    Write-Host "[OK] npm: $npmVersion" -ForegroundColor Green
 } catch {
-    Write-Host "❌ npm 未安装，请先安装 Node.js" -ForegroundColor Red
+    Write-Host "[FAIL] npm not found. Install Node.js first." -ForegroundColor Red
     exit 1
 }
 
-# 3. 检查MongoDB
+# 3) MongoDB
 Write-Host ""
-Write-Host "[3/4] 检查 MongoDB..." -ForegroundColor Yellow
+Write-Host "[3/5] Checking MongoDB..." -ForegroundColor Yellow
 if (-not $SkipMongoDB) {
     $mongoInstalled = $false
-    
-    # 检查MongoDB服务
+
     try {
         $mongoService = Get-Service -Name "MongoDB" -ErrorAction SilentlyContinue
         if ($mongoService) {
-            Write-Host "✅ MongoDB 服务已安装" -ForegroundColor Green
+            Write-Host "[OK] MongoDB Windows service found" -ForegroundColor Green
             $mongoInstalled = $true
         }
-    } catch {}
-    
-    # 检查MongoDB命令
+    } catch {
+        # ignore
+    }
+
     if (-not $mongoInstalled) {
         try {
-            $mongoVersion = mongod --version 2>$null
-            if ($mongoVersion) {
-                Write-Host "✅ MongoDB 已安装" -ForegroundColor Green
-                $mongoInstalled = $true
-            }
-        } catch {}
+            $null = Get-Command mongod -ErrorAction Stop
+            Write-Host "[OK] mongod found in PATH" -ForegroundColor Green
+            $mongoInstalled = $true
+        } catch {
+            # ignore
+        }
     }
-    
+
     if (-not $mongoInstalled) {
-        Write-Host "❌ MongoDB 未安装" -ForegroundColor Red
+        Write-Host "[FAIL] MongoDB not found" -ForegroundColor Red
         Write-Host ""
-        Write-Host "MongoDB 安装选项:" -ForegroundColor Yellow
-        Write-Host "  1. 自动下载并安装 MongoDB Community Edition"
-        Write-Host "  2. 手动安装（推荐）"
-        Write-Host "  3. 跳过（稍后手动安装）"
+        Write-Host "Options:" -ForegroundColor Yellow
+        Write-Host "  1. Open MongoDB Community download page"
+        Write-Host "  2. Show manual install URL"
+        Write-Host "  3. Skip for now"
         Write-Host ""
-        $choice = Read-Host "请选择 (1/2/3)"
-        
+        $choice = Read-Host "Choose (1/2/3)"
+
         if ($choice -eq "1") {
-            Write-Host "正在打开 MongoDB 下载页面..." -ForegroundColor Yellow
+            Write-Host "Opening MongoDB download page..." -ForegroundColor Yellow
             Start-Process "https://www.mongodb.com/try/download/community"
-            Write-Host "请下载并安装 MongoDB Community Edition" -ForegroundColor Yellow
-            Write-Host "安装完成后，运行: .\scripts\windows\setup-mongodb.ps1" -ForegroundColor Cyan
+            Write-Host "After install, run: .\scripts\windows\setup-mongodb.ps1" -ForegroundColor Cyan
         } elseif ($choice -eq "2") {
-            Write-Host "请访问 https://www.mongodb.com/try/download/community 下载安装" -ForegroundColor Yellow
+            Write-Host "Visit: https://www.mongodb.com/try/download/community" -ForegroundColor Yellow
         } else {
-            Write-Host "⏭️  跳过 MongoDB 安装" -ForegroundColor Cyan
-            Write-Host "稍后请运行: .\scripts\windows\setup-mongodb.ps1" -ForegroundColor Yellow
+            Write-Host "[SKIP] MongoDB install" -ForegroundColor Cyan
+            Write-Host "Later run: .\scripts\windows\setup-mongodb.ps1" -ForegroundColor Yellow
         }
     }
 } else {
-    Write-Host "⏭️  跳过 MongoDB 检查" -ForegroundColor Cyan
+    Write-Host "[SKIP] MongoDB check" -ForegroundColor Cyan
 }
 
-# 4. 安装项目依赖
+# 4) npm install
 Write-Host ""
-Write-Host "[4/4] 安装项目依赖..." -ForegroundColor Yellow
+Write-Host "[4/5] Installing npm dependencies..." -ForegroundColor Yellow
 if (Test-Path "package.json") {
-    Write-Host "正在安装 npm 依赖包..." -ForegroundColor Cyan
+    Write-Host "Running npm install..." -ForegroundColor Cyan
     npm install
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "✅ 依赖安装完成" -ForegroundColor Green
+        Write-Host "[OK] Dependencies installed" -ForegroundColor Green
     } else {
-        Write-Host "❌ 依赖安装失败" -ForegroundColor Red
+        Write-Host "[FAIL] npm install failed" -ForegroundColor Red
         exit 1
     }
 } else {
-    Write-Host "❌ 未找到 package.json，请确保在项目根目录运行此脚本" -ForegroundColor Red
+    Write-Host "[FAIL] package.json not found. Run from repo root." -ForegroundColor Red
     exit 1
 }
 
-# 5. 创建环境变量文件
+# 5) .env
 Write-Host ""
-Write-Host "[5/5] 配置环境变量..." -ForegroundColor Yellow
+Write-Host "[5/5] Environment file..." -ForegroundColor Yellow
 if (-not (Test-Path ".env")) {
     if (Test-Path "env.example") {
         Copy-Item "env.example" ".env"
-        Write-Host "✅ 已创建 .env 文件（从 env.example）" -ForegroundColor Green
-        Write-Host "⚠️  请编辑 .env 文件配置数据库连接和其他设置" -ForegroundColor Yellow
+        Write-Host "[OK] Created .env from env.example" -ForegroundColor Green
+        Write-Host "[NOTE] Edit .env if you need a different MongoDB URI or keys." -ForegroundColor Yellow
     } else {
-        Write-Host "⚠️  未找到 env.example，请手动创建 .env 文件" -ForegroundColor Yellow
+        Write-Host "[WARN] env.example missing; create .env manually." -ForegroundColor Yellow
     }
 } else {
-    Write-Host "✅ .env 文件已存在" -ForegroundColor Green
+    Write-Host "[OK] .env already exists" -ForegroundColor Green
 }
 
-# 完成
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green
-Write-Host "🎉 安装完成！" -ForegroundColor Green
+Write-Host "Install finished" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "下一步:" -ForegroundColor Cyan
-Write-Host "  1. 配置 .env 文件（如需要）" -ForegroundColor White
-Write-Host "  2. 运行: .\scripts\windows\KBird-Desktop.bat 启动应用" -ForegroundColor White
-Write-Host "  3. 或运行: npm run dev 启动开发模式" -ForegroundColor White
+Write-Host "Next steps:" -ForegroundColor Cyan
+Write-Host "  1. (Optional) edit .env" -ForegroundColor White
+Write-Host "  2. Import bird seed: .\scripts\windows\init-database.ps1" -ForegroundColor White
+Write-Host "  3. Start: KBird-Desktop.bat   (or scripts\windows\KBird-Desktop.bat)" -ForegroundColor White
 Write-Host ""
-Read-Host "按 Enter 键退出"
+Read-Host "Press Enter to exit"

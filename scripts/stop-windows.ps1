@@ -1,4 +1,4 @@
-# KBird Windows PowerShell停止脚本
+﻿# KBird Windows PowerShell停止脚本
 
 Write-Host "========================================" -ForegroundColor Green
 Write-Host "           KBird 服务停止脚本" -ForegroundColor Green

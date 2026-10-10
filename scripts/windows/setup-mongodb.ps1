@@ -1,4 +1,4 @@
-# MongoDB Windows 配置脚本
+﻿# MongoDB Windows 配置脚本
 # 配置MongoDB为Windows服务并初始化数据库
 
 param(

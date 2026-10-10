@@ -1,4 +1,4 @@
-#Requires -Version 5.1
+﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
   将仓库内 uploads/ 迁到仓库旁 KBird-Data/uploads（一次迁移）。

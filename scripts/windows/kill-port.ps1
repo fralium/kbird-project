@@ -1,4 +1,4 @@
-# 杀死占用指定端口的进程
+﻿# 杀死占用指定端口的进程
 param(
     [Parameter(Mandatory=$true)]
     [int]$Port
