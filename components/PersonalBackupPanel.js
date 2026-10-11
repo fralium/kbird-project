@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from './AuthProvider';
 import PageState from './PageState';
 import { useConfirmDialog } from './ConfirmDialog';
-import styles from '../styles/PersonalBackup.module.css';
+import { formatDisplayDateTime } from '@/utils/localDate';
+import styles from '@/styles/PersonalBackup.module.css';
 
 const HISTORY_KEY = 'kbird_backup_history';
 const API_PREFIX = '/api/personal/backup';
@@ -201,9 +202,12 @@ export default function PersonalBackupPanel() {
     const addRecords = preview.records?.add ?? 0;
     const addChecklist = preview.checklist?.add ?? 0;
     const addProjects = preview.projects?.add ?? 0;
-    const ok = window.confirm(
-      `确认合并「${archiveName || '备份文件'}」到当前账号？\n预计新增：记录 ${addRecords}、清单 ${addChecklist}、项目 ${addProjects}。\n重复项会跳过，不会清空现有数据。`
-    );
+    const ok = await ask({
+      title: '确认合并备份',
+      message: `确认合并「${archiveName || '备份文件'}」到当前账号？\n预计新增：记录 ${addRecords}、清单 ${addChecklist}、项目 ${addProjects}。\n重复项会跳过，不会清空现有数据。`,
+      confirmLabel: '合并',
+      cancelLabel: '取消',
+    });
     if (!ok) return;
     setRestoring(true);
     setMessage('');
@@ -340,7 +344,7 @@ export default function PersonalBackupPanel() {
                     <div className={styles.backupName}>{item.name}</div>
                     <div className={styles.backupMeta}>
                       <span>{formatSize(item.size)}</span>
-                      <span>{new Date(item.downloadedAt).toLocaleString('zh-CN')}</span>
+                      <span>{formatDisplayDateTime(item.downloadedAt)}</span>
                       <span>
                         记录 {item.recordsCount ?? '-'} / 清单 {item.checklistCount ?? '-'} / 项目{' '}
                         {item.projectsCount ?? '-'}

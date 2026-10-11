@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import PageState from '../../../components/PageState';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import PageState from '@/components/PageState';
 
 /** 旧入口：识别已并入观鸟助手 */
 export default function AIIdentifyRedirectPage() {

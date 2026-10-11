@@ -2,18 +2,21 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useMemo, useRef } from 'react';
+import { formatDisplayDate, formatDisplayDateTime } from '@/utils/localDate';
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import ImageViewer from '../../components/ImageViewer';
-import { useAuth } from '../../components/AuthProvider';
-import { useErrorHandler } from '../../utils/useErrorHandler';
-import ErrorMessage from '../../components/ErrorMessage';
-import SimplePageHeader from '../../components/SimplePageHeader';
-import PageState from '../../components/PageState';
-import { api } from '../../utils/api';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ImageViewer from '@/components/ImageViewer';
+import { useAuth } from '@/components/AuthProvider';
+import { useErrorHandler } from '@/utils/useErrorHandler';
+import ErrorMessage from '@/components/ErrorMessage';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import FoldFilterPanel from '@/components/FoldFilterPanel';
+import { useFoldOpen, writeFoldOpen } from '@/utils/foldPanel';
+import { api } from '@/utils/api';
 import {
   provinces as chinaProvinces,
   getCitiesByProvince,
@@ -21,28 +24,27 @@ import {
   getProvinceCodeByName,
   normalizeRegionLabel,
   regionNamesMatch,
-} from '../../data/chinaRegions';
-import { sortRecordBirdsByImportance } from '../../data/protectionLevels';
-import { downloadPersonalRecordsExport } from '../../utils/personalExportDownload';
-import habitatFilterData from '../../data/habitatFilters';
+} from '@/data/chinaRegions';
+import { sortRecordBirdsByImportance } from '@/data/protectionLevels';
+import { downloadPersonalRecordsExport } from '@/utils/personalExportDownload';
+import habitatFilterData from '@/data/habitatFilters';
 import {
   resolveRecordCover,
   readRecordsViewMode,
   writeRecordsViewMode,
-  readRecordsCardStyle,
-  writeRecordsCardStyle,
+  readCardStyle,
+  writeCardStyle,
   readRecordsFilterPanelOpen,
-  writeRecordsFilterPanelOpen,
-  readRecordsMapToolboxOpen,
-  writeRecordsMapToolboxOpen,
+  RECORDS_FILTER_PANEL_KEY,
+  RECORDS_MAP_TOOLBOX_KEY,
   RECORD_COVER_MODES,
   useRecordCoverSet,
-} from '../../utils/habitatCover';
-import styles from '../../styles/Records.module.css';
+} from '@/utils/habitatCover';
+import styles from '@/styles/Records.module.css';
 
 const HABITAT_FILTERS = habitatFilterData.HABITAT_FILTERS || habitatFilterData;
 
-const BirdMapProvider = dynamic(() => import('../../components/BirdMapProvider'), { ssr: false });
+const BirdMapProvider = dynamic(() => import('@/components/BirdMapProvider'), { ssr: false });
 
 /** 与已见鸟种列表一致：宽屏约 6 列 × 3 行 */
 const GRID_MIN_CARD_PX = 240;
@@ -138,8 +140,8 @@ export default function RecordsPage() {
   const [viewMode, setViewMode] = useState('habitat');
   const [cardStyle, setCardStyle] = useState('field');
   const [coverSet, updateCoverSet] = useRecordCoverSet();
-  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
-  const [mapToolboxOpen, setMapToolboxOpen] = useState(false);
+  const [filterPanelOpen, setFilterPanelOpen] = useFoldOpen(RECORDS_FILTER_PANEL_KEY, false);
+  const [mapToolboxOpen, setMapToolboxOpen] = useFoldOpen(RECORDS_MAP_TOOLBOX_KEY, false);
   const [habitatPageLimit, setHabitatPageLimit] = useState(getInitialHabitatPageLimit);
   const [urlReady, setUrlReady] = useState(false);
   const [regionOptions, setRegionOptions] = useState([]);
@@ -226,9 +228,8 @@ export default function RecordsPage() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     setViewMode(readRecordsViewMode());
-    setCardStyle(readRecordsCardStyle());
+    setCardStyle(readCardStyle());
     setFilterPanelOpen(readRecordsFilterPanelOpen());
-    setMapToolboxOpen(readRecordsMapToolboxOpen());
     const params = new URLSearchParams(window.location.search);
     const nextSearch = params.get('search') || '';
     const nextLocation = params.get('location') || '';
@@ -593,23 +594,7 @@ export default function RecordsPage() {
     const next = style === 'scrap' ? 'scrap' : 'field';
     if (next === cardStyle) return;
     setCardStyle(next);
-    writeRecordsCardStyle(next);
-  };
-
-  const toggleFilterPanel = () => {
-    setFilterPanelOpen((prev) => {
-      const next = !prev;
-      writeRecordsFilterPanelOpen(next);
-      return next;
-    });
-  };
-
-  const toggleMapToolbox = () => {
-    setMapToolboxOpen((prev) => {
-      const next = !prev;
-      writeRecordsMapToolboxOpen(next);
-      return next;
-    });
+    writeCardStyle(next);
   };
 
   // 已选省市时自动展开筛选面板，避免城市芯片被藏住
@@ -618,10 +603,10 @@ export default function RecordsPage() {
     if (!provinceFilter && !cityFilter) return;
     setFilterPanelOpen((prev) => {
       if (prev) return prev;
-      writeRecordsFilterPanelOpen(true);
+      writeFoldOpen(RECORDS_FILTER_PANEL_KEY, true);
       return true;
     });
-  }, [provinceFilter, cityFilter, viewMode]);
+  }, [provinceFilter, cityFilter, viewMode, setFilterPanelOpen]);
 
   // 勾选记录后展开筛选（含批量操作），便于导出/删除
   useEffect(() => {
@@ -629,17 +614,17 @@ export default function RecordsPage() {
     if (viewMode === 'map') {
       setMapToolboxOpen((prev) => {
         if (prev) return prev;
-        writeRecordsMapToolboxOpen(true);
+        writeFoldOpen(RECORDS_MAP_TOOLBOX_KEY, true);
         return true;
       });
       return;
     }
     setFilterPanelOpen((prev) => {
       if (prev) return prev;
-      writeRecordsFilterPanelOpen(true);
+      writeFoldOpen(RECORDS_FILTER_PANEL_KEY, true);
       return true;
     });
-  }, [selectedIds.length, viewMode]);
+  }, [selectedIds.length, viewMode, setFilterPanelOpen, setMapToolboxOpen]);
 
   // 离开「只看我的」时退出勾选模式
   useEffect(() => {
@@ -991,23 +976,14 @@ export default function RecordsPage() {
         />
 
         <div className={styles.filtersContainer}>
-          <div className={styles.foldPanel} aria-label={viewMode === 'map' ? '地图与筛选' : '筛选与操作'}>
-            <button
-              type="button"
-              className={styles.foldToggle}
-              onClick={viewMode === 'map' ? toggleMapToolbox : toggleFilterPanel}
-              aria-expanded={viewMode === 'map' ? mapToolboxOpen : filterPanelOpen}
-            >
-              <span className={styles.foldToggleTitle}>{viewMode === 'map' ? '地图与筛选' : '筛选'}</span>
-              <span className={styles.foldToggleSummary}>
-                {viewMode === 'map' ? mapFoldSummary : filterPanelSummary}
-              </span>
-              <span className={styles.foldToggleChevron} aria-hidden="true">
-                {(viewMode === 'map' ? mapToolboxOpen : filterPanelOpen) ? '▴' : '▾'}
-              </span>
-            </button>
-            {(viewMode === 'map' ? mapToolboxOpen : filterPanelOpen) ? (
-              <div className={styles.foldBody}>
+          <FoldFilterPanel
+            className={styles.foldPanel}
+            storageKey={viewMode === 'map' ? RECORDS_MAP_TOOLBOX_KEY : RECORDS_FILTER_PANEL_KEY}
+            open={viewMode === 'map' ? mapToolboxOpen : filterPanelOpen}
+            onOpenChange={viewMode === 'map' ? setMapToolboxOpen : setFilterPanelOpen}
+            title={viewMode === 'map' ? '地图与筛选' : '筛选'}
+            summary={viewMode === 'map' ? mapFoldSummary : filterPanelSummary}
+          >
                 {viewMode === 'map' ? (
                   <div className={styles.mapToolbox}>
               <div className={styles.regionBrowser} aria-label="行政区筛选">
@@ -1139,7 +1115,7 @@ export default function RecordsPage() {
                 <div className={styles.searchBox}>
                   <input
                     type="text"
-                    placeholder="搜索鸟种、地点、标题或备注..."
+                    placeholder="鸟种（中文/拼音/首字母/学名/英文）、地点、标题或备注…"
                     value={searchInput}
                     onChange={(event) => setSearchInput(event.target.value)}
                     className={styles.searchInput}
@@ -1376,9 +1352,7 @@ export default function RecordsPage() {
                     </div>
                   </div>
                 ) : null}
-              </div>
-            ) : null}
-          </div>
+          </FoldFilterPanel>
         </div>
 
         {errors.length > 0 ? (
@@ -1502,7 +1476,7 @@ export default function RecordsPage() {
                   const locationName = String(record.location?.name || '').trim() || '未命名地点';
                   const birdCount = Array.isArray(record.birds) ? record.birds.length : 0;
                   const highlightBirds = getDisplayedBirds(record.birds, 2);
-                  const dateText = record.date ? new Date(record.date).toLocaleDateString() : '日期未知';
+                  const dateText = record.date ? formatDisplayDate(record.date, 'short') : '日期未知';
                   const speciesLine = highlightBirds
                     .map((bird) => bird?.birdId?.name || bird?.birdId || '')
                     .filter(Boolean)

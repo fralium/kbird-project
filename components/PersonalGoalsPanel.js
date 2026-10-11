@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { formatDisplayDate, formatDisplayDateTime } from '@/utils/localDate';
 import PageState from './PageState';
 import { useConfirmDialog } from './ConfirmDialog';
 import TaxonomyChecklistPanel from './TaxonomyChecklistPanel';
 import SpeciesHoverChip from './SpeciesHoverChip';
-import { api } from '../utils/api';
-import { devError } from '../utils/devLogger';
-import styles from '../styles/PersonalGoals.module.css';
+import { api } from '@/utils/api';
+import { devError } from '@/utils/devLogger';
+import styles from '@/styles/PersonalGoals.module.css';
 
 const getGoalBirdId = (goal) => {
   if (!goal?.birdId) return null;
@@ -814,7 +815,7 @@ export default function PersonalGoalsPanel({ section = 'lists', focusListId = ''
                                     {goal.completed && goal.completedDate ? (
                                       <span className={styles.completedDate}>
                                         完成于:{' '}
-                                        {new Date(goal.completedDate).toLocaleDateString('zh-CN')}
+                                        {formatDisplayDate(goal.completedDate, 'short')}
                                       </span>
                                     ) : null}
                                   </div>
@@ -964,7 +965,7 @@ export default function PersonalGoalsPanel({ section = 'lists', focusListId = ''
                                 <span className={styles.placeName}>{place}</span>
                                 {goal.completed && goal.completedDate ? (
                                   <span className={styles.placeDate}>
-                                    {new Date(goal.completedDate).toLocaleDateString('zh-CN')}
+                                    {formatDisplayDate(goal.completedDate, 'short')}
                                   </span>
                                 ) : null}
                               </div>

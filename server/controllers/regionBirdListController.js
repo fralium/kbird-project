@@ -5,6 +5,7 @@ const Location = require('../models/locationModel');
 const { sendControllerError } = require('../middleware/controllerError');
 const { clearCache } = require('../middleware/cache');
 const { canonicalizeBirdName } = require('../../data/birdNameAliases');
+const { speciesRowMatchesQuery } = require('../utils/birdSearch');
 
 const MAX_SPECIES = 20000;
 
@@ -439,10 +440,7 @@ const getRegionBirdList = async (req, res) => {
       }));
     }
     if (search) {
-      species = species.filter((item) => {
-        const hay = `${item.code || ''} ${item.name || ''} ${item.scientificName || ''} ${item.englishName || ''}`.toLowerCase();
-        return hay.includes(search);
-      });
+      species = species.filter((item) => speciesRowMatchesQuery(item, search));
     }
     if (order) {
       // 目筛选：支持中文别名 / 拉丁名互通（如 啄木鸟目 ↔ Piciformes ↔ 鴷形目）

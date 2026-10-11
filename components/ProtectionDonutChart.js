@@ -72,7 +72,7 @@ export default function ProtectionDonutChart({
             left: 'center',
             top: 'middle',
             textStyle: {
-              color: '#94a3b8',
+              color: 'var(--text-muted)',
               fontSize: 13,
               fontWeight: 500,
             },
@@ -95,7 +95,7 @@ export default function ProtectionDonutChart({
           trigger: 'item',
           borderWidth: 0,
           backgroundColor: 'rgba(15, 23, 32, 0.88)',
-          textStyle: { color: '#fff', fontSize: 12 },
+          textStyle: { color: 'var(--text-white)', fontSize: 12},
           formatter: (params) => {
             const pct = params?.percent != null ? Number(params.percent).toFixed(2) : '0';
             return `${params.name}<br/>${params.value} 种 · ${pct}%`;
@@ -112,11 +112,11 @@ export default function ProtectionDonutChart({
           itemGap: 14,
           icon: 'roundRect',
           textStyle: {
-            color: '#334155',
+            color: 'var(--text-secondary)',
             fontSize: 12,
           },
           pageIconSize: 10,
-          pageTextStyle: { color: '#64748b' },
+          pageTextStyle: { color: 'var(--text-muted)'},
         },
         series: [
           {
@@ -137,7 +137,7 @@ export default function ProtectionDonutChart({
             label: {
               show: true,
               formatter: (params) => `${Number(params.percent).toFixed(2)}%`,
-              color: '#475569',
+              color: 'var(--text-secondary)',
               fontSize: 12,
               fontWeight: 600,
             },

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import { formatDisplayDate } from '@/utils/localDate';
 
 /**
  * 高德地图组件（使用高德地图API，需要API key）
@@ -72,7 +73,7 @@ export default function BirdMapGaode({
             <strong>${location.name || location.location?.name || '未知地点'}</strong>
             ${location.records ? `<div>📝 ${location.records} 条记录</div>` : ''}
             ${location.birds ? `<div>🦜 ${location.birds} 种鸟类</div>` : ''}
-            ${location.date ? `<div>📅 ${new Date(location.date).toLocaleDateString('zh-CN')}</div>` : ''}
+            ${location.date ? `<div>📅 ${formatDisplayDate(location.date, 'short')}</div>` : ''}
           </div>
         `
       });
@@ -102,9 +103,9 @@ export default function BirdMapGaode({
         borderRadius: '8px',
         border: '1px solid #ddd'
       }}>
-        <div style={{ textAlign: 'center', color: '#666' }}>
+        <div style={{ textAlign: 'center', color: 'var(--text-muted)'}}>
           <p>地图功能需要高德地图API key</p>
-          <p style={{ fontSize: '12px', marginTop: '8px' }}>
+          <p style={{ fontSize: 'var(--type-caption)', marginTop: '8px' }}>
             <a href="https://console.amap.com/dev/key/app" target="_blank" rel="noopener noreferrer">
               免费申请API key
             </a>

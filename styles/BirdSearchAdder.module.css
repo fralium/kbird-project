@@ -19,8 +19,8 @@
   padding: 12px 16px;
   border: 2px solid var(--border-input);
   border-radius: 8px;
-  font-size: 16px;
-  background-color: #fff;
+  font-size: var(--type-body);
+  background-color: var(--bg-white);
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
@@ -32,7 +32,7 @@
 }
 
 .searchInput::placeholder {
-  color: #999;
+  color: var(--text-muted);
 }
 
 /* 加载指示器 */
@@ -99,8 +99,8 @@
 }
 
 .scientificName {
-  font-size: 14px;
-  color: #666;
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -128,18 +128,18 @@
 }
 
 .selectedScientific {
-  font-size: 14px;
-  color: #666;
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
   font-style: italic;
 }
 
 .addButton {
   padding: var(--spacing-2) var(--spacing-4);
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   border: none;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: var(--type-secondary);
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -165,9 +165,9 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   margin-top: 4px;
-  color: #666;
+  color: var(--text-muted);
   text-align: center;
-  font-size: 14px;
+  font-size: var(--type-secondary);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -180,18 +180,18 @@
 
 .requestButton {
   appearance: none;
-  border: 1px solid var(--color-lake, #0d9488);
-  background: #f0fdfa;
-  color: var(--color-lake, #0f766e);
+  border: 1px solid var(--color-lake, var(--color-lake));
+  background: var(--color-success-soft);
+  color: var(--color-lake);
   border-radius: 6px;
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: pointer;
 }
 
 .requestButton:hover:not(:disabled) {
-  background: #ccfbf1;
+  background: var(--color-success-soft);
 }
 
 .requestButton:disabled {
@@ -206,7 +206,7 @@
   }
   
   .searchInput {
-    font-size: 16px; /* 防止iOS缩放 */
+    font-size: var(--type-body); /* 防止iOS缩放 */
   }
   
   .suggestionsDropdown {

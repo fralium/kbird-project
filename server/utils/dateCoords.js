@@ -12,6 +12,13 @@ function todayLocalDateKey() {
   return formatLocalDateKey(new Date());
 }
 
+/** 展示用短日期（中文环境），与前端 formatDisplayDate(…, 'short') 对齐 */
+function formatDisplayDateShort(dateLike = new Date()) {
+  const d = dateLike instanceof Date ? dateLike : new Date(dateLike);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('zh-CN');
+}
+
 /** 解析记录坐标；无效或 [0,0] 返回 null */
 function extractValidLngLat(locationLike) {
   if (!locationLike) return null;
@@ -30,5 +37,6 @@ function extractValidLngLat(locationLike) {
 module.exports = {
   formatLocalDateKey,
   todayLocalDateKey,
+  formatDisplayDateShort,
   extractValidLngLat,
 };

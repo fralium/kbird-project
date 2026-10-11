@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { api } from '../utils/api';
-import styles from '../styles/FolderPhotos.module.css';
+import { api } from '@/utils/api';
+import styles from '@/styles/FolderPhotos.module.css';
 
 const formatBytes = (bytes) => {
   const size = Number(bytes) || 0;

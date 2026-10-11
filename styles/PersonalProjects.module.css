@@ -28,7 +28,7 @@
   color: var(--text-primary);
   border-radius: var(--radius-md);
   padding: 10px 12px;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
 }
 
 .createPanel,
@@ -66,7 +66,7 @@
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-md);
   padding: 10px;
-  background: #fafbfd;
+  background: var(--bg-clean);
   max-height: 860px;
   overflow-y: auto;
 }
@@ -103,7 +103,7 @@
 
 .projectItemCardActive {
   border-color: var(--color-lake);
-  box-shadow: inset 0 0 0 1px rgba(33, 158, 188, 0.15);
+  box-shadow: inset 0 0 0 1px var(--color-lake-light);
 }
 
 .projectItemHeader {
@@ -120,7 +120,7 @@
   width: 34px;
   min-width: 34px;
   padding: 0;
-  font-size: 14px;
+  font-size: var(--type-secondary);
 }
 
 .expandButton:hover:not(:disabled) {
@@ -130,18 +130,18 @@
 
 .projectExpandPanel {
   border-top: 1px solid var(--gray-200);
-  background: #fcfdff;
+  background: var(--bg-clean);
   padding: 8px 10px;
 }
 
 .expandSummary {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
   margin-bottom: 6px;
 }
 
 .expandEmpty {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
   padding: 2px 0;
 }
@@ -160,23 +160,23 @@
 }
 
 .expandTreeName {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-primary);
 }
 
 .expandTreeCount {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
 }
 
 .projectTitle {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .projectMeta {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
 }
 
@@ -196,7 +196,7 @@
 .detailNav {
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-md);
-  background: #fafbfd;
+  background: var(--bg-clean);
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -216,7 +216,7 @@
   margin-top: 6px;
   padding-top: 8px;
   border-top: 1px dashed var(--gray-200);
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
 }
 
@@ -236,7 +236,7 @@
 }
 
 .folderNavEmpty {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
   padding: 4px 2px;
 }
@@ -286,7 +286,7 @@
 
 .geoTip {
   margin-top: 8px;
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
 }
 
@@ -320,14 +320,14 @@
 }
 
 .rootGhostButton {
-  background: #f7f9fc !important;
+  background: var(--bg-clean) !important;
 }
 
 .geoDivider {
   margin: 10px 0;
   padding-top: 10px;
   border-top: 1px dashed var(--gray-200);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -341,7 +341,7 @@
 .treeNode {
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-md);
-  background: #fbfcfe;
+  background: var(--bg-clean);
 }
 
 .treeNodeHeader {
@@ -358,9 +358,9 @@
 
 .treeNodeMeta {
   border-top: 1px solid var(--gray-200);
-  background: #f4f8fc;
+  background: var(--bg-clean);
   color: var(--text-muted);
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   padding: 6px 10px;
 }
 
@@ -428,7 +428,7 @@
 }
 
 .assetMeta {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
 }
 

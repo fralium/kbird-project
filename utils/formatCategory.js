@@ -91,10 +91,10 @@ export const getCategoryLabels = (category) => {
   const parsed = parseCategory(category);
   const labels = [];
   
-  if (parsed.order) labels.push({ level: '目', name: parsed.order, color: '#e74c3c' });
-  if (parsed.family) labels.push({ level: '科', name: parsed.family, color: '#3498db' });
-  if (parsed.genus) labels.push({ level: '属', name: parsed.genus, color: '#2ecc71' });
-  if (parsed.species) labels.push({ level: '种', name: parsed.species, color: '#f39c12' });
+  if (parsed.order) labels.push({ level: '目', name: parsed.order, color: 'var(--color-danger)'});
+  if (parsed.family) labels.push({ level: '科', name: parsed.family, color: 'var(--color-lake)'});
+  if (parsed.genus) labels.push({ level: '属', name: parsed.genus, color: 'var(--color-success)'});
+  if (parsed.species) labels.push({ level: '种', name: parsed.species, color: 'var(--color-warning)'});
   
   return labels;
 };

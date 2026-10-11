@@ -3,15 +3,15 @@
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import AvatarUpload from '../../../components/AvatarUpload';
-import { useAuth } from '../../../components/AuthProvider';
-import { api } from '../../../utils/api';
-import { UI_STYLES, applyUiStyle, isValidUiStyle } from '../../../utils/uiStyle';
-import styles from '../../../styles/PersonalSettings.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import AvatarUpload from '@/components/AvatarUpload';
+import { useAuth } from '@/components/AuthProvider';
+import { api } from '@/utils/api';
+import { UI_STYLES, applyUiStyle, isValidUiStyle } from '@/utils/uiStyle';
+import styles from '@/styles/PersonalSettings.module.css';
 
 const VALID_TABS = ['account', 'favorites', 'app', 'services'];
 

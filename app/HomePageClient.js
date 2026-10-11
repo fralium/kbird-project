@@ -4,16 +4,16 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import styles from '../styles/Home.module.css';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import ErrorMessage from '../components/ErrorMessage';
-import SkeletonCard from '../components/SkeletonCard';
-import KeyboardNavigation from '../components/KeyboardNavigation';
-import PageState from '../components/PageState';
-import { api } from '../utils/api';
-import { useErrorHandler } from '../utils/useErrorHandler';
-import { HOME_HERO_BACKGROUNDS, pickRandomHeroBackground } from '../data/homeHeroBackgrounds';
+import styles from '@/styles/Home.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ErrorMessage from '@/components/ErrorMessage';
+import SkeletonCard from '@/components/SkeletonCard';
+import KeyboardNavigation from '@/components/KeyboardNavigation';
+import PageState from '@/components/PageState';
+import { api } from '@/utils/api';
+import { useErrorHandler } from '@/utils/useErrorHandler';
+import { HOME_HERO_BACKGROUNDS, pickRandomHeroBackground } from '@/data/homeHeroBackgrounds';
 
 const AnimatedNumber = ({ value, duration = 2000 }) => {
   const [displayValue, setDisplayValue] = useState(0);

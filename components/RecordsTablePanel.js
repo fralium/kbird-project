@@ -1,15 +1,16 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { formatDisplayDate, formatDisplayDate as formatDate } from '@/utils/localDate';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import PageState from './PageState';
 import { useAuth } from './AuthProvider';
-import { api } from '../utils/api';
-import { sortRecordBirdsByImportance, getRecordBirdHighlight } from '../data/protectionLevels';
-import { getRecordPhotoUrl } from '../utils/habitatCover';
+import { api } from '@/utils/api';
+import { sortRecordBirdsByImportance, getRecordBirdHighlight } from '@/data/protectionLevels';
+import { getRecordPhotoUrl } from '@/utils/habitatCover';
 import SpeciesHoverChip from './SpeciesHoverChip';
-import styles from '../styles/RecordsTable.module.css';
+import styles from '@/styles/RecordsTable.module.css';
 
 const CURRENT_YEAR = new Date().getFullYear();
 const PAGE_SIZE = 100;
@@ -23,15 +24,7 @@ const SORTABLE_COLUMNS = [
   { key: 'observer', label: '观察者', className: 'colObserver', type: 'text' },
 ];
 
-function formatDate(value) {
-  if (!value) return '—';
-  return new Date(value).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    weekday: 'short',
-  });
-}
+
 
 function getBirdCount(record) {
   return Array.isArray(record?.birds) ? record.birds.length : 0;
@@ -79,14 +72,7 @@ function getBirdChips(record, max = 5) {
   return { chips, extra: Math.max(0, birds.length - chips.length) };
 }
 
-function formatDateShort(value) {
-  if (!value) return '—';
-  return new Date(value).toLocaleDateString('zh-CN', {
-    month: 'numeric',
-    day: 'numeric',
-    weekday: 'short',
-  });
-}
+
 
 function placeMonogram(name) {
   const text = String(name || '地').trim();
@@ -392,7 +378,7 @@ export default function RecordsTablePanel() {
                     <div className={styles.recordCardFallback}>{placeMonogram(locationName)}</div>
                   )}
                   <div className={styles.recordCardShade} />
-                  <span className={styles.recordCardStamp}>{formatDateShort(record.date)}</span>
+                  <span className={styles.recordCardStamp}>{formatDisplayDate(record.date, 'short')}</span>
                   <span className={styles.recordCardCount}>
                     {species > 0 ? `${species} 种` : '—'}
                     {individuals > 0 ? ` · ${individuals} 只` : ''}

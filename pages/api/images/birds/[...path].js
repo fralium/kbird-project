@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { devError } from '../../../../utils/devLogger';
-import { sendMethodNotAllowed } from '../../../../utils/proxyApi';
+import { devError } from '@/utils/devLogger';
+import { sendMethodNotAllowed } from '@/utils/proxyApi';
 
 export default function handler(req, res) {
   const { path: imagePath } = req.query;

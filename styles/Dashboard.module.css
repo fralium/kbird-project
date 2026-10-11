@@ -19,15 +19,15 @@
 }
 
 .header h1 {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   font-weight: var(--page-title-weight);
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin: 0 0 var(--spacing-2) 0;
 }
 
 .header p {
-  font-size: var(--page-subtitle-size);
-  color: var(--text-light);
+  font-size: var(--type-page-lede);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -59,16 +59,16 @@
 }
 
 .statCard h3 {
-  font-size: var(--type-scale-2xl);
-  color: var(--text-dark);
+  font-size: var(--type-page-title);
+  color: var(--text-primary);
   margin: 0 0 var(--spacing-2) 0;
   font-weight: 700;
 }
 
 .statCard p {
-  color: var(--text-light);
+  color: var(--text-muted);
   margin: 0;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
 }
 
 .grid {
@@ -95,16 +95,16 @@
 
 .card h2 {
   margin: 0 0 var(--spacing-2) 0;
-  color: var(--text-dark);
-  font-size: var(--type-scale-lg);
+  color: var(--text-primary);
+  font-size: var(--type-subsection);
   font-weight: 600;
 }
 
 .card p {
-  color: var(--text-light);
+  color: var(--text-muted);
   margin-bottom: var(--spacing-4);
   line-height: var(--line-height-normal);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
 }
 
 .cardButton {
@@ -112,12 +112,12 @@
   align-items: center;
   justify-content: center;
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   text-decoration: none;
   padding: var(--spacing-3) var(--spacing-5);
   border-radius: var(--radius-lg);
   font-weight: 600;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   border: none;
   cursor: pointer;
@@ -137,7 +137,7 @@
 .contributionItem,
 .favoriteItem {
   padding: 0.5rem 0;
-  border-bottom: 1px solid #f1f3f4;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .contributionItem:last-child,
@@ -159,7 +159,7 @@
 }
 
 .emptyMessage {
-  color: var(--text-light);
+  color: var(--text-muted);
   font-style: italic;
   text-align: center;
   padding: 1rem 0;
@@ -170,7 +170,7 @@
   text-align: center;
   color: var(--color-lake);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   margin-top: 0.5rem;
 }
 
@@ -184,7 +184,7 @@
 
 .profileInfo p {
   margin: 0.5rem 0;
-  color: #2c3e50;
+  color: var(--color-ink);
 }
 
 .statsMini {
@@ -211,14 +211,14 @@
 
 .statNumber {
   display: block;
-  font-size: var(--type-scale-xl);
-  font-weight: bold;
+  font-size: var(--type-section);
+  font-weight: 700;
   color: var(--color-lake);
 }
 
 .statLabel {
-  font-size: 0.8rem;
-  color: #7f8c8d;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
 }
 
 /* 个人中心：PageIntro 下方统计卡片（与个人照片库格式一致） */
@@ -247,14 +247,14 @@
 
 .dashboardStats .statNumber {
   display: block;
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   font-weight: 700;
   color: var(--color-lake);
   margin-bottom: 8px;
 }
 
 .dashboardStats .statLabel {
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   color: var(--color-lake);
 }
 
@@ -270,7 +270,7 @@
   border: 2px solid var(--color-lake);
   padding: var(--spacing-2) var(--spacing-5);
   border-radius: var(--radius-full);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
@@ -293,7 +293,7 @@
   border: 2px solid var(--gray-300);
   padding: var(--spacing-2) var(--spacing-5);
   border-radius: var(--radius-full);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: pointer;
   transition: transform var(--transition-fast), background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
@@ -302,14 +302,14 @@
 .logoutButton:hover {
   background: var(--gray-200);
   border-color: var(--gray-300);
-  color: var(--text-dark);
+  color: var(--text-primary);
   transform: translateY(-1px);
 }
 
 .loading {
   text-align: center;
   padding: 3rem;
-  color: #7f8c8d;
+  color: var(--text-muted);
   animation: pulse 1.5s ease-in-out infinite;
 }
 
@@ -336,7 +336,7 @@
   }
   
   .header h1 {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
   
   .settingsActions {
@@ -360,7 +360,7 @@
   border: 2px solid var(--color-lake);
   background: transparent;
   color: var(--color-lake);
-  font-size: var(--type-scale-base);
+  font-size: var(--type-body);
   font-weight: 600;
   cursor: pointer;
   border-radius: var(--radius-full);
@@ -382,11 +382,11 @@
 .tabButton.active {
   background: var(--color-lake);
   border-color: var(--color-lake);
-  color: white;
+  color: var(--text-white);
 }
 
 .tabButton.active:visited {
-  color: white;
+  color: var(--text-white);
 }
 
 .tabButton.externalLink {
@@ -434,16 +434,16 @@
 }
 
 .actionCard h2 {
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin-bottom: var(--spacing-2);
-  font-size: var(--type-scale-lg);
+  font-size: var(--type-subsection);
   font-weight: 600;
 }
 
 .actionCard p {
-  color: var(--text-light);
+  color: var(--text-muted);
   margin-bottom: var(--spacing-4);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
 }
 
 .observationStatsDesc {
@@ -476,14 +476,14 @@
 }
 
 .statCellNumber {
-  font-size: var(--type-scale-xl);
+  font-size: var(--type-section);
   font-weight: 700;
   color: var(--color-lake);
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
 }
 
 .statCellLabel {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
   margin-top: 2px;
 }
@@ -491,7 +491,7 @@
 .statsSecondary {
   display: flex;
   gap: var(--spacing-4);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   color: var(--text-muted);
   margin-bottom: var(--spacing-2);
 }
@@ -502,7 +502,7 @@
 }
 
 .lastActivity {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   color: var(--text-muted);
   margin: 0 0 var(--spacing-3) 0;
 }
@@ -537,7 +537,7 @@
 }
 
 .quickLinkCardTitle {
-  font-size: var(--type-scale-base);
+  font-size: var(--type-body);
   font-weight: 600;
   color: var(--color-lake);
 }
@@ -547,7 +547,7 @@
 }
 
 .quickLinkCardHint {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
   margin-top: 2px;
 }
@@ -581,7 +581,7 @@
   padding: 6px 12px;
   color: var(--color-lake) !important;
   text-decoration: none !important;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
   border-radius: var(--radius-md);
   transition: background var(--transition-fast), color var(--transition-fast);
@@ -600,7 +600,7 @@
   display: inline-block;
   padding: 10px 20px;
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   text-decoration: none;
   border-radius: 8px;
   font-weight: 500;
@@ -608,7 +608,7 @@
 }
 
 .actionButton:hover {
-  background: #5a6fd8;
+  background: var(--color-lake);
 }
 
 /* 个人资料页面样式 */
@@ -628,9 +628,9 @@
 }
 
 .avatarSection h2 {
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin-bottom: var(--spacing-4);
-  font-size: var(--type-scale-lg);
+  font-size: var(--type-subsection);
   font-weight: 600;
 }
 
@@ -652,9 +652,9 @@
 }
 
 .sectionHeader h2 {
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin: 0;
-  font-size: var(--type-scale-lg);
+  font-size: var(--type-subsection);
   font-weight: 600;
 }
 
@@ -663,7 +663,7 @@
 .cancelButton {
   padding: var(--spacing-2) var(--spacing-4);
   border-radius: var(--radius-medium);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: pointer;
   transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
@@ -687,7 +687,7 @@
 
 .saveButton {
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   border: 2px solid var(--color-lake);
 }
 
@@ -707,7 +707,7 @@
 .cancelButton:hover {
   background: var(--gray-200);
   border-color: var(--gray-300);
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .actionButtons {
@@ -729,7 +729,7 @@
 .infoItem label {
   font-weight: 600;
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: var(--type-secondary);
 }
 
 .input,
@@ -737,7 +737,7 @@
   padding: 10px;
   border: 1px solid var(--gray-200);
   border-radius: 8px;
-  font-size: 14px;
+  font-size: var(--type-secondary);
   transition: border-color 0.3s ease;
 }
 
@@ -757,7 +757,7 @@
   background: white;
   border-radius: 8px;
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: var(--type-secondary);
 }
 
 .value a {
@@ -786,16 +786,16 @@
 }
 
 .contentHeader h2 {
-  color: #2c3e50;
+  color: var(--color-ink);
   margin: 0;
-  font-size: var(--type-scale-xl);
+  font-size: var(--type-section);
 }
 
 .addButton,
 .browseButton {
   padding: var(--spacing-3) var(--spacing-5);
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   text-decoration: none;
   border-radius: var(--radius-lg);
   font-weight: 600;
@@ -838,27 +838,27 @@
 
 .contributionItem h3,
 .favoriteItem h3 {
-  color: #2c3e50;
+  color: var(--color-ink);
   margin: 0 0 0.5rem 0;
-  font-size: var(--page-subtitle-size);
+  font-size: var(--type-page-lede);
 }
 
 .contributionItem p,
 .favoriteItem p {
-  color: #7f8c8d;
+  color: var(--text-muted);
   margin: 0;
-  font-size: 14px;
+  font-size: var(--type-secondary);
   font-style: italic;
 }
 
 .emptyState {
   text-align: center;
   padding: 3rem;
-  color: #7f8c8d;
+  color: var(--text-muted);
 }
 
 .emptyState p {
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
   margin-bottom: 1rem;
 }
 
@@ -875,7 +875,7 @@
 
 .emptyAction:hover {
   background: var(--color-lake) !important;
-  color: #FFD700 !important;
+  color: var(--color-reed) !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3) !important;
 }
@@ -950,7 +950,7 @@
 }
 
 .pendingItem.pending {
-  border-left-color: #f39c12;
+  border-left-color: var(--color-warning);
 }
 
 .pendingItem.approved {
@@ -958,7 +958,7 @@
 }
 
 .pendingItem.rejected {
-  border-left-color: #e74c3c;
+  border-left-color: var(--color-danger);
 }
 
 .sightingHeader {
@@ -970,14 +970,14 @@
 
 .sightingHeader h3 {
   margin: 0;
-  color: #2c3e50;
-  font-size: 1.2rem;
+  color: var(--color-ink);
+  font-size: var(--type-subsection);
 }
 
 .statusBadge {
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: var(--type-secondary);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -1005,17 +1005,17 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   color: var(--text-muted);
 }
 
 .sightingDetails p {
   margin: 0.25rem 0;
-  line-height: 1.4;
+  line-height: var(--line-height-snug);
 }
 
 .sightingDetails strong {
-  color: #2c3e50;
+  color: var(--color-ink);
   font-weight: 600;
 }
 
@@ -1041,7 +1041,7 @@
   background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
   border-radius: var(--page-section-radius);
   padding: var(--spacing-6);
-  color: white;
+  color: var(--text-white);
   box-shadow: var(--shadow-lg);
   position: relative;
   overflow: hidden;
@@ -1076,10 +1076,10 @@
 }
 
 .welcomeTitle {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   font-weight: 700;
   margin: 0 0 1rem 0;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
 }
 
 .userName {
@@ -1088,7 +1088,7 @@
 }
 
 .welcomeSubtitle {
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
   opacity: 0.9;
   margin: 0;
   font-weight: 400;
@@ -1137,16 +1137,16 @@
 
 .welcomeStats .statNumber {
   display: block;
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-size: var(--type-scale-3xl);
+  font-weight: 700;
   color: var(--color-reed);
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
   margin-bottom: 0.5rem;
 }
 
 .welcomeStats .statLabel {
-  font-size: 0.9rem;
-  color: white;
+  font-size: var(--type-secondary);
+  color: var(--text-white);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -1160,11 +1160,11 @@
   }
   
   .welcomeTitle {
-    font-size: 2rem;
+    font-size: var(--type-page-title);
   }
   
   .welcomeSubtitle {
-    font-size: 1rem;
+    font-size: var(--type-body);
   }
   
   .welcomeStats {
@@ -1177,7 +1177,7 @@
   }
   
   .welcomeStats .statNumber {
-    font-size: 2rem;
+    font-size: var(--type-page-title);
   }
 }
 
@@ -1208,22 +1208,22 @@
 }
 
 .observationStats .statNumber {
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: var(--type-scale-3xl);
+  font-weight: 700;
   color: var(--color-lake);
   margin: 0 0 0.5rem 0;
 }
 
 .observationStats .statLabel {
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--color-ink);
   margin: 0 0 0.5rem 0;
 }
 
 .observationStats .statDescription {
-  font-size: 0.9rem;
-  color: #7f8c8d;
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -1232,8 +1232,8 @@
 }
 
 .recentObservations h3 {
-  font-size: 1.5rem;
-  color: #2c3e50;
+  font-size: var(--type-section);
+  color: var(--color-ink);
   margin-bottom: 1rem;
 }
 
@@ -1260,15 +1260,15 @@
 }
 
 .observationInfo h4 {
-  font-size: 1.2rem;
-  color: #2c3e50;
+  font-size: var(--type-subsection);
+  color: var(--color-ink);
   margin: 0 0 0.25rem 0;
 }
 
 .observationInfo p {
   margin: 0.25rem 0;
-  color: #7f8c8d;
-  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
 }
 
 .observationLocation {
@@ -1277,7 +1277,7 @@
 }
 
 .observationDate {
-  font-size: 0.8rem !important;
+  font-size: var(--type-caption) !important;
 }
 
 .observationStatus {
@@ -1305,7 +1305,7 @@
 
 .viewAllButton:hover {
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }

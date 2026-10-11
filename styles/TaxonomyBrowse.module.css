@@ -1,0 +1,139 @@
+/* Shared taxonomy browse chrome: filter chips + order stat cards */
+
+.chipGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-white);
+  color: var(--text-muted);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: var(--type-caption);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.chip:hover {
+  border-color: var(--color-lake-mid);
+}
+
+.chipActive {
+  border-color: var(--border-strong, var(--border-subtle));
+  color: var(--color-ink);
+  background: var(--color-lake-light, var(--border-subtle));
+}
+
+.empty {
+  margin: 12px 0 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
+}
+
+.orderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.orderCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  padding: 12px 12px 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  background: var(--bg-clean);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.orderCard:hover {
+  border-color: var(--color-lake-mid);
+  background: var(--bg-white);
+}
+
+.orderCardActive {
+  border-color: var(--color-lake-strong);
+  background: var(--bg-white);
+  box-shadow: 0 0 0 2px var(--color-lake-light);
+}
+
+.orderCardDone {
+  border-color: rgba(21, 128, 61, 0.28);
+  background: linear-gradient(180deg, rgba(21, 128, 61, 0.1), var(--bg-clean) 55%);
+}
+
+.orderCardDone:hover {
+  border-color: rgba(21, 128, 61, 0.45);
+  background: linear-gradient(180deg, rgba(21, 128, 61, 0.14), var(--bg-white) 55%);
+}
+
+.orderCardDone .orderCardStat {
+  color: var(--color-success);
+}
+
+.orderCardTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.orderCardTitleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.orderCardMark {
+  flex: 0 0 auto;
+  font-size: var(--type-caption);
+  font-weight: 700;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+}
+
+.orderCardTitle {
+  font-weight: 700;
+  color: var(--color-ink);
+  font-size: var(--type-secondary);
+}
+
+.orderCardStat {
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.orderCardLatin {
+  font-size: var(--type-caption);
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.progressTrack {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border-subtle);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-ink, var(--color-ink));
+  border-radius: inherit;
+}
+
+.progressFillDone {
+  background: var(--color-success);
+}

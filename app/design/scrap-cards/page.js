@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import styles from '../../../styles/ScrapCardDemo.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import styles from '@/styles/ScrapCardDemo.module.css';
 
 const LEVELS = [
   {

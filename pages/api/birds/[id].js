@@ -1,6 +1,6 @@
 // Next.js API代理路由 - 单个鸟类API
-import { resolveBackendApiBase } from '../../../utils/backendApiBase';
-import { buildJsonHeaders, parseProxyJsonResponse, sendProxyError } from '../../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { buildJsonHeaders, parseProxyJsonResponse, sendProxyError } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   const { method, query, body } = req;

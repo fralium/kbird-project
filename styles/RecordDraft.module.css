@@ -15,7 +15,7 @@
 }
 
 .panel {
-  background: var(--bg-white, #fff);
+  background: var(--bg-white, var(--bg-white));
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   padding: 20px;
@@ -23,9 +23,9 @@
 
 .hint {
   margin: 0 0 12px;
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
   font-size: var(--type-secondary);
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
 }
 
 .textarea {
@@ -34,16 +34,16 @@
   resize: vertical;
   box-sizing: border-box;
   padding: 12px 14px;
-  border: 1px solid var(--gray-200, #e5e7eb);
+  border: 1px solid var(--gray-200, var(--gray-200));
   border-radius: var(--radius-md, 8px);
   font: inherit;
   font-size: var(--type-body);
-  color: var(--text-dark, #023047);
-  line-height: 1.5;
+  color: var(--text-primary);
+  line-height: var(--line-height-normal);
 }
 
 .textarea:focus {
-  outline: 2px solid var(--color-lake, #219ebc);
+  outline: 2px solid var(--color-lake, var(--color-lake));
   border-color: transparent;
 }
 
@@ -64,8 +64,8 @@
 }
 
 .primaryButton {
-  background: var(--color-lake, #219ebc);
-  color: #fff;
+  background: var(--color-lake, var(--color-lake));
+  color: var(--text-white);
 }
 
 .primaryButton:disabled {
@@ -76,17 +76,17 @@
 .message {
   margin: 14px 0 0;
   font-size: var(--type-secondary);
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
 }
 
 .error {
-  color: #9f1239;
+  color: var(--color-danger-hover);
 }
 
 .preview {
   margin-top: 18px;
   padding-top: 16px;
-  border-top: 1px solid var(--gray-200, #e5e7eb);
+  border-top: 1px solid var(--gray-200, var(--gray-200));
 }
 
 .preview h2 {
@@ -97,14 +97,14 @@
 .usageLine {
   margin: 0 0 10px;
   font-size: var(--type-caption);
-  color: var(--text-muted, #5c6b7a);
-  line-height: 1.4;
+  color: var(--text-muted);
+  line-height: var(--line-height-snug);
 }
 
 .meta {
   margin: 0 0 10px;
   font-size: var(--type-body);
-  color: var(--text-dark, #023047);
+  color: var(--text-primary);
 }
 
 .birdList {
@@ -122,26 +122,26 @@
   gap: 12px;
   padding: 8px 10px;
   border-radius: 8px;
-  background: #f8fafc;
+  background: var(--bg-clean);
   font-size: var(--type-secondary);
 }
 
 .matched {
-  color: #0f766e;
+  color: var(--color-lake);
   font-weight: 700;
 }
 
 .unmatched {
-  color: #9a3412;
+  color: var(--color-warning-hover);
   font-weight: 700;
 }
 
 .warnings {
   margin: 0 0 14px;
   padding-left: 18px;
-  color: #9a3412;
+  color: var(--color-warning-hover);
   font-size: var(--type-secondary);
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
 }
 
 .loading {
@@ -149,5 +149,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
 }

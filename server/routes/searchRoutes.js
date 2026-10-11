@@ -6,11 +6,12 @@ const {
   validateSearchQuery,
   validateHotSearchQuery,
 } = require('../middleware/validation');
-const { buildBirdNameSearchOr } = require('../utils/birdSearch');
+const { buildBirdSmartSearchOr } = require('../utils/birdSearch');
 
 const router = express.Router();
 
-const BIRD_FIELDS = 'name scientificName category images namePinyin namePinyinInitials nameAliases nameAliasPinyin nameAliasPinyinInitials';
+const BIRD_FIELDS =
+  'name scientificName englishName category images namePinyin namePinyinInitials nameAliases nameAliasPinyin nameAliasPinyinInitials scientificNamePinyin scientificNamePinyinInitials';
 const SUGGESTION_LIMIT = 16;
 
 function firstBirdImageUrl(images) {
@@ -115,14 +116,20 @@ async function findBirdSuggestions(q) {
     `(^|\\s)${compact.split('').map((ch) => escapeRegex(ch)).join('\\s*')}`,
     'i'
   );
-  const or = [
-    { namePinyinInitials: initialsRe },
-    { nameAliasPinyinInitials: initialsRe },
-    { namePinyin: syllableRe },
-    { nameAliasPinyin: syllableRe },
-  ];
-  if (compact.length >= 3) {
-    or.push({ scientificName: new RegExp(escapeRegex(compact), 'i') });
+  const smartOr = buildBirdSmartSearchOr(q);
+  const or = smartOr.length
+    ? smartOr
+    : [
+        { namePinyinInitials: initialsRe },
+        { nameAliasPinyinInitials: initialsRe },
+        { namePinyin: syllableRe },
+        { nameAliasPinyin: syllableRe },
+      ];
+  if (compact.length >= 2) {
+    or.push(
+      { englishName: new RegExp(escapeRegex(compact), 'i') },
+      { scientificName: new RegExp(escapeRegex(compact), 'i') }
+    );
   }
   const birds = await Bird.find({ $or: or })
     .select(BIRD_FIELDS)
@@ -239,8 +246,8 @@ router.get('/', validateSearchQuery, async (req, res) => {
 
     const escaped = escapeRegex(q);
     const regex = new RegExp(escaped, 'i');
-    const nameOr = buildBirdNameSearchOr(q);
-    const birds = await Bird.find({ $or: nameOr })
+    const nameOr = buildBirdSmartSearchOr(q);
+    const birds = await Bird.find({ $or: nameOr.length ? nameOr : [{ name: regex }] })
       .select(BIRD_FIELDS)
       .limit(20)
       .lean();

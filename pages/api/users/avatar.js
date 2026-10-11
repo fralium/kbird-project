@@ -1,6 +1,6 @@
 // Next.js API代理路由 - 用户头像上传
-import { resolveBackendApiBase } from '../../../utils/backendApiBase';
-import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export const config = {
   api: {

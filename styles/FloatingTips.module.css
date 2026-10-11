@@ -46,13 +46,13 @@
   width: 48px;
   height: 48px;
   padding: 0;
-  border: 1px solid rgba(2, 48, 71, 0.12);
+  border: 1px solid var(--border-subtle);
   border-radius: 50%;
-  background: #fff;
+  background: var(--bg-white);
   cursor: grab;
   display: grid;
   place-items: center;
-  box-shadow: 0 4px 14px rgba(2, 48, 71, 0.16);
+  box-shadow: 0 4px 14px var(--border-subtle);
   touch-action: none;
 }
 
@@ -61,13 +61,13 @@
 }
 
 .fab:hover {
-  border-color: rgba(33, 158, 188, 0.45);
-  box-shadow: 0 6px 16px rgba(2, 48, 71, 0.2);
+  border-color: var(--color-lake-mid);
+  box-shadow: 0 6px 16px var(--border-subtle);
 }
 
 .fabOpen {
-  border-color: rgba(33, 158, 188, 0.5);
-  background: #f4fafc;
+  border-color: var(--color-lake-strong);
+  background: var(--bg-clean);
 }
 
 .fabMark {
@@ -80,10 +80,10 @@
 
 .panel {
   width: min(340px, calc(100vw - 24px));
-  background: #fff;
-  border: 1px solid #dde6ee;
+  background: var(--bg-white);
+  border: 1px solid var(--gray-200);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(2, 48, 71, 0.18);
+  box-shadow: 0 10px 30px var(--border-subtle);
   overflow: hidden;
 }
 
@@ -93,16 +93,16 @@
   align-items: center;
   gap: 8px;
   padding: 10px 12px;
-  background: #f6fbff;
-  border-bottom: 1px solid #e6eef3;
+  background: var(--bg-clean);
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .headerTitle {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.92rem;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-secondary);
+  color: var(--color-ink);
 }
 
 .headerMark {
@@ -121,8 +121,8 @@
 .hideButton {
   border: none;
   background: transparent;
-  color: #5f7587;
-  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-size: var(--type-caption);
   font-weight: 600;
   padding: 4px 8px;
   border-radius: 6px;
@@ -130,8 +130,8 @@
 }
 
 .hideButton:hover {
-  background: rgba(33, 158, 188, 0.1);
-  color: var(--color-lake, #219ebc);
+  background: var(--color-lake-light);
+  color: var(--color-lake);
 }
 
 .tabs {
@@ -144,10 +144,10 @@
 
 .tab {
   appearance: none;
-  border: 1px solid rgba(2, 48, 71, 0.14);
-  background: #fff;
-  color: #5a6a72;
-  font-size: 0.75rem;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-white);
+  color: var(--text-muted);
+  font-size: var(--type-caption);
   font-weight: 600;
   border-radius: 8px;
   padding: 4px 10px;
@@ -156,15 +156,15 @@
 }
 
 .tab:hover {
-  background: rgba(33, 158, 188, 0.07);
-  border-color: rgba(33, 158, 188, 0.4);
-  color: var(--color-lake, #1a7f98);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-mid);
+  color: var(--color-lake);
 }
 
 .tabActive {
-  background: rgba(33, 158, 188, 0.12);
-  border-color: rgba(33, 158, 188, 0.55);
-  color: var(--color-lake, #1a7f98);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-strong);
+  color: var(--color-lake);
 }
 
 .content {
@@ -179,8 +179,8 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 0.85rem;
-  color: #1f3341;
+  font-size: var(--type-secondary);
+  color: var(--color-ink);
 }
 
 .link {
@@ -193,20 +193,20 @@
 }
 
 .meta {
-  color: #667b8c;
-  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-size: var(--type-caption);
 }
 
 .subtle {
   margin: 0 0 8px;
-  color: #5f7587;
-  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-size: var(--type-caption);
 }
 
 .placeholder {
   margin: 0;
-  color: #72889a;
-  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
 }
 
 @media (max-width: 640px) {

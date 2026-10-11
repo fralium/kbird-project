@@ -1,21 +1,17 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { formatDisplayDate as formatDate } from '@/utils/localDate';
 import PageState from './PageState';
 import SpeciesHoverChip from './SpeciesHoverChip';
-import { api } from '../utils/api';
-import { getOrderChineseName, getFamilyChineseName } from '../data/taxonomyTranslation';
-import { devError } from '../utils/devLogger';
-import styles from '../styles/TaxonomyChecklist.module.css';
-
-function formatDate(value) {
-  if (!value) return '';
-  try {
-    return new Date(value).toLocaleDateString('zh-CN');
-  } catch {
-    return '';
-  }
-}
+import { api } from '@/utils/api';
+import { getOrderChineseName, getFamilyChineseName } from '@/data/taxonomyTranslation';
+import BirdSearchField from './BirdSearchField';
+import FilterChipGroup, { SEEN_FILTER_OPTIONS } from './FilterChipGroup';
+import { speciesMatchesSearch } from '@/utils/clientPinyinMatch';
+import { BIRD_SEARCH_PLACEHOLDER_TAXON } from '@/utils/birdSearchUi';
+import { devError } from '@/utils/devLogger';
+import styles from '@/styles/TaxonomyChecklist.module.css';
 
 function buildTree(species) {
   const orderMap = new Map();
@@ -103,27 +99,15 @@ export default function TaxonomyChecklistPanel({
   }, []);
 
   const filteredSpecies = useMemo(() => {
-    const q = search.trim().toLowerCase();
+    const q = search.trim();
     return species.filter((bird) => {
       if (filter === 'unseen' && bird.observed) return false;
       if (filter === 'seen' && !bird.observed) return false;
       if (!q) return true;
-      const name = String(bird.name || '').toLowerCase();
-      const sci = String(bird.scientificName || '').toLowerCase();
-      const orderCn = getOrderChineseName(bird.order).toLowerCase();
-      const familyCn = getFamilyChineseName(bird.family).toLowerCase();
-      return (
-        name.includes(q) ||
-        sci.includes(q) ||
-        String(bird.order || '')
-          .toLowerCase()
-          .includes(q) ||
-        String(bird.family || '')
-          .toLowerCase()
-          .includes(q) ||
-        orderCn.includes(q) ||
-        familyCn.includes(q)
-      );
+      return speciesMatchesSearch(bird, q, {
+        orderLabel: getOrderChineseName(bird.order),
+        familyLabel: getFamilyChineseName(bird.family),
+      });
     });
   }, [species, search, filter]);
 
@@ -183,30 +167,23 @@ export default function TaxonomyChecklistPanel({
           </strong>
           <span className={styles.summaryPct}>（{progressPct}%）</span>
         </div>
-        <input
-          type="search"
+        <BirdSearchField
           className={styles.search}
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="搜索种名、学名、目、科"
-          aria-label="搜索名录"
+          onChange={setSearch}
+          placeholder={BIRD_SEARCH_PLACEHOLDER_TAXON}
+          ariaLabel="搜索名录"
+          size="sm"
+          roundedRect
         />
-        <div className={styles.filters} role="group" aria-label="观察状态筛选">
-          {[
-            { id: 'all', label: '全部' },
-            { id: 'unseen', label: '只看未见' },
-            { id: 'seen', label: '只看已见' },
-          ].map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={`${styles.filterBtn} ${filter === item.id ? styles.filterBtnActive : ''}`}
-              onClick={() => setFilter(item.id)}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
+        <FilterChipGroup
+          className={styles.filters}
+          options={SEEN_FILTER_OPTIONS}
+          value={filter}
+          onChange={setFilter}
+          ariaLabel="观察状态筛选"
+          role="group"
+        />
       </div>
 
       <div className={styles.progressTrack} aria-hidden="true">

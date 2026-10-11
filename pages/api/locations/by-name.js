@@ -1,13 +1,13 @@
 /**
  * 代理：按名称获取地点 GET /api/locations/by-name?name=xxx
  */
-import { resolveBackendApiBase } from '../../../utils/backendApiBase';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
 import {
   buildJsonHeaders,
   parseProxyJsonResponse,
   sendMethodNotAllowed,
   sendProxyError,
-} from '../../../utils/proxyApi';
+} from '@/utils/proxyApi';
 
 const baseUrl = resolveBackendApiBase();
 

@@ -13,17 +13,17 @@
 .taxonomyGroup label {
   font-weight: 500;
   margin-bottom: 0.5rem;
-  color: var(--text-dark);
-  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-size: var(--type-secondary);
 }
 
 .select {
   padding: 0.75rem;
   border: 1px solid var(--medium-gray);
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   background-color: var(--pure-white);
-  color: var(--text-dark);
+  color: var(--text-primary);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -35,7 +35,7 @@
 
 .select:disabled {
   background-color: var(--light-gray);
-  color: var(--text-medium);
+  color: var(--text-secondary);
   cursor: not-allowed;
 }
 
@@ -43,7 +43,7 @@
 .error {
   padding: 1rem;
   text-align: center;
-  color: var(--text-medium);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
@@ -60,7 +60,7 @@
   
   .select {
     padding: 0.625rem;
-    font-size: 0.85rem;
+    font-size: var(--type-secondary);
   }
 }
 
@@ -70,11 +70,11 @@
   }
   
   .taxonomyGroup label {
-    font-size: 0.85rem;
+    font-size: var(--type-secondary);
   }
   
   .select {
     padding: 0.5rem;
-    font-size: 0.8rem;
+    font-size: var(--type-caption);
   }
 }

@@ -7,8 +7,8 @@ import {
   parseProtectionStatusText,
   normalizeChinaProtectionLevel,
   normalizeIucnProtectionLevel,
-} from '../data/protectionLevels';
-import styles from '../styles/ProtectionLevelSelector.module.css';
+} from '@/data/protectionLevels';
+import styles from '@/styles/ProtectionLevelSelector.module.css';
 
 /**
  * 兼容两种用法：
@@ -105,7 +105,7 @@ const ProtectionLevelSelector = ({
           </select>
           {chinaInfo && (
             <div className={styles.levelInfo}>
-              <span className={styles.levelIcon} style={{ color: chinaInfo.color }}>
+              <span className={styles.levelIcon} style={{ color: chinaInfo.color}}>
                 {chinaInfo.icon}
               </span>
               <span className={styles.levelDescription}>{chinaInfo.description}</span>
@@ -130,7 +130,7 @@ const ProtectionLevelSelector = ({
           </select>
           {iucnInfo && (
             <div className={styles.levelInfo}>
-              <span className={styles.levelIcon} style={{ color: iucnInfo.color }}>
+              <span className={styles.levelIcon} style={{ color: iucnInfo.color}}>
                 {iucnInfo.icon}
               </span>
               <span className={styles.levelDescription}>{iucnInfo.description}</span>
@@ -144,13 +144,13 @@ const ProtectionLevelSelector = ({
           <span className={styles.statusLabel}>当前保护状态：</span>
           <div className={styles.statusValue}>
             {chinaLevel && (
-              <span className={styles.statusItem} style={{ color: chinaInfo?.color }}>
+              <span className={styles.statusItem} style={{ color: chinaInfo?.color}}>
                 🇨🇳 {chinaLevel}
               </span>
             )}
             {chinaLevel && iucnLevel && <span className={styles.separator}>|</span>}
             {iucnLevel && (
-              <span className={styles.statusItem} style={{ color: iucnInfo?.color }}>
+              <span className={styles.statusItem} style={{ color: iucnInfo?.color}}>
                 🌍 {iucnLevel}
               </span>
             )}

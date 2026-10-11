@@ -1,11 +1,11 @@
 'use client';
 
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import SimplePageHeader from '../../components/SimplePageHeader';
-import PageState from '../../components/PageState';
-import { knowledgeData } from '../../data/knowledgeData';
-import styles from '../../styles/Knowledge.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import { knowledgeData } from '@/data/knowledgeData';
+import styles from '@/styles/Knowledge.module.css';
 
 export default function KnowledgePage() {
   return (

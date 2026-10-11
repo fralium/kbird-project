@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import SimplePageHeader from '../../components/SimplePageHeader';
-import styles from '../../styles/DesignIndex.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import styles from '@/styles/DesignIndex.module.css';
 
 const LABS = [
   {

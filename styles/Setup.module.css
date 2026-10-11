@@ -20,12 +20,12 @@
 .header h1 {
   color: var(--text-primary);
   margin-bottom: 10px;
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
 }
 
 .header p {
-  color: #666;
-  font-size: var(--page-subtitle-size);
+  color: var(--text-muted);
+  font-size: var(--type-page-lede);
   margin-bottom: 30px;
 }
 
@@ -40,7 +40,7 @@
 .configSummary h2 {
   color: var(--text-primary);
   margin-bottom: 20px;
-  font-size: var(--type-scale-xl);
+  font-size: var(--type-section);
   text-align: center;
 }
 
@@ -55,7 +55,7 @@
   background: white;
   border-radius: 8px;
   border: 1px solid var(--border-input);
-  font-size: 0.95rem;
+  font-size: var(--type-body);
 }
 
 .colorPreview {
@@ -65,30 +65,12 @@
   border-radius: 50%;
   margin: 0 8px;
   vertical-align: middle;
-  border: 2px solid #fff;
+  border: 2px solid var(--bg-white);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .actions {
   margin-top: 30px;
-}
-
-.btnPrimary {
-  background: linear-gradient(135deg, var(--color-lake), var(--color-lake-hover));
-  color: white;
-  border: none;
-  padding: 15px 40px;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-md);
-}
-
-.btnPrimary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
 }
 
 .progressContainer {
@@ -112,14 +94,14 @@
 }
 
 .progressText {
-  color: #666;
-  font-size: 1rem;
+  color: var(--text-muted);
+  font-size: var(--type-body);
   margin: 0;
 }
 
 .loading {
   text-align: center;
-  color: white;
+  color: var(--text-white);
 }
 
 .spinner {
@@ -145,22 +127,18 @@
   }
   
   .header h1 {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
   
   .configGrid {
     grid-template-columns: 1fr;
   }
   
-  .btnPrimary {
-    width: 100%;
-    padding: 18px;
   }
-}
 
 @media (max-width: 480px) {
   .header h1 {
-    font-size: var(--type-scale-xl);
+    font-size: var(--type-section);
   }
   
   .content {

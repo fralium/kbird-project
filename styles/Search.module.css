@@ -1,4 +1,4 @@
-﻿.container {
+.container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,9 +17,9 @@
 }
 
 .title {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   font-weight: 700;
-  color: var(--gray-900);
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -34,15 +34,15 @@
   padding: 10px 14px;
   border: 1px solid var(--color-border, var(--gray-300));
   border-radius: var(--radius-control);
-  font-size: 1rem;
+  font-size: var(--type-body);
   outline: none;
-  background: var(--surface-card, #fff);
-  color: var(--color-ink, inherit);
+  background: var(--surface-card, var(--bg-white));
+  color: var(--color-ink);
   transition: border-color var(--transition-base);
 }
 
 .searchInput:focus {
-  border-color: var(--color-lake, #219ebc);
+  border-color: var(--color-lake, var(--color-lake));
 }
 
 .searchButton {
@@ -81,8 +81,8 @@
   align-items: center;
   height: 30px;
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
-  font-size: var(--type-scale-sm);
+  color: var(--color-ink);
+  font-size: var(--type-secondary);
   line-height: 1;
   white-space: nowrap;
 }
@@ -99,7 +99,7 @@
   background: white;
   border: 2px solid var(--gray-300);
   border-radius: var(--radius-lg);
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   cursor: pointer;
   transition: all var(--transition-base);
 }
@@ -111,7 +111,7 @@
 
 .typeButton.active {
   background: var(--emerald-600);
-  color: white;
+  color: var(--text-white);
   border-color: var(--emerald-600);
 }
 
@@ -127,21 +127,21 @@
 }
 
 .resultsHeader h2 {
-  font-size: 1.5rem;
+  font-size: var(--type-section);
   font-weight: 600;
-  color: var(--gray-900);
+  color: var(--text-primary);
   margin: 0;
 }
 
 .resultsCount {
-  font-size: 0.9rem;
-  color: var(--gray-600);
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
 }
 
 .candidateHint {
   margin: 0 0 12px;
-  color: var(--color-lake-blue, #219ebc);
-  font-size: 0.9rem;
+  color: var(--color-lake-blue);
+  font-size: var(--type-secondary);
 }
 
 .candidateList {
@@ -157,25 +157,25 @@
   gap: 2px;
   padding: 8px 12px;
   background: white;
-  border: 1px solid rgba(2, 48, 71, 0.14);
+  border: 1px solid var(--border-subtle);
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
 }
 
 .candidateButton:hover {
-  border-color: #219ebc;
+  border-color: var(--color-lake);
 }
 
 .candidateName {
-  font-weight: 650;
-  color: #023047;
-  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  font-size: var(--type-body);
 }
 
 .candidateMeta {
-  font-size: 0.75rem;
-  color: #5c6b73;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
 }
 
 .resultSection {
@@ -228,15 +228,15 @@
 }
 
 .cardTitle {
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 600;
-  color: var(--gray-900);
+  color: var(--text-primary);
   margin: 0 0 4px 0;
 }
 
 .cardMeta {
-  font-size: 0.85rem;
-  color: var(--gray-600);
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
   margin: 4px 0;
 }
 
@@ -277,15 +277,15 @@
 }
 
 .recordTitle {
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
   font-weight: 600;
-  color: var(--gray-900);
+  color: var(--text-primary);
   margin: 0 0 8px 0;
 }
 
 .recordMeta {
-  font-size: 0.9rem;
-  color: var(--gray-600);
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
   margin-bottom: 12px;
 }
 
@@ -300,7 +300,7 @@
   background: var(--emerald-50);
   color: var(--emerald-700);
   border-radius: var(--radius-lg);
-  font-size: 0.85rem;
+  font-size: var(--type-secondary);
 }
 
 .locationList {
@@ -325,15 +325,15 @@
 }
 
 .locationName {
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
   font-weight: 600;
-  color: var(--gray-900);
+  color: var(--text-primary);
   margin: 0 0 8px 0;
 }
 
 .locationMeta {
-  font-size: 0.9rem;
-  color: var(--gray-600);
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -342,12 +342,12 @@
 .noResults {
   text-align: center;
   padding: 48px 24px;
-  color: var(--gray-600);
+  color: var(--text-muted);
 }
 
 .noResultsHint {
-  font-size: 0.9rem;
-  color: var(--gray-500);
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
   margin-top: 8px;
 }
 

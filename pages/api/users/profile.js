@@ -1,6 +1,6 @@
 // Next.js API代理路由 - 用户个人资料
-import { resolveBackendApiBase } from '../../../utils/backendApiBase';
-import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'PUT') {

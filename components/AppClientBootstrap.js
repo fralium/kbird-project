@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { api } from '../utils/api';
-import { applyUiStyle, readStoredUiStyle } from '../utils/uiStyle';
+import { api } from '@/utils/api';
+import { applyUiStyle, readStoredUiStyle } from '@/utils/uiStyle';
 
 /**
  * 启动时同步本机偏好与单机模式缓存。

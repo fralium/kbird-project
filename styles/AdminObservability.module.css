@@ -21,10 +21,10 @@
 .toolbar select,
 .toolbar button {
   height: 34px;
-  border: 1px solid #d7dce6;
+  border: 1px solid var(--gray-200);
   border-radius: 8px;
   padding: 0 10px;
-  background: #fff;
+  background: var(--bg-white);
 }
 
 .toolbar button {
@@ -39,38 +39,38 @@
 }
 
 .metricCard {
-  background: #fff;
-  border: 1px solid #e7ebf3;
+  background: var(--bg-white);
+  border: 1px solid var(--gray-100);
   border-radius: 12px;
   padding: 14px;
 }
 
 .metricTitle {
-  color: #5e6573;
-  font-size: 13px;
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
 }
 
 .metricValue {
-  font-size: 26px;
+  font-size: var(--type-section);
   font-weight: 700;
   margin: 6px 0;
 }
 
 .metricHint {
-  color: #828b9a;
-  font-size: 12px;
+  color: var(--text-muted);
+  font-size: var(--type-caption);
 }
 
 .section {
-  background: #fff;
-  border: 1px solid #e7ebf3;
+  background: var(--bg-white);
+  border: 1px solid var(--gray-100);
   border-radius: 12px;
   padding: 14px;
   margin-bottom: 14px;
 }
 
 .muted {
-  color: #7a8394;
+  color: var(--text-muted);
   margin: 10px 0;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .groupItem {
-  border: 1px solid #edf1f8;
+  border: 1px solid var(--gray-100);
   border-radius: 10px;
   padding: 10px;
 }
@@ -93,20 +93,20 @@
   display: flex;
   gap: 10px;
   margin: 5px 0;
-  color: #6e7788;
-  font-size: 12px;
+  color: var(--text-muted);
+  font-size: var(--type-caption);
 }
 
 .barTrack {
   height: 8px;
   border-radius: 999px;
-  background: #eef2f8;
+  background: var(--gray-100);
   overflow: hidden;
 }
 
 .barFill {
   height: 100%;
-  background: linear-gradient(90deg, #ffd166 0%, #ef476f 100%);
+  background: linear-gradient(90deg, var(--color-reed) 0%, var(--color-danger) 100%);
 }
 
 .tableWrap {
@@ -121,7 +121,7 @@
 .table th,
 .table td {
   text-align: left;
-  border-bottom: 1px solid #edf1f8;
+  border-bottom: 1px solid var(--gray-100);
   padding: 8px;
-  font-size: 13px;
+  font-size: var(--type-secondary);
 }

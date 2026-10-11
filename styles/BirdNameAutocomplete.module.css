@@ -1,4 +1,4 @@
-﻿.autocompleteContainer {
+.autocompleteContainer {
   position: relative;
   width: 100%;
 }
@@ -8,16 +8,16 @@
   padding: 12px 16px; /* 与其他表单输入保持一致高度 */
   border: 2px solid var(--border-input); /* 与地点/日期输入框统一边框粗细与颜色 */
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--type-body);
   transition: all var(--transition-base);
   background: var(--white);
-  color: var(--gray-900);
+  color: var(--text-primary);
   box-sizing: border-box;
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--primary-green);
+  border-color: var(--color-lake);
   box-shadow: 0 0 0 3px var(--emerald-100);
 }
 
@@ -30,8 +30,8 @@
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 0.875rem;
-  color: var(--gray-500);
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
 }
 
 .dropdown {
@@ -40,10 +40,10 @@
   left: 0;
   right: 0;
   margin-top: 4px;
-  background: #ffffff;
+  background: var(--bg-white);
   border: 1px solid var(--gray-300);
   border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px var(--border-subtle);
   z-index: 1000;
   max-height: 300px;
   overflow-y: auto;
@@ -56,7 +56,7 @@
   cursor: pointer;
   transition: background-color var(--transition-fast);
   border-bottom: 1px solid var(--gray-200);
-  background-color: #ffffff;
+  background-color: var(--bg-white);
 }
 
 .dropdownItem:last-child {
@@ -69,30 +69,30 @@
 
 .birdName {
   font-weight: 600;
-  color: #111827;
-  font-size: 1rem;
+  color: var(--color-ink);
+  font-size: var(--type-body);
   margin-bottom: 4px;
 }
 
 .scientificName {
-  font-size: 0.875rem;
-  color: #4b5563;
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   font-style: italic;
   margin-bottom: 2px;
 }
 
 .category {
-  font-size: 0.75rem;
-  color: #6b7280;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
   margin-top: 4px;
 }
 
 .noResults {
   padding: 16px;
   text-align: center;
-  color: #6b7280;
-  font-size: 0.875rem;
-  background-color: #ffffff;
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
+  background-color: var(--bg-white);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -105,18 +105,18 @@
 
 .requestButton {
   appearance: none;
-  border: 1px solid var(--primary-green, #059669);
-  background: var(--emerald-50, #ecfdf5);
-  color: var(--primary-green, #047857);
+  border: 1px solid var(--primary-green, var(--color-success));
+  background: var(--emerald-50, var(--color-success-soft));
+  color: var(--primary-green, var(--color-success-hover));
   border-radius: 6px;
   padding: 6px 12px;
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 600;
   cursor: pointer;
 }
 
 .requestButton:hover:not(:disabled) {
-  background: var(--emerald-100, #d1fae5);
+  background: var(--emerald-100, var(--color-success-soft));
 }
 
 .requestButton:disabled {

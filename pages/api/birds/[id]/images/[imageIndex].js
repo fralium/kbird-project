@@ -1,10 +1,10 @@
-import { resolveBackendApiBase } from '../../../../../utils/backendApiBase';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
 import {
   buildJsonHeaders,
   parseProxyJsonResponse,
   sendMethodNotAllowed,
   sendProxyError,
-} from '../../../../../utils/proxyApi';
+} from '@/utils/proxyApi';
 
 const API_BASE_URL = `${resolveBackendApiBase()}`;
 

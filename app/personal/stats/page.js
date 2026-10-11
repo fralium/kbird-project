@@ -3,28 +3,28 @@ import { Suspense, useState, useEffect, useRef, useCallback, useMemo } from 'rea
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import RecordsTablePanel from '../../../components/RecordsTablePanel';
-import FirstsPanel from '../../../components/FirstsPanel';
-import FootprintAlbum from '../../../components/FootprintAlbum';
-import SpeciesWordCloud from '../../../components/SpeciesWordCloud';
-import SpeciesHoverChip from '../../../components/SpeciesHoverChip';
-import ProtectionDonutChart from '../../../components/ProtectionDonutChart';
-import { useAuth } from '../../../components/AuthProvider';
-import { api } from '../../../utils/api';
-import { getOrderChineseName, getFamilyChineseName } from '../../../data/taxonomyTranslation';
-import { devError } from '../../../utils/devLogger';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import RecordsTablePanel from '@/components/RecordsTablePanel';
+import FirstsPanel from '@/components/FirstsPanel';
+import FootprintAlbum from '@/components/FootprintAlbum';
+import SpeciesWordCloud from '@/components/SpeciesWordCloud';
+import SpeciesHoverChip from '@/components/SpeciesHoverChip';
+import ProtectionDonutChart from '@/components/ProtectionDonutChart';
+import { useAuth } from '@/components/AuthProvider';
+import { api } from '@/utils/api';
+import { getOrderChineseName, getFamilyChineseName } from '@/data/taxonomyTranslation';
+import { devError } from '@/utils/devLogger';
 import {
   HABITAT_COVER_SETS,
   HABITAT_COVER_SET_KEY,
   normalizeHabitatCoverSet,
   resolveLocationCover,
   writeHabitatCoverSet,
-} from '../../../utils/habitatCover';
-import styles from '../../../styles/PersonalStats.module.css';
+} from '@/utils/habitatCover';
+import styles from '@/styles/PersonalStats.module.css';
 
 const VALID_TABS = ['overview', 'species', 'places', 'records', 'bird-firsts', 'location-firsts'];
 const TAB_LABELS = {

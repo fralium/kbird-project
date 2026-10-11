@@ -1,6 +1,6 @@
 // Next.js API 代理 - 地点统计小结
-import { resolveBackendApiBase } from '../../../utils/backendApiBase';
-import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {

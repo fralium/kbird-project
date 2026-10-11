@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { api, AUTH_EXPIRED_EVENT } from '../utils/api';
+import { api, AUTH_EXPIRED_EVENT } from '@/utils/api';
 
 const AuthContext = createContext();
 

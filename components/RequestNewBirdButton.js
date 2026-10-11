@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { api } from '../utils/api';
+import { api } from '@/utils/api';
 
 /**
  * 申请将未入库鸟种写入临时档案，成功后通过 onCreated 回传完整 bird。

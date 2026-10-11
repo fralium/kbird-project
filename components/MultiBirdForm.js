@@ -6,12 +6,12 @@ import BirdSearchAdder from './BirdSearchAdder';
 import SmartBirdAdder from './SmartBirdAdder';
 import ImportBirdAdder from './ImportBirdAdder';
 import PopularLocations from './PopularLocations';
-import { api } from '../utils/api';
-import { isLocationInCatalog } from '../utils/locationNameMatch';
-import { extractLngLatPair } from '../utils/locationCoords';
-import { todayLocalDateKey } from '../utils/localDate';
+import { api } from '@/utils/api';
+import { isLocationInCatalog } from '@/utils/locationNameMatch';
+import { extractLngLatPair } from '@/utils/locationCoords';
+import { todayLocalDateKey } from '@/utils/localDate';
 import { useConfirmDialog } from './ConfirmDialog';
-import styles from '../styles/MultiBirdForm.module.css';
+import styles from '@/styles/MultiBirdForm.module.css';
 
 const normalizeBird = (bird = {}) => ({
   ...bird,

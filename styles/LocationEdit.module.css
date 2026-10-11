@@ -19,12 +19,12 @@
 .header h1 {
   color: var(--color-lake);
   margin-bottom: 0.5rem;
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
 }
 
 .header p {
-  color: #666;
-  font-size: var(--page-subtitle-size);
+  color: var(--text-muted);
+  font-size: var(--type-page-lede);
 }
 
 .loading {
@@ -38,7 +38,7 @@
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
+  border: 4px solid var(--bg-clean);
   border-top: 4px solid var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -56,12 +56,12 @@
 }
 
 .error h1 {
-  color: #e74c3c;
+  color: var(--color-danger);
   margin-bottom: 1rem;
 }
 
 .error p {
-  color: #666;
+  color: var(--text-muted);
   margin-bottom: 2rem;
 }
 
@@ -69,7 +69,7 @@
   display: inline-block;
   padding: 0.75rem 1.5rem;
   background-color: var(--color-lake);
-  color: #fff !important;
+  color: var(--text-white) !important;
   font-weight: 600;
   text-decoration: none;
   border-radius: 6px;
@@ -78,13 +78,13 @@
 
 .backButton:hover {
   background-color: var(--color-lake-hover);
-  color: #fff !important;
+  color: var(--text-white) !important;
   text-decoration: none;
 }
 
 .backButton:visited,
 .backButton:active {
-  color: #fff !important;
+  color: var(--text-white) !important;
   text-decoration: none;
 }
 
@@ -97,7 +97,7 @@
 
 .section {
   padding: 2rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .section:last-child {
@@ -107,7 +107,7 @@
 .section h2 {
   color: var(--color-lake);
   margin-bottom: 1.5rem;
-  font-size: var(--type-scale-xl);
+  font-size: var(--type-section);
   display: flex;
   align-items: center;
 }
@@ -144,9 +144,9 @@
 .formGroup textarea {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid #ddd;
+  border: 2px solid var(--gray-200);
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: var(--type-body);
   transition: border-color 0.2s;
   box-sizing: border-box;
 }
@@ -165,9 +165,9 @@
 
 .fieldHint {
   margin: 0.35rem 0 0 0;
-  font-size: 0.8rem;
-  color: #666;
-  line-height: 1.4;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+  line-height: var(--line-height-snug);
 }
 
 .checkboxGrid {
@@ -181,7 +181,7 @@
   align-items: center;
   cursor: pointer;
   padding: 0.75rem;
-  border: 2px solid #ddd;
+  border: 2px solid var(--gray-200);
   border-radius: 6px;
   transition: all 0.2s;
 }
@@ -214,9 +214,9 @@
 .tagInput input {
   flex: 1;
   padding: 0.75rem;
-  border: 2px solid #ddd;
+  border: 2px solid var(--gray-200);
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: var(--type-body);
 }
 
 .tagInput input:focus {
@@ -227,7 +227,7 @@
 .addTagButton {
   padding: 0.75rem 1.5rem;
   background-color: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -252,7 +252,7 @@
   background-color: var(--color-lake-light);
   color: var(--color-lake);
   border-radius: 20px;
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   font-weight: 500;
 }
 
@@ -262,7 +262,7 @@
   border: none;
   color: var(--color-lake);
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
   line-height: 1;
   padding: 0;
   width: 20px;
@@ -297,10 +297,10 @@
 .submitButton {
   padding: var(--spacing-4) var(--spacing-8);
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   border: none;
   border-radius: var(--radius-panel, 8px);
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -321,12 +321,12 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-2) var(--spacing-4);
-  background: #fff;
-  color: var(--color-deep-teal, #023047);
-  border: 1px solid rgba(2, 48, 71, 0.14);
+  background: var(--bg-white);
+  color: var(--color-ink);
+  border: 1px solid var(--border-subtle);
   text-decoration: none;
   border-radius: var(--radius-panel, 8px);
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
   font-weight: 600;
   transition: border-color 0.2s, color 0.2s;
   text-align: center;
@@ -334,22 +334,22 @@
 }
 
 .cancelButton:hover {
-  border-color: rgba(33, 158, 188, 0.45);
-  color: var(--color-lake, #219ebc);
+  border-color: var(--color-lake-mid);
+  color: var(--color-lake);
 }
 
 .deleteButton {
   border: none;
   background: transparent;
-  color: var(--color-danger, #c62828);
-  font-size: var(--type-scale-sm, 0.9rem);
+  color: var(--color-danger, var(--color-danger));
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: pointer;
   padding: 6px 8px;
 }
 
 .deleteButton:hover:not(:disabled) {
-  color: #b71c1c;
+  color: var(--color-danger-hover);
   text-decoration: underline;
 }
 
@@ -381,7 +381,7 @@
   }
   
   .header h1 {
-    font-size: var(--type-scale-xl);
+    font-size: var(--type-section);
   }
   
   .section {

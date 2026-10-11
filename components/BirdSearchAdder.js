@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { api } from '../utils/api';
+import { api } from '@/utils/api';
 import RequestNewBirdButton from './RequestNewBirdButton';
-import styles from '../styles/BirdSearchAdder.module.css';
+import styles from '@/styles/BirdSearchAdder.module.css';
 
 export default function BirdSearchAdder({ onAddBird, existingBirds = [] }) {
   const [inputValue, setInputValue] = useState('');
@@ -126,7 +126,7 @@ export default function BirdSearchAdder({ onAddBird, existingBirds = [] }) {
             onFocus={handleFocus}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
-            placeholder="搜索鸟类名称..."
+            placeholder="中文名 / 拼音 / 首字母 / 学名 / 英文…"
             className={styles.searchInput}
           />
           {isLoading && (

@@ -70,10 +70,10 @@
   top: -30px;
   left: 0;
   background: rgba(44, 85, 48, 0.9);
-  color: white;
+  color: var(--text-white);
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: var(--type-caption);
   opacity: 0;
   transition: opacity 0.2s ease;
   pointer-events: none;
@@ -87,14 +87,14 @@
 /* 高对比度模式支持 */
 @media (prefers-contrast: high) {
   .keyboardNavigation:focus {
-    outline: 3px solid #000;
+    outline: 3px solid var(--color-ink);
     outline-offset: 3px;
   }
   
   .keyboardNavigation [tabindex="0"]:focus,
   .keyboardNavigation button:focus,
   .keyboardNavigation [href]:focus {
-    outline: 3px solid #000;
+    outline: 3px solid var(--color-ink);
     outline-offset: 3px;
   }
 }

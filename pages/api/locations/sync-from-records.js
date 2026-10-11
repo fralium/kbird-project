@@ -1,6 +1,6 @@
 // Next.js API 代理 - 地点同步（从观鸟记录同步到地点名录）
-import { resolveBackendApiBase } from '../../../utils/backendApiBase';
-import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

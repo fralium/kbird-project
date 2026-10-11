@@ -9,10 +9,10 @@
   gap: var(--spacing-2);
   padding: var(--spacing-3) var(--spacing-6);
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   border: 2px solid var(--color-lake);
   border-radius: var(--radius-full);
-  font-size: var(--type-scale-base);
+  font-size: var(--type-body);
   font-weight: 600;
   line-height: 1;
   cursor: pointer;
@@ -52,14 +52,14 @@
   display: block;
   width: 100%;
   padding: 0.5rem 0;
-  font-size: 14px;
-  color: #374151;
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
 }
 
 .fileName {
   margin: 0.5rem 0 0;
-  font-size: 13px;
-  color: #6B7280;
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
 }
 
 /* Excel 导入：固定居中模态，避免从底部冒出、支持整框滚动 */
@@ -79,7 +79,7 @@
   position: relative;
   z-index: 9999;
   background: white;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--gray-200);
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   width: 100%;
@@ -93,7 +93,7 @@
 .importPanel .panelHeader {
   flex-shrink: 0;
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid #F3F4F6;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .importPanel .inputSection,
@@ -116,7 +116,7 @@
   transform: translateX(-50%);
   z-index: 1000;
   background: white;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--gray-200);
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   width: 600px;
@@ -127,21 +127,21 @@
 
 .panelHeader {
   padding: 1.5rem 1.5rem 1rem;
-  border-bottom: 1px solid #F3F4F6;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .panelHeader h3 {
   margin: 0 0 0.5rem;
-  font-size: 18px;
+  font-size: var(--type-page-lede);
   font-weight: 600;
-  color: #1F2937;
+  color: var(--color-ink);
 }
 
 .panelHeader p {
   margin: 0;
-  font-size: 14px;
-  color: #6B7280;
-  line-height: 1.5;
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
+  line-height: var(--line-height-normal);
 }
 
 .inputSection {
@@ -151,9 +151,9 @@
 .inputLabel {
   display: block;
   margin-bottom: 0.5rem;
-  font-size: 14px;
+  font-size: var(--type-secondary);
   font-weight: 500;
-  color: #374151;
+  color: var(--text-secondary);
 }
 
 .birdListInput {
@@ -161,11 +161,11 @@
   min-height: 120px;
   max-height: 200px;
   padding: 0.75rem;
-  border: 1px solid #D1D5DB;
+  border: 1px solid var(--gray-200);
   border-radius: 8px;
-  font-size: 14px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  line-height: 1.5;
+  font-size: var(--type-secondary);
+  font-family: var(--font-mono);
+  line-height: var(--line-height-normal);
   resize: vertical;
   transition: border-color 0.2s ease;
 }
@@ -177,7 +177,7 @@
 }
 
 .birdListInput::placeholder {
-  color: #9CA3AF;
+  color: var(--text-muted);
   font-family: inherit;
 }
 
@@ -185,17 +185,17 @@
   display: flex;
   gap: 0.75rem;
   padding: 1rem 1.5rem;
-  border-top: 1px solid #F3F4F6;
+  border-top: 1px solid var(--gray-100);
 }
 
 .addButton {
   flex: 1;
   padding: var(--spacing-3) var(--spacing-4);
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   border: none;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: var(--type-secondary);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -208,7 +208,7 @@
 }
 
 .addButton:disabled {
-  background: #9CA3AF;
+  background: var(--text-muted);
   cursor: not-allowed;
   transform: none;
 }
@@ -219,7 +219,7 @@
   color: var(--color-lake);
   border: 2px solid var(--color-lake);
   border-radius: var(--radius-lg);
-  font-size: 14px;
+  font-size: var(--type-secondary);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -233,32 +233,32 @@
 
 .closeButton {
   padding: 0.75rem 1rem;
-  background: #EF4444;
-  color: white;
+  background: var(--color-danger);
+  color: var(--text-white);
   border: none;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: var(--type-secondary);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .closeButton:hover {
-  background: #DC2626;
+  background: var(--color-danger);
   transform: translateY(-1px);
 }
 
 .resultPanel {
   padding: 1rem 1.5rem;
-  border-top: 1px solid #F3F4F6;
-  background: #F9FAFB;
+  border-top: 1px solid var(--gray-100);
+  background: var(--bg-clean);
 }
 
 .resultPanel h4 {
   margin: 0 0 1rem;
-  font-size: 16px;
+  font-size: var(--type-body);
   font-weight: 600;
-  color: #1F2937;
+  color: var(--color-ink);
 }
 
 .successResult {
@@ -284,14 +284,14 @@
 
 .statLabel {
   display: block;
-  font-size: 12px;
-  color: #6B7280;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
   margin-bottom: 0.25rem;
 }
 
 .statValue {
   display: block;
-  font-size: 18px;
+  font-size: var(--type-page-lede);
   font-weight: 600;
   color: var(--color-lake);
 }
@@ -304,23 +304,23 @@
 
 .matchedBirdsList h5 {
   margin: 0 0 0.5rem;
-  font-size: 14px;
+  font-size: var(--type-secondary);
   font-weight: 600;
   color: var(--color-lake);
 }
 
 .unmatchedBirdsList h5 {
   margin: 0 0 0.5rem;
-  font-size: 14px;
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: #F59E0B;
+  color: var(--color-warning);
 }
 
 .duplicateBirdsList h5 {
   margin: 0 0 0.5rem;
-  font-size: 14px;
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: #6B7280;
+  color: var(--text-muted);
 }
 
 .matchedBirdsList ul,
@@ -346,8 +346,8 @@
   appearance: none;
   border: none;
   background: transparent;
-  color: var(--color-lake, #0d9488);
-  font-size: 13px;
+  color: var(--color-lake);
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: pointer;
   padding: 0;
@@ -356,7 +356,7 @@
 }
 
 .requestLink:hover:not(:disabled) {
-  color: var(--color-lake-hover, #0f766e);
+  color: var(--color-lake-hover);
 }
 
 .requestLink:disabled {
@@ -368,32 +368,32 @@
 .unmatchedBirdsList li,
 .duplicateBirdsList li {
   margin-bottom: 0.25rem;
-  font-size: 14px;
-  color: #374151;
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
 }
 
 .unmatchedNote {
   margin: 0.5rem 0 0;
-  font-size: 12px;
-  color: #F59E0B;
+  font-size: var(--type-caption);
+  color: var(--color-warning);
   font-style: italic;
-  background: #FEF3C7;
+  background: var(--color-warning-soft);
   padding: 0.5rem;
   border-radius: 4px;
-  border-left: 3px solid #F59E0B;
+  border-left: 3px solid var(--color-warning);
 }
 
 .errorResult {
-  background: #FEF2F2;
-  border: 1px solid #FECACA;
+  background: var(--color-danger-soft);
+  border: 1px solid var(--color-danger-border);
   border-radius: 8px;
   padding: 1rem;
 }
 
 .errorResult p {
   margin: 0;
-  color: #DC2626;
-  font-size: 14px;
+  color: var(--color-danger);
+  font-size: var(--type-secondary);
 }
 
 /* 响应式设计 */

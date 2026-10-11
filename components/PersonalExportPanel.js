@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { downloadPersonalRecordsExport } from '../utils/personalExportDownload';
-import styles from '../styles/ImportData.module.css';
+import { downloadPersonalRecordsExport } from '@/utils/personalExportDownload';
+import styles from '@/styles/ImportData.module.css';
 
 export default function PersonalExportPanel() {
   const [exportYear, setExportYear] = useState('');

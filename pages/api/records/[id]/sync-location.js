@@ -1,13 +1,13 @@
 /**
  * 代理：从地点名录同步坐标到观鸟记录 PUT /api/records/:id/sync-location
  */
-import { resolveBackendApiBase } from '../../../../utils/backendApiBase';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
 import {
   buildJsonHeaders,
   parseProxyJsonResponse,
   sendMethodNotAllowed,
   sendProxyError,
-} from '../../../../utils/proxyApi';
+} from '@/utils/proxyApi';
 
 const baseUrl = resolveBackendApiBase();
 

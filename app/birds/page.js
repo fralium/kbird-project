@@ -4,58 +4,28 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import CategoryDisplay from '../../components/CategoryDisplay';
-import { getOrderChineseName, getFamilyChineseName, formatTaxonomyDisplay } from '../../data/taxonomyTranslation';
-import PageState from '../../components/PageState';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import CategoryDisplay from '@/components/CategoryDisplay';
+import { getOrderChineseName, getFamilyChineseName, formatTaxonomyDisplay } from '@/data/taxonomyTranslation';
+import PageState from '@/components/PageState';
 import SimplePageHeader, {
   HeaderPrimaryLink,
   HeaderTextButton,
-} from '../../components/SimplePageHeader';
-import HTMLPDFExporter from '../../components/HTMLPDFExporter';
-import { useAuth } from '../../components/AuthProvider';
-import { api } from '../../utils/api';
-import styles from '../../styles/BirdList.module.css';
+} from '@/components/SimplePageHeader';
+import HTMLPDFExporter from '@/components/HTMLPDFExporter';
+import { useAuth } from '@/components/AuthProvider';
+import BirdSearchField from '@/components/BirdSearchField';
+import FoldFilterPanel from '@/components/FoldFilterPanel';
+import { api } from '@/utils/api';
+import { BIRD_SEARCH_PLACEHOLDER } from '@/utils/birdSearchUi';
+import { readCardStyle, writeCardStyle } from '@/utils/habitatCover';
+import { formatDisplayDate } from '@/utils/localDate';
+import styles from '@/styles/BirdList.module.css';
 
 const VIEW_MODE_STORAGE_KEY = 'kbird-bird-list-view-mode';
-const FILTER_PANEL_STORAGE_KEY = 'kbird.birds.filterPanel';
-const CARD_STYLE_STORAGE_KEY = 'kbird.birds.cardStyle';
 const CURRENT_YEAR = new Date().getFullYear();
 
-function readBirdsFilterPanelOpen() {
-  if (typeof window === 'undefined') return false;
-  try {
-    return localStorage.getItem(FILTER_PANEL_STORAGE_KEY) === '1';
-  } catch {
-    return false;
-  }
-}
-
-function writeBirdsFilterPanelOpen(open) {
-  try {
-    localStorage.setItem(FILTER_PANEL_STORAGE_KEY, open ? '1' : '0');
-  } catch {
-    /* ignore */
-  }
-}
-
-function readBirdCardStyle() {
-  if (typeof window === 'undefined') return 'field';
-  try {
-    return localStorage.getItem(CARD_STYLE_STORAGE_KEY) === 'scrap' ? 'scrap' : 'field';
-  } catch {
-    return 'field';
-  }
-}
-
-function writeBirdCardStyle(style) {
-  try {
-    localStorage.setItem(CARD_STYLE_STORAGE_KEY, style === 'scrap' ? 'scrap' : 'field');
-  } catch {
-    /* ignore */
-  }
-}
 const GRID_MIN_CARD_PX = 240;
 const GRID_GAP_PX = 16;
 const PAGE_CONTENT_MAX_PX = 1720;
@@ -63,11 +33,7 @@ const MAIN_PADDING_X_PX = 64;
 
 function formatObservedDate(value) {
   if (!value) return '';
-  return new Date(value).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  return formatDisplayDate(value, 'medium');
 }
 
 function parsePageParam(value) {
@@ -127,12 +93,10 @@ export default function BirdListPage() {
   const [sortValue, setSortValue] = useState('lastObserved-desc');
   const [viewMode, setViewMode] = useState('simple');
   const [cardStyle, setCardStyle] = useState('field');
-  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
   const [showPDFExporter, setShowPDFExporter] = useState(false);
 
   useEffect(() => {
-    setFilterPanelOpen(readBirdsFilterPanelOpen());
-    setCardStyle(readBirdCardStyle());
+    setCardStyle(readCardStyle());
   }, []);
 
   useEffect(() => {
@@ -348,7 +312,7 @@ export default function BirdListPage() {
   const handleCardStyleChange = (style) => {
     const next = style === 'scrap' ? 'scrap' : 'field';
     setCardStyle(next);
-    writeBirdCardStyle(next);
+    writeCardStyle(next);
   };
 
   const paginatedBirds = birds.map((bird) => ({
@@ -357,8 +321,8 @@ export default function BirdListPage() {
   }));
   const totalPages = pagination.pages;
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+  const handleSearch = (next) => {
+    setSearchTerm(typeof next === 'string' ? next : next?.target?.value || '');
     setPagination((prev) => ({ ...prev, page: 1 }));
   };
 
@@ -429,14 +393,6 @@ export default function BirdListPage() {
     if (parts.length === 0) return '搜索 · 年份 · 目科 · 保护等级';
     return parts.join(' · ');
   })();
-
-  const toggleFilterPanel = () => {
-    setFilterPanelOpen((prev) => {
-      const next = !prev;
-      writeBirdsFilterPanelOpen(next);
-      return next;
-    });
-  };
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -518,43 +474,22 @@ export default function BirdListPage() {
         ) : null}
 
         <div className={styles.filtersContainer}>
-          <div className={styles.foldPanel} aria-label="已见鸟种筛选">
-            <button
-              type="button"
-              className={styles.foldToggle}
-              onClick={toggleFilterPanel}
-              aria-expanded={filterPanelOpen}
-            >
-              <span className={styles.foldToggleTitle}>筛选</span>
-              <span className={styles.foldToggleSummary}>{filterPanelSummary}</span>
-              <span className={styles.foldToggleChevron} aria-hidden="true">
-                {filterPanelOpen ? '▴' : '▾'}
-              </span>
-            </button>
-            {filterPanelOpen ? (
-              <div className={styles.foldBody}>
+          <FoldFilterPanel
+            storageKey="kbird.birds.filterPanel"
+            title="筛选"
+            summary={filterPanelSummary}
+            className={styles.foldPanel}
+          >
                 <div className={styles.toolbarSearch}>
-                  <input
-                    type="text"
-                    placeholder="名称或学名"
+                  <BirdSearchField
+                    className={styles.searchInput}
+                    placeholder={BIRD_SEARCH_PLACEHOLDER}
                     value={searchTerm}
                     onChange={handleSearch}
-                    className={styles.searchInput}
-                    aria-label="搜索已见鸟种"
+                    ariaLabel="搜索已见鸟种"
+                    size="sm"
+                    roundedRect
                   />
-                  {searchTerm ? (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSearchTerm('');
-                        setPagination((prev) => ({ ...prev, page: 1 }));
-                      }}
-                      className={styles.clearSearchButton}
-                      title="清除搜索"
-                    >
-                      ✕
-                    </button>
-                  ) : null}
                 </div>
 
                 <div className={styles.toolbarFilters}>
@@ -655,9 +590,7 @@ export default function BirdListPage() {
                     </div>
                   ) : null}
                 </div>
-              </div>
-            ) : null}
-          </div>
+          </FoldFilterPanel>
 
           {!loading ? (
             <div className={styles.toolbarMeta}>

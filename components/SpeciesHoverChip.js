@@ -4,9 +4,9 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
-import { api } from '../utils/api';
-import { getFullImageUrl } from '../utils/imageUtils';
-import styles from '../styles/SpeciesHoverChip.module.css';
+import { api } from '@/utils/api';
+import { getFullImageUrl } from '@/utils/imageUtils';
+import styles from '@/styles/SpeciesHoverChip.module.css';
 
 /** @type {Map<string, { url: string|null } | { loading: Promise<string|null> }>} */
 const imageCache = new Map();

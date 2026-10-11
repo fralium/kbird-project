@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ImageViewer from './ImageViewer';
 import { useConfirmDialog } from './ConfirmDialog';
-import { getFullImageUrl, isValidImageUrl } from '../utils/imageUtils';
-import styles from '../styles/HabitatGallery.module.css';
+import { getFullImageUrl, isValidImageUrl } from '@/utils/imageUtils';
+import styles from '@/styles/HabitatGallery.module.css';
 
 function resolveUrl(url) {
   if (!url) return '';

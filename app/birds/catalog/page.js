@@ -3,36 +3,22 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import HTMLPDFExporter from '../../../components/HTMLPDFExporter';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import HTMLPDFExporter from '@/components/HTMLPDFExporter';
 import SimplePageHeader, {
   HeaderPrimaryLink,
   HeaderTextButton,
-} from '../../../components/SimplePageHeader';
-import { getOrderChineseName, getFamilyChineseName, formatTaxonomyDisplay } from '../../../data/taxonomyTranslation';
-import { api } from '../../../utils/api';
-import styles from '../../../styles/BirdCatalog.module.css';
+} from '@/components/SimplePageHeader';
+import { getOrderChineseName, getFamilyChineseName, formatTaxonomyDisplay } from '@/data/taxonomyTranslation';
+import BirdSearchField from '@/components/BirdSearchField';
+import FoldFilterPanel from '@/components/FoldFilterPanel';
+import PageState from '@/components/PageState';
+import { api } from '@/utils/api';
+import { BIRD_SEARCH_PLACEHOLDER } from '@/utils/birdSearchUi';
+import styles from '@/styles/BirdCatalog.module.css';
 
-const FILTER_PANEL_STORAGE_KEY = 'kbird.catalog.filterPanel';
 const VIEW_MODE_STORAGE_KEY = 'kbird.catalog.viewMode';
-
-function readCatalogFilterPanelOpen() {
-  if (typeof window === 'undefined') return false;
-  try {
-    return localStorage.getItem(FILTER_PANEL_STORAGE_KEY) === '1';
-  } catch {
-    return false;
-  }
-}
-
-function writeCatalogFilterPanelOpen(open) {
-  try {
-    localStorage.setItem(FILTER_PANEL_STORAGE_KEY, open ? '1' : '0');
-  } catch {
-    /* ignore */
-  }
-}
 
 function readCatalogViewMode() {
   if (typeof window === 'undefined') return 'card';
@@ -83,7 +69,6 @@ export default function BirdCatalog() {
     iucnProtectionLevel: '',
     chinaProtectionLevel: '',
   });
-  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
   const [viewMode, setViewMode] = useState('card');
 
   const [filterOptions, setFilterOptions] = useState({
@@ -101,7 +86,6 @@ export default function BirdCatalog() {
   };
 
   useEffect(() => {
-    setFilterPanelOpen(readCatalogFilterPanelOpen());
     setViewMode(readCatalogViewMode());
   }, []);
 
@@ -221,8 +205,8 @@ export default function BirdCatalog() {
   const currentBirds = birds;
   const startIndex = (currentPage - 1) * itemsPerPage;
 
-  const handleSearchChange = useCallback((event) => {
-    setSearchTerm(event.target.value);
+  const handleSearchChange = useCallback((next) => {
+    setSearchTerm(next);
   }, []);
 
   const handleSortChange = (event) => {
@@ -287,10 +271,7 @@ export default function BirdCatalog() {
       <div className={styles.container}>
         <Navbar />
         <main className={styles.main}>
-          <div className={styles.loadingContainer}>
-            <div className={styles.loadingSpinner}></div>
-            <p>正在加载鸟类数据...</p>
-          </div>
+          <PageState type="loading" title="正在加载鸟类数据..." />
         </main>
         <Footer />
       </div>
@@ -302,18 +283,33 @@ export default function BirdCatalog() {
       <div className={styles.container}>
         <Navbar />
         <main className={styles.main}>
-          <div className={styles.errorContainer}>
-            <h2>加载失败</h2>
-            <p>{error}</p>
-            <button onClick={() => setRetryNonce((prev) => prev + 1)} className={styles.retryButton}>
-              重新加载
-            </button>
-          </div>
+          <PageState
+            type="error"
+            title="加载失败"
+            message={error}
+            actionLabel="重新加载"
+            onAction={() => setRetryNonce((prev) => prev + 1)}
+          />
         </main>
         <Footer />
       </div>
     );
   }
+
+  const filterPanelSummary = (() => {
+    const parts = [];
+    if (activeSearchTerm.trim()) parts.push(`搜索「${activeSearchTerm.trim()}」`);
+    if (filters.order) {
+      parts.push(formatTaxonomyDisplay(getOrderChineseName(filters.order), filters.order));
+    }
+    if (filters.family) {
+      parts.push(formatTaxonomyDisplay(getFamilyChineseName(filters.family), filters.family));
+    }
+    if (filters.iucnProtectionLevel) parts.push(`IUCN ${filters.iucnProtectionLevel}`);
+    if (filters.chinaProtectionLevel) parts.push(filters.chinaProtectionLevel);
+    if (parts.length === 0) return '搜索 · 排序 · 目科 · 保护等级';
+    return parts.join(' · ');
+  })();
 
   return (
     <div className={styles.container}>
@@ -333,56 +329,23 @@ export default function BirdCatalog() {
           }
         />
 
-        <div className={styles.foldPanel} aria-label="名录筛选">
-          <button
-            type="button"
-            className={styles.foldToggle}
-            onClick={() => {
-              setFilterPanelOpen((prev) => {
-                const next = !prev;
-                writeCatalogFilterPanelOpen(next);
-                return next;
-              });
-            }}
-            aria-expanded={filterPanelOpen}
-          >
-            <span className={styles.foldToggleTitle}>筛选</span>
-            <span className={styles.foldToggleSummary}>
-              {(() => {
-                const parts = [];
-                if (activeSearchTerm.trim()) parts.push(`搜索「${activeSearchTerm.trim()}」`);
-                if (filters.order) {
-                  parts.push(formatTaxonomyDisplay(getOrderChineseName(filters.order), filters.order));
-                }
-                if (filters.family) {
-                  parts.push(formatTaxonomyDisplay(getFamilyChineseName(filters.family), filters.family));
-                }
-                if (filters.iucnProtectionLevel) parts.push(`IUCN ${filters.iucnProtectionLevel}`);
-                if (filters.chinaProtectionLevel) parts.push(filters.chinaProtectionLevel);
-                if (parts.length === 0) return '搜索 · 排序 · 目科 · 保护等级';
-                return parts.join(' · ');
-              })()}
-            </span>
-            <span className={styles.foldToggleChevron} aria-hidden="true">
-              {filterPanelOpen ? '▴' : '▾'}
-            </span>
-          </button>
-          {filterPanelOpen ? (
-            <div className={styles.foldBody}>
+        <FoldFilterPanel
+          storageKey="kbird.catalog.filterPanel"
+          title="筛选"
+          summary={filterPanelSummary}
+          className={styles.foldPanel}
+        >
         <div className={styles.searchSection}>
           <div className={styles.searchContainer}>
             <div className={styles.searchInputWrapper}>
-              <input
-                type="text"
-                placeholder="名称、学名或拼音（如 hongque、hq）"
+              <BirdSearchField
+                className={styles.searchInput}
+                placeholder={BIRD_SEARCH_PLACEHOLDER}
                 value={searchTerm}
                 onChange={handleSearchChange}
-                className={styles.searchInput}
-                onKeyPress={(event) => {
-                  if (event.key === 'Enter') {
-                    handleSearch();
-                  }
-                }}
+                onSubmit={handleSearch}
+                size="md"
+                roundedRect
               />
               <div className={styles.searchButtons}>
                 <button onClick={handleSearch} className={styles.searchButton} disabled={loading}>
@@ -397,7 +360,7 @@ export default function BirdCatalog() {
             </div>
             {activeSearchTerm ? (
               <div className={styles.searchTips}>
-                💡 当前搜索：&quot;{activeSearchTerm}&quot; | 支持中文、拼音、拼音首字母搜索
+                当前搜索：「{activeSearchTerm}」· 支持中文、拼音、首字母、学名、英文
               </div>
             ) : null}
           </div>
@@ -515,9 +478,7 @@ export default function BirdCatalog() {
             </div>
           ) : null}
         </div>
-            </div>
-          ) : null}
-        </div>
+        </FoldFilterPanel>
         {showPDFExporter ? (
           <div className={styles.exportSection}>
             <HTMLPDFExporter birds={birds} selectedBirds={birds} filters={filters} searchTerm={activeSearchTerm} />
@@ -767,11 +728,7 @@ export default function BirdCatalog() {
         ) : null}
 
         {!loading && currentBirds.length === 0 ? (
-          <div className={styles.noResults}>
-            <div className={styles.noResultsIcon}>🐦</div>
-            <h3>没有找到匹配的鸟类</h3>
-            <p>尝试调整搜索条件</p>
-          </div>
+          <PageState type="empty" title="没有找到匹配的鸟类" message="尝试调整搜索条件" />
         ) : null}
       </main>
 

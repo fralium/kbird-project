@@ -1,53 +1,28 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import { useAuth } from '../../../components/AuthProvider';
-import { useErrorHandler } from '../../../utils/useErrorHandler';
-import ErrorMessage from '../../../components/ErrorMessage';
-import MultiBirdForm from '../../../components/MultiBirdForm';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import { api } from '../../../utils/api';
-import { consumeRecordDraft } from '../../../utils/recordDraft';
-import { devError, devLog } from '../../../utils/devLogger';
-import styles from '../../../styles/AddRecord.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { useAuth } from '@/components/AuthProvider';
+import AuthGate from '@/components/AuthGate';
+import { useErrorHandler } from '@/utils/useErrorHandler';
+import ErrorMessage from '@/components/ErrorMessage';
+import MultiBirdForm from '@/components/MultiBirdForm';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import { api } from '@/utils/api';
+import { consumeRecordDraft } from '@/utils/recordDraft';
+import { devError, devLog } from '@/utils/devLogger';
+import styles from '@/styles/AddRecord.module.css';
 
 function AddRecordPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { user, loading: authLoading } = useAuth();
+  const { user } = useAuth();
   const { errors, addError, removeError } = useErrorHandler();
-  const [loading, setLoading] = useState(true);
-  const hasRedirectedRef = useRef(false);
   const [initialData, setInitialData] = useState({});
   const [draftNotice, setDraftNotice] = useState('');
-
-  const routerPushRef = useRef(router.push);
-  useEffect(() => {
-    routerPushRef.current = router.push;
-  }, [router.push]);
-
-  useEffect(() => {
-    if (authLoading) {
-      setLoading(true);
-      return;
-    }
-
-    const hasToken = typeof window !== 'undefined' && localStorage.getItem('token');
-    if (!user || !hasToken) {
-      if (!hasToken && !hasRedirectedRef.current) {
-        hasRedirectedRef.current = true;
-        routerPushRef.current('/login?redirect=/records/add');
-      }
-      setLoading(false);
-      return;
-    }
-
-    setLoading(false);
-  }, [authLoading, user]);
 
   useEffect(() => {
     const birdId = searchParams?.get('birdId') || '';
@@ -237,22 +212,6 @@ function AddRecordPageClient() {
     router.back();
   };
 
-  if (loading) {
-    return (
-      <div className={styles.container}>
-        <Navbar />
-        <main className={styles.main}>
-          <PageState type="loading" title="添加记录加载中..." />
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
-
   return (
     <div className={styles.container}>
       <Navbar />
@@ -298,7 +257,9 @@ export default function AddRecordPage() {
         </div>
       }
     >
-      <AddRecordPageClient />
+      <AuthGate loadingTitle="添加记录加载中...">
+        <AddRecordPageClient />
+      </AuthGate>
     </Suspense>
   );
 }

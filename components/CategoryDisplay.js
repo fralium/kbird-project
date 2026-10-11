@@ -1,7 +1,7 @@
 import React from 'react';
-import { getCategoryLabels } from '../utils/formatCategory';
-import { getOrderChineseName, getFamilyChineseName } from '../data/taxonomyTranslation';
-import styles from '../styles/CategoryDisplay.module.css';
+import { getCategoryLabels } from '@/utils/formatCategory';
+import { getOrderChineseName, getFamilyChineseName } from '@/data/taxonomyTranslation';
+import styles from '@/styles/CategoryDisplay.module.css';
 
 export default function CategoryDisplay({ category, variant = 'default', bird = null }) {
   if (!category && !bird?.order && !bird?.family) return null;

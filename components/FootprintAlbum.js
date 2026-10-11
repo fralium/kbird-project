@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { formatDisplayDate } from '@/utils/localDate';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { normalizeProvinceGeoName } from '../utils/provinceGeoName';
-import { PATH_PROGRESS_COLORS } from '../utils/mapPathSegments';
+import { normalizeProvinceGeoName } from '@/utils/provinceGeoName';
+import { PATH_PROGRESS_COLORS } from '@/utils/mapPathSegments';
 import SpeciesHoverChip from './SpeciesHoverChip';
-import styles from '../styles/FootprintAlbum.module.css';
+import styles from '@/styles/FootprintAlbum.module.css';
 
 const BirdMapProvider = dynamic(() => import('./BirdMapProvider'), { ssr: false });
 const ChinaProvinceMap = dynamic(() => import('./ChinaProvinceMap'), { ssr: false });
@@ -34,10 +35,7 @@ function formatMonthLabel(ym) {
 }
 
 function formatDayLabel(dateValue) {
-  if (!dateValue) return '—';
-  const d = new Date(dateValue);
-  if (Number.isNaN(d.getTime())) return '—';
-  return d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+  return formatDisplayDate(dateValue, 'long');
 }
 
 function monthEndMs(ym) {

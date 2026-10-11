@@ -1,6 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { formatDisplayDate } from '@/utils/localDate';
+import { showToast } from '@/utils/toast';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import PageState from './PageState';
@@ -8,9 +10,9 @@ import { useConfirmDialog } from './ConfirmDialog';
 import LocationAutocomplete from './LocationAutocomplete';
 import SpeciesHoverChip from './SpeciesHoverChip';
 import { useAuth } from './AuthProvider';
-import { api } from '../utils/api';
-import { parseTripPreviewWorkbooks } from '../utils/tripPreviewWorkbook';
-import styles from '../styles/TripPreview.module.css';
+import { api } from '@/utils/api';
+import { parseTripPreviewWorkbooks } from '@/utils/tripPreviewWorkbook';
+import styles from '@/styles/TripPreview.module.css';
 
 const PAGE_TABS = [
   {
@@ -28,18 +30,8 @@ const RESULT_TABS = [
   { id: 'added', label: '加新回看', hint: '当时算新种，之后写进名录或记录里的。' },
 ];
 
-const toast = (message, type = 'success') => {
-  if (typeof window !== 'undefined' && window.showToast) {
-    window.showToast(message, type, 2500);
-  }
-};
-
-const formatDate = (value) => {
-  if (!value) return '';
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return '';
-  return date.toLocaleDateString('zh-CN');
-};
+const toast = (message, type = 'success') => showToast(message, type, 2500);
+const formatDate = (value) => (value ? formatDisplayDate(value, 'short') : '');
 
 function chanceClass(chance) {
   if (chance === 'likely') return `${styles.badge} ${styles.badgeLikely}`;
@@ -424,7 +416,7 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
         locationLabel.trim() ||
         result?.locationLabel ||
         result?.fileName ||
-        `加新目标 ${new Date().toLocaleDateString('zh-CN')}`;
+        `加新目标 ${formatDisplayDate(new Date(), 'short')}`;
       const locLabel = locationLabel.trim() || result?.locationLabel || '';
       const saved = await api.personal.createGoalList({
         title,

@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { api } from '../utils/api';
-import { getReadableAiError } from '../utils/aiErrorMessages';
-import { compressImagesForUpload } from '../utils/compressImageForUpload';
-import styles from '../styles/AIImageUpload.module.css';
+import { api } from '@/utils/api';
+import { getReadableAiError } from '@/utils/aiErrorMessages';
+import { compressImagesForUpload } from '@/utils/compressImageForUpload';
+import styles from '@/styles/AIImageUpload.module.css';
 
 /** 压缩后的上传上限（与后端 multer 对齐）；选图时可更大，提交前会压缩 */
 const AI_IMAGE_UPLOAD_MAX = 2 * 1024 * 1024; // 2MB

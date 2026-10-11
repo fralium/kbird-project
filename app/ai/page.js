@@ -2,17 +2,18 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import SimplePageHeader from '../../components/SimplePageHeader';
-import PageState from '../../components/PageState';
-import AIImageUpload from '../../components/AIImageUpload';
-import AIResult from '../../components/AIResult';
-import { useAuth } from '../../components/AuthProvider';
-import { api } from '../../utils/api';
-import { getReadableAiError } from '../../utils/aiErrorMessages';
-import { useConfirmDialog } from '../../components/ConfirmDialog';
-import styles from '../../styles/AIAssistant.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import AIImageUpload from '@/components/AIImageUpload';
+import AIResult from '@/components/AIResult';
+import { useAuth } from '@/components/AuthProvider';
+import { api } from '@/utils/api';
+import { getReadableAiError } from '@/utils/aiErrorMessages';
+import { useConfirmDialog } from '@/components/ConfirmDialog';
+import { formatDisplayDateTime } from '@/utils/localDate';
+import styles from '@/styles/AIAssistant.module.css';
 
 const MODES = [
   { id: 'general', label: '综合', hint: '认鸟、地点、知识都可以问。' },
@@ -44,14 +45,8 @@ function readStoredThinking() {
 
 function formatTime(value) {
   if (!value) return '';
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return '';
-  return d.toLocaleString('zh-CN', {
-    month: 'numeric',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  const text = formatDisplayDateTime(value, { compact: true });
+  return text === '—' ? '' : text;
 }
 
 function AIAssistantPageInner() {

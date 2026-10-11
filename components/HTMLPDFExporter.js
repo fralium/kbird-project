@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { formatDisplayDate, formatDisplayDateTime } from '@/utils/localDate';
+import { showToast } from '@/utils/toast';
 
 const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm = '' }) => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -93,14 +95,14 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
           padding-bottom: 20px;
         ">
           <h1 style="
-            font-size: 28px;
-            color: #023047;
+            font-size: var(--type-page-title);
+            color: var(--color-ink);
             margin: 0 0 10px 0;
             font-weight: bold;
           ">${bird.name || '未知鸟类'}</h1>
           <p style="
-            font-size: 18px;
-            color: #666;
+            font-size: var(--type-page-lede);
+            color: var(--text-muted);
             font-style: italic;
             margin: 0;
           ">${bird.scientificName || 'Unknown'}</p>
@@ -109,8 +111,8 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
         <!-- 基本信息 -->
         <div class="info-section" style="margin-bottom: 30px;">
           <h2 style="
-            font-size: 20px;
-            color: #023047;
+            font-size: var(--type-subsection);
+            color: var(--color-ink);
             margin-bottom: 15px;
             border-left: 4px solid #023047;
             padding-left: 10px;
@@ -120,7 +122,7 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            font-size: 14px;
+            font-size: var(--type-secondary);
           ">
             <div class="info-item">
               <strong>分类：</strong>${bird.category || '未知'}
@@ -150,7 +152,7 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
               <strong>分布：</strong>${bird.distribution || '未知'}
             </div>
             <div class="info-item">
-              <strong>创建时间：</strong>${bird.createdAt ? new Date(bird.createdAt).toLocaleDateString('zh-CN') : '未知'}
+              <strong>创建时间：</strong>${bird.createdAt ? formatDisplayDate(bird.createdAt, 'short') : '未知'}
             </div>
           </div>
         </div>
@@ -159,8 +161,8 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
         ${(bird.size || bird.weight || bird.wingspan || bird.plumage || bird.bill || bird.legs) ? `
         <div class="morphology-section" style="margin-bottom: 30px;">
           <h2 style="
-            font-size: 20px;
-            color: #023047;
+            font-size: var(--type-subsection);
+            color: var(--color-ink);
             margin-bottom: 15px;
             border-left: 4px solid #023047;
             padding-left: 10px;
@@ -170,7 +172,7 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            font-size: 14px;
+            font-size: var(--type-secondary);
           ">
             ${bird.size ? `<div class="morphology-item"><strong>体长：</strong>${bird.size}</div>` : ''}
             ${bird.weight ? `<div class="morphology-item"><strong>体重：</strong>${bird.weight}</div>` : ''}
@@ -186,14 +188,14 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
         ${(bird.behavior || bird.diet || bird.migration) ? `
         <div class="behavior-section" style="margin-bottom: 30px;">
           <h2 style="
-            font-size: 20px;
-            color: #023047;
+            font-size: var(--type-subsection);
+            color: var(--color-ink);
             margin-bottom: 15px;
             border-left: 4px solid #023047;
             padding-left: 10px;
           ">行为习性</h2>
           
-          <div class="behavior-content" style="font-size: 14px;">
+          <div class="behavior-content" style="font-size: var(--type-secondary);">
             ${bird.behavior ? `<div class="behavior-item" style="margin-bottom: 10px;"><strong>行为：</strong>${bird.behavior}</div>` : ''}
             ${bird.diet ? `<div class="behavior-item" style="margin-bottom: 10px;"><strong>食性：</strong>${bird.diet}</div>` : ''}
             ${bird.migration ? `<div class="behavior-item" style="margin-bottom: 10px;"><strong>迁徙：</strong>${bird.migration}</div>` : ''}
@@ -205,8 +207,8 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
         ${imageCount > 0 ? `
         <div class="photos-section" style="margin-bottom: 30px;">
           <h2 style="
-            font-size: 20px;
-            color: #023047;
+            font-size: var(--type-subsection);
+            color: var(--color-ink);
             margin-bottom: 15px;
             border-left: 4px solid #023047;
             padding-left: 10px;
@@ -235,7 +237,7 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
                     border-radius: 4px;
                     margin-bottom: 8px;
                   " onerror="this.style.display='none'">
-                  <div style="font-size: 12px; color: #666;">${imageName}</div>
+                  <div style="font-size: var(--type-caption); color: var(--text-muted);">${imageName}</div>
                 </div>
               `;
             }).join('')}
@@ -246,15 +248,15 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
         <!-- 观察记录 -->
         <div class="records-section" style="margin-bottom: 30px;">
           <h2 style="
-            font-size: 20px;
-            color: #023047;
+            font-size: var(--type-subsection);
+            color: var(--color-ink);
             margin-bottom: 15px;
             border-left: 4px solid #023047;
             padding-left: 10px;
           ">观察记录</h2>
           
           ${birdRecords && birdRecords.length > 0 ? `
-          <p style="font-size: 14px; color: #666; margin-bottom: 15px;">共 ${birdRecords.length} 条记录</p>
+          <p style="font-size: var(--type-secondary); color: var(--text-muted); margin-bottom: 15px;">共 ${birdRecords.length} 条记录</p>
           
           ${birdRecords.map((record, index) => `
             <div class="record-item" style="
@@ -265,8 +267,8 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
               background: #f9f9f9;
             ">
               <h3 style="
-                font-size: 16px;
-                color: #023047;
+                font-size: var(--type-body);
+                color: var(--color-ink);
                 margin: 0 0 10px 0;
               ">记录 ${index + 1}</h3>
               
@@ -274,11 +276,11 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 10px;
-                font-size: 14px;
+                font-size: var(--type-secondary);
                 margin-bottom: 10px;
               ">
                 <div><strong>地点：</strong>${record.location?.name || '未知'}</div>
-                <div><strong>日期：</strong>${new Date(record.date).toLocaleDateString('zh-CN')}</div>
+                <div><strong>日期：</strong>${formatDisplayDate(record.date, 'short')}</div>
                 <div><strong>观察者：</strong>${record.user?.username || '未知'}</div>
                 <div><strong>备注：</strong>${record.notes || '无'}</div>
               </div>
@@ -286,7 +288,7 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
               ${record.photos && record.photos.length > 0 ? `
                 <div class="record-photos" style="margin-top: 10px;">
                   <strong>记录照片 (${record.photos.length}张)：</strong>
-                  <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                  <div style="font-size: var(--type-caption); color: var(--text-muted); margin-top: 5px;">
                     ${record.photos.map(photo => {
                       const photoName = typeof photo === 'string' ? photo : 
                                        (photo.filename || photo.url?.split('/').pop() || '未知文件');
@@ -301,14 +303,14 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
           <div class="no-records" style="
             text-align: center;
             padding: 30px;
-            color: #666;
+            color: var(--text-muted);
             font-style: italic;
             border: 1px dashed #ddd;
             border-radius: 8px;
             background: #f9f9f9;
           ">
             <p>暂无观察记录</p>
-            <p style="font-size: 12px; margin-top: 10px;">该鸟类尚未有用户提交的观察记录</p>
+            <p style="font-size: var(--type-caption); margin-top: 10px;">该鸟类尚未有用户提交的观察记录</p>
           </div>
           `}
         </div>
@@ -319,10 +321,10 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
           padding-top: 20px;
           border-top: 1px solid #ddd;
           text-align: center;
-          font-size: 12px;
-          color: #666;
+          font-size: var(--type-caption);
+          color: var(--text-muted);
         ">
-          <p>导出时间：${new Date().toLocaleString('zh-CN')}</p>
+          <p>导出时间：${formatDisplayDateTime(new Date())}</p>
           <p>数据来源：观鸟数据库</p>
         </div>
       </div>
@@ -416,16 +418,16 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
           document.body.removeChild(link);
           
           // 显示成功消息
-          alert(`导出成功！共导出 ${data.data.length} 条鸟类记录。`);
+          showToast(`导出成功！共导出 ${data.data.length} 条鸟类记录。`, 'success');
         } else {
-          alert('导出失败：' + (data.message || '获取数据失败'));
+          showToast('导出失败：' + (data.message || '获取数据失败'), 'error');
         }
       } else {
-        alert('导出失败：网络请求失败');
+        showToast('导出失败：网络请求失败', 'error');
       }
     } catch (error) {
       console.error('导出CSV失败:', error);
-      alert('导出失败：' + error.message);
+      showToast('导出失败：' + error.message, 'error');
     } finally {
       setIsGenerating(false);
     }
@@ -435,7 +437,7 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
   // 导出为PDF文件
   const exportAsPDF = async () => {
     if (!birds || birds.length === 0) {
-      alert('没有可导出的鸟类数据');
+      showToast('没有可导出的鸟类数据', 'error');
       return;
     }
 
@@ -465,18 +467,18 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
           color: #333;
         ">
           <h1 style="
-            font-size: 36px;
-            color: #023047;
+            font-size: var(--type-scale-3xl);
+            color: var(--color-ink);
             margin-bottom: 30px;
             font-weight: bold;
           ">鸟类信息报告</h1>
           
-          <div style="font-size: 18px; margin-bottom: 20px;">
-            <p><strong>导出时间：</strong>${new Date().toLocaleString('zh-CN')}</p>
+          <div style="font-size: var(--type-page-lede); margin-bottom: 20px;">
+            <p><strong>导出时间：</strong>${formatDisplayDateTime(new Date())}</p>
             <p><strong>鸟类数量：</strong>${birdsToExport.length}种</p>
           </div>
           
-          <div style="font-size: 16px; color: #666;">
+          <div style="font-size: var(--type-body); color: var(--text-muted);">
             <p><strong>过滤条件：</strong></p>
             ${filters.category ? `<p>目：${filters.category}</p>` : ''}
             ${filters.family ? `<p>科：${filters.family}</p>` : ''}
@@ -574,10 +576,10 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
       const fileName = generateFileName('pdf');
       pdf.save(fileName);
       
-      alert(`成功导出 ${birdsToExport.length} 种鸟类的详细信息到文件: ${fileName}`);
+      showToast(`成功导出 ${birdsToExport.length} 种鸟类的详细信息到文件: ${fileName}`, 'success');
     } catch (error) {
       console.error('导出PDF文件失败:', error);
-      alert('导出PDF文件失败，请重试');
+      showToast('导出PDF文件失败，请重试', 'error');
     } finally {
       setIsGenerating(false);
       setProgress(0);
@@ -610,24 +612,24 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: '12px',
-          color: 'white',
-          fontSize: '18px'
+          color: 'var(--text-white)',
+          fontSize: 'var(--type-page-lede)'
         }}>
           📊
         </div>
         <div>
           <h3 style={{ 
-            color: '#023047', 
+            color: 'var(--color-ink)',
             margin: '0',
-            fontSize: '20px',
+            fontSize: 'var(--type-subsection)',
             fontWeight: '600'
           }}>
             数据导出
           </h3>
           <p style={{ 
             margin: '4px 0 0 0',
-            color: '#6c757d',
-            fontSize: '14px'
+            color: 'var(--text-muted)',
+            fontSize: 'var(--type-secondary)'
           }}>
             导出当前筛选的鸟类数据
           </p>
@@ -647,11 +649,11 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
           style={{
             padding: '12px 24px',
             background: isGenerating ? '#6c757d' : 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)',
-            color: 'white',
+            color: 'var(--text-white)',
             border: 'none',
             borderRadius: '8px',
             cursor: isGenerating ? 'not-allowed' : 'pointer',
-            fontSize: '14px',
+            fontSize: 'var(--type-secondary)',
             fontWeight: '500',
             boxShadow: isGenerating ? 'none' : '0 2px 4px rgba(220, 53, 69, 0.3)',
             transition: 'all 0.2s ease',
@@ -691,11 +693,11 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
           style={{
             padding: '12px 24px',
             background: isGenerating ? '#6c757d' : 'linear-gradient(135deg, #219EBC 0%, #1780a0 100%)',
-            color: 'white',
+            color: 'var(--text-white)',
             border: 'none',
             borderRadius: '8px',
             cursor: isGenerating ? 'not-allowed' : 'pointer',
-            fontSize: '14px',
+            fontSize: 'var(--type-secondary)',
             fontWeight: '500',
             boxShadow: isGenerating ? 'none' : '0 2px 4px rgba(40, 167, 69, 0.3)',
             transition: 'all 0.2s ease',
@@ -758,8 +760,8 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
           <p style={{ 
             textAlign: 'center', 
             margin: '0',
-            fontSize: '14px', 
-            color: '#495057',
+            fontSize: 'var(--type-secondary)', 
+            color: 'var(--text-secondary)',
             fontWeight: '500'
           }}>
             {progress}% 完成
@@ -775,9 +777,9 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
         border: '1px solid #e9ecef'
       }}>
         <h4 style={{ 
-          color: '#023047', 
+          color: 'var(--color-ink)',
           margin: '0 0 12px 0',
-          fontSize: '16px',
+          fontSize: 'var(--type-body)',
           fontWeight: '600'
         }}>
           ✨ 导出特点
@@ -788,28 +790,28 @@ const HTMLPDFExporter = ({ birds, selectedBirds = null, filters = {}, searchTerm
           gap: '8px'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ color: '#219EBC' }}>🌐</span>
-            <span style={{ fontSize: '14px', color: '#495057' }}>完美支持中文显示</span>
+            <span style={{ color: 'var(--color-lake)'}}>🌐</span>
+            <span style={{ fontSize: 'var(--type-secondary)', color: 'var(--text-secondary)'}}>完美支持中文显示</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ color: '#007bff' }}>🎨</span>
-            <span style={{ fontSize: '14px', color: '#495057' }}>保留完整样式格式</span>
+            <span style={{ color: '#007bff'}}>🎨</span>
+            <span style={{ fontSize: 'var(--type-secondary)', color: 'var(--text-secondary)'}}>保留完整样式格式</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ color: '#ffc107' }}>📷</span>
-            <span style={{ fontSize: '14px', color: '#495057' }}>包含照片信息</span>
+            <span style={{ color: '#ffc107'}}>📷</span>
+            <span style={{ fontSize: 'var(--type-secondary)', color: 'var(--text-secondary)'}}>包含照片信息</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ color: '#17a2b8' }}>📝</span>
-            <span style={{ fontSize: '14px', color: '#495057' }}>包含观察记录详情</span>
+            <span style={{ color: '#17a2b8'}}>📝</span>
+            <span style={{ fontSize: 'var(--type-secondary)', color: 'var(--text-secondary)'}}>包含观察记录详情</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ color: '#6f42c1' }}>📋</span>
-            <span style={{ fontSize: '14px', color: '#495057' }}>支持多种格式</span>
+            <span style={{ color: '#6f42c1'}}>📋</span>
+            <span style={{ fontSize: 'var(--type-secondary)', color: 'var(--text-secondary)'}}>支持多种格式</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ color: '#fd7e14' }}>🔍</span>
-            <span style={{ fontSize: '14px', color: '#495057' }}>智能筛选导出</span>
+            <span style={{ color: '#fd7e14'}}>🔍</span>
+            <span style={{ fontSize: 'var(--type-secondary)', color: 'var(--text-secondary)'}}>智能筛选导出</span>
           </div>
         </div>
       </div>

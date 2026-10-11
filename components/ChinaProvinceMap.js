@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as echarts from 'echarts';
-import { normalizeProvinceGeoName } from '../utils/provinceGeoName';
+import { normalizeProvinceGeoName } from '@/utils/provinceGeoName';
 
 let chinaGeoCache = null;
 let chinaGeoPromise = null;
@@ -118,7 +118,7 @@ export default function ChinaProvinceMap({
               trigger: 'item',
               borderWidth: 0,
               backgroundColor: 'rgba(15, 23, 32, 0.88)',
-              textStyle: { color: '#fff', fontSize: 13 },
+              textStyle: { color: 'var(--text-white)', fontSize: 13},
               formatter: (params) => {
                 const d = params?.data || {};
                 const name = params?.name || '';
@@ -144,8 +144,8 @@ export default function ChinaProvinceMap({
               right: 8,
               bottom: 12,
               text: ['多', '少'],
-              textStyle: { color: '#5c6b7a', fontSize: 11 },
-              inRange: { color: HEAT_COLORS },
+              textStyle: { color: 'var(--text-muted)', fontSize: 11},
+              inRange: { color: HEAT_COLORS},
               calculable: false,
               itemWidth: 12,
               itemHeight: 88,
@@ -178,7 +178,7 @@ export default function ChinaProvinceMap({
                   borderWidth: 1,
                 },
                 emphasis: {
-                  label: { show: true, color: '#0f172a', fontWeight: 700, fontSize: 12 },
+                  label: { show: true, color: 'var(--color-ink)', fontWeight: 700, fontSize: 12},
                   itemStyle: {
                     areaColor: '#f472b6',
                     shadowBlur: 8,
@@ -186,7 +186,7 @@ export default function ChinaProvinceMap({
                   },
                 },
                 select: {
-                  label: { show: true, color: '#0f172a', fontWeight: 700 },
+                  label: { show: true, color: 'var(--color-ink)', fontWeight: 700},
                   itemStyle: {
                     areaColor: '#a855f7',
                     borderColor: '#6b21a8',
@@ -241,7 +241,7 @@ export default function ChinaProvinceMap({
         min: 0,
         max: Math.max(max, 1),
         show: seriesData.some((d) => d.value > 0),
-        inRange: { color: HEAT_COLORS },
+        inRange: { color: HEAT_COLORS},
         text: ['多', '少'],
       },
       series: [
@@ -272,7 +272,7 @@ export default function ChinaProvinceMap({
   if (loadError) {
     return (
       <div className={className}>
-        <p style={{ padding: 16, color: '#94a3b8', fontSize: 13, margin: 0 }}>{loadError}</p>
+        <p style={{ padding: 16, color: 'var(--text-muted)', fontSize: 13, margin: 0}}>{loadError}</p>
       </div>
     );
   }

@@ -1,9 +1,9 @@
 .root {
   white-space: pre-wrap;
   word-break: break-word;
-  font-size: var(--type-scale-base, 1rem);
+  font-size: var(--type-body);
   line-height: var(--line-height-relaxed, 1.65);
-  color: var(--text-primary, #1f2937);
+  color: var(--text-primary);
 }
 
 .linkBird,
@@ -12,10 +12,10 @@
 .linkLocation:link,
 .linkBird:visited,
 .linkLocation:visited {
-  color: var(--color-lake, #219ebc);
-  font-weight: 650;
+  color: var(--color-lake);
+  font-weight: 600;
   text-decoration: underline;
-  text-decoration-color: var(--color-lake, #219ebc);
+  text-decoration-color: var(--color-lake, var(--color-lake));
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
   border-radius: 2px;
@@ -25,7 +25,7 @@
 .linkLocation:hover,
 .linkBird:focus-visible,
 .linkLocation:focus-visible {
-  color: var(--color-lake-hover, #1780a0);
-  text-decoration-color: var(--color-lake-hover, #1780a0);
-  background: var(--color-lake-light, rgba(33, 158, 188, 0.12));
+  color: var(--color-lake-hover);
+  text-decoration-color: var(--color-lake-hover, var(--color-lake-hover));
+  background: var(--color-lake-light, var(--color-lake-light));
 }

@@ -1,5 +1,5 @@
-import { resolveBackendApiBase } from '../../utils/backendApiBase';
-import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {

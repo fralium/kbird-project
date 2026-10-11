@@ -292,12 +292,12 @@ export function resolveLocationCover(location, usedUrls, setId) {
 
 /**
  * 自留地列表封面：
- * - 有真实生境图时优先（未来字段 coverHabitatUrl / habitatImageUrl）
- * - 否则在「国一/国二鸟种图」与「插画生境」间按 plotId 稳定二选一
- * - 无保护鸟图时退回插画生境
+ * 始终按所选画风（动漫/插画/水彩）使用生境插画。
+ * 旧逻辑会优先国保鸟种图/地点实拍，导致画风切换无效，且失效 URL 会裂图。
  *
  * @param {object} plot
  * @param {Set<string>} [usedUrls]
+ * @param {string} [setId]
  */
 export function resolvePlotCover(plot, usedUrls, setId) {
   const locationName = [plot?.title, plot?.spot, plot?.city, plot?.district, plot?.province]
@@ -305,40 +305,10 @@ export function resolvePlotCover(plot, usedUrls, setId) {
     .filter(Boolean)
     .join(' ');
   const salt = String(plot?._id || plot?.id || locationName || 'plot');
+  const coverSet = normalizeHabitatCoverSet(setId);
 
-  const realHabitat =
-    String(plot?.coverHabitatUrl || plot?.habitatImageUrl || '').trim() ||
-    firstImageUrl(plot?.habitatImages);
-  if (realHabitat) {
-    if (usedUrls instanceof Set) usedUrls.add(realHabitat);
-    return {
-      url: realHabitat,
-      source: 'habitat',
-      isIllustration: false,
-    };
-  }
-
-  const birds = Array.isArray(plot?.coverBirds)
-    ? plot.coverBirds.filter((b) => b && String(b.url || '').trim())
-    : [];
-  const preferBird = birds.length > 0 && hashString(`${salt}|cover-mode`) % 2 === 0;
-
-  if (preferBird) {
-    const idx = hashString(`${salt}|cover-bird`) % birds.length;
-    const bird = birds[idx];
-    const url = String(bird.url).trim();
-    if (usedUrls instanceof Set) usedUrls.add(url);
-    return {
-      url,
-      source: 'bird',
-      isIllustration: false,
-      birdName: bird.name || '',
-      level: bird.level || '',
-    };
-  }
-
-  const key = pickDiversifiedHabitatKey(locationName, [], salt, usedUrls, setId);
-  const covers = getHabitatCovers(setId);
+  const key = pickDiversifiedHabitatKey(locationName, [], salt, usedUrls, coverSet);
+  const covers = getHabitatCovers(coverSet);
   const url = covers[key] || covers.wetland;
   if (usedUrls instanceof Set) usedUrls.add(url);
   return {
@@ -465,6 +435,9 @@ export function resolveRecordCover(record, locationCoverMap, options = {}) {
 }
 
 export const RECORDS_VIEW_STORAGE_KEY = 'kbird.records.view';
+/** 已见鸟种 / 观察记录共用：野外 field · 手账 scrap */
+export const CARD_STYLE_STORAGE_KEY = 'kbird.cardStyle';
+export const BIRDS_CARD_STYLE_KEY = 'kbird.birds.cardStyle';
 export const RECORDS_CARD_STYLE_KEY = 'kbird.records.cardStyle';
 
 export function readHabitatCoverSet() {
@@ -560,25 +533,41 @@ export function writeRecordsViewMode(mode) {
   }
 }
 
-export function readRecordsCardStyle() {
+export function readCardStyle() {
   if (typeof window === 'undefined') return 'field';
   try {
-    const raw = localStorage.getItem(RECORDS_CARD_STYLE_KEY);
-    if (raw === 'scrap' || raw === 'field') return raw;
+    const shared = localStorage.getItem(CARD_STYLE_STORAGE_KEY);
+    if (shared === 'scrap' || shared === 'field') return shared;
+    const birds = localStorage.getItem(BIRDS_CARD_STYLE_KEY);
+    if (birds === 'scrap' || birds === 'field') return birds;
+    const records = localStorage.getItem(RECORDS_CARD_STYLE_KEY);
+    if (records === 'scrap' || records === 'field') return records;
   } catch {
     // ignore
   }
   return 'field';
 }
 
-export function writeRecordsCardStyle(style) {
+export function writeCardStyle(style) {
   if (typeof window === 'undefined') return;
   try {
     const next = style === 'scrap' ? 'scrap' : 'field';
+    localStorage.setItem(CARD_STYLE_STORAGE_KEY, next);
+    localStorage.setItem(BIRDS_CARD_STYLE_KEY, next);
     localStorage.setItem(RECORDS_CARD_STYLE_KEY, next);
   } catch {
     // ignore
   }
+}
+
+/** @deprecated 使用 readCardStyle */
+export function readRecordsCardStyle() {
+  return readCardStyle();
+}
+
+/** @deprecated 使用 writeCardStyle */
+export function writeRecordsCardStyle(style) {
+  writeCardStyle(style);
 }
 
 function readFoldOpen(key, fallback = false) {

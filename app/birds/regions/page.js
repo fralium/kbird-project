@@ -5,54 +5,37 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader, { HeaderPrimaryButton } from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import { useConfirmDialog } from '../../../components/ConfirmDialog';
-import { useAuth } from '../../../components/AuthProvider';
-import { api } from '../../../utils/api';
-import { RECORD_COVER_MODES, resolveRegionListCover, useRecordCoverSet } from '../../../utils/habitatCover';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader, { HeaderPrimaryButton } from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import { useConfirmDialog } from '@/components/ConfirmDialog';
+import { useAuth } from '@/components/AuthProvider';
+import { api } from '@/utils/api';
+import { RECORD_COVER_MODES, resolveRegionListCover, useRecordCoverSet } from '@/utils/habitatCover';
 import {
   MAX_SPECIES_LIST_UPLOAD_FILES,
   mergeSpeciesLists,
   parseSpeciesListFile,
-} from '../../../utils/cbrcSpeciesListParser';
+} from '@/utils/cbrcSpeciesListParser';
 import {
   provinces,
   getCitiesByProvince,
-} from '../../../data/chinaRegions';
-import LocationAutocomplete from '../../../components/LocationAutocomplete';
-import styles from '../../../styles/RegionBirdLists.module.css';
+} from '@/data/chinaRegions';
+import LocationAutocomplete from '@/components/LocationAutocomplete';
+import FoldFilterPanel from '@/components/FoldFilterPanel';
+import styles from '@/styles/RegionBirdLists.module.css';
 
-const ChinaProvinceMap = dynamic(() => import('../../../components/ChinaProvinceMap'), {
+const ChinaProvinceMap = dynamic(() => import('@/components/ChinaProvinceMap'), {
   ssr: false,
   loading: () => (
-    <div className={styles.mapCanvas} style={{ display: 'grid', placeItems: 'center', color: '#94a3b8' }}>
+    <div className={styles.mapCanvas} style={{ display: 'grid', placeItems: 'center', color: 'var(--text-muted)'}}>
       地图加载中…
     </div>
   ),
 });
 
 const UNLABELED_PROVINCE = '未标注省份';
-const FILTER_PANEL_STORAGE_KEY = 'kbird.regions.filterPanel';
-
-function readRegionsFilterPanelOpen() {
-  if (typeof window === 'undefined') return true;
-  try {
-    return localStorage.getItem(FILTER_PANEL_STORAGE_KEY) !== '0';
-  } catch {
-    return true;
-  }
-}
-
-function writeRegionsFilterPanelOpen(open) {
-  try {
-    localStorage.setItem(FILTER_PANEL_STORAGE_KEY, open ? '1' : '0');
-  } catch {
-    /* ignore */
-  }
-}
 
 const emptyForm = () => ({
   provinceCode: '',
@@ -259,7 +242,6 @@ export default function RegionBirdListsPage() {
   const [conflictId, setConflictId] = useState('');
   const [form, setForm] = useState(emptyForm);
   const [selectedProvince, setSelectedProvince] = useState('');
-  const [filterPanelOpen, setFilterPanelOpen] = useState(true);
 
   const cityOptions = useMemo(
     () => getCitiesByProvince(form.provinceCode),
@@ -343,10 +325,6 @@ export default function RegionBirdListsPage() {
 
   const handleSelectProvince = useCallback((name) => {
     setSelectedProvince((prev) => (prev === name ? '' : name));
-  }, []);
-
-  useEffect(() => {
-    setFilterPanelOpen(readRegionsFilterPanelOpen());
   }, []);
 
   useEffect(() => {
@@ -561,6 +539,14 @@ export default function RegionBirdListsPage() {
       setError(err?.message || '删除失败');
     }
   };
+
+  const filterPanelSummary = (() => {
+    const parts = [];
+    if (query.trim()) parts.push(`搜索「${query.trim()}」`);
+    if (selectedProvince) parts.push(selectedProvince);
+    if (parts.length === 0) return '搜索 · 省地图';
+    return parts.join(' · ');
+  })();
 
   return (
     <div className={styles.container}>
@@ -814,37 +800,13 @@ export default function RegionBirdListsPage() {
           </section>
         ) : null}
 
-        <div className={styles.foldPanel} aria-label="搜索与省地图">
-          <button
-            type="button"
-            className={styles.foldToggle}
-            onClick={() => {
-              setFilterPanelOpen((prev) => {
-                const next = !prev;
-                writeRegionsFilterPanelOpen(next);
-                return next;
-              });
-            }}
-            aria-expanded={filterPanelOpen}
-          >
-            <span className={styles.foldToggleTitle}>筛选</span>
-            <span className={styles.foldToggleSummary}>
-              {(() => {
-                const parts = [];
-                if (query.trim()) parts.push(`搜索「${query.trim()}」`);
-                if (selectedProvince) parts.push(selectedProvince);
-                if (parts.length === 0) return '搜索 · 省地图';
-                return parts.join(' · ');
-              })()}
-            </span>
-            <span className={styles.foldToggleChevron} aria-hidden="true">
-              {filterPanelOpen ? '▴' : '▾'}
-            </span>
-          </button>
-          <div
-            className={`${styles.foldBody} ${filterPanelOpen ? '' : styles.foldBodyHidden}`}
-            hidden={!filterPanelOpen}
-          >
+        <FoldFilterPanel
+          storageKey="kbird.regions.filterPanel"
+          defaultOpen
+          title="筛选"
+          summary={filterPanelSummary}
+          className={styles.foldPanel}
+        >
               <div className={styles.toolbar}>
                 <input
                   className={styles.searchInput}
@@ -883,8 +845,7 @@ export default function RegionBirdListsPage() {
                   ) : null}
                 </section>
               ) : null}
-          </div>
-        </div>
+        </FoldFilterPanel>
 
         {error ? <div className={styles.errorBanner}>{error}</div> : null}
         {success ? <div className={styles.successBanner}>{success}</div> : null}

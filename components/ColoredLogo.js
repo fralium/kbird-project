@@ -105,7 +105,7 @@ export default function ColoredLogo({ identifier, size = 64, className = '' }) {
             emoji.style.cssText = `
               font-size: ${size * 0.6}px;
               line-height: ${size * 0.6}px;
-              color: white;
+              color: var(--text-white);
             `;
             parent.appendChild(emoji);
           }

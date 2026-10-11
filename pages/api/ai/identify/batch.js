@@ -1,9 +1,9 @@
-import { resolveBackendApiBase } from '../../../../utils/backendApiBase';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
 import {
   parseProxyJsonResponse,
   sendMethodNotAllowed,
   sendProxyError,
-} from '../../../../utils/proxyApi';
+} from '@/utils/proxyApi';
 
 export const config = {
   api: {

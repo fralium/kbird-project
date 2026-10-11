@@ -3,13 +3,13 @@
 import { useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Navbar from '../../../../components/Navbar';
-import Footer from '../../../../components/Footer';
-import PageState from '../../../../components/PageState';
-import ExploreDemo from '../../../../components/ExploreDemo';
-import { useAuth } from '../../../../components/AuthProvider';
-import { getExploreProject } from '../../../../data/exploreDemo/projects';
-import styles from '../../../../styles/ExploreDemo.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import PageState from '@/components/PageState';
+import ExploreDemo from '@/components/ExploreDemo';
+import { useAuth } from '@/components/AuthProvider';
+import { getExploreProject } from '@/data/exploreDemo/projects';
+import styles from '@/styles/ExploreDemo.module.css';
 
 export default function PersonalExploreProjectPage() {
   const router = useRouter();

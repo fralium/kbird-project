@@ -1,4 +1,4 @@
-import styles from '../styles/SkeletonCard.module.css';
+import styles from '@/styles/SkeletonCard.module.css';
 
 const SkeletonCard = ({ type = 'bird', count = 1 }) => {
   const cards = Array.from({ length: count }, (_, index) => index);

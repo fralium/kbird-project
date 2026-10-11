@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { api } from '../utils/api';
-import styles from '../styles/FloatingTips.module.css';
+import { api } from '@/utils/api';
+import styles from '@/styles/FloatingTips.module.css';
 
 const IDENTIFY_TIPS = [
   '先看体型与轮廓，再看颜色细节。',

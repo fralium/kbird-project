@@ -40,7 +40,7 @@
 }
 
 .title {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   font-weight: var(--page-title-weight);
   margin: 0 0 var(--spacing-2) 0;
   display: flex;
@@ -53,11 +53,11 @@
 }
 
 .titleIcon {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
 }
 
 .subtitle {
-  font-size: var(--page-subtitle-size);
+  font-size: var(--type-page-lede);
   opacity: 0.92;
   margin: 0;
   position: relative;
@@ -83,21 +83,21 @@
 
 .filterGroup label {
   font-weight: 500;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .filterSelect {
   padding: 8px 15px;
   border: 2px solid var(--medium-gray);
   border-radius: var(--radius-medium);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   cursor: pointer;
   background: var(--background-white);
 }
 
 .filterSelect:focus {
   outline: none;
-  border-color: var(--primary-green);
+  border-color: var(--color-lake);
 }
 
 /* 统计摘要卡片 */
@@ -138,7 +138,7 @@
 }
 
 .summaryLabel {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   color: var(--color-lake);
 }
 
@@ -160,12 +160,12 @@
   appearance: none;
   flex: 0 0 auto;
   padding: 8px 14px;
-  border: 1px solid rgba(2, 48, 71, 0.14);
-  background: #fff;
-  color: #5a6a72;
-  font-size: 0.9rem;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-white);
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: var(--line-height-tight);
   cursor: pointer;
   border-radius: var(--radius-panel, 8px);
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
@@ -174,15 +174,15 @@
 }
 
 .tabButton:hover {
-  background: rgba(33, 158, 188, 0.07);
-  border-color: rgba(33, 158, 188, 0.4);
-  color: var(--color-lake, #1a7f98);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-mid);
+  color: var(--color-lake);
 }
 
 .activeTab {
-  background: rgba(33, 158, 188, 0.12);
-  border-color: rgba(33, 158, 188, 0.55);
-  color: var(--color-lake, #1a7f98);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-strong);
+  color: var(--color-lake);
 }
 
 /* 内容区域 */
@@ -214,8 +214,8 @@
 }
 
 .section h2 {
-  font-size: var(--type-scale-xl);
-  color: var(--text-dark);
+  font-size: var(--type-section);
+  color: var(--text-primary);
   margin: 0 0 20px 0;
   padding-bottom: 10px;
   border-bottom: 2px solid var(--medium-gray);
@@ -244,9 +244,9 @@
 }
 
 .rank {
-  font-size: var(--type-scale-lg);
+  font-size: var(--type-subsection);
   font-weight: 700;
-  color: var(--primary-green);
+  color: var(--color-lake);
   min-width: 40px;
 }
 
@@ -258,26 +258,26 @@
 }
 
 .birdName {
-  font-size: var(--type-scale-md);
+  font-size: var(--type-page-lede);
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--text-primary);
   text-decoration: none;
 }
 
 .birdName:hover {
-  color: var(--primary-green);
+  color: var(--color-lake);
 }
 
 .birdScientific {
-  font-size: var(--type-scale-sm);
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
 .birdCount {
-  font-size: var(--type-scale-md);
+  font-size: var(--type-page-lede);
   font-weight: 600;
-  color: var(--primary-green);
+  color: var(--color-lake);
 }
 
 /* 季节分布 */
@@ -295,8 +295,8 @@
 }
 
 .seasonCard h3 {
-  font-size: var(--type-scale-lg);
-  color: var(--text-dark);
+  font-size: var(--type-subsection);
+  color: var(--text-primary);
   margin: 0 0 15px 0;
 }
 
@@ -312,12 +312,12 @@
 }
 
 .seasonLabel {
-  color: var(--text-medium);
+  color: var(--text-secondary);
 }
 
 .seasonValue {
   font-weight: 600;
-  color: var(--primary-green);
+  color: var(--color-lake);
 }
 
 /* 趋势图表 */
@@ -349,14 +349,14 @@
 }
 
 .trendLabel {
-  font-size: var(--type-scale-xs);
-  color: var(--text-medium);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
 }
 
 .trendValue {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 /* 年度趋势 */
@@ -367,7 +367,7 @@
 }
 
 .yearlyHint {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   color: var(--text-muted);
   margin: -8px 0 12px 0;
 }
@@ -397,9 +397,9 @@
 }
 
 .yearlyYear {
-  font-size: var(--type-scale-xl);
+  font-size: var(--type-section);
   font-weight: 700;
-  color: var(--primary-green);
+  color: var(--color-lake);
   min-width: 80px;
 }
 
@@ -410,12 +410,12 @@
 }
 
 .yearlyStat {
-  font-size: var(--type-scale-sm);
-  color: var(--text-dark);
+  font-size: var(--type-secondary);
+  color: var(--text-primary);
 }
 
 .yearlyExpandIcon {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   color: var(--text-muted);
 }
 
@@ -437,7 +437,7 @@
   font-weight: 600;
   color: var(--color-lake);
   margin-bottom: 8px;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
 }
 
 .yearlyDetailSpecies {
@@ -450,9 +450,9 @@
   display: inline-block;
   padding: 4px 10px;
   background: var(--color-lake-light);
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
   border-radius: var(--radius-full);
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
 }
 
 /* 地点列表 */
@@ -486,9 +486,9 @@
 }
 
 .locationRank {
-  font-size: var(--type-scale-lg);
+  font-size: var(--type-subsection);
   font-weight: 700;
-  color: var(--primary-green);
+  color: var(--color-lake);
   min-width: 40px;
 }
 
@@ -497,16 +497,16 @@
 }
 
 .locationName {
-  font-size: var(--type-scale-lg);
-  color: var(--text-dark);
+  font-size: var(--type-subsection);
+  color: var(--text-primary);
   margin: 0 0 8px 0;
 }
 
 .locationStats {
   display: flex;
   gap: 20px;
-  font-size: var(--type-scale-sm);
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
 }
 
 /* 按目/科分类（对齐 goals 名录进度卡片；文字用深青，避免 --brand-dark=湖蓝） */
@@ -520,22 +520,22 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border: 1px solid rgba(2, 48, 71, 0.16);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-large);
-  background: var(--surface, #fff);
+  background: var(--surface, var(--bg-white));
   overflow: hidden;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .orderCard:hover {
-  border-color: rgba(2, 48, 71, 0.28);
-  box-shadow: 0 2px 10px rgba(2, 48, 71, 0.06);
+  border-color: var(--border-subtle);
+  box-shadow: 0 2px 10px var(--border-subtle);
 }
 
 .orderCardOpen {
   grid-column: 1 / -1;
-  border-color: rgba(2, 48, 71, 0.28);
-  box-shadow: 0 4px 16px rgba(2, 48, 71, 0.07);
+  border-color: var(--border-subtle);
+  box-shadow: 0 4px 16px var(--border-subtle);
 }
 
 .orderCardHeader {
@@ -549,11 +549,11 @@
   background: transparent;
   cursor: pointer;
   text-align: left;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .orderCardHeader:hover {
-  background: rgba(2, 48, 71, 0.03);
+  background: var(--border-subtle);
 }
 
 .orderTitleBlock {
@@ -565,9 +565,9 @@
 
 .orderTitle {
   font-weight: 700;
-  font-size: var(--type-scale-base);
-  line-height: 1.3;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-body);
+  line-height: var(--line-height-snug);
+  color: var(--color-ink);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -576,10 +576,10 @@
 
 .orderLatin {
   font-weight: 400;
-  color: var(--text-muted, #5c6b7a);
-  font-size: 11px;
+  color: var(--text-muted);
+  font-size: var(--type-caption);
   font-style: italic;
-  line-height: 1.25;
+  line-height: var(--line-height-tight);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -594,46 +594,46 @@
 }
 
 .orderCountBadge {
-  font-size: var(--type-scale-sm);
-  color: #334155;
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .orderRecordsMeta {
-  font-size: 11px;
-  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-caption);
+  color: var(--text-muted);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .orderChevron {
   width: 1em;
-  color: #64748b;
+  color: var(--text-muted);
   flex-shrink: 0;
-  font-size: 12px;
+  font-size: var(--type-caption);
 }
 
 .orderProgress {
   grid-column: 1 / -1;
   height: 4px;
   border-radius: 999px;
-  background: rgba(2, 48, 71, 0.1);
+  background: var(--border-subtle);
   overflow: hidden;
 }
 
 .orderProgressFill {
   height: 100%;
-  background: var(--color-lake, #219ebc);
+  background: var(--color-lake, var(--color-lake));
   border-radius: inherit;
   transition: width 0.2s ease;
 }
 
 .orderSpeciesPanel {
   padding: 4px 12px 14px;
-  border-top: 1px solid rgba(2, 48, 71, 0.1);
-  background: #f7f9fb;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-clean);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -642,9 +642,9 @@
 .familyBlock {
   min-width: 0;
   padding: 10px 12px 12px;
-  border: 1px solid rgba(2, 48, 71, 0.12);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-medium, 8px);
-  background: #fff;
+  background: var(--bg-white);
 }
 
 .familyHead {
@@ -655,7 +655,7 @@
   gap: 6px 12px;
   margin-bottom: 10px;
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(2, 48, 71, 0.08);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .familyTitleBlock {
@@ -667,24 +667,24 @@
 
 .familyTitle {
   font-weight: 700;
-  font-size: var(--type-scale-sm, 0.9rem);
-  line-height: 1.3;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-snug);
+  color: var(--color-ink);
 }
 
 .familyLatin {
-  font-size: 11px;
+  font-size: var(--type-caption);
   font-style: italic;
-  color: #64748b;
+  color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .familyMeta {
-  font-size: 12px;
+  font-size: var(--type-caption);
   font-weight: 600;
-  color: #475569;
+  color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -698,14 +698,14 @@
 .orderSpeciesChip {
   display: inline-block;
   padding: 6px 10px 6px 12px;
-  border: 1px solid rgba(2, 48, 71, 0.2);
+  border: 1px solid var(--border-subtle);
   border-radius: 6px;
-  background: #fff;
-  box-shadow: inset 3px 0 0 var(--color-lake, #219ebc);
-  color: var(--color-deep-teal, #023047);
-  font-size: var(--type-scale-xs, 0.8rem);
+  background: var(--bg-white);
+  box-shadow: inset 3px 0 0 var(--color-lake, var(--color-lake));
+  color: var(--color-ink);
+  font-size: var(--type-caption);
   font-weight: 600;
-  line-height: 1.35;
+  line-height: var(--line-height-snug);
 }
 
 .wordCloudSection {
@@ -718,13 +718,13 @@
 
 .wordCloudHeader h2 {
   margin: 0 0 4px;
-  font-size: var(--type-scale-lg, 1.25rem);
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-subsection);
+  color: var(--color-ink);
 }
 
 .wordCloudCard {
-  background: var(--background-white, #fff);
-  border: 1px solid rgba(2, 48, 71, 0.12);
+  background: var(--background-white, var(--bg-white));
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-large, 12px);
   box-shadow: var(--shadow-medium);
   padding: 14px 16px 12px;
@@ -732,8 +732,8 @@
 }
 
 .scrap .wordCloudCard {
-  background-color: #f7f3ea;
-  border: 1px solid #2a241c;
+  background-color: var(--surface-warm);
+  border: 1px solid var(--color-ink);
   border-radius: 4px;
   box-shadow: none;
 }
@@ -741,19 +741,19 @@
 .placeRank {
   display: inline-block;
   margin-right: 6px;
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
   font-variant-numeric: tabular-nums;
   font-weight: 700;
 }
 
 /* 足迹页统一面板：与「我的足迹」同级大卡片 */
 .placePanel {
-  background: var(--bg-white, #fff);
+  background: var(--bg-white, var(--bg-white));
   border-radius: var(--radius-lg, 12px);
-  box-shadow: var(--shadow-md, 0 2px 12px rgba(2, 48, 71, 0.06));
+  box-shadow: var(--shadow-md, 0 2px 12px var(--border-subtle));
   padding: 16px;
   margin-bottom: 16px;
-  border: 1px solid rgba(2, 48, 71, 0.06);
+  border: 1px solid var(--border-subtle);
   box-sizing: border-box;
   min-width: 0;
 }
@@ -766,29 +766,29 @@
   gap: 8px 16px;
   margin: 0 0 14px;
   padding: 0 0 12px;
-  border-bottom: 1px solid rgba(2, 48, 71, 0.08);
+  border-bottom: 1px solid var(--border-subtle);
   min-width: 0;
 }
 
 .placePanelTitle {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: var(--type-body);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   white-space: nowrap;
 }
 
 .placePanelSub {
   margin: 4px 0 0;
-  font-size: 0.78rem;
-  color: var(--text-medium, #5c6b7a);
-  line-height: 1.35;
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
+  line-height: var(--line-height-snug);
 }
 
 .placePanelSub a {
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
   text-decoration: none;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .placePanelSub a:hover {
@@ -801,8 +801,8 @@
 }
 
 .placePanelInset {
-  background: rgba(2, 48, 71, 0.02);
-  border: 1px solid rgba(2, 48, 71, 0.06);
+  background: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
   padding: 12px 14px;
   box-sizing: border-box;
@@ -832,9 +832,9 @@
 
 .placePanelCount {
   margin-left: 6px;
-  font-size: 0.78rem;
-  font-weight: 650;
-  color: var(--color-lake, #219ebc);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--color-lake);
   font-variant-numeric: tabular-nums;
 }
 
@@ -864,27 +864,27 @@
 }
 
 .protectedSpeciesLink:hover {
-  background: rgba(33, 158, 188, 0.06);
-  border-color: rgba(33, 158, 188, 0.2);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-light);
 }
 
 .protectedSpeciesLink strong {
-  font-size: 0.82rem;
-  font-weight: 650;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--color-ink);
 }
 
 .protectedSpeciesLink span {
-  font-size: 0.72rem;
-  font-weight: 650;
-  color: #64748b;
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--text-muted);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .placePanelChart {
-  background: rgba(2, 48, 71, 0.02);
-  border: 1px solid rgba(2, 48, 71, 0.06);
+  background: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
   padding: 12px 14px;
   min-height: 260px;
@@ -895,9 +895,9 @@
 
 .placePanelChartTitle {
   margin: 0 0 4px;
-  font-size: 0.92rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
@@ -906,7 +906,7 @@
 
 .placePanelBlock {
   padding-top: 14px;
-  border-top: 1px solid rgba(2, 48, 71, 0.08);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .placePanelBlockHead {
@@ -920,9 +920,9 @@
 
 .placePanelBlockTitle {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--type-body);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .placePanelBlockHead :global(.kb-meta-seg) {
@@ -957,22 +957,22 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-large, 12px);
-  background: var(--surface, #fff);
+  background: var(--surface, var(--bg-white));
   overflow: hidden;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .placeCoverCard:hover {
-  border-color: rgba(33, 158, 188, 0.35);
-  box-shadow: 0 2px 10px rgba(2, 48, 71, 0.05);
+  border-color: var(--color-lake-mid);
+  box-shadow: 0 2px 10px var(--border-subtle);
 }
 
 .placeCoverCardOpen {
   grid-column: 1 / -1;
-  border-color: rgba(33, 158, 188, 0.32);
-  box-shadow: 0 4px 16px rgba(2, 48, 71, 0.06);
+  border-color: var(--color-lake-mid);
+  box-shadow: 0 4px 16px var(--border-subtle);
 }
 
 .placeCoverHit {
@@ -997,7 +997,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
-  background: #edf5f8;
+  background: var(--gray-100);
   overflow: hidden;
 }
 
@@ -1018,16 +1018,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
   font-weight: 700;
-  color: var(--color-lake, #219ebc);
-  background: linear-gradient(160deg, #e8f4f8, #f7fbfd);
+  color: var(--color-lake);
+  background: linear-gradient(160deg, var(--gray-100), var(--bg-clean));
 }
 
 .placeCoverShade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(2, 48, 71, 0.05) 0%, rgba(2, 48, 71, 0.35) 100%);
+  background: linear-gradient(180deg, var(--border-subtle) 0%, var(--border-subtle) 100%);
   pointer-events: none;
 }
 
@@ -1038,9 +1038,9 @@
   z-index: 1;
   padding: 2px 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--color-lake, #219ebc);
-  font-size: 0.72rem;
+  background: var(--glass-bg);
+  color: var(--color-lake);
+  font-size: var(--type-caption);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -1063,17 +1063,17 @@
 
 .placeCoverName {
   margin: 0;
-  font-size: var(--type-scale-base, 1rem);
-  font-weight: 650;
-  color: var(--brand-dark, #023047);
-  line-height: 1.3;
+  font-size: var(--type-body);
+  font-weight: 600;
+  color: var(--brand-dark, var(--color-ink));
+  line-height: var(--line-height-snug);
 }
 
 .placeCoverMeta {
   display: flex;
   gap: 12px;
-  font-size: var(--type-scale-sm, 0.85rem);
-  color: var(--text-secondary, #44555e);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
   font-weight: 600;
 }
@@ -1092,21 +1092,21 @@
 .yearPlaceBlock + .yearPlaceBlock {
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid rgba(2, 48, 71, 0.06);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .yearPlaceName {
-  font-weight: 650;
-  font-size: var(--type-scale-sm);
-  color: var(--color-lake, #219ebc);
+  font-weight: 600;
+  font-size: var(--type-secondary);
+  color: var(--color-lake);
   margin-bottom: 8px;
 }
 
 .loading {
   text-align: center;
   padding: 60px 20px;
-  font-size: var(--type-scale-lg);
-  color: var(--text-medium);
+  font-size: var(--type-subsection);
+  color: var(--text-secondary);
 }
 
 /* —— 仪表盘（参考观鸟记录中心布局）—— */
@@ -1119,15 +1119,15 @@
 }
 
 .scrap {
-  background-color: #f3eee4;
+  background-color: var(--surface-warm);
   background-image: radial-gradient(rgba(42, 36, 28, 0.045) 0.6px, transparent 0.7px);
   background-size: 4px 4px;
   border-radius: 8px;
 }
 
 .scrapViewBar {
-  background: #f7f3ea;
-  border-color: #2a241c;
+  background: var(--surface-warm);
+  border-color: var(--color-ink);
   box-shadow: none;
 }
 
@@ -1137,9 +1137,9 @@
 .scrap .dashTopBar,
 .scrap .tabJumpRow,
 .scrap .orderCard {
-  background-color: #f7f3ea;
+  background-color: var(--surface-warm);
   background-image: none;
-  border: 1px solid #2a241c;
+  border: 1px solid var(--color-ink);
   border-radius: 4px;
   box-shadow: none;
 }
@@ -1148,18 +1148,18 @@
 .scrap .dashCardTitle,
 .scrap .activityLabel,
 .scrap .section h2 {
-  font-family: "KaiTi", "STKaiti", "Kaiti SC", "楷体", "Songti SC", serif;
-  color: #1c1915;
+  font-family: var(--font-journal);
+  color: var(--color-ink);
 }
 
 .scrap .dashSumMain,
 .scrap .activityValue {
-  font-family: "KaiTi", "STKaiti", "Kaiti SC", "楷体", "Songti SC", serif;
-  color: #1c1915;
+  font-family: var(--font-journal);
+  color: var(--color-ink);
 }
 
 .scrap .activityItem {
-  border: 1.5px solid rgba(2, 48, 71, 0.55);
+  border: 1.5px solid var(--border-subtle);
   border-radius: 2px;
   background: rgba(255, 253, 248, 0.72);
   transform: rotate(-1.2deg);
@@ -1174,8 +1174,8 @@
 }
 
 .scrap .activityItem:hover {
-  background: #fffdf8;
-  border-color: #023047;
+  background: var(--bg-white)df8;
+  border-color: var(--color-ink);
 }
 
 .dashTopBar {
@@ -1191,9 +1191,9 @@
   border-radius: var(--radius-large);
   box-shadow: var(--shadow-medium);
   margin-bottom: 12px;
-  font-size: var(--type-scale-sm);
-  color: var(--text-medium);
-  line-height: 1.25;
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
+  line-height: var(--line-height-tight);
 }
 
 .dashTopItem {
@@ -1205,26 +1205,26 @@
 }
 
 .yearScopeHint {
-  font-size: var(--type-scale-xs);
-  color: var(--text-medium);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
   font-weight: 400;
   white-space: normal;
 }
 
 .sectionLead {
   margin: 0 0 14px;
-  font-size: var(--type-scale-sm);
-  color: var(--text-medium);
-  line-height: 1.5;
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
 }
 
 .sectionLead strong {
-  color: var(--text-dark);
+  color: var(--text-primary);
   font-weight: 600;
 }
 
 .sectionLead a {
-  color: var(--primary-green, #2e7d32);
+  color: var(--primary-green, var(--color-success));
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -1247,9 +1247,9 @@
   padding: 0;
   margin: 0;
   font: inherit;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--primary-green, #2e7d32);
+  color: var(--primary-green, var(--color-success));
   cursor: pointer;
   text-decoration: none;
 }
@@ -1261,7 +1261,7 @@
 }
 
 .tabJumpLink:visited {
-  color: var(--primary-green, #2e7d32);
+  color: var(--primary-green, var(--color-success));
 }
 
 .dashYearFilter {
@@ -1276,9 +1276,9 @@
   padding: 0;
   line-height: 1;
   white-space: nowrap;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 500;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .dashYearFilter .filterSelect {
@@ -1286,14 +1286,14 @@
   height: 32px;
   padding: 0 10px;
   line-height: 30px;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   box-sizing: border-box;
   display: inline-block;
   vertical-align: middle;
 }
 
 .dashTopBar strong {
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .activityRowInPanel {
@@ -1311,19 +1311,19 @@
   gap: 10px 16px;
   margin: 4px 0 0;
   padding-top: 14px;
-  border-top: 1px solid rgba(2, 48, 71, 0.08);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .overviewScopeNote {
   margin: 0 0 12px;
-  font-size: 0.78rem;
-  color: var(--text-medium, #5c6b7a);
-  line-height: 1.35;
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
+  line-height: var(--line-height-snug);
 }
 
 .overviewScopeNote strong {
-  color: var(--color-deep-teal, #023047);
-  font-weight: 650;
+  color: var(--color-ink);
+  font-weight: 600;
 }
 
 .placePanel .dashSummaryRowThree {
@@ -1343,9 +1343,9 @@
 }
 
 .activityLabel {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin-right: 4px;
 }
 
@@ -1354,29 +1354,29 @@
   align-items: baseline;
   gap: 6px;
   padding: 6px 12px;
-  border: 1px solid var(--color-lake-light, #d6e8f0);
+  border: 1px solid var(--color-lake-light, var(--color-sky));
   background: transparent;
   border-radius: var(--radius-full, 999px);
   cursor: pointer;
-  color: var(--text-medium);
+  color: var(--text-secondary);
   transition: background var(--transition-fast), border-color var(--transition-fast);
 }
 
 .activityItem:hover {
-  background: var(--color-lake-light, #eef6fa);
+  background: var(--color-lake-light, var(--bg-clean));
   border-color: var(--color-lake);
 }
 
 .activityValue {
-  font-size: var(--type-scale-base);
+  font-size: var(--type-body);
   font-weight: 700;
   color: var(--color-lake);
   font-variant-numeric: tabular-nums;
 }
 
 .activityUnit {
-  font-size: var(--type-scale-xs);
-  color: var(--text-medium);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
 }
 
 .dashSummaryRow {
@@ -1395,15 +1395,15 @@
 .revisitCol {
   padding: 10px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(2, 48, 71, 0.1);
-  background: #fafbfc;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-clean);
 }
 
 .revisitCol h4 {
   margin: 0 0 8px;
-  font-size: 0.82rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .revisitList {
@@ -1428,25 +1428,25 @@
   border-radius: 6px;
   text-decoration: none;
   color: inherit;
-  background: #fff;
-  border: 1px solid rgba(2, 48, 71, 0.06);
+  background: var(--bg-white);
+  border: 1px solid var(--border-subtle);
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .revisitLink:hover {
-  border-color: rgba(33, 158, 188, 0.35);
-  background: #fff;
+  border-color: var(--color-lake-mid);
+  background: var(--bg-white);
 }
 
 .revisitLink strong {
-  font-size: 0.86rem;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-secondary);
+  color: var(--color-ink);
 }
 
 .revisitLink span {
-  font-size: 0.75rem;
-  color: var(--text-medium, #6b7280);
-  line-height: 1.35;
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
+  line-height: var(--line-height-snug);
 }
 
 @media (max-width: 720px) {
@@ -1469,8 +1469,8 @@
 
 .footprintHeader p {
   margin: 6px 0 0;
-  color: var(--text-medium, #666);
-  font-size: var(--type-scale-sm);
+  color: var(--text-secondary);
+  font-size: var(--type-secondary);
 }
 
 .footprintMap {
@@ -1497,22 +1497,22 @@
 }
 
 .dashSumTitle {
-  font-size: var(--type-scale-sm);
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   margin: 0 0 6px 0;
   font-weight: 600;
 }
 
 .dashSumMain {
-  font-size: var(--type-scale-xl);
+  font-size: var(--type-section);
   font-weight: 700;
-  color: var(--text-dark);
-  line-height: 1.2;
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
 }
 
 .dashSumSub {
-  font-size: var(--type-scale-xs);
-  color: var(--text-medium);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
   margin-top: 4px;
 }
 
@@ -1542,7 +1542,7 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   padding: 16px 16px 14px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border-subtle);
   min-height: 280px;
   display: flex;
   flex-direction: column;
@@ -1560,7 +1560,7 @@
   margin: 0 0 14px 0;
   font-size: var(--type-subsection);
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .dashCardTitle span:first-child {
@@ -1568,9 +1568,9 @@
 }
 
 .dashCardHint {
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   font-weight: 400;
-  color: var(--text-medium);
+  color: var(--text-secondary);
   margin: -6px 0 8px;
 }
 
@@ -1594,8 +1594,8 @@
     to top,
     transparent,
     transparent 35px,
-    rgba(2, 48, 71, 0.05) 35px,
-    rgba(2, 48, 71, 0.05) 36px
+    var(--border-subtle) 35px,
+    var(--border-subtle) 36px
   );
   background-position: 0 8px;
 }
@@ -1658,8 +1658,8 @@
 }
 
 .dashVBarLabel {
-  color: #fff;
-  font-size: 10px;
+  color: var(--text-white);
+  font-size: var(--type-caption);
   font-weight: 700;
   line-height: 1;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
@@ -1667,29 +1667,29 @@
 }
 
 .dashVBarBlue {
-  background: linear-gradient(180deg, #5dade2 0%, #2e86c1 100%);
+  background: linear-gradient(180deg, var(--chart-3) 0%, var(--chart-2) 100%);
 }
 
 .dashVBarGreen {
-  background: linear-gradient(180deg, #7dcea0 0%, #27ae60 100%);
+  background: linear-gradient(180deg, var(--chart-5) 0%, var(--color-success) 100%);
 }
 
 .dashVBarTeal {
-  background: linear-gradient(180deg, #4db6ac 0%, #00897b 100%);
+  background: linear-gradient(180deg, var(--chart-6) 0%, var(--chart-6) 100%);
 }
 
 .dashVBarPurple {
-  background: linear-gradient(180deg, #af7ac5 0%, #8e44ad 100%);
+  background: linear-gradient(180deg, var(--color-lake) 0%, var(--color-lake) 100%);
 }
 
 .dashVBarStackRed {
-  background: linear-gradient(180deg, #f1948a 0%, #e74c3c 100%);
+  background: linear-gradient(180deg, var(--color-danger-border) 0%, var(--color-danger) 100%);
 }
 
 .dashVLabel {
   flex: 0 0 auto;
-  font-size: var(--type-scale-xs);
-  color: var(--text-medium);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
   margin-top: 6px;
   text-align: center;
   white-space: nowrap;
@@ -1699,17 +1699,17 @@
 }
 
 .dashVVal {
-  font-size: var(--type-scale-xs);
-  color: var(--text-dark);
+  font-size: var(--type-caption);
+  color: var(--text-primary);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
 }
 
 .dashVNew {
-  font-size: 10px;
+  font-size: var(--type-caption);
   font-weight: 600;
-  line-height: 1.2;
-  color: #0277bd;
+  line-height: var(--line-height-tight);
+  color: var(--color-lake);
   background: rgba(2, 119, 189, 0.12);
   border-radius: 4px;
   padding: 1px 4px;
@@ -1737,11 +1737,11 @@
   grid-template-columns: minmax(0, 1fr) 4fr auto;
   gap: 8px;
   align-items: center;
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
 }
 
 .dashHName {
-  color: var(--text-dark);
+  color: var(--text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1749,7 +1749,7 @@
 
 .dashHTrack {
   height: 10px;
-  background: #eceff1;
+  background: var(--gray-100);
   border-radius: 5px;
   overflow: hidden;
 }
@@ -1757,17 +1757,17 @@
 .dashHFill {
   height: 100%;
   border-radius: 5px;
-  background: linear-gradient(90deg, #42a5f5, #1976d2);
+  background: linear-gradient(90deg, var(--chart-3), var(--color-lake));
 }
 
 .dashHFillGreen {
-  background: linear-gradient(90deg, #66bb6a, #2e7d32);
+  background: linear-gradient(90deg, var(--color-success), var(--color-success));
 }
 
 .dashHNum {
   font-weight: 600;
-  color: var(--text-medium);
-  font-size: var(--type-scale-xs);
+  color: var(--text-secondary);
+  font-size: var(--type-caption);
   min-width: 28px;
   text-align: right;
 }
@@ -1790,7 +1790,7 @@
 }
 
 .wordCloudItem {
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
   cursor: default;
   transition: opacity 0.2s;
 }
@@ -1804,8 +1804,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-medium);
-  font-size: var(--type-scale-sm);
+  color: var(--text-secondary);
+  font-size: var(--type-secondary);
 }
 
 .dashDetails {
@@ -1821,7 +1821,7 @@
   font-weight: 600;
   cursor: pointer;
   list-style: none;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .dashDetails summary::-webkit-details-marker {
@@ -1844,7 +1844,7 @@
   }
 
   .title {
-    font-size: var(--type-scale-2xl);
+    font-size: var(--type-page-title);
     flex-direction: column;
     gap: 10px;
   }

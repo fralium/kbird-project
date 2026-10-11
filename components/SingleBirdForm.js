@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import LocationAutocomplete from './LocationAutocomplete';
-import { todayLocalDateKey } from '../utils/localDate';
+import { todayLocalDateKey } from '@/utils/localDate';
 import { useConfirmDialog } from './ConfirmDialog';
-import styles from '../styles/SingleBirdForm.module.css';
+import styles from '@/styles/SingleBirdForm.module.css';
 
 export default function SingleBirdForm({ bird, onSubmit, onCancel }) {
   const { ask, dialog: confirmDialog } = useConfirmDialog();

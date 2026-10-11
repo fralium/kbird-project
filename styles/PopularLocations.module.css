@@ -12,15 +12,15 @@
   align-items: center;
   gap: 8px;
   margin: 0 0 16px 0;
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
   font-weight: 600;
   color: var(--color-lake);
 }
 
 .subtitle {
-  font-size: 0.85rem;
+  font-size: var(--type-secondary);
   font-weight: 400;
-  color: #666;
+  color: var(--text-muted);
   margin-left: 8px;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .locationIcon {
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
   flex-shrink: 0;
 }
 
@@ -83,7 +83,7 @@
 .locationName {
   font-weight: 600;
   color: var(--color-lake);
-  font-size: 0.95rem;
+  font-size: var(--type-body);
   margin-bottom: 4px;
   white-space: nowrap;
   overflow: hidden;
@@ -97,23 +97,23 @@
 }
 
 .recordCount {
-  font-size: 0.8rem;
-  color: #666;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .lastRecord {
-  font-size: 0.75rem;
-  color: #999;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
 }
 
 .newBadge {
   position: absolute;
   top: -2px;
   right: -2px;
-  background: #ff4757;
-  color: white;
-  font-size: 0.7rem;
+  background: var(--color-danger);
+  color: var(--text-white);
+  font-size: var(--type-caption);
   font-weight: 600;
   padding: 2px 6px;
   border-radius: 10px;
@@ -126,7 +126,7 @@
   color: var(--color-lake);
   padding: 8px 16px;
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: var(--type-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
   margin: 0 auto;
@@ -135,7 +135,7 @@
 
 .toggleButton:hover {
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
 }
 
 .loadingContainer {
@@ -178,21 +178,21 @@
   }
   
   .locationName {
-    font-size: 0.9rem;
+    font-size: var(--type-secondary);
   }
   
   .recordCount {
-    font-size: 0.75rem;
+    font-size: var(--type-caption);
   }
   
   .lastRecord {
-    font-size: 0.7rem;
+    font-size: var(--type-caption);
   }
 }
 
 @media (max-width: 480px) {
   .title {
-    font-size: 1rem;
+    font-size: var(--type-body);
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;

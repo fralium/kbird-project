@@ -1,6 +1,6 @@
 // Next.js API代理路由 - 获取特定鸟类的观鸟记录
-import { resolveBackendApiBase } from '../../../../utils/backendApiBase';
-import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   const { method, query } = req;

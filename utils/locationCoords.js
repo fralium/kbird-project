@@ -1,13 +1,21 @@
-/** 从地点对象提取 [lng, lat]；无效则返回 null */
-export function extractLngLatPair(locationOrCoords) {
-  if (!locationOrCoords) return null;
-  const c = locationOrCoords.coordinates ?? locationOrCoords;
-  const pair = Array.isArray(c) ? c : c?.coordinates;
-  if (!Array.isArray(pair) || pair.length < 2) return null;
-  const lng = Number(pair[0]);
-  const lat = Number(pair[1]);
-  if (!Number.isFinite(lng) || !Number.isFinite(lat) || (lng === 0 && lat === 0)) {
-    return null;
+/** Shared lat/lng extraction from heterogeneous location payloads. */
+
+export function extractCoords(loc) {
+  if (!loc || typeof loc !== 'object') return null;
+  const candidates = [
+    loc.coordinates,
+    loc.coords,
+    loc.location?.coordinates,
+    loc.geo,
+    loc,
+  ];
+  for (const c of candidates) {
+    if (!c) continue;
+    const lng = Number(c.lng ?? c.lon ?? c.longitude ?? c[0]);
+    const lat = Number(c.lat ?? c.latitude ?? c[1]);
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+      return { lat, lng };
+    }
   }
-  return [lng, lat];
+  return null;
 }

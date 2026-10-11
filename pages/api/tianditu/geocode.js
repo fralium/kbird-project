@@ -3,8 +3,8 @@
  * 需登录；仅使用 TIANDITU_SERVER_TK。
  */
 import jwt from 'jsonwebtoken';
-import { devError } from '../../../utils/devLogger';
-import { parseProxyJsonResponse, sendMethodNotAllowed } from '../../../utils/proxyApi';
+import { devError } from '@/utils/devLogger';
+import { parseProxyJsonResponse, sendMethodNotAllowed } from '@/utils/proxyApi';
 
 const WINDOW_MS = 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 30;

@@ -1,9 +1,10 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { api } from '../utils/api';
+import { api } from '@/utils/api';
+import { formatDisplayDate, formatDisplayDateTime } from '@/utils/localDate';
 import SpeciesHoverChip from './SpeciesHoverChip';
-import styles from '../styles/PersonalReports.module.css';
+import styles from '@/styles/PersonalReports.module.css';
 
 const currentYear = new Date().getFullYear();
 const YEAR_OPTIONS = Array.from({ length: 8 }, (_, i) => currentYear - i);
@@ -136,7 +137,7 @@ export default function PersonalReportsPanel() {
           <div className={styles.reportHeader}>
             <h2>{title}</h2>
             <span className={styles.speciesDate}>
-              生成于 {report.generatedAt ? new Date(report.generatedAt).toLocaleString('zh-CN') : '—'}
+              生成于 {report.generatedAt ? formatDisplayDateTime(report.generatedAt) : '—'}
             </span>
           </div>
 
@@ -223,7 +224,7 @@ export default function PersonalReportsPanel() {
                     ) : null}
                     {bird.firstSeenDate ? (
                       <div className={styles.speciesDate}>
-                        首次：{new Date(bird.firstSeenDate).toLocaleDateString('zh-CN')}
+                        首次：{formatDisplayDate(bird.firstSeenDate, 'short')}
                         {bird.firstSeenLocation ? ` · ${bird.firstSeenLocation}` : ''}
                       </div>
                     ) : null}
@@ -240,7 +241,7 @@ export default function PersonalReportsPanel() {
                 {report.records.slice(0, 15).map((rec) => (
                   <div key={rec.id} className={styles.topItem}>
                     <span className={styles.topName}>
-                      {rec.date ? new Date(rec.date).toLocaleDateString('zh-CN') : '—'}
+                      {rec.date ? formatDisplayDate(rec.date, 'short') : '—'}
                       {' · '}
                       {rec.location || rec.title || '未命名地点'}
                       {Array.isArray(rec.birds) && rec.birds.length > 0

@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import styles from '../styles/SearchBox.module.css';
+import { BIRD_SEARCH_PLACEHOLDER } from '@/utils/birdSearchUi';
+import styles from '@/styles/SearchBox.module.css';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:13082';
 
@@ -113,7 +114,7 @@ const SearchBox = ({ onClose }) => {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="搜索鸟类、地点（至少 2 字）..."
+          placeholder={`${BIRD_SEARCH_PLACEHOLDER} / 地点`}
           className={styles.searchInput}
         />
         <button type="submit" className={styles.searchButton}>

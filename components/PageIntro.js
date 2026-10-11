@@ -2,7 +2,7 @@
  * 统一介绍页头部：高度、宽度、风格、文字一致，无图标
  * 用于：鸟类图鉴、观鸟记录、成就榜、AI识别、鸟类名录、地点名录、鸟类知识、快速记录、添加观鸟记录
  */
-import styles from '../styles/PageIntro.module.css';
+import styles from '@/styles/PageIntro.module.css';
 
 export default function PageIntro({ title, description, variant = 'default', compact = false }) {
   const variantClassMap = {

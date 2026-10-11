@@ -1,12 +1,12 @@
-import dbConnect from '../../../server/config/db';
-import Record from '../../../server/models/recordModel';
-import Location from '../../../server/models/locationModel';
-import { sendMethodNotAllowed } from '../../../utils/proxyApi';
+import dbConnect from '@/server/config/db';
+import Record from '@/server/models/recordModel';
+import Location from '@/server/models/locationModel';
+import { sendMethodNotAllowed } from '@/utils/proxyApi';
 
 const {
   resolveCanonicalLocationName,
   normalizeLocationName,
-} = require('../../../server/utils/locationName');
+} = require('@/server/utils/locationName');
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {

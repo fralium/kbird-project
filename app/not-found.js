@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import styles from '../styles/Error.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import styles from '@/styles/Error.module.css';
 
 const notFoundBird = {
   name: '白鹤',
@@ -27,7 +27,7 @@ export default function NotFoundPage() {
       <main className={styles.main}>
         <div className={styles.errorContent}>
           <div className={styles.birdSection}>
-            <div className={styles.birdIcon} style={{ color: notFoundBird.color }}>
+            <div className={styles.birdIcon} style={{ color: notFoundBird.color}}>
               {notFoundBird.icon}
             </div>
             <h1 className={styles.birdName}>{notFoundBird.name}</h1>

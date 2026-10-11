@@ -1,7 +1,7 @@
 // Next.js API代理路由 - 鸟类鸣叫上传
-import { resolveBackendApiBase } from '../../../../utils/backendApiBase';
-import { devLog } from '../../../../utils/devLogger';
-import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { devLog } from '@/utils/devLogger';
+import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export const config = {
   api: {

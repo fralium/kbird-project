@@ -1,11 +1,11 @@
-import { resolveBackendApiBase } from '../../../../../utils/backendApiBase';
-import { devLog } from '../../../../../utils/devLogger';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { devLog } from '@/utils/devLogger';
 import {
   buildJsonHeaders,
   parseProxyJsonResponse,
   sendMethodNotAllowed,
   sendProxyError,
-} from '../../../../../utils/proxyApi';
+} from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   const { id, birdId } = req.query;

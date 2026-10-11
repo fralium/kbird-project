@@ -1,6 +1,6 @@
 // Next.js API代理路由 - 用户登录
-import { resolveBackendApiBase } from '../../../utils/backendApiBase';
-import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

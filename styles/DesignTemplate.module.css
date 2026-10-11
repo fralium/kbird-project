@@ -25,7 +25,7 @@
   border: 1px dashed rgba(15, 118, 110, 0.35);
   border-radius: 8px;
   background: rgba(240, 253, 250, 0.7);
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   font-size: var(--type-secondary);
 }
 
@@ -50,9 +50,9 @@
 
 .chip,
 .chipActive {
-  border: 1px solid var(--gray-200, #e5e7eb);
-  background: #fff;
-  color: var(--text-dark);
+  border: 1px solid var(--gray-200, var(--gray-200));
+  background: var(--bg-white);
+  color: var(--text-primary);
   border-radius: 999px;
   padding: 6px 12px;
   font-size: var(--type-secondary);
@@ -61,8 +61,8 @@
 
 .chipActive {
   border-color: var(--color-lake);
-  background: rgba(33, 158, 188, 0.12);
-  color: var(--color-deep-teal);
+  background: var(--color-lake-light);
+  color: var(--color-ink);
   font-weight: 600;
 }
 
@@ -70,8 +70,8 @@
 .birdsHeader {
   display: flex;
   margin-bottom: 16px;
-  background: #fff;
-  border: 1px solid rgba(33, 158, 188, 0.16);
+  background: var(--bg-white);
+  border: 1px solid var(--color-lake-light);
   border-radius: 14px;
   overflow: hidden;
 }
@@ -79,7 +79,7 @@
 .birdsHeaderAccent {
   width: 6px;
   flex-shrink: 0;
-  background: var(--color-lake, #219ebc);
+  background: var(--color-lake, var(--color-lake));
 }
 
 .birdsHeaderBody {
@@ -107,7 +107,7 @@
   margin: 0 0 6px;
   font-size: var(--type-page-title);
   font-weight: var(--page-title-weight);
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   line-height: var(--line-height-tight);
 }
 
@@ -115,11 +115,11 @@
   margin: 0;
   font-size: var(--type-page-lede);
   color: var(--text-muted);
-  line-height: 1.45;
+  line-height: var(--line-height-normal);
 }
 
 .pageLede strong {
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
   font-weight: 700;
 }
 
@@ -146,13 +146,13 @@
 .primaryBtn {
   border: 0;
   background: var(--color-lake);
-  color: #fff;
+  color: var(--text-white);
 }
 
 .secondaryBtn {
-  border: 1px solid var(--gray-200, #e5e7eb);
-  background: #fff;
-  color: var(--text-dark);
+  border: 1px solid var(--gray-200, var(--gray-200));
+  background: var(--bg-white);
+  color: var(--text-primary);
 }
 
 /* Current summary bar replica */
@@ -163,7 +163,7 @@
   gap: 12px 16px;
   margin: 0 0 12px;
   padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--glass-bg);
   border-radius: var(--page-section-radius, 12px);
   box-shadow: var(--shadow-sm);
 }
@@ -175,9 +175,9 @@
 }
 
 .summaryValue {
-  font-size: var(--type-scale-xl, 1.5rem);
-  font-weight: 800;
-  color: var(--color-deep-teal);
+  font-size: var(--type-section);
+  font-weight: 700;
+  color: var(--color-ink);
 }
 
 .summaryLabel {
@@ -188,7 +188,7 @@
 .summaryDivider {
   width: 1px;
   height: 28px;
-  background: #e5e7eb;
+  background: var(--gray-200);
 }
 
 .summaryLink {
@@ -210,7 +210,7 @@
 
 .toolbarHeavy {
   padding: 14px;
-  background: #fff;
+  background: var(--bg-white);
   border-radius: 12px;
   box-shadow: var(--shadow-md);
 }
@@ -222,12 +222,12 @@
 .search,
 .select {
   height: 38px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--gray-200);
   border-radius: 999px;
   padding: 0 14px;
   font: inherit;
   font-size: var(--type-secondary);
-  background: #fff;
+  background: var(--bg-white);
 }
 
 .search {
@@ -248,9 +248,9 @@
   display: inline-flex;
   gap: 2px;
   padding: 2px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--gray-200);
   border-radius: 999px;
-  background: #f8fafc;
+  background: var(--bg-clean);
 }
 
 .viewToggle span {
@@ -261,7 +261,7 @@
 
 .viewActive {
   background: var(--color-lake);
-  color: #fff;
+  color: var(--text-white);
   font-weight: 700;
 }
 
@@ -283,18 +283,18 @@
 
 .birdCardModern,
 .birdCardCurrent {
-  background: #fff;
+  background: var(--bg-white);
   overflow: hidden;
 }
 
 .birdCardModern {
-  border: 1px solid rgba(2, 48, 71, 0.08);
+  border: 1px solid var(--border-subtle);
   border-radius: 14px;
   transition: border-color 0.15s ease, transform 0.15s ease;
 }
 
 .birdCardModern:hover {
-  border-color: rgba(33, 158, 188, 0.45);
+  border-color: var(--color-lake-mid);
   transform: translateY(-2px);
 }
 
@@ -312,9 +312,9 @@
 }
 
 .birdMediaName {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: rgba(2, 48, 71, 0.55);
+  font-size: var(--type-section);
+  font-weight: 700;
+  color: var(--border-subtle);
 }
 
 .birdBody {
@@ -324,7 +324,7 @@
 .birdName {
   margin: 0 0 4px;
   font-size: var(--type-subsection);
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
 }
 
 .birdSci {
@@ -345,7 +345,7 @@
 .notes {
   margin-top: 28px;
   padding-top: 18px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--gray-200);
 }
 
 .notesTitle {
@@ -356,9 +356,9 @@
 .notes ul {
   margin: 0 0 12px;
   padding-left: 18px;
-  color: var(--text-dark);
+  color: var(--text-primary);
   font-size: var(--type-body);
-  line-height: 1.55;
+  line-height: var(--line-height-normal);
 }
 
 .notes li {

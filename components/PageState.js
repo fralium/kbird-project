@@ -1,4 +1,4 @@
-import styles from '../styles/PageState.module.css';
+import styles from '@/styles/PageState.module.css';
 
 export default function PageState({
   type = 'loading',

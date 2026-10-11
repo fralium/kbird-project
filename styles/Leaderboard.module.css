@@ -17,7 +17,7 @@
 }
 
 .panelRoot .tab {
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   font-weight: 600;
   padding: 8px 14px;
 }
@@ -40,59 +40,59 @@
 }
 
 .panelRoot .sectionTitle {
-  font-size: var(--type-scale-lg);
+  font-size: var(--type-subsection);
   font-weight: 700;
   text-align: left;
   margin-bottom: 6px;
-  color: var(--text-dark, #1f2a2e);
+  color: var(--text-primary);
 }
 
 .panelRoot .sectionDescription {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 500;
   text-align: left;
   margin-bottom: 20px;
-  color: var(--text-medium, #666);
+  color: var(--text-secondary);
 }
 
 .panelRoot .birdName,
 .panelRoot .locationName {
-  font-size: var(--type-scale-lg);
+  font-size: var(--type-subsection);
   font-weight: 700;
 }
 
 .panelRoot .scientificName {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
 }
 
 .panelRoot .userName {
-  font-size: var(--type-scale-base);
+  font-size: var(--type-body);
   font-weight: 700;
 }
 
 .panelRoot .userTitle {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
 }
 
 .panelRoot .emptyState h3 {
-  font-size: var(--type-scale-lg);
+  font-size: var(--type-subsection);
   font-weight: 700;
 }
 
 .panelRoot .emptyState p {
-  font-size: var(--type-scale-base);
+  font-size: var(--type-body);
 }
 
 .panelHint {
   margin: 0 0 var(--spacing-4);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 500;
-  color: var(--text-secondary, #5a6a6e);
+  color: var(--text-secondary);
 }
 
 .panelHint a {
-  color: var(--brand-dark, #1a5f4a);
+  color: var(--brand-dark, var(--color-success-hover));
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -132,7 +132,7 @@
 }
 
 .title {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   font-weight: var(--page-title-weight);
   margin: 0 0 var(--spacing-2) 0;
   position: relative;
@@ -141,7 +141,7 @@
 }
 
 .description {
-  font-size: var(--page-subtitle-size);
+  font-size: var(--type-page-lede);
   opacity: 0.92;
   position: relative;
   z-index: 1;
@@ -174,30 +174,30 @@
 
 .tab {
   appearance: none;
-  background: #fff;
-  border: 1px solid rgba(2, 48, 71, 0.14);
+  background: var(--bg-white);
+  border: 1px solid var(--border-subtle);
   padding: 8px 14px;
   border-radius: 10px;
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: var(--line-height-tight);
   cursor: pointer;
-  color: #5a6a72;
+  color: var(--text-muted);
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   white-space: nowrap;
 }
 
 .tab:hover {
-  background: rgba(33, 158, 188, 0.07);
-  border-color: rgba(33, 158, 188, 0.4);
-  color: var(--color-lake, #1a7f98);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-mid);
+  color: var(--color-lake);
   transform: none;
 }
 
 .tab.active {
-  background: rgba(33, 158, 188, 0.12);
-  border-color: rgba(33, 158, 188, 0.55);
-  color: var(--color-lake, #1a7f98);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-strong);
+  color: var(--color-lake);
   box-shadow: none;
 }
 
@@ -219,18 +219,18 @@
 }
 
 .sectionTitle {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   margin-bottom: 10px;
-  color: var(--primary-dark);
+  color: var(--color-lake-hover);
   text-align: center;
 }
 
 .sectionDescription {
-  font-size: var(--page-subtitle-size);
-  color: #666;
+  font-size: var(--type-page-lede);
+  color: var(--text-muted);
   text-align: center;
   margin-bottom: 40px;
-  line-height: 1.6;
+  line-height: var(--line-height-relaxed);
 }
 
 .loadingContainer {
@@ -245,7 +245,7 @@
 .loadingSpinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #f3f3f3;
+  border: 4px solid var(--bg-clean);
   border-top: 4px solid var(--primary-green);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -257,8 +257,8 @@
 }
 
 .loadingContainer p {
-  color: #666;
-  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-size: var(--type-page-lede);
   margin: 0;
 }
 
@@ -271,27 +271,27 @@
 }
 
 .emptyIcon {
-  font-size: 4rem;
+  font-size: var(--type-display);
   margin-bottom: 20px;
   opacity: 0.7;
 }
 
 .emptyState h3 {
-  color: var(--primary-dark);
+  color: var(--color-lake-hover);
   margin-bottom: 10px;
   font-size: var(--type-section);
 }
 
 .emptyState p {
-  color: #666;
+  color: var(--text-muted);
   margin-bottom: 25px;
-  font-size: 1rem;
+  font-size: var(--type-body);
 }
 
 .emptyButton {
   display: inline-block;
   background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-  color: white;
+  color: var(--text-white);
   padding: 12px 24px;
   border-radius: var(--radius-full);
   text-decoration: none;
@@ -305,7 +305,7 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(45, 80, 22, 0.4);
   text-decoration: none;
-  color: white;
+  color: var(--text-white);
 }
 
 .leaderboardList {
@@ -363,9 +363,9 @@
 }
 
 .rankIcon {
-  font-size: 1.5rem;
+  font-size: var(--type-section);
   font-weight: 700;
-  color: var(--primary-dark);
+  color: var(--color-lake-hover);
 }
 
 .birdInfo {
@@ -396,8 +396,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 0.8rem;
+  color: var(--text-white);
+  font-size: var(--type-caption);
   font-weight: 600;
   text-align: center;
   padding: 5px;
@@ -410,15 +410,15 @@
 .birdName {
   font-size: var(--type-section);
   font-weight: 600;
-  color: var(--primary-dark);
+  color: var(--color-lake-hover);
   margin: 0 0 5px 0;
 }
 
 .scientificName {
   font-style: italic;
-  color: #666;
+  color: var(--text-muted);
   margin: 0 0 10px 0;
-  font-size: 0.95rem;
+  font-size: var(--type-body);
 }
 
 .recordInfo {
@@ -428,8 +428,8 @@
 }
 
 .location, .date, .birdCount {
-  font-size: 0.9rem;
-  color: #666;
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
   background: rgba(255, 255, 255, 0.7);
   padding: 4px 8px;
   border-radius: var(--radius-lg);
@@ -443,7 +443,7 @@
 }
 
 .locationIcon {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -451,7 +451,7 @@
   height: 60px;
   background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
   border-radius: 50%;
-  color: white;
+  color: var(--text-white);
 }
 
 .locationDetails {
@@ -459,9 +459,9 @@
 }
 
 .locationName {
-  font-size: 1.3rem;
+  font-size: var(--type-subsection);
   font-weight: 600;
-  color: var(--primary-dark);
+  color: var(--color-lake-hover);
   margin: 0 0 10px 0;
 }
 
@@ -497,7 +497,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--text-white);
   font-weight: 600;
   font-size: var(--type-section);
   position: absolute;
@@ -514,8 +514,8 @@
 
 .userName {
   font-weight: 600;
-  color: var(--primary-dark);
-  font-size: 1rem;
+  color: var(--color-lake-hover);
+  font-size: var(--type-body);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -523,8 +523,8 @@
 }
 
 .userTitle {
-  font-size: 0.85rem;
-  color: #666;
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
   font-style: italic;
   white-space: nowrap;
   overflow: hidden;
@@ -545,11 +545,11 @@
   }
   
   .title {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
   
   .description {
-    font-size: 1rem;
+    font-size: var(--type-body);
   }
   
   .tabContainer {
@@ -560,7 +560,7 @@
   
   .tab {
     padding: 10px 20px;
-    font-size: 0.9rem;
+    font-size: var(--type-secondary);
   }
   
   .leaderboardSection {
@@ -606,7 +606,7 @@
   }
   
   .title {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
   
   .birdImage {
@@ -617,7 +617,7 @@
   .locationIcon {
     width: 50px;
     height: 50px;
-    font-size: 1.5rem;
+    font-size: var(--type-section);
   }
   
   .userAvatar {
@@ -626,7 +626,7 @@
   }
   
   .avatarPlaceholder {
-    font-size: 1rem;
+    font-size: var(--type-body);
   }
   
   .userName,

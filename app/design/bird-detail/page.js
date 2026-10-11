@@ -4,18 +4,19 @@ import { Suspense, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import { api } from '../../../utils/api';
-import { getFullImageUrl } from '../../../utils/imageUtils';
-import { formatAddressRegion } from '../../../utils/formatAddressRegion';
-import { formatTaxonomyDisplay, getFamilyChineseName, getOrderChineseName } from '../../../data/taxonomyTranslation';
-import { getProtectionLevelInfo } from '../../../data/protectionLevels';
-import { normalizeBirdImageTags } from '../../../data/birdImageTags';
-import { CameraIcon, InfoIcon, LocationIcon } from '../../../components/Icons';
-import styles from '../../../styles/BirdDetailLab.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import { api } from '@/utils/api';
+import { getFullImageUrl } from '@/utils/imageUtils';
+import { formatAddressRegion } from '@/utils/formatAddressRegion';
+import { formatTaxonomyDisplay, getFamilyChineseName, getOrderChineseName } from '@/data/taxonomyTranslation';
+import { getProtectionLevelInfo } from '@/data/protectionLevels';
+import { normalizeBirdImageTags } from '@/data/birdImageTags';
+import { CameraIcon, InfoIcon, LocationIcon } from '@/components/Icons';
+import { formatDisplayDate } from '@/utils/localDate';
+import styles from '@/styles/BirdDetailLab.module.css';
 
 const DEFAULT_ID = '68db6eba5fa3c9cec50de5ec';
 
@@ -27,10 +28,7 @@ const PAGE_TABS = [
 ];
 
 function fmtDate(value) {
-  if (!value) return '—';
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return '—';
-  return d.toLocaleDateString('zh-CN');
+  return formatDisplayDate(value, 'short');
 }
 
 function plateBriefRows(bird) {
@@ -87,10 +85,10 @@ function fieldMarks(bird) {
 function ProtectionPills({ bird }) {
   const items = [
     bird?.iucnProtectionLevel
-      ? { key: 'iucn', label: `IUCN ${bird.iucnProtectionLevel}`, color: '#219EBC' }
+      ? { key: 'iucn', label: `IUCN ${bird.iucnProtectionLevel}`, color: 'var(--color-lake)'}
       : null,
     bird?.chinaProtectionLevel && bird.chinaProtectionLevel !== '未列入'
-      ? { key: 'china', label: bird.chinaProtectionLevel, color: '#fd7e14' }
+      ? { key: 'china', label: bird.chinaProtectionLevel, color: '#fd7e14'}
       : null,
   ].filter(Boolean);
   if (!items.length) return <span className={styles.muted}>保护 —</span>;

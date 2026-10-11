@@ -4,13 +4,13 @@ import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import PageState from '../../components/PageState';
-import SimplePageHeader from '../../components/SimplePageHeader';
-import { resolvePublicApiBase } from '../../utils/publicApiBase';
-import { resolveLocationCover, useHabitatCoverSet } from '../../utils/habitatCover';
-import styles from '../../styles/Search.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import PageState from '@/components/PageState';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import { resolvePublicApiBase } from '@/utils/publicApiBase';
+import { resolveLocationCover, useHabitatCoverSet } from '@/utils/habitatCover';
+import styles from '@/styles/Search.module.css';
 
 const API_BASE_URL = resolvePublicApiBase();
 const FILTER_ALL = 'all';
@@ -202,7 +202,7 @@ function SearchPageClient() {
             type="search"
             value={keyword}
             onChange={(event) => setKeyword(event.target.value)}
-            placeholder="鸟种名、学名或地点"
+            placeholder="中文名 / 拼音 / 首字母 / 学名 / 英文 / 地点"
             className={styles.searchInput}
             aria-label="搜索"
           />

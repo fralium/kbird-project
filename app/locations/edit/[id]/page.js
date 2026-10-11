@@ -3,15 +3,16 @@ import { useState, useEffect } from 'react';
 /* eslint-disable react-hooks/exhaustive-deps */
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import Navbar from '../../../../components/Navbar';
-import Footer from '../../../../components/Footer';
-import ErrorMessage from '../../../../components/ErrorMessage';
-import LocationMapPicker from '../../../../components/LocationMapPicker';
-import { useAuth } from '../../../../components/AuthProvider';
-import { api } from '../../../../utils/api';
-import SimplePageHeader from '../../../../components/SimplePageHeader';
-import { useConfirmDialog } from '../../../../components/ConfirmDialog';
-import styles from '../../../../styles/LocationEdit.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ErrorMessage from '@/components/ErrorMessage';
+import LocationMapPicker from '@/components/LocationMapPicker';
+import { useAuth } from '@/components/AuthProvider';
+import AuthGate from '@/components/AuthGate';
+import { api } from '@/utils/api';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import { useConfirmDialog } from '@/components/ConfirmDialog';
+import styles from '@/styles/LocationEdit.module.css';
 
 const HABITAT_OPTIONS = ['湿地', '湖泊', '河流', '水库', '海岸', '滩涂', '森林', '灌丛', '草地', '农田', '城市绿地', '山地', '荒漠'];
 const DISTURBANCE_OPTIONS = ['无', '低', '中等', '高', '极高'];
@@ -25,12 +26,11 @@ const toScalar = (value, fallback = '') => {
   return String(value);
 };
 
-export default function EditLocationPage() {
+function EditLocationPageContent() {
   const router = useRouter();
   const params = useParams();
   const id = params?.id;
-  const { user, token, loading: authLoading } = useAuth();
-  const isAuthenticated = !!token && !!user;
+  const { user, loading: authLoading } = useAuth();
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -78,17 +78,9 @@ export default function EditLocationPage() {
   const [tagInput, setTagInput] = useState('');
 
   useEffect(() => {
-    if (!id) return;
-    if (authLoading) return;
-
-    const hasToken = typeof window !== 'undefined' ? !!localStorage.getItem('token') : false;
-    if (!isAuthenticated && !hasToken) {
-      router.push('/login');
-      return;
-    }
-
+    if (!id || authLoading) return;
     fetchLocationData();
-  }, [id, isAuthenticated, authLoading]);
+  }, [id, authLoading]);
 
   const fetchLocationData = async () => {
     try {
@@ -402,7 +394,7 @@ export default function EditLocationPage() {
 
           <div className={styles.section}>
             <h2>地理位置</h2>
-            <p style={{ marginBottom: 12, fontSize: 14, color: '#666' }}>
+            <p style={{ marginBottom: 12, fontSize: 14, color: 'var(--text-muted)'}}>
               使用下方地图：<strong>搜索地名</strong>可自动填坐标，或<strong>在地图上点击/拖拽标记</strong>设置精确位置。经纬度会同步到下方输入框。
             </p>
             <LocationMapPicker
@@ -754,5 +746,13 @@ export default function EditLocationPage() {
       <Footer />
       {confirmDialog}
     </div>
+  );
+}
+
+export default function EditLocationPage() {
+  return (
+    <AuthGate loadingTitle="正在检查登录状态...">
+      <EditLocationPageContent />
+    </AuthGate>
   );
 }

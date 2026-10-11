@@ -78,7 +78,7 @@ echo "📊 服务信息:"
 echo "  • 前端服务: http://localhost:13080 (PID: $FRONTEND_PID)"
 echo "  • 后端服务: http://localhost:13082 (PID: $BACKEND_PID)"
 echo
-echo "🛑 停止服务: 按 Ctrl+C 或运行 ./stop.sh"
+echo "🛑 停止服务: 按 Ctrl+C，或运行 scripts/stop-windows.sh"
 echo
 echo "✅ 开发环境启动完成！"
 

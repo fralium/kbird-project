@@ -3,10 +3,10 @@
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import PageState from '../../components/PageState';
-import styles from '../../styles/ExploreDemo.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import PageState from '@/components/PageState';
+import styles from '@/styles/ExploreDemo.module.css';
 
 function ExploreRedirect() {
   const router = useRouter();

@@ -28,20 +28,20 @@
 }
 
 .errorIcon {
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
   flex-shrink: 0;
 }
 
 .errorText {
   flex: 1;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-snug);
 }
 
 .closeButton {
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
   cursor: pointer;
   padding: 0;
   width: 20px;
@@ -59,27 +59,27 @@
 
 /* 错误类型样式 */
 .error {
-  background: #f8d7da;
-  border: 1px solid #f5c6cb;
-  color: #721c24;
+  background: var(--color-danger-soft);
+  border: 1px solid var(--color-danger-border);
+  color: var(--color-danger-hover);
 }
 
 .warning {
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
-  color: #856404;
+  background: var(--bg-white)3cd;
+  border: 1px solid var(--color-warning-soft);
+  color: var(--color-warning-hover);
 }
 
 .info {
-  background: #d1ecf1;
-  border: 1px solid #bee5eb;
-  color: #0c5460;
+  background: var(--color-lake-light);
+  border: 1px solid var(--color-sky);
+  color: var(--color-ink);
 }
 
 .success {
   background: var(--color-lake-light);
   border: 1px solid var(--color-lake);
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
 }
 
 /* 移动端响应式 */

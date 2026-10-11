@@ -7,10 +7,10 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import SimplePageHeader, { HeaderTextLink } from './SimplePageHeader';
 import PageState from './PageState';
-import data from '../data/exploreDemo/leping';
-import speciesOrders from '../data/exploreDemo/speciesOrders';
-import { getExploreProject } from '../data/exploreDemo/projects';
-import { getOrderChineseName } from '../data/taxonomyTranslation';
+import data from '@/data/exploreDemo/leping';
+import speciesOrders from '@/data/exploreDemo/speciesOrders';
+import { getExploreProject } from '@/data/exploreDemo/projects';
+import { getOrderChineseName } from '@/data/taxonomyTranslation';
 import ExploreLedgerPanel, {
   ExploreLedgerSummaryCard,
   PlotHabitatGallery,
@@ -26,7 +26,11 @@ import {
   recordedStatusLabel,
 } from './exploreLive';
 import SpeciesHoverChip from './SpeciesHoverChip';
-import styles from '../styles/ExploreDemo.module.css';
+import BirdSearchField from './BirdSearchField';
+import OrderBrowseGrid from './OrderBrowseGrid';
+import { speciesMatchesSearch } from '@/utils/clientPinyinMatch';
+import { BIRD_SEARCH_PLACEHOLDER_TAXON } from '@/utils/birdSearchUi';
+import styles from '@/styles/ExploreDemo.module.css';
 
 const TABS = [
   { id: 'overview', label: '总览' },
@@ -188,16 +192,9 @@ function SpeciesBrowsePanel({ browse, onClose, speciesList = data.species }) {
     const query = q.trim().toLowerCase();
     const base = filterSpeciesByBrowse(browse.id, speciesList).filter((s) => {
       if (!query) return true;
-      return (
-        s.name.toLowerCase().includes(query) ||
-        String(s.scientific || '')
-          .toLowerCase()
-          .includes(query) ||
-        String(s.zone || '')
-          .toLowerCase()
-          .includes(query) ||
-        orderLabel(speciesOrderKey(s)).toLowerCase().includes(query)
-      );
+      return speciesMatchesSearch(s, query, {
+        orderLabel: orderLabel(speciesOrderKey(s)),
+      });
     });
     return groupByOrder(base).map((g) => {
       const recorded = g.birds.filter((b) => b.recorded).length;
@@ -238,12 +235,13 @@ function SpeciesBrowsePanel({ browse, onClose, speciesList = data.species }) {
       </div>
 
       <div className={styles.browseToolbar}>
-        <input
+        <BirdSearchField
           className={styles.search}
-          type="search"
-          placeholder="搜中文名 / 学名 / 目 / 分区"
+          placeholder={BIRD_SEARCH_PLACEHOLDER_TAXON}
           value={q}
-          onChange={(e) => setQ(e.target.value)}
+          onChange={setQ}
+          size="sm"
+          roundedRect
         />
       </div>
 
@@ -251,35 +249,20 @@ function SpeciesBrowsePanel({ browse, onClose, speciesList = data.species }) {
         <p className={styles.empty}>没有匹配的鸟种</p>
       ) : (
         <>
-          <div className={styles.orderGrid}>
-            {groups.map((g) => (
-              <button
-                key={g.order}
-                type="button"
-                className={`${styles.orderCard} ${
-                  g.complete ? styles.orderCardDone : ''
-                } ${selectedOrder === g.order ? styles.orderCardActive : ''}`}
-                onClick={() => toggleOrder(g.order)}
-                aria-pressed={selectedOrder === g.order}
-              >
-                <div className={styles.orderCardTop}>
-                  <div className={styles.orderCardTitle}>{g.label}</div>
-                  <div className={styles.orderCardStat}>
-                    {g.recorded}/{g.total} {g.pct}%
-                  </div>
-                </div>
-                {g.latin ? <div className={styles.orderCardLatin}>{g.latin}</div> : null}
-                <div className={styles.progressTrack}>
-                  <div
-                    className={`${styles.progressFill} ${
-                      g.complete ? styles.progressFillDone : ''
-                    }`}
-                    style={{ width: `${g.pct}%` }}
-                  />
-                </div>
-              </button>
-            ))}
-          </div>
+          <OrderBrowseGrid
+            cards={groups.map((g) => ({
+              key: g.order,
+              label: g.label,
+              latin: g.latin,
+              stat: `${g.recorded}/${g.total} ${g.pct}%`,
+              pct: g.pct,
+              done: g.complete,
+              active: selectedOrder === g.order,
+            }))}
+            emptyText="没有匹配的鸟种"
+            emptyClassName={styles.empty}
+            onSelect={(card) => toggleOrder(card.key)}
+          />
 
           {selectedGroup ? (
             <div className={styles.orderDetail}>
@@ -574,19 +557,9 @@ function TargetsPanel({
       if (residence !== 'all' && s.residence !== residence) return false;
       if (group !== 'all' && s.group !== group) return false;
       if (!query) return true;
-      return (
-        s.name.toLowerCase().includes(query) ||
-        String(s.scientific || '')
-          .toLowerCase()
-          .includes(query) ||
-        String(s.zone || '')
-          .toLowerCase()
-          .includes(query) ||
-        String(s.habitat || '')
-          .toLowerCase()
-          .includes(query) ||
-        orderLabel(speciesOrderKey(s)).toLowerCase().includes(query)
-      );
+      return speciesMatchesSearch(s, query, {
+        orderLabel: orderLabel(speciesOrderKey(s)),
+      });
     });
   }, [q, level, status, residence, group, speciesList]);
 
@@ -639,12 +612,13 @@ function TargetsPanel({
         </header>
 
         <div className={styles.filterBar}>
-          <input
+          <BirdSearchField
             className={styles.search}
-            type="search"
-            placeholder="搜中文名 / 学名 / 目 / 分区 / 生境"
+            placeholder={BIRD_SEARCH_PLACEHOLDER_TAXON}
             value={q}
-            onChange={(e) => setQ(e.target.value)}
+            onChange={setQ}
+            size="sm"
+            roundedRect
           />
           <select
             className={styles.select}
@@ -720,48 +694,23 @@ function TargetsPanel({
           <p className={styles.empty}>没有匹配的鸟种</p>
         ) : (
           <>
-            <div className={styles.orderGrid}>
-              {orderGroups.map((g, i) => (
-                <button
-                  key={g.order}
-                  type="button"
-                  className={`${styles.orderCard} ${
-                    g.complete ? styles.orderCardDone : ''
-                  } ${
-                    selectedOrder === g.order ? styles.orderCardActive : ''
-                  }`}
-                  onClick={() =>
-                    setSelectedOrder((prev) =>
-                      prev === g.order ? '' : g.order,
-                    )
-                  }
-                  aria-pressed={selectedOrder === g.order}
-                >
-                  <div className={styles.orderCardTop}>
-                    <div className={styles.orderCardTitleRow}>
-                      <span className={styles.itemMark}>
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <div className={styles.orderCardTitle}>{g.label}</div>
-                    </div>
-                    <div className={styles.orderCardStat}>
-                      {g.recorded}/{g.total} {g.pct}%
-                    </div>
-                  </div>
-                  {g.latin ? (
-                    <div className={styles.orderCardLatin}>{g.latin}</div>
-                  ) : null}
-                  <div className={styles.progressTrack}>
-                    <div
-                      className={`${styles.progressFill} ${
-                        g.complete ? styles.progressFillDone : ''
-                      }`}
-                      style={{ width: `${g.pct}%` }}
-                    />
-                  </div>
-                </button>
-              ))}
-            </div>
+            <OrderBrowseGrid
+              cards={orderGroups.map((g, i) => ({
+                key: g.order,
+                label: g.label,
+                latin: g.latin,
+                mark: String(i + 1).padStart(2, '0'),
+                stat: `${g.recorded}/${g.total} ${g.pct}%`,
+                pct: g.pct,
+                done: g.complete,
+                active: selectedOrder === g.order,
+              }))}
+              emptyText="没有匹配的鸟种"
+              emptyClassName={styles.empty}
+              onSelect={(card) =>
+                setSelectedOrder((prev) => (prev === card.key ? '' : card.key))
+              }
+            />
 
             {selectedGroup ? (
               <div className={styles.orderDetail}>

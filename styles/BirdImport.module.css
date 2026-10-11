@@ -1,39 +1,39 @@
-﻿.container {
+.container {
   max-width: var(--page-content-max);
   margin: 0 auto;
   padding: 20px;
-  font-family: 'Arial', sans-serif;
+  font-family: var(--font-ui);
 }
 
 .header {
   text-align: center;
   margin-bottom: 40px;
   padding: 30px;
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-ink) 0%, var(--text-secondary) 100%);
+  color: var(--text-white);
   border-radius: 15px;
 }
 
 .header h1 {
   margin: 0 0 10px 0;
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
 }
 
 .header p {
   margin: 0 0 15px 0;
-  font-size: var(--page-subtitle-size);
+  font-size: var(--type-page-lede);
   opacity: 0.9;
 }
 
 .refreshButton {
   padding: 10px 20px;
   background: rgba(255, 255, 255, 0.2);
-  color: white;
+  color: var(--text-white);
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: var(--type-body);
+  font-weight: 700;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
 }
@@ -60,7 +60,7 @@
 }
 
 .overallProgress h2 {
-  color: #2c3e50;
+  color: var(--color-ink);
   margin-bottom: 20px;
 }
 
@@ -80,28 +80,28 @@
 
 .statNumber {
   display: block;
-  font-size: var(--page-title-size);
-  font-weight: bold;
-  color: #2c3e50;
+  font-size: var(--type-page-title);
+  font-weight: 700;
+  color: var(--color-ink);
   margin-bottom: 5px;
 }
 
 .statLabel {
-  color: #7f8c8d;
-  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
 }
 
 .progressBar {
   width: 100%;
   height: 20px;
-  background: #ecf0f1;
+  background: var(--gray-100);
   border-radius: 10px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #27ae60 0%, #2ecc71 100%);
+  background: linear-gradient(90deg, var(--color-success) 0%, var(--color-success) 100%);
   transition: width 0.3s ease;
 }
 
@@ -115,7 +115,7 @@
 }
 
 .batchList h2 {
-  color: #2c3e50;
+  color: var(--color-ink);
   margin-bottom: 20px;
 }
 
@@ -128,7 +128,7 @@
 .batchCard {
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid #ecf0f1;
+  border: 2px solid var(--gray-100);
   transition: all 0.3s ease;
 }
 
@@ -138,17 +138,17 @@
 }
 
 .batchCard.completed {
-  border-color: #27ae60;
-  background: linear-gradient(135deg, #d5f4e6 0%, #e8f8f5 100%);
+  border-color: var(--color-success);
+  background: linear-gradient(135deg, var(--color-success-soft) 0%, var(--color-success-soft) 100%);
 }
 
 .batchCard.inProgress {
-  border-color: #f39c12;
-  background: linear-gradient(135deg, #fef5e7 0%, #fdf2e9 100%);
+  border-color: var(--color-warning);
+  background: linear-gradient(135deg, var(--color-warning-soft) 0%, var(--color-warning-soft) 100%);
 }
 
 .batchCard.pending {
-  border-color: #bdc3c7;
+  border-color: var(--text-muted);
   background: var(--bg-clean);
 }
 
@@ -161,37 +161,37 @@
 
 .batchHeader h3 {
   margin: 0;
-  color: #2c3e50;
-  font-size: 1.2rem;
+  color: var(--color-ink);
+  font-size: var(--type-subsection);
 }
 
 .batchStatus {
   padding: 4px 12px;
   border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: bold;
+  font-size: var(--type-caption);
+  font-weight: 700;
   text-transform: uppercase;
 }
 
 .batchCard.completed .batchStatus {
-  background: #27ae60;
-  color: white;
+  background: var(--color-success);
+  color: var(--text-white);
 }
 
 .batchCard.inProgress .batchStatus {
-  background: #f39c12;
-  color: white;
+  background: var(--color-warning);
+  color: var(--text-white);
 }
 
 .batchCard.pending .batchStatus {
-  background: #bdc3c7;
-  color: white;
+  background: var(--gray-300);
+  color: var(--text-white);
 }
 
 .batchDescription {
-  color: #7f8c8d;
+  color: var(--text-muted);
   margin-bottom: 15px;
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
 }
 
 .batchInfo {
@@ -201,13 +201,13 @@
 }
 
 .batchCount {
-  color: #2c3e50;
-  font-weight: bold;
+  color: var(--color-ink);
+  font-weight: 700;
 }
 
 .batchProgress {
-  color: #27ae60;
-  font-weight: bold;
+  color: var(--color-success);
+  font-weight: 700;
 }
 
 .batchActions {
@@ -218,39 +218,39 @@
 .importButton {
   flex: 1;
   padding: 10px 15px;
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake) 100%);
+  color: var(--text-white);
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 700;
   transition: all 0.3s ease;
 }
 
 .importButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake) 100%);
   transform: translateY(-2px);
 }
 
 .importButton:disabled {
-  background: #bdc3c7;
+  background: var(--gray-300);
   cursor: not-allowed;
   transform: none;
 }
 
 .previewButton {
   padding: 10px 15px;
-  background: #95a5a6;
-  color: white;
+  background: var(--text-muted);
+  color: var(--text-white);
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 700;
   transition: all 0.3s ease;
 }
 
 .previewButton:hover {
-  background: #7f8c8d;
+  background: var(--text-muted);
   transform: translateY(-2px);
 }
 
@@ -264,14 +264,14 @@
 }
 
 .importLog h2 {
-  color: #2c3e50;
+  color: var(--color-ink);
   margin-bottom: 20px;
 }
 
 .logContainer {
   max-height: 400px;
   overflow-y: auto;
-  background: #2c3e50;
+  background: var(--color-ink);
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 15px;
@@ -280,12 +280,12 @@
 .logEntry {
   display: flex;
   margin-bottom: 10px;
-  font-family: 'Courier New', monospace;
-  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: var(--type-secondary);
 }
 
 .logTime {
-  color: #95a5a6;
+  color: var(--text-muted);
   margin-right: 15px;
   min-width: 80px;
 }
@@ -295,34 +295,34 @@
 }
 
 .logEntry.success .logMessage {
-  color: #2ecc71;
+  color: var(--color-success);
 }
 
 .logEntry.error .logMessage {
-  color: #e74c3c;
+  color: var(--color-danger);
 }
 
 .logEntry.warning .logMessage {
-  color: #f39c12;
+  color: var(--color-warning);
 }
 
 .logEntry.info .logMessage {
-  color: #3498db;
+  color: var(--color-lake);
 }
 
 .clearLogButton {
   padding: 10px 20px;
-  background: #e74c3c;
-  color: white;
+  background: var(--color-danger);
+  color: var(--text-white);
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 700;
   transition: all 0.3s ease;
 }
 
 .clearLogButton:hover {
-  background: #c0392b;
+  background: var(--color-danger-hover);
   transform: translateY(-2px);
 }
 
@@ -336,12 +336,12 @@
 }
 
 .qualityCheck h2 {
-  color: #2c3e50;
+  color: var(--color-ink);
   margin-bottom: 20px;
 }
 
 .qualityRules h3 {
-  color: #34495e;
+  color: var(--text-secondary);
   margin-bottom: 15px;
 }
 
@@ -355,7 +355,7 @@
   background: var(--bg-clean);
   margin-bottom: 10px;
   border-radius: 5px;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid var(--color-lake);
 }
 
 /* 配置选项 */
@@ -367,7 +367,7 @@
 }
 
 .config h2 {
-  color: #2c3e50;
+  color: var(--color-ink);
   margin-bottom: 20px;
 }
 
@@ -383,21 +383,21 @@
 }
 
 .configItem label {
-  color: #34495e;
-  font-weight: bold;
+  color: var(--text-secondary);
+  font-weight: 700;
   margin-bottom: 5px;
 }
 
 .configItem input {
   padding: 10px;
-  border: 2px solid #ecf0f1;
+  border: 2px solid var(--gray-100);
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: var(--type-body);
 }
 
 .configItem input:focus {
   outline: none;
-  border-color: #3498db;
+  border-color: var(--color-lake);
 }
 
 /* 响应式设计 */
@@ -407,7 +407,7 @@
   }
   
   .header h1 {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
   
   .progressStats {
@@ -429,7 +429,7 @@
 
 @media (max-width: 480px) {
   .header h1 {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
   
   .progressStats {

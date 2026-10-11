@@ -14,17 +14,17 @@
 .header {
   text-align: center;
   margin-bottom: 3rem;
-  color: white;
+  color: var(--text-white);
 }
 
 .header h1 {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .header p {
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
   opacity: 0.9;
 }
 
@@ -51,22 +51,22 @@
 }
 
 .statCard h3 {
-  color: #4a5568;
-  font-size: var(--page-subtitle-size);
+  color: var(--text-secondary);
+  font-size: var(--type-page-lede);
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
 .statNumber {
-  font-size: 3rem;
-  font-weight: bold;
+  font-size: var(--type-display);
+  font-weight: 700;
   color: var(--color-lake);
   margin-bottom: 0.5rem;
 }
 
 .statCard p {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
 }
 
 /* 标签页导航 */
@@ -85,9 +85,9 @@
   border: none;
   background: transparent;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 600;
-  color: #4a5568;
+  color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -99,7 +99,7 @@
 
 .tabButton.active {
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   box-shadow: var(--shadow-md);
 }
 
@@ -114,7 +114,7 @@
 .tabContent h2 {
   color: var(--text-primary);
   margin-bottom: 2rem;
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   border-bottom: 3px solid var(--color-lake);
   padding-bottom: 0.5rem;
 }
@@ -127,7 +127,7 @@
 }
 
 .emptyState p {
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
 }
 
 /* 请求列表 */
@@ -161,13 +161,13 @@
 
 .requestHeader h3 {
   color: var(--text-primary);
-  font-size: 1.3rem;
+  font-size: var(--type-subsection);
   margin: 0;
 }
 
 .requestDate {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   background: var(--gray-200);
   padding: 0.3rem 0.8rem;
   border-radius: var(--radius-full);
@@ -179,8 +179,8 @@
 
 .requestDetails p {
   margin: 0.5rem 0;
-  color: #4a5568;
-  line-height: 1.6;
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
 }
 
 .requestDetails strong {
@@ -200,30 +200,30 @@
   padding: 0.8rem 1.5rem;
   border: none;
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .approveButton {
-  background: #48bb78;
-  color: white;
+  background: var(--color-success);
+  color: var(--text-white);
 }
 
 .approveButton:hover {
-  background: #38a169;
+  background: var(--color-success);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
 }
 
 .rejectButton {
-  background: #f56565;
-  color: white;
+  background: var(--color-danger);
+  color: var(--text-white);
 }
 
 .rejectButton:hover {
-  background: #e53e3e;
+  background: var(--color-danger);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
 }
@@ -236,7 +236,7 @@
   justify-content: center;
   min-height: 100vh;
   background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
-  color: white;
+  color: var(--text-white);
 }
 
 .loadingSpinner {
@@ -262,17 +262,17 @@
   justify-content: center;
   min-height: 100vh;
   background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
-  color: white;
+  color: var(--text-white);
   text-align: center;
 }
 
 .errorContainer h1 {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   margin-bottom: 1rem;
 }
 
 .errorContainer p {
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
   opacity: 0.9;
 }
 
@@ -283,7 +283,7 @@
   }
   
   .header h1 {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
   
   .statsGrid {

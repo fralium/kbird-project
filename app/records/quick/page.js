@@ -2,18 +2,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import { useAuth } from '../../../components/AuthProvider';
-import LocationAutocomplete from '../../../components/LocationAutocomplete';
-import BirdNameAutocomplete from '../../../components/BirdNameAutocomplete';
-import PageState from '../../../components/PageState';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import { useConfirmDialog } from '../../../components/ConfirmDialog';
-import { api } from '../../../utils/api';
-import { extractLngLatPair } from '../../../utils/locationCoords';
-import { todayLocalDateKey } from '../../../utils/localDate';
-import styles from '../../../styles/QuickRecord.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { useAuth } from '@/components/AuthProvider';
+import LocationAutocomplete from '@/components/LocationAutocomplete';
+import BirdNameAutocomplete from '@/components/BirdNameAutocomplete';
+import PageState from '@/components/PageState';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import { useConfirmDialog } from '@/components/ConfirmDialog';
+import { api } from '@/utils/api';
+import { extractLngLatPair } from '@/utils/locationCoords';
+import { todayLocalDateKey } from '@/utils/localDate';
+import styles from '@/styles/QuickRecord.module.css';
 
 const QUICK_RECORD_DRAFT_KEY = 'kbird.quickRecord.draft';
 const QUICK_RECORD_LAST_LOCATION_KEY = 'kbird.quickRecord.lastLocation';

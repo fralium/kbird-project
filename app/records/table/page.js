@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import PageState from '../../../components/PageState';
+import PageState from '@/components/PageState';
 
 /** Canonical records table lives at /personal/stats?tab=records */
 export default function RecordsTablePage() {

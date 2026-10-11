@@ -1,10 +1,10 @@
-import dbConnect from '../../../server/config/db';
-import Bird from '../../../server/models/birdModel';
-import Record from '../../../server/models/recordModel';
-import User from '../../../server/models/userModel';
+import dbConnect from '@/server/config/db';
+import Bird from '@/server/models/birdModel';
+import Record from '@/server/models/recordModel';
+import User from '@/server/models/userModel';
 import mongoose from 'mongoose';
-import { devError, devLog } from '../../../utils/devLogger';
-import { sendMethodNotAllowed } from '../../../utils/proxyApi';
+import { devError, devLog } from '@/utils/devLogger';
+import { sendMethodNotAllowed } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {

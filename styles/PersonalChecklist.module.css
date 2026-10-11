@@ -21,7 +21,7 @@
   --ll-body: var(--type-scale-base);
   --ll-meta: var(--type-scale-sm);
   --ll-label-weight: 600;
-  color: var(--text-dark, #1f2a2e);
+  color: var(--text-primary);
   font-size: var(--ll-body);
 }
 
@@ -45,7 +45,7 @@
 }
 
 .title {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   font-weight: 700;
   margin: 0 0 10px 0;
   display: flex;
@@ -59,7 +59,7 @@
 }
 
 .subtitle {
-  font-size: var(--type-scale-md);
+  font-size: var(--type-page-lede);
   opacity: 0.9;
   margin: 0;
 }
@@ -88,13 +88,13 @@
   margin-bottom: 10px;
   font-size: var(--ll-body);
   font-weight: var(--ll-label-weight);
-  color: var(--text-dark, #333);
+  color: var(--text-primary);
 }
 
 .catalogProgressHeader strong {
-  font-size: var(--type-scale-md);
+  font-size: var(--type-page-lede);
   font-weight: 700;
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
 }
 
 .catalogProgressTrack {
@@ -106,7 +106,7 @@
 
 .catalogProgressFill {
   height: 100%;
-  background: linear-gradient(90deg, #2e7d32, #66bb6a);
+  background: linear-gradient(90deg, var(--color-success), var(--color-success));
   border-radius: var(--radius-full);
   transition: width 0.3s ease;
 }
@@ -114,8 +114,8 @@
 .catalogProgressHint {
   margin: 10px 0 0;
   font-size: var(--ll-meta);
-  line-height: 1.55;
-  color: var(--text-medium, #666);
+  line-height: var(--line-height-normal);
+  color: var(--text-secondary);
 }
 
 .catalogProgressHint a {
@@ -168,8 +168,8 @@
 
 .goalCard h3 {
   margin: 0 0 15px 0;
-  color: var(--text-dark);
-  font-size: var(--type-scale-lg);
+  color: var(--text-primary);
+  font-size: var(--type-subsection);
 }
 
 .progressBar {
@@ -192,14 +192,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: var(--type-scale-sm);
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
 }
 
 .percentage {
   font-weight: 600;
-  color: var(--primary-green);
-  font-size: var(--type-scale-md);
+  color: var(--color-lake);
+  font-size: var(--type-page-lede);
 }
 
 /* 操作栏 */
@@ -225,13 +225,13 @@
   padding: 12px 20px;
   border: 2px solid var(--medium-gray);
   border-radius: var(--radius-medium);
-  font-size: var(--type-scale-base);
+  font-size: var(--type-body);
   transition: border-color 0.3s ease;
 }
 
 .searchInput:focus {
   outline: none;
-  border-color: var(--primary-green);
+  border-color: var(--color-lake);
 }
 
 .actionButtons {
@@ -256,13 +256,13 @@
   border-radius: var(--radius-medium);
   background: var(--background-white);
   cursor: pointer;
-  font-size: var(--type-scale-lg);
+  font-size: var(--type-subsection);
   transition: all 0.3s ease;
 }
 
 .sortButton:hover {
-  border-color: var(--primary-green);
-  color: var(--primary-green);
+  border-color: var(--color-lake);
+  color: var(--color-lake);
 }
 
 .syncButton {
@@ -292,7 +292,7 @@
   border: 2px solid var(--medium-gray);
   border-radius: var(--radius-medium);
   background: var(--background-white);
-  color: var(--text-dark);
+  color: var(--text-primary);
   font-weight: 600;
   font-size: var(--ll-body);
   cursor: pointer;
@@ -301,14 +301,14 @@
 }
 
 .filterButton:hover {
-  border-color: var(--color-lake, #219ebc);
-  color: var(--color-lake, #219ebc);
+  border-color: var(--color-lake, var(--color-lake));
+  color: var(--color-lake);
 }
 
 .filterButtonActive {
-  border-color: #0f766e;
+  border-color: var(--color-lake);
   background: rgba(15, 118, 110, 0.08);
-  color: #0f766e;
+  color: var(--color-lake);
 }
 
 /* 列表上方简要行：种数 + 链到个人统计 */
@@ -322,8 +322,8 @@
 
 .listMetaCount {
   font-weight: 600;
-  color: var(--color-deep-teal, #023047);
-  font-size: var(--type-scale-sm);
+  color: var(--color-ink);
+  font-size: var(--type-secondary);
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -331,7 +331,7 @@
 
 .listMetaLink {
   font-weight: 600;
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
   text-decoration: none;
 }
 
@@ -358,7 +358,7 @@
   border-bottom: 3px solid transparent;
   font-size: var(--ll-tab);
   font-weight: 600;
-  color: var(--text-medium);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: color 0.2s ease, border-color 0.2s ease;
   margin-bottom: -2px;
@@ -366,13 +366,13 @@
 }
 
 .tab:hover {
-  color: var(--primary-green);
+  color: var(--color-lake);
 }
 
 .tab.active {
-  color: var(--primary-green);
+  color: var(--color-lake);
   font-weight: 700;
-  border-bottom-color: var(--primary-green);
+  border-bottom-color: var(--color-lake);
 }
 
 /* 内容区域 */
@@ -389,7 +389,7 @@
   border: 2px solid var(--color-lake);
   background: transparent;
   color: var(--color-lake);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: pointer;
   transition: background var(--transition-fast), color var(--transition-fast);
@@ -402,12 +402,12 @@
 
 .viewModeTabActive {
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
 }
 
 .drillBreadcrumb {
   margin-bottom: var(--spacing-4);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   color: var(--text-muted);
 }
 
@@ -456,11 +456,11 @@
 
 .drillItemName {
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .drillItemCount {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   color: var(--text-muted);
 }
 
@@ -480,7 +480,7 @@
   margin: 0 0 20px;
   font-size: var(--ll-section);
   font-weight: var(--ll-section-weight);
-  color: var(--text-dark);
+  color: var(--text-primary);
   letter-spacing: 0.01em;
 }
 
@@ -494,7 +494,7 @@
   gap: 10px;
   font-size: var(--ll-body);
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin-bottom: 8px;
 }
 
@@ -587,9 +587,9 @@
 .birdName {
   font-size: var(--ll-section);
   font-weight: var(--ll-section-weight);
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin: 0;
-  line-height: 1.3;
+  line-height: var(--line-height-snug);
 }
 
 .needsInfoBadge {
@@ -597,16 +597,16 @@
   align-items: center;
   padding: 2px 8px;
   border-radius: var(--radius-full);
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: #0f766e;
+  color: var(--color-lake);
   background: rgba(15, 118, 110, 0.12);
   letter-spacing: 0.02em;
 }
 
 .birdScientific {
   font-size: var(--ll-meta);
-  color: var(--text-medium);
+  color: var(--text-secondary);
   font-style: italic;
   margin: 0;
 }
@@ -617,7 +617,7 @@
   gap: 4px;
   width: 100%;
   padding: 8px 2px 4px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .detailRow {
@@ -632,7 +632,7 @@
   display: flex;
   gap: 8px;
   font-size: var(--ll-meta);
-  line-height: 1.45;
+  line-height: var(--line-height-normal);
   min-width: 0;
 }
 
@@ -643,13 +643,13 @@
 }
 
 .detailLabel {
-  color: var(--text-medium);
+  color: var(--text-secondary);
   font-weight: var(--ll-label-weight);
   flex-shrink: 0;
 }
 
 .detailValue {
-  color: var(--text-dark);
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -669,13 +669,13 @@
 .emptyState h3 {
   font-size: var(--ll-section);
   font-weight: var(--ll-section-weight);
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin: 0 0 10px 0;
 }
 
 .emptyState p {
   font-size: var(--ll-body);
-  color: var(--text-medium);
+  color: var(--text-secondary);
   margin: 0 0 20px 0;
 }
 
@@ -699,7 +699,7 @@
 }
 
 .comingSoon {
-  color: var(--text-light);
+  color: var(--text-muted);
   font-style: italic;
   margin-top: 10px;
 }
@@ -707,8 +707,8 @@
 .loading {
   text-align: center;
   padding: 60px 20px;
-  font-size: var(--type-scale-lg);
-  color: var(--text-medium);
+  font-size: var(--type-subsection);
+  color: var(--text-secondary);
 }
 
 /* 响应式设计 */
@@ -722,13 +722,13 @@
   }
 
   .title {
-    font-size: var(--type-scale-2xl);
+    font-size: var(--type-page-title);
     flex-direction: column;
     gap: 10px;
   }
 
   .titleIcon {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
 
   .statsCards {
@@ -760,7 +760,7 @@
   .tab {
     padding: 12px 16px;
     white-space: nowrap;
-    font-size: var(--type-scale-base);
+    font-size: var(--type-body);
   }
 
   .birdList {
@@ -773,14 +773,14 @@
   }
 
   .birdName {
-    font-size: var(--type-scale-md);
+    font-size: var(--type-page-lede);
   }
 
   .statNumber {
-    font-size: var(--type-scale-2xl);
+    font-size: var(--type-page-title);
   }
 
   .statLabel {
-    font-size: var(--type-scale-sm);
+    font-size: var(--type-secondary);
   }
 }

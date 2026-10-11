@@ -16,26 +16,26 @@
 }
 
 .panel {
-  background: linear-gradient(180deg, #ffffff 0%, #f7fbfd 100%);
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  background: linear-gradient(180deg, var(--bg-white) 0%, var(--bg-clean) 100%);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg, 12px);
-  box-shadow: 0 1px 0 rgba(2, 48, 71, 0.03);
+  box-shadow: 0 1px 0 var(--border-subtle);
   padding: 18px 18px 16px;
   margin-bottom: 16px;
 }
 
 .panelTitle {
   margin: 0 0 6px;
-  font-size: var(--type-scale-md, 1.125rem);
+  font-size: var(--type-page-lede);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .panelNote {
   margin: 0 0 14px;
-  color: var(--text-muted, #5c6b7a);
-  font-size: var(--type-scale-sm, 0.875rem);
-  line-height: 1.5;
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
 }
 
 .formRow {
@@ -54,21 +54,21 @@
 .fieldLabel {
   display: block;
   margin-bottom: 6px;
-  font-size: 0.8rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .input,
 .fileInput {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid rgba(2, 48, 71, 0.14);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-panel, 8px);
   padding: 9px 12px;
   font: inherit;
-  background: #fff;
-  color: var(--color-deep-teal, #023047);
+  background: var(--bg-white);
+  color: var(--color-ink);
 }
 
 .fileInput {
@@ -95,31 +95,31 @@
 
 .resultHeadNote {
   margin: 0;
-  font-size: 0.85rem;
-  color: var(--text-muted, #5c6b7a);
-  line-height: 1.45;
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
+  line-height: var(--line-height-normal);
 }
 
 .pastBox {
   margin: 0 0 14px;
   padding: 12px 14px;
-  background: #fff;
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  background: var(--bg-white);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-panel, 8px);
 }
 
 .pastTitle {
   margin: 0 0 4px;
-  font-size: 0.85rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .pastMeta {
   margin: 0 0 8px;
-  font-size: 0.8rem;
-  color: var(--text-muted, #5c6b7a);
-  line-height: 1.45;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+  line-height: var(--line-height-normal);
 }
 
 .pastChips {
@@ -133,9 +133,9 @@
   align-items: center;
   padding: 3px 8px;
   border-radius: var(--radius-panel, 8px);
-  background: rgba(33, 158, 188, 0.1);
-  color: var(--color-deep-teal, #023047);
-  font-size: 0.75rem;
+  background: var(--color-lake-light);
+  color: var(--color-ink);
+  font-size: var(--type-caption);
   font-weight: 600;
 }
 
@@ -146,17 +146,17 @@
 .locationWrap :global(input) {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid rgba(2, 48, 71, 0.14);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-panel, 8px);
   padding: 9px 12px;
   font: inherit;
   font-size: inherit;
-  background: #fff;
-  color: var(--color-deep-teal, #023047);
+  background: var(--bg-white);
+  color: var(--color-ink);
 }
 
 .locationLink {
-  color: var(--color-lake, #1a7f98);
+  color: var(--color-lake);
   font-weight: 700;
   text-decoration: none;
 }
@@ -186,24 +186,24 @@
 }
 
 .statCard {
-  background: #fff;
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  background: var(--bg-white);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-panel, 8px);
   padding: 12px 14px;
 }
 
 .statLabel {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
 }
 
 .statValue {
   margin: 4px 0 0;
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-section);
+  font-weight: 700;
+  color: var(--color-ink);
 }
 
 .toolbar {
@@ -225,8 +225,8 @@
   grid-template-columns: auto minmax(0, 1.4fr) minmax(0, 1fr) auto auto;
   gap: 10px 12px;
   align-items: center;
-  background: #fff;
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  background: var(--bg-white);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-panel, 8px);
   padding: 10px 12px;
 }
@@ -246,24 +246,24 @@
 .rowTitle {
   margin: 0;
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .rowSci {
   margin: 2px 0 0;
-  font-size: 0.8rem;
-  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-caption);
+  color: var(--text-muted);
 }
 
 .rowMeta {
-  font-size: 0.8rem;
-  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-caption);
+  color: var(--text-muted);
 }
 
 .rowCount {
   font-variant-numeric: tabular-nums;
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   white-space: nowrap;
 }
 
@@ -272,24 +272,24 @@
   align-items: center;
   border-radius: var(--radius-panel, 8px);
   padding: 3px 8px;
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   white-space: nowrap;
 }
 
 .badgeLikely {
-  background: rgba(33, 158, 188, 0.14);
-  color: var(--color-lake, #1a7f98);
+  background: var(--color-lake-light);
+  color: var(--color-lake);
 }
 
 .badgePossible {
   background: rgba(251, 191, 36, 0.18);
-  color: #92400e;
+  color: var(--color-warning-hover);
 }
 
 .badgeLongshot {
-  background: rgba(2, 48, 71, 0.08);
-  color: #4b5d67;
+  background: var(--border-subtle);
+  color: var(--text-secondary);
 }
 
 .check {
@@ -300,8 +300,8 @@
 
 .ghostNote {
   margin: 8px 0 0;
-  font-size: 0.8rem;
-  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-caption);
+  color: var(--text-muted);
 }
 
 .historyList {
@@ -313,14 +313,14 @@
 .historyCard {
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  background: var(--bg-white);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg, 12px);
   overflow: hidden;
 }
 
 .historyCardOpen {
-  border-color: rgba(33, 158, 188, 0.45);
+  border-color: var(--color-lake-mid);
 }
 
 .historyCardHead {
@@ -347,7 +347,7 @@
 }
 
 .historyToggle:hover {
-  background: rgba(33, 158, 188, 0.06);
+  background: var(--color-lake-light);
 }
 
 .historyToggleMain {
@@ -359,7 +359,7 @@
 
 .historyBody {
   padding: 0 14px 14px;
-  border-top: 1px solid rgba(2, 48, 71, 0.08);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .historyBody .kb-view-bar,
@@ -374,8 +374,8 @@
 .chevron {
   width: 8px;
   height: 8px;
-  border-right: 2px solid #4b5d67;
-  border-bottom: 2px solid #4b5d67;
+  border-right: 2px solid var(--text-secondary);
+  border-bottom: 2px solid var(--text-secondary);
   transform: rotate(-45deg);
   transition: transform 0.15s ease;
   margin: 0 4px 0 2px;
@@ -391,26 +391,26 @@
 }
 
 .historyItem:hover {
-  border-color: rgba(33, 158, 188, 0.4);
-  background: rgba(33, 158, 188, 0.06);
+  border-color: var(--color-lake-mid);
+  background: var(--color-lake-light);
 }
 
 .historyItemActive {
-  border-color: rgba(33, 158, 188, 0.55);
-  background: rgba(33, 158, 188, 0.12);
+  border-color: var(--color-lake-strong);
+  background: var(--color-lake-light);
 }
 
 .historyMeta {
   margin: 4px 0 0;
-  font-size: 0.8rem;
-  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-caption);
+  color: var(--text-muted);
 }
 
 .historyStats {
   font-variant-numeric: tabular-nums;
-  font-size: 0.85rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   white-space: nowrap;
 }
 
@@ -423,21 +423,21 @@
   align-self: center;
   margin: 0 12px 0 0;
   padding: 6px 11px;
-  border: 1px solid rgba(2, 48, 71, 0.12);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-panel, 8px);
-  background: #fff;
-  color: #6b7280;
+  background: var(--bg-white);
+  color: var(--text-muted);
   cursor: pointer;
   font: inherit;
-  font-size: 0.78rem;
+  font-size: var(--type-caption);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
   white-space: nowrap;
   transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
 }
 
 .deleteBtn:hover {
-  color: #b91c1c;
+  color: var(--color-danger-hover);
   background: rgba(185, 28, 28, 0.06);
   border-color: rgba(185, 28, 28, 0.28);
 }
@@ -449,5 +449,5 @@
 
 .badgeAdded {
   background: rgba(22, 163, 74, 0.14);
-  color: #15803d;
+  color: var(--color-success);
 }

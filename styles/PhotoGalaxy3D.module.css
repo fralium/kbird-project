@@ -9,7 +9,7 @@
   min-height: 420px;
   overflow: hidden;
   border-radius: 16px;
-  background: radial-gradient(ellipse at 50% 42%, #1a2430 0%, #05070a 62%);
+  background: radial-gradient(ellipse at 50% 42%, var(--color-ink) 0%, var(--color-ink-deep) 62%);
   perspective: 1100px;
   cursor: grab;
   user-select: none;
@@ -40,7 +40,7 @@
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 5px;
   overflow: hidden;
-  background: #111;
+  background: var(--color-ink);
   cursor: pointer;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
 }
@@ -55,7 +55,7 @@
 
 .card:hover,
 .cardHot {
-  outline: 2px solid #7dd3fc;
+  outline: 2px solid var(--color-sky);
   z-index: 2;
 }
 
@@ -70,9 +70,9 @@
 .caption {
   margin: 0;
   min-width: 0;
-  color: var(--text-muted, #5c6b7a);
-  font-size: 0.78rem;
-  line-height: 1.4;
+  color: var(--text-muted);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-snug);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -80,7 +80,7 @@
 
 .empty {
   margin: 12px 0 24px;
-  color: #5a6a72;
+  color: var(--text-muted);
   text-align: center;
 }
 

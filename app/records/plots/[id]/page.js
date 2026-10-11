@@ -1,27 +1,37 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState, Fragment } from 'react';
+import { formatDisplayDate as formatDate } from '@/utils/localDate';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import * as XLSX from 'xlsx';
-import Navbar from '../../../../components/Navbar';
-import Footer from '../../../../components/Footer';
-import SimplePageHeader from '../../../../components/SimplePageHeader';
-import PageState from '../../../../components/PageState';
-import { useConfirmDialog } from '../../../../components/ConfirmDialog';
-import HabitatGallery from '../../../../components/HabitatGallery';
-import BirdNameAutocomplete from '../../../../components/BirdNameAutocomplete';
-import { useAuth } from '../../../../components/AuthProvider';
-import { api } from '../../../../utils/api';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader, {
+  HeaderPrimaryButton,
+  HeaderDangerButton,
+} from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import { useConfirmDialog } from '@/components/ConfirmDialog';
+import HabitatGallery from '@/components/HabitatGallery';
+import BirdNameAutocomplete from '@/components/BirdNameAutocomplete';
+import BirdSearchField from '@/components/BirdSearchField';
+import SpeciesLedgerBrowse from '@/components/SpeciesLedgerBrowse';
+import { useAuth } from '@/components/AuthProvider';
+import { api } from '@/utils/api';
 import {
-  getOrderChineseName,
-  getOrderLatinName,
-} from '../../../../data/taxonomyTranslation';
-import styles from '../../../../styles/PersonalPlots.module.css';
-import regionStyles from '../../../../styles/RegionBirdLists.module.css';
+  orderDisplayName,
+  orderGroupKey,
+  orderLatinSubtitle,
+} from '@/utils/taxonomyOrderUi';
+import { speciesMatchesSearch } from '@/utils/clientPinyinMatch';
+import { BIRD_SEARCH_PLACEHOLDER, BIRD_SEARCH_PLACEHOLDER_TAXON } from '@/utils/birdSearchUi';
+import { extractCoords as extractCoordsBase } from '@/utils/locationCoords';
+import styles from '@/styles/PersonalPlots.module.css';
+import regionStyles from '@/styles/RegionBirdLists.module.css';
 
-const BirdMapProvider = dynamic(() => import('../../../../components/BirdMapProvider'), {
+const BirdMapProvider = dynamic(() => import('@/components/BirdMapProvider'), {
   ssr: false,
 });
 
@@ -31,57 +41,14 @@ const SOURCE_LABEL = {
   other: '其他',
 };
 
-function formatDate(value) {
-  if (!value) return '—';
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return '—';
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
-}
-
 function scopeLabel(plot) {
   return [plot?.province, plot?.city, plot?.district, plot?.spot].filter(Boolean).join(' · ') || '未填范围';
 }
 
-function orderDisplayName(orderKey) {
-  if (!orderKey || orderKey === '未分类') return '未分类';
-  const cn = getOrderChineseName(orderKey);
-  return cn || orderKey;
-}
-
-function orderGroupKey(orderKey) {
-  if (!orderKey || orderKey === '未分类') return '未分类';
-  return getOrderLatinName(orderKey) || String(orderKey).trim() || '未分类';
-}
-
-function orderLatinSubtitle(orderKey) {
-  if (!orderKey || orderKey === '未分类') return '';
-  const latin = getOrderLatinName(orderKey);
-  if (latin && latin !== orderKey) return latin;
-  if (/^[A-Za-z]/.test(orderKey)) return orderKey;
-  return latin || '';
-}
-
 function extractCoords(location) {
-  if (!location) return null;
-  const lat =
-    location.coordinates?.coordinates?.[1] ??
-    location.coordinates?.[1] ??
-    location.lat ??
-    location.latitude;
-  const lng =
-    location.coordinates?.coordinates?.[0] ??
-    location.coordinates?.[0] ??
-    location.lng ??
-    location.longitude;
-  if (lat == null || lng == null) return null;
-  const nLat = Number(lat);
-  const nLng = Number(lng);
-  if (!Number.isFinite(nLat) || !Number.isFinite(nLng)) return null;
-  if (nLat === 0 && nLng === 0) return null;
-  return { lat: nLat, lng: nLng };
+  const coords = extractCoordsBase(location);
+  if (!coords || (coords.lat === 0 && coords.lng === 0)) return null;
+  return coords;
 }
 
 /** 从「省市区 + 短地名」长地址拆出短地名，便于词典匹配 */
@@ -584,9 +551,9 @@ export default function PersonalPlotDetailPage() {
 
   const matchesSummaryQuery = useCallback((row, q) => {
     if (!q) return true;
-    const hay = `${row.name || ''} ${row.scientificName || ''} ${row.order || ''} ${row.family || ''}`.toLowerCase();
-    const orderCn = orderDisplayName(row.order || '未分类').toLowerCase();
-    return hay.includes(q) || orderCn.includes(q);
+    return speciesMatchesSearch(row, q, {
+      orderLabel: orderDisplayName(row.order || '未分类'),
+    });
   }, []);
 
   const orderCards = useMemo(() => {
@@ -644,10 +611,11 @@ export default function PersonalPlotDetailPage() {
       list = list.filter((s) => String(s.family || '') === familyFilter);
     }
     if (q) {
-      list = list.filter((s) => {
-        const hay = `${s.name || ''} ${s.scientificName || ''}`.toLowerCase();
-        return hay.includes(q);
-      });
+      list = list.filter((s) =>
+        speciesMatchesSearch(s, q, {
+          orderLabel: orderDisplayName(s.order || '未分类'),
+        })
+      );
     }
     if (filterObserver) {
       const obsQ = filterObserver.trim();
@@ -884,14 +852,20 @@ export default function PersonalPlotDetailPage() {
 
     if (listReportCompare && listReportCompare.total > 0) {
       if (listReportCompare.newCount === 0) {
-        const ok = window.confirm(
-          `文件 ${listReportCompare.total} 份报告均已在本自留地中（将刷新元信息，无新增）。\n\n仍要导入吗？`
-        );
+        const ok = await ask({
+          title: '确认导入',
+          message: `文件 ${listReportCompare.total} 份报告均已在本自留地中（将刷新元信息，无新增）。\n\n仍要导入吗？`,
+          confirmLabel: '仍要导入',
+          cancelLabel: '取消',
+        });
         if (!ok) return;
       } else if (listReportCompare.existingCount > 0) {
-        const ok = window.confirm(
-          `文件 ${listReportCompare.total} 份：已有 ${listReportCompare.existingCount}，将新增 ${listReportCompare.newCount}。\n\n确认导入？`
-        );
+        const ok = await ask({
+          title: '确认导入',
+          message: `文件 ${listReportCompare.total} 份：已有 ${listReportCompare.existingCount}，将新增 ${listReportCompare.newCount}。\n\n确认导入？`,
+          confirmLabel: '确认导入',
+          cancelLabel: '取消',
+        });
         if (!ok) return;
       }
     }
@@ -934,9 +908,12 @@ export default function PersonalPlotDetailPage() {
 
     const mismatch = birdsReportCompare?.mismatch;
     if (mismatch) {
-      const ok = window.confirm(
-        `文件约 ${mismatch.fileCount} 种，关联报告 ${mismatch.reportId} 提示种数为 ${mismatch.hintCount}，不一致，可能传错了报告或文件。\n\n仍要继续导入吗？`
-      );
+      const ok = await ask({
+        title: '种数不一致',
+        message: `文件约 ${mismatch.fileCount} 种，关联报告 ${mismatch.reportId} 提示种数为 ${mismatch.hintCount}，不一致，可能传错了报告或文件。\n\n仍要继续导入吗？`,
+        confirmLabel: '仍要导入',
+        cancelLabel: '取消',
+      });
       if (!ok) return;
     }
 
@@ -1173,21 +1150,14 @@ export default function PersonalPlotDetailPage() {
           description={scopeLabel(plot)}
           actions={
             <div className={styles.headerActions}>
-              <button
-                type="button"
-                className={styles.btn}
+              <HeaderPrimaryButton
                 onClick={() => (showEditor ? setShowEditor(false) : openEditor('import'))}
               >
                 {showEditor ? '收起录入' : '录入 / 导入'}
-              </button>
-              <button
-                type="button"
-                className={`${styles.btn} ${styles.btnDanger}`}
-                onClick={handleDeletePlot}
-                disabled={busy}
-              >
+              </HeaderPrimaryButton>
+              <HeaderDangerButton onClick={handleDeletePlot} disabled={busy}>
                 删除
-              </button>
+              </HeaderDangerButton>
             </div>
           }
         />
@@ -1327,7 +1297,7 @@ export default function PersonalPlotDetailPage() {
                   </div>
                 </div>
                 <div className={styles.actions}>
-                  <button type="submit" className={styles.btn} disabled={busy}>
+                  <button type="submit" className="btn btn-primary" disabled={busy}>
                     {busy ? '提交中…' : '添加条目'}
                   </button>
                 </div>
@@ -1389,7 +1359,7 @@ export default function PersonalPlotDetailPage() {
                   <div className={styles.actions}>
                     <button
                       type="button"
-                      className={styles.btn}
+                      className="btn btn-primary"
                       onClick={handleImportList}
                       disabled={busy || !listRows}
                     >
@@ -1487,7 +1457,7 @@ export default function PersonalPlotDetailPage() {
                   <div className={styles.actions}>
                     <button
                       type="button"
-                      className={styles.btn}
+                      className="btn btn-primary"
                       onClick={handleImportBirds}
                       disabled={busy || !birdsRows}
                     >
@@ -1520,7 +1490,7 @@ export default function PersonalPlotDetailPage() {
                     </button>
                     <button
                       type="button"
-                      className={styles.btn}
+                      className="btn btn-primary"
                       onClick={handleSaveIntro}
                       disabled={busy}
                     >
@@ -1655,39 +1625,6 @@ export default function PersonalPlotDetailPage() {
               + 手动记一条
             </button>
           </div>
-          <div className={regionStyles.summaryHeader}>
-            <div className={regionStyles.summaryProgressBlock}>
-              <div className={regionStyles.summaryProgressLabel}>
-                共 {allSpecies.length} 种
-                {orderFilter ? (
-                  <span className={regionStyles.summaryPct}>
-                    （当前：{orderDisplayName(orderFilter)}）
-                  </span>
-                ) : (
-                  <span className={regionStyles.summaryPct}>（全部目）</span>
-                )}
-              </div>
-            </div>
-            <input
-              className={regionStyles.searchInput}
-              value={summarySearch}
-              onChange={(e) => setSummarySearch(e.target.value)}
-              placeholder="搜索种名、学名、目、科"
-            />
-            <div className={regionStyles.summaryFilters} role="tablist" aria-label="目筛选">
-              <button
-                type="button"
-                className={`${regionStyles.filterChip} ${!orderFilter ? regionStyles.filterChipActive : ''}`}
-                onClick={() => {
-                  setOrderFilter('');
-                  setFamilyFilter('');
-                }}
-              >
-                全部
-              </button>
-            </div>
-          </div>
-
           {allSpecies.length === 0 ? (
             <p className={regionStyles.summaryEmpty}>
               暂无鸟种。
@@ -1695,45 +1632,55 @@ export default function PersonalPlotDetailPage() {
                 去导入报告
               </button>
             </p>
-          ) : orderCards.length === 0 ? (
-            <p className={regionStyles.summaryEmpty}>没有匹配的目</p>
           ) : (
-            <div className={regionStyles.orderGrid}>
-              {orderCards.map((card) => {
-                const active = orderGroupKey(orderFilter || '') === card.key && orderFilter;
-                return (
-                  <button
-                    key={card.key}
-                    type="button"
-                    className={`${regionStyles.orderCard} ${active ? regionStyles.orderCardDone : ''}`}
-                    onClick={() => {
-                      if (orderFilter && orderGroupKey(orderFilter) === card.key) {
-                        setOrderFilter('');
-                      } else {
-                        setOrderFilter(card.key === '未分类' ? '未分类' : card.key);
-                      }
-                      setFamilyFilter('');
-                    }}
-                  >
-                    <div className={regionStyles.orderCardTop}>
-                      <div className={regionStyles.orderCardTitle}>{card.label}</div>
-                      <div className={regionStyles.orderCardStat}>
-                        {card.speciesCount}种 · {card.times}次
-                      </div>
-                    </div>
-                    {card.latin ? (
-                      <div className={regionStyles.orderCardLatin}>{card.latin}</div>
-                    ) : null}
-                    <div className={regionStyles.progressTrack}>
-                      <div
-                        className={regionStyles.progressFill}
-                        style={{ width: `${card.pct}%` }}
-                      />
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+            <SpeciesLedgerBrowse
+              progressLabel={
+                <>
+                  共 {allSpecies.length} 种
+                  <span className={regionStyles.summaryPct}>
+                    {orderFilter
+                      ? `（当前：${orderDisplayName(orderFilter)}）`
+                      : '（全部目）'}
+                  </span>
+                </>
+              }
+              progressPct={
+                allSpecies.length
+                  ? Math.round(
+                      ((orderCards.find((c) => c.key === orderGroupKey(orderFilter || ''))
+                        ?.speciesCount || allSpecies.length) /
+                        allSpecies.length) *
+                        100
+                    )
+                  : 0
+              }
+              searchValue={summarySearch}
+              onSearchChange={setSummarySearch}
+              showFilterChips
+              filterOptions={[{ id: '', label: '全部' }]}
+              filterValue={orderFilter ? orderGroupKey(orderFilter) : ''}
+              onFilterChange={() => {
+                setOrderFilter('');
+                setFamilyFilter('');
+              }}
+              filterAriaLabel="目筛选"
+              orderCards={orderCards.map((card) => ({
+                key: card.key,
+                label: card.label,
+                latin: card.latin,
+                stat: `${card.speciesCount}种 · ${card.times}次`,
+                pct: card.pct,
+                active: Boolean(orderFilter) && orderGroupKey(orderFilter) === card.key,
+              }))}
+              onSelectOrder={(card) => {
+                if (orderFilter && orderGroupKey(orderFilter) === card.key) {
+                  setOrderFilter('');
+                } else {
+                  setOrderFilter(card.key === '未分类' ? '未分类' : card.key);
+                }
+                setFamilyFilter('');
+              }}
+            />
           )}
         </section>
 
@@ -1742,11 +1689,13 @@ export default function PersonalPlotDetailPage() {
             <h2 className={styles.panelTitle}>种级表格</h2>
           </div>
           <div className={regionStyles.toolbar}>
-            <input
+            <BirdSearchField
               className={regionStyles.searchInput}
               value={filterQ}
-              onChange={(e) => setFilterQ(e.target.value)}
-              placeholder="搜索中文名 / 学名…"
+              onChange={setFilterQ}
+              placeholder={BIRD_SEARCH_PLACEHOLDER}
+              size="sm"
+              roundedRect
             />
             <select
               className={regionStyles.filterSelect}

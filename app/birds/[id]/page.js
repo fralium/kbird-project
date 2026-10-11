@@ -2,12 +2,12 @@
 
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import PageState from '../../../components/PageState';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import PageState from '@/components/PageState';
 import BirdDetailClassic from './BirdDetailClassic';
 import BirdDetailNotebook from './BirdDetailNotebook';
-import styles from '../../../styles/BirdDetail.module.css';
+import styles from '@/styles/BirdDetail.module.css';
 
 function BirdDetailSwitch() {
   const layout = useSearchParams().get('layout');

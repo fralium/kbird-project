@@ -41,7 +41,7 @@
 }
 
 .title {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   font-weight: var(--page-title-weight);
   margin: 0 0 var(--spacing-2) 0;
   position: relative;
@@ -54,15 +54,15 @@
 }
 
 .titleIcon {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   color: var(--amber-100);
 }
 
 .subtitle {
-  font-size: var(--page-subtitle-size);
+  font-size: var(--type-page-lede);
   opacity: 0.9;
   margin: 0;
-  font-weight: 300;
+  font-weight: 400;
   position: relative;
   z-index: 1;
 }
@@ -88,14 +88,14 @@
   padding: 12px 20px;
   border: 2px solid var(--medium-gray);
   border-right: none;
-  font-size: 16px;
+  font-size: var(--type-body);
   outline: none;
   transition: border-color 0.3s ease;
   border-radius: var(--radius-full) 0 0 var(--radius-full);
 }
 
 .searchInput:focus {
-  border-color: var(--primary-green);
+  border-color: var(--color-lake);
 }
 
 .searchButton {
@@ -103,7 +103,7 @@
   background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
   border: none;
   color: var(--text-white);
-  font-size: 16px;
+  font-size: var(--type-body);
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 0 25px 25px 0;
@@ -129,18 +129,18 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .categoryTab:hover {
-  border-color: var(--primary-green);
-  color: var(--primary-green);
+  border-color: var(--color-lake);
+  color: var(--color-lake);
   transform: translateY(-2px);
 }
 
 .categoryTab.active {
   background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-  border-color: var(--primary-green);
+  border-color: var(--color-lake);
   color: var(--text-white);
   box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
 }
@@ -203,7 +203,7 @@
 .categoryTag {
   padding: 4px 12px;
   border-radius: var(--radius-lg);
-  font-size: 12px;
+  font-size: var(--type-caption);
   font-weight: 500;
   color: var(--text-white);
   background: var(--primary-green);
@@ -212,9 +212,9 @@
 .difficultyTag {
   padding: 4px 12px;
   border-radius: var(--radius-lg);
-  font-size: 12px;
+  font-size: var(--type-caption);
   font-weight: 500;
-  color: white;
+  color: var(--text-white);
 }
 
 .difficultyTag.初级 {
@@ -240,14 +240,14 @@
 .cardTitle {
   font-size: var(--type-subsection);
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin: 0;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
 }
 
 .cardDescription {
-  color: var(--text-medium);
-  line-height: 1.4;
+  color: var(--text-secondary);
+  line-height: var(--line-height-snug);
   margin: 0;
   font-size: var(--type-secondary);
   flex: 1;
@@ -262,15 +262,15 @@
 }
 
 .expandedContent h3 {
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin-bottom: 15px;
-  font-size: 1.3rem;
+  font-size: var(--type-subsection);
 }
 
 .expandedContent h4 {
-  color: var(--text-medium);
+  color: var(--text-secondary);
   margin: 20px 0 10px 0;
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
 }
 
 .expandedContent ul {
@@ -280,11 +280,11 @@
 
 .expandedContent li {
   margin-bottom: 8px;
-  line-height: 1.6;
+  line-height: var(--line-height-relaxed);
 }
 
 .expandedContent strong {
-  color: var(--primary-green);
+  color: var(--color-lake);
   font-weight: 600;
 }
 
@@ -296,9 +296,9 @@
 }
 
 .tips h4 {
-  color: var(--text-dark);
+  color: var(--text-primary);
   margin-bottom: 10px;
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
 }
 
 .tips ul {
@@ -307,7 +307,7 @@
 }
 
 .tips li {
-  color: var(--text-dark);
+  color: var(--text-primary);
   font-weight: 500;
 }
 
@@ -327,7 +327,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 12px;
+  font-size: var(--type-caption);
 }
 
 .viewDetailButton:hover {
@@ -339,18 +339,18 @@
   flex: 1;
   padding: 6px 10px;
   background: var(--background-light);
-  color: var(--text-dark);
+  color: var(--text-primary);
   border: 2px solid var(--medium-gray);
   border-radius: var(--radius-medium);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 12px;
+  font-size: var(--type-caption);
 }
 
 .expandButton:hover {
-  border-color: var(--primary-green);
-  color: var(--primary-green);
+  border-color: var(--color-lake);
+  color: var(--color-lake);
   transform: translateY(-2px);
 }
 
@@ -363,14 +363,14 @@
 }
 
 .noResultsIcon {
-  font-size: 4rem;
+  font-size: var(--type-display);
   color: var(--medium-gray);
   margin-bottom: 20px;
 }
 
 .noResults p {
-  color: var(--text-medium);
-  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-size: var(--type-page-lede);
   margin: 10px 0;
 }
 
@@ -386,15 +386,15 @@
   }
   
   .title {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
   
   .titleIcon {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
   
   .subtitle {
-    font-size: 1rem;
+    font-size: var(--type-body);
   }
   
   .filters {
@@ -424,7 +424,7 @@
 
 @media (max-width: 480px) {
   .title {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
     flex-direction: column;
     gap: 10px;
   }

@@ -1,17 +1,18 @@
+import { formatDisplayDate } from '@/utils/localDate';
+
 /**
  * 地图气泡 HTML：湿地笔记风格，避免 emoji 与默认方框观感。
+ * 注意：注入地图 DOM，不能依赖站点 CSS 变量，须写实色/实号。
  */
+const INK = '#003153';
+const LAKE = '#247896';
+const MUTED = '#5a6b75';
+
 export function buildMapInfoWindowHtml(location = {}) {
   const name = escapeHtml(location.name || location.location?.name || '未知地点');
   const records = Number(location.records || location.recordCount || 0);
   const birds = Number(location.birds || location.birdCount || 0);
-  const dateText = location.date
-    ? new Date(location.date).toLocaleDateString('zh-CN', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    : '';
+  const dateText = location.date ? formatDisplayDate(location.date, 'long') : '';
   const province = escapeHtml(location.province || '');
 
   const rows = [];
@@ -24,15 +25,15 @@ export function buildMapInfoWindowHtml(location = {}) {
 <div style="
   min-width:168px;max-width:220px;margin:-8px -4px 0;
   font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
-  color:#023047;
+  color:${INK};
 ">
   <div style="
-    border-left:3px solid #219EBC;padding:10px 12px 10px 11px;
+    border-left:3px solid ${LAKE};padding:10px 12px 10px 11px;
     border-radius:0 10px 10px 0;
-    background:linear-gradient(180deg,#f7fbfd 0%,#ffffff 70%);
+    background:linear-gradient(180deg,#f3f6f8 0%,#ffffff 70%);
   ">
-    <div style="font-size:11px;font-weight:700;color:#219EBC;letter-spacing:0.02em;">足迹点位</div>
-    <div style="margin-top:4px;font-size:15px;font-weight:700;line-height:1.35;">${name}</div>
+    <div style="font-size:0.75rem;font-weight:700;color:${LAKE};letter-spacing:0.02em;">足迹点位</div>
+    <div style="margin-top:4px;font-size:1rem;font-weight:700;line-height:1.35;">${name}</div>
     ${
       rows.length
         ? `<div style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">${rows.join('')}</div>`
@@ -43,9 +44,9 @@ export function buildMapInfoWindowHtml(location = {}) {
 }
 
 function metaRow(label, value) {
-  return `<div style="display:flex;justify-content:space-between;gap:12px;font-size:12px;line-height:1.35;">
-    <span style="color:#6b7a88;font-weight:600;">${label}</span>
-    <span style="color:#023047;font-weight:650;text-align:right;">${value}</span>
+  return `<div style="display:flex;justify-content:space-between;gap:12px;font-size:0.75rem;line-height:1.35;">
+    <span style="color:${MUTED};font-weight:600;">${label}</span>
+    <span style="color:${INK};font-weight:650;text-align:right;">${value}</span>
   </div>`;
 }
 

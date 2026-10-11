@@ -3,17 +3,17 @@
 import { Suspense, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import PersonalReportsPanel from '../../../components/PersonalReportsPanel';
-import PersonalImportPanel from '../../../components/PersonalImportPanel';
-import PersonalBackupPanel from '../../../components/PersonalBackupPanel';
-import PersonalFolderPhotosPanel from '../../../components/PersonalFolderPhotosPanel';
-import PersonalExportPanel from '../../../components/PersonalExportPanel';
-import { useAuth } from '../../../components/AuthProvider';
-import styles from '../../../styles/PersonalManage.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import PersonalReportsPanel from '@/components/PersonalReportsPanel';
+import PersonalImportPanel from '@/components/PersonalImportPanel';
+import PersonalBackupPanel from '@/components/PersonalBackupPanel';
+import PersonalFolderPhotosPanel from '@/components/PersonalFolderPhotosPanel';
+import PersonalExportPanel from '@/components/PersonalExportPanel';
+import { useAuth } from '@/components/AuthProvider';
+import styles from '@/styles/PersonalManage.module.css';
 
 const GROUPS = [
   { id: 'in', label: '导入', hint: '把表格、文件或本机照片收进来。' },

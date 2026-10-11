@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useMemo, useId } from 'react';
-import { buildMapInfoWindowHtml } from '../utils/mapInfoWindowHtml';
-import { splitPathIntoProgressSegments } from '../utils/mapPathSegments';
-import styles from '../styles/BirdMapBaidu.module.css';
+import { buildMapInfoWindowHtml } from '@/utils/mapInfoWindowHtml';
+import { splitPathIntoProgressSegments } from '@/utils/mapPathSegments';
+import styles from '@/styles/BirdMapBaidu.module.css';
 
 /**
  * 观鸟地图组件 - 天地图
@@ -233,7 +233,7 @@ export default function BirdMapTianditu({
           pts.forEach((p) => pathLngLats.push(p));
           if (pts.length < 2) return;
           const line = new T.Polyline(pts, {
-            color: pathStyle === 'gradient' ? seg.color : '#219EBC',
+            color: pathStyle === 'gradient' ? seg.color : 'var(--color-lake)',
             weight: 4,
             opacity: 0.9,
             lineStyle: pathStyle === 'dashed' ? 'dashed' : 'solid',
@@ -351,18 +351,18 @@ export default function BirdMapTianditu({
           border: '1px solid #ddd',
           padding: '20px',
           textAlign: 'center',
-          color: '#666',
+          color: 'var(--text-muted)',
         }}
       >
         <p style={{ margin: '0 0 8px 0' }}>地图功能需要配置天地图 Key</p>
-        <p style={{ margin: 0, fontSize: '12px' }}>
+        <p style={{ margin: 0, fontSize: 'var(--type-caption)' }}>
           在 .env 中设置 <code>NEXT_PUBLIC_TIANDITU_TK</code>，应用类型选择「浏览器端」
         </p>
         <a
           href="https://cloudcenter.tianditu.gov.cn/center/development/myApp"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ marginTop: '10px', fontSize: '13px' }}
+          style={{ marginTop: '10px', fontSize: 'var(--type-secondary)' }}
         >
           申请天地图 Key →
         </a>
@@ -384,12 +384,12 @@ export default function BirdMapTianditu({
           border: '1px solid #ddd',
           padding: '20px',
           textAlign: 'center',
-          color: '#666',
+          color: 'var(--text-muted)',
         }}
       >
         <p style={{ margin: '0 0 8px 0' }}>📍 暂无位置信息</p>
-        <p style={{ margin: 0, fontSize: '12px' }}>请确保记录包含有效的地理坐标</p>
-        <p style={{ margin: '10px 0 0 0', fontSize: '12px', color: '#888' }}>
+        <p style={{ margin: 0, fontSize: 'var(--type-caption)' }}>请确保记录包含有效的地理坐标</p>
+        <p style={{ margin: '10px 0 0 0', fontSize: 'var(--type-caption)', color: 'var(--text-muted)'}}>
           编辑本记录，在「地点」中从下拉列表<strong>选择</strong>带坐标的地点，地图即可显示
         </p>
       </div>
@@ -410,11 +410,11 @@ export default function BirdMapTianditu({
           border: '1px solid #ddd',
           padding: '20px',
           textAlign: 'center',
-          color: '#666',
+          color: 'var(--text-muted)',
         }}
       >
         <p style={{ margin: '0 0 8px 0' }}>地图服务当前不可用</p>
-        <p style={{ margin: 0, fontSize: '12px' }}>{mapError}</p>
+        <p style={{ margin: 0, fontSize: 'var(--type-caption)' }}>{mapError}</p>
       </div>
     );
   }
@@ -463,8 +463,8 @@ export default function BirdMapTianditu({
             alignItems: 'center',
             justifyContent: 'center',
             background: 'rgba(255,255,255,0.8)',
-            fontSize: '14px',
-            color: '#666',
+            fontSize: 'var(--type-secondary)',
+            color: 'var(--text-muted)',
           }}
         >
           加载地图中...

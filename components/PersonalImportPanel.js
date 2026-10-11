@@ -4,8 +4,8 @@ import * as XLSX from 'xlsx';
 import { useAuth } from './AuthProvider';
 import RequestNewBirdButton from './RequestNewBirdButton';
 import PageState from './PageState';
-import { api } from '../utils/api';
-import styles from '../styles/ImportData.module.css';
+import { api } from '@/utils/api';
+import styles from '@/styles/ImportData.module.css';
 
 export default function PersonalImportPanel() {
   const { user, token, loading: authLoading } = useAuth();

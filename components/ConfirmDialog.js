@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import styles from '../styles/ConfirmDialog.module.css';
+import styles from '@/styles/ConfirmDialog.module.css';
 
 export default function ConfirmDialog({
   open,

@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { generateDefaultAvatar } from '../../../../utils/generateDefaultAvatar';
-import { devError, devLog } from '../../../../utils/devLogger';
-import { sendMethodNotAllowed } from '../../../../utils/proxyApi';
+import { generateDefaultAvatar } from '@/utils/generateDefaultAvatar';
+import { devError, devLog } from '@/utils/devLogger';
+import { sendMethodNotAllowed } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     // 构建文件路径 - 支持从uploads目录读取
     const fileName = filePath.join('/');
     // eslint-disable-next-line global-require
-    const { getAvatarsRoot } = require('../../../../utils/kbirdDataPaths');
+    const { getAvatarsRoot } = require('@/utils/kbirdDataPaths');
     const uploadsAvatarDir = getAvatarsRoot();
     const publicAvatarDir = path.resolve(process.cwd(), 'public', 'images', 'avatars');
     const fullPath = resolveAvatarPath(fileName, [uploadsAvatarDir, publicAvatarDir]);

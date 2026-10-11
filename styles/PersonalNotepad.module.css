@@ -56,12 +56,12 @@
 .status {
   color: var(--text-primary);
   font-weight: 600;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
 }
 
 .savedTime {
   color: var(--text-muted);
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
 }
 
 .saveButton {
@@ -125,9 +125,9 @@
 }
 
 .bodyModeHint {
-  font-size: 0.75rem;
-  color: #6b7a88;
-  line-height: 1.35;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+  line-height: var(--line-height-snug);
 }
 
 .linkedBody {
@@ -138,7 +138,7 @@
   border: 1px solid var(--gray-300);
   border-radius: var(--radius-md);
   padding: var(--spacing-4);
-  background: #fbfcfd;
+  background: var(--bg-clean);
   cursor: text;
   display: flex;
   flex-direction: column;
@@ -147,7 +147,7 @@
 }
 
 .linkedBody:hover {
-  border-color: rgba(33, 158, 188, 0.4);
+  border-color: var(--color-lake-mid);
 }
 
 .linkedBody:focus-visible {
@@ -156,16 +156,16 @@
 }
 
 .linkedBodyEmpty {
-  color: #94a3b8;
-  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-size: var(--type-body);
 }
 
 .linkedBodyTip {
   margin-top: auto;
-  font-size: 0.72rem;
-  color: #94a3b8;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
   padding-top: 8px;
-  border-top: 1px dashed rgba(2, 48, 71, 0.1);
+  border-top: 1px dashed var(--border-subtle);
 }
 
 .editor {
@@ -176,7 +176,7 @@
   border: 1px solid var(--gray-300);
   border-radius: var(--radius-md);
   padding: var(--spacing-4);
-  font-size: var(--type-scale-base);
+  font-size: var(--type-body);
   line-height: var(--line-height-relaxed);
   color: var(--text-primary);
   background: var(--bg-white);
@@ -189,16 +189,16 @@
   border: none;
   border-radius: 999px;
   padding: 6px 12px;
-  background: var(--color-lake, #219ebc);
-  color: #fff;
-  font-size: 0.78rem;
+  background: var(--color-lake, var(--color-lake));
+  color: var(--text-white);
+  font-size: var(--type-caption);
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(33, 158, 188, 0.35);
+  box-shadow: 0 4px 14px var(--color-lake-mid);
 }
 
 .commentBubbleBtn:hover {
-  background: var(--color-lake-hover, #1780a0);
+  background: var(--color-lake-hover, var(--color-lake-hover));
 }
 
 .commentComposer {
@@ -208,15 +208,15 @@
   width: min(280px, calc(100% - 16px));
   padding: 10px;
   border-radius: 12px;
-  background: #fff;
-  border: 1px solid rgba(2, 48, 71, 0.12);
-  box-shadow: 0 10px 28px rgba(2, 48, 71, 0.14);
+  background: var(--bg-white);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 10px 28px var(--border-subtle);
 }
 
 .commentComposerQuote {
-  font-size: 0.75rem;
-  color: #64748b;
-  line-height: 1.4;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+  line-height: var(--line-height-snug);
   margin-bottom: 8px;
   max-height: 3.2em;
   overflow: hidden;
@@ -229,8 +229,8 @@
   border: 1px solid var(--gray-300);
   border-radius: 8px;
   padding: 8px 10px;
-  font-size: 0.85rem;
-  line-height: 1.45;
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
   font-family: inherit;
   box-sizing: border-box;
 }
@@ -249,9 +249,9 @@
 }
 
 .commentPane {
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  background: #f7fafb;
+  background: var(--bg-clean);
   padding: 10px;
   min-height: 520px;
   max-height: 640px;
@@ -269,25 +269,25 @@
 
 .commentPaneTitle {
   margin: 0;
-  font-size: 0.9rem;
-  font-weight: 750;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-secondary);
+  font-weight: 700;
+  color: var(--color-ink);
 }
 
 .commentPaneCount {
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: var(--color-lake, #219ebc);
-  background: rgba(33, 158, 188, 0.12);
+  color: var(--color-lake);
+  background: var(--color-lake-light);
   border-radius: 999px;
   padding: 1px 7px;
 }
 
 .commentPaneHint {
   margin: 0;
-  font-size: 0.72rem;
-  color: #6b7a88;
-  line-height: 1.4;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+  line-height: var(--line-height-snug);
 }
 
 .commentList {
@@ -303,15 +303,15 @@
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 4px;
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
-  background: #fff;
+  background: var(--bg-white);
   overflow: hidden;
 }
 
 .commentCardActive {
-  border-color: rgba(33, 158, 188, 0.45);
-  box-shadow: 0 0 0 1px rgba(33, 158, 188, 0.2);
+  border-color: var(--color-lake-mid);
+  box-shadow: 0 0 0 1px var(--color-lake-light);
 }
 
 .commentCardOrphan {
@@ -331,10 +331,10 @@
 }
 
 .commentQuote {
-  font-size: 0.72rem;
-  color: var(--color-lake, #219ebc);
-  font-weight: 650;
-  line-height: 1.35;
+  font-size: var(--type-caption);
+  color: var(--color-lake);
+  font-weight: 600;
+  line-height: var(--line-height-snug);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -342,31 +342,31 @@
 }
 
 .commentBody {
-  font-size: 0.82rem;
-  color: var(--color-deep-teal, #023047);
-  line-height: 1.45;
+  font-size: var(--type-caption);
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
   white-space: pre-wrap;
   word-break: break-word;
 }
 
 .commentMeta {
-  font-size: 0.68rem;
-  color: #94a3b8;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
 }
 
 .commentDelete {
   border: none;
   background: transparent;
-  color: #94a3b8;
-  font-size: 0.72rem;
-  font-weight: 650;
+  color: var(--text-muted);
+  font-size: var(--type-caption);
+  font-weight: 600;
   padding: 8px 10px;
   cursor: pointer;
   align-self: start;
 }
 
 .commentDelete:hover {
-  color: #ef4444;
+  color: var(--color-danger);
 }
 
 .workspace {
@@ -379,7 +379,7 @@
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-md);
   padding: var(--spacing-2);
-  background: #fafbfd;
+  background: var(--bg-clean);
   max-height: 600px;
   overflow-y: auto;
 }
@@ -408,12 +408,12 @@
 }
 
 .noteItemPinned {
-  background: rgba(33, 158, 188, 0.06);
+  background: var(--color-lake-light);
 }
 
 .noteItemTitle {
   color: var(--text-primary);
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -427,22 +427,22 @@
   align-items: center;
   padding: 1px 6px;
   border-radius: 999px;
-  background: rgba(33, 158, 188, 0.16);
-  color: var(--color-lake, #219ebc);
-  font-size: 0.65rem;
-  font-weight: 750;
-  line-height: 1.3;
+  background: var(--color-lake-light);
+  color: var(--color-lake);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  line-height: var(--line-height-snug);
 }
 
 .noteItemPreview {
   color: var(--text-muted);
-  font-size: var(--type-scale-xs);
+  font-size: var(--type-caption);
 }
 
 .pinButtonActive {
-  border-color: rgba(33, 158, 188, 0.45);
-  background: var(--color-lake-light, #eef7fa);
-  color: var(--color-lake, #219ebc);
+  border-color: var(--color-lake-mid);
+  background: var(--color-lake-light, var(--gray-100));
+  color: var(--color-lake);
 }
 
 .editorPane {
@@ -465,7 +465,7 @@
   border: 1px solid var(--gray-300);
   border-radius: var(--radius-md);
   padding: 10px 12px;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
 }
 
@@ -483,9 +483,9 @@
 }
 
 .closeButton {
-  border: 1px solid rgba(2, 48, 71, 0.18);
-  color: var(--color-deep-teal, #023047);
-  background: #fff;
+  border: 1px solid var(--border-subtle);
+  color: var(--color-ink);
+  background: var(--bg-white);
   border-radius: var(--radius-md);
   padding: 8px 12px;
   font-weight: 600;
@@ -494,13 +494,13 @@
 
 .closeButton:hover {
   border-color: var(--color-lake);
-  background: var(--color-lake-light, #eef7fa);
+  background: var(--color-lake-light, var(--gray-100));
 }
 
 .deleteButton {
-  border: 1px solid #ef4444;
-  color: #ef4444;
-  background: #fff;
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+  background: var(--bg-white);
   border-radius: var(--radius-md);
   padding: 8px 12px;
   font-weight: 600;
@@ -514,8 +514,8 @@
 
 .overviewEmpty {
   margin: 0;
-  color: var(--text-muted, #6b7a88);
-  font-size: 0.92rem;
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
 }
 
 .overview {
@@ -524,8 +524,8 @@
   border-radius: var(--radius-md);
   padding: var(--spacing-5);
   background:
-    radial-gradient(ellipse at 12% 0%, rgba(33, 158, 188, 0.1), transparent 45%),
-    linear-gradient(180deg, #f8fbfc 0%, #fff 55%);
+    radial-gradient(ellipse at 12% 0%, var(--color-lake-light), transparent 45%),
+    linear-gradient(180deg, var(--bg-clean) 0%, var(--bg-white) 55%);
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -539,16 +539,16 @@
 
 .overviewTitle {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 750;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-subsection);
+  font-weight: 700;
+  color: var(--color-ink);
 }
 
 .overviewSub {
   margin: 0;
-  font-size: 0.9rem;
-  color: var(--text-muted, #5c6b7a);
-  line-height: 1.5;
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
+  line-height: var(--line-height-normal);
 }
 
 .overviewActions {
@@ -564,9 +564,9 @@
 
 .overviewSectionTitle {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: #44555e;
+  color: var(--text-secondary);
 }
 
 .overviewGrid {
@@ -577,9 +577,9 @@
 
 .overviewCard {
   text-align: left;
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
-  background: #fff;
+  background: var(--bg-white);
   padding: 12px;
   cursor: pointer;
   display: flex;
@@ -589,20 +589,20 @@
 }
 
 .overviewCard:hover {
-  border-color: rgba(33, 158, 188, 0.4);
-  box-shadow: 0 2px 10px rgba(2, 48, 71, 0.06);
+  border-color: var(--color-lake-mid);
+  box-shadow: 0 2px 10px var(--border-subtle);
 }
 
 .overviewCardTitle {
-  font-size: 0.92rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .overviewCardPreview {
-  font-size: 0.78rem;
-  color: #6b7a88;
-  line-height: 1.4;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+  line-height: var(--line-height-snug);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -610,8 +610,8 @@
 }
 
 .overviewCardMeta {
-  font-size: 0.72rem;
-  color: #94a3b8;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
 

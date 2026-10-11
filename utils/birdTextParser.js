@@ -10,7 +10,7 @@ export const BIRD_FILL_FIELDS = [
   { key: 'description', label: '描述', hint: '2～6 句外形与概况' },
   { key: 'habitat', label: '栖息地', hint: '典型生境，可分号分隔' },
   { key: 'distribution', label: '分布区域', hint: '世界与中国分布简述' },
-  { key: 'taxonomy', label: '分类', hint: '目/科，如 鸻形目/鹬科' },
+  { key: 'taxonomy', label: '分类', hint: '目/科，如 雀形目/噪鹛科 或 Passeriformes/Leiothrichidae' },
   { key: 'conservationStatus', label: '保护状态描述', hint: '一句话保护概况' },
   {
     key: 'chinaProtectionLevel',
@@ -64,6 +64,9 @@ const LABEL_ALIASES = {
   国内保护级别: 'chinaProtectionLevel',
   IUCN: 'iucnProtectionLevel',
   IUCN等级: 'iucnProtectionLevel',
+  'IUCN 保护级别': 'iucnProtectionLevel',
+  IUCN级别: 'iucnProtectionLevel',
+  世界自然保护联盟等级: 'iucnProtectionLevel',
   体长: 'size',
   体型: 'size',
   羽色: 'plumage',
@@ -92,12 +95,26 @@ function resolveFieldKey(labelRaw) {
     .replace(/\*+/g, '')
     .trim();
   if (!label) return null;
-  if (LABEL_TO_KEY.has(label)) return LABEL_TO_KEY.get(label);
-  if (LABEL_ALIASES[label]) return LABEL_ALIASES[label];
-  // 去掉括号说明后再试
-  const bare = label.replace(/[（(].*?[）)]/g, '').trim();
-  if (LABEL_TO_KEY.has(bare)) return LABEL_TO_KEY.get(bare);
-  if (LABEL_ALIASES[bare]) return LABEL_ALIASES[bare];
+
+  const candidates = [
+    label,
+    label.replace(/[（(].*?[）)]/g, '').trim(),
+    label.replace(/\s+/g, ''),
+    label.replace(/[（(].*?[）)]/g, '').replace(/\s+/g, '').trim(),
+  ].filter(Boolean);
+
+  for (const candidate of candidates) {
+    if (LABEL_TO_KEY.has(candidate)) return LABEL_TO_KEY.get(candidate);
+    if (LABEL_ALIASES[candidate]) return LABEL_ALIASES[candidate];
+  }
+
+  // LABEL_TO_KEY 自身也按去空格再匹配一次（模型常写「IUCN 保护级别」）
+  for (const [key, field] of LABEL_TO_KEY.entries()) {
+    if (key.replace(/\s+/g, '') === label.replace(/\s+/g, '')) return field;
+  }
+  for (const [key, field] of Object.entries(LABEL_ALIASES)) {
+    if (key.replace(/\s+/g, '') === label.replace(/\s+/g, '')) return field;
+  }
   return null;
 }
 

@@ -3,9 +3,9 @@
   margin: 0 auto 16px;
   max-width: var(--page-content-max);
   width: 100%;
-  background-color: var(--surface-card, #fff);
+  background-color: var(--surface-card, var(--bg-white));
   background-image: var(--surface-card-image, none);
-  border: var(--surface-card-border, 1px solid rgba(33, 158, 188, 0.16));
+  border: var(--surface-card-border, 1px solid var(--border-subtle, var(--border-subtle)));
   border-radius: var(--radius-panel, 8px);
   overflow: hidden;
   box-sizing: border-box;
@@ -14,7 +14,7 @@
 .pageHeaderAccent {
   width: 6px;
   flex-shrink: 0;
-  background: var(--color-lake, #219ebc);
+  background: var(--color-ink, var(--color-ink));
 }
 
 .pageHeaderBody {
@@ -31,18 +31,18 @@
 
 .pageEyebrow {
   margin: 0 0 4px;
-  font-size: var(--type-caption, 0.75rem);
+  font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
 }
 
 .pageTitle {
   margin: 0 0 6px;
   font-size: var(--type-page-title, var(--type-scale-2xl));
   font-weight: var(--page-title-weight, 700);
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   line-height: var(--line-height-tight, 1.25);
 }
 
@@ -53,23 +53,23 @@
 .pageLede {
   margin: 0;
   font-size: var(--type-page-lede, var(--type-scale-md));
-  color: var(--text-muted, #5c6b7a);
-  line-height: 1.45;
+  color: var(--text-muted);
+  line-height: var(--line-height-normal);
   max-width: 40rem;
 }
 
 .pageLede strong {
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   font-weight: 700;
 }
 
 .pageCaption {
   margin: 0;
-  font-size: var(--type-caption, 0.75rem);
+  font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: var(--color-lake, #219ebc);
-  line-height: 1.35;
+  color: var(--color-lake);
+  line-height: var(--line-height-snug);
 }
 
 .pageHeaderActions {
@@ -99,10 +99,10 @@
   justify-content: center;
   border-radius: var(--radius-panel, 8px);
   padding: 8px 14px;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
   text-decoration: none;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
   cursor: pointer;
   font-family: inherit;
   min-height: 36px;
@@ -111,16 +111,16 @@
 .headerPrimaryBtn,
 .headerPrimaryBtn:link,
 .headerPrimaryBtn:visited {
-  border: 1px solid var(--color-lake-cta, #0e6b82);
-  background: var(--color-lake-cta, #0e6b82);
-  color: #fff;
+  border: 1px solid var(--color-ink, var(--color-ink));
+  background: var(--color-ink, var(--color-ink));
+  color: var(--text-white);
 }
 
 .headerPrimaryBtn:hover:not(:disabled),
 .headerPrimaryBtn:hover:visited:not(:disabled) {
-  background: var(--color-lake-cta-hover, #0b5668);
-  border-color: var(--color-lake-cta-hover, #0b5668);
-  color: #fff;
+  background: var(--color-ink-deep, var(--color-ink-deep));
+  border-color: var(--color-ink-deep, var(--color-ink-deep));
+  color: var(--text-white);
   text-decoration: none;
 }
 
@@ -132,15 +132,15 @@
 .headerSecondaryBtn,
 .headerSecondaryBtn:link,
 .headerSecondaryBtn:visited {
-  border: 1px solid var(--gray-200, #e5e7eb);
-  background: var(--surface-card, #fff);
-  color: var(--color-deep-teal, #023047);
+  border: 1px solid var(--gray-200, var(--gray-200));
+  background: var(--surface-card, var(--bg-white));
+  color: var(--color-ink);
 }
 
 .headerSecondaryBtn:hover:not(:disabled),
 .headerSecondaryBtn:hover:visited:not(:disabled) {
-  border-color: rgba(33, 158, 188, 0.45);
-  color: var(--color-lake, #219ebc);
+  border-color: var(--border-strong, var(--border-subtle));
+  color: var(--color-lake);
   text-decoration: none;
 }
 
@@ -155,11 +155,11 @@
   display: inline-flex;
   align-items: center;
   padding: 8px 4px;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
   text-decoration: none;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
   border: none;
   background: transparent;
   cursor: pointer;
@@ -168,7 +168,7 @@
 
 .headerTextLink:hover,
 .headerTextLink:hover:visited {
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
   text-decoration: none;
 }
 

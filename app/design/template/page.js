@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import PageIntro from '../../../components/PageIntro';
-import styles from '../../../styles/DesignTemplate.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import PageIntro from '@/components/PageIntro';
+import styles from '@/styles/DesignTemplate.module.css';
 
 const MOCK_BIRDS = [
   {

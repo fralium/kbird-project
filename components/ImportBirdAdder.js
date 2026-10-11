@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import Papa from 'papaparse';
-import { api } from '../utils/api';
+import { api } from '@/utils/api';
 import RequestNewBirdButton from './RequestNewBirdButton';
-import styles from '../styles/SmartBirdAdder.module.css';
+import styles from '@/styles/SmartBirdAdder.module.css';
 
 const MAX_IMPORT_FILE_SIZE = 5 * 1024 * 1024;
 const MAX_IMPORT_ROWS = 5000;

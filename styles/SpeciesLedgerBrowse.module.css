@@ -1,0 +1,45 @@
+.section {
+  margin: 0 0 16px;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin-bottom: 14px;
+}
+
+.progressBlock {
+  flex: 1 1 200px;
+  min-width: 180px;
+}
+
+.progressLabel {
+  font-size: var(--type-body);
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 6px;
+}
+
+.progressTrack {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border-subtle);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-ink, var(--color-ink));
+  border-radius: inherit;
+}
+
+.search {
+  flex: 1 1 220px;
+  min-width: 180px;
+}
+
+.filters {
+  flex: 0 0 auto;
+}

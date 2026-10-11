@@ -18,13 +18,13 @@
 .backLink {
   display: inline-block;
   margin-bottom: 12px;
-  font-size: var(--type-scale-sm);
-  color: var(--color-lake, #219ebc);
+  font-size: var(--type-secondary);
+  color: var(--color-lake);
   text-decoration: none;
 }
 
 .backLink:hover {
-  color: var(--color-lake-hover, #1780a0);
+  color: var(--color-lake-hover);
   text-decoration: underline;
 }
 
@@ -41,8 +41,8 @@
 }
 
 .panel {
-  background: #fff;
-  border: 1px solid rgba(33, 158, 188, 0.14);
+  background: var(--bg-white);
+  border: 1px solid var(--color-lake-light);
   border-radius: 14px;
   overflow: hidden;
 }
@@ -57,20 +57,20 @@
   justify-content: space-between;
   gap: 10px;
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(33, 158, 188, 0.1);
-  background: linear-gradient(180deg, rgba(33, 158, 188, 0.06) 0%, transparent 100%);
+  border-bottom: 1px solid var(--color-lake-light);
+  background: linear-gradient(180deg, var(--color-lake-light) 0%, transparent 100%);
 }
 
 .panelTitle {
   margin: 0;
-  font-size: var(--type-subsection, 1rem);
-  font-weight: 650;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-subsection);
+  font-weight: 600;
+  color: var(--color-ink);
 }
 
 .panelMeta {
-  font-size: var(--type-caption, 0.75rem);
-  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-caption);
+  color: var(--text-muted);
   white-space: nowrap;
 }
 
@@ -79,9 +79,9 @@
   min-height: 400px;
   background: linear-gradient(
     160deg,
-    rgba(33, 158, 188, 0.08) 0%,
-    rgba(2, 48, 71, 0.04) 55%,
-    rgba(33, 158, 188, 0.05) 100%
+    var(--color-lake-light) 0%,
+    var(--border-subtle) 55%,
+    var(--color-lake-light) 100%
   );
 }
 
@@ -98,39 +98,39 @@
 
 .mapEmptyTitle {
   margin: 0;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .mapEmptyHint {
   margin: 0;
   max-width: 28ch;
-  font-size: var(--type-caption, 0.75rem);
-  line-height: 1.45;
-  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-normal);
+  color: var(--text-muted);
 }
 
 .mapLocationLabel {
   padding: 10px 14px 12px;
-  border-top: 1px solid rgba(33, 158, 188, 0.1);
-  font-size: var(--type-scale-sm);
-  color: var(--text-primary, #1a2b3c);
+  border-top: 1px solid var(--color-lake-light);
+  font-size: var(--type-secondary);
+  color: var(--text-primary);
 }
 
 .mapLocationLabel strong {
-  font-weight: 650;
-  color: var(--color-deep-teal, #023047);
+  font-weight: 600;
+  color: var(--color-ink);
 }
 
 .mapLocationLink {
-  color: var(--color-lake, #219ebc);
-  font-weight: 650;
+  color: var(--color-lake);
+  font-weight: 600;
   text-decoration: none;
 }
 
 .mapLocationLink:hover {
-  color: var(--color-lake-hover, #1780a0);
+  color: var(--color-lake-hover);
   text-decoration: underline;
 }
 
@@ -143,10 +143,10 @@
 
 .syncBtn {
   appearance: none;
-  border: 1px solid rgba(33, 158, 188, 0.35);
-  background: #fff;
-  color: var(--color-lake, #219ebc);
-  font-size: var(--type-caption, 0.75rem);
+  border: 1px solid var(--color-lake-mid);
+  background: var(--bg-white);
+  color: var(--color-lake);
+  font-size: var(--type-caption);
   font-weight: 600;
   padding: 6px 10px;
   border-radius: 8px;
@@ -154,8 +154,8 @@
 }
 
 .syncBtn:hover:not(:disabled) {
-  background: var(--color-lake-light, rgba(33, 158, 188, 0.12));
-  border-color: var(--color-lake, #219ebc);
+  background: var(--color-lake-light, var(--color-lake-light));
+  border-color: var(--color-lake, var(--color-lake));
 }
 
 .syncBtn:disabled {
@@ -166,16 +166,16 @@
 .syncMsg {
   margin: 0;
   padding: 0 14px 12px;
-  font-size: var(--type-caption, 0.75rem);
-  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-caption);
+  color: var(--text-muted);
 }
 
 .syncMsgOk {
-  color: var(--color-lake-hover, #1780a0);
+  color: var(--color-lake-hover);
 }
 
 .syncMsgErr {
-  color: #c62828;
+  color: var(--color-danger);
 }
 
 .metaTable {
@@ -186,8 +186,8 @@
 .metaTable th,
 .metaTable td {
   padding: 10px 14px;
-  font-size: var(--type-scale-sm);
-  border-bottom: 1px solid rgba(2, 48, 71, 0.06);
+  font-size: var(--type-secondary);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .metaTable tr:last-child th,
@@ -200,18 +200,18 @@
   text-align: center;
   vertical-align: middle;
   font-weight: 600;
-  color: var(--text-muted, #5c6b7a);
-  background: rgba(33, 158, 188, 0.03);
+  color: var(--text-muted);
+  background: var(--color-lake-light);
 }
 
 .metaTable td {
   vertical-align: top;
-  color: var(--text-primary, #1a2b3c);
+  color: var(--text-primary);
 }
 
 .metaProse {
   white-space: pre-wrap;
-  line-height: 1.55;
+  line-height: var(--line-height-normal);
 }
 
 .metaTags {
@@ -225,16 +225,16 @@
   display: inline-block;
   padding: 2px 8px;
   border-radius: 6px;
-  font-size: 0.72rem;
-  font-weight: 650;
+  font-size: var(--type-caption);
+  font-weight: 600;
   letter-spacing: 0.01em;
-  background: var(--color-lake-light, rgba(33, 158, 188, 0.14));
-  color: var(--color-deep-teal, #023047);
+  background: var(--color-lake-light, var(--color-lake-light));
+  color: var(--color-ink);
 }
 
 .metaTagMuted {
-  background: rgba(2, 48, 71, 0.06);
-  color: var(--text-muted, #5c6b7a);
+  background: var(--border-subtle);
+  color: var(--text-muted);
 }
 
 .actionBar {
@@ -242,7 +242,7 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: 12px 14px;
-  border-bottom: 1px solid rgba(33, 158, 188, 0.1);
+  border-bottom: 1px solid var(--color-lake-light);
 }
 
 .actionPrimary,
@@ -253,43 +253,43 @@
   gap: 6px;
   padding: 7px 12px;
   border-radius: 8px;
-  font-size: var(--type-caption, 0.75rem);
-  font-weight: 650;
+  font-size: var(--type-caption);
+  font-weight: 600;
   text-decoration: none !important;
   cursor: pointer;
   border: 1px solid transparent;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
 }
 
 .actionPrimary,
 .actionPrimary:link,
 .actionPrimary:visited {
-  background: var(--color-lake, #219ebc);
-  color: #fff !important;
-  border-color: var(--color-lake, #219ebc);
+  background: var(--color-lake, var(--color-lake));
+  color: var(--text-white) !important;
+  border-color: var(--color-lake, var(--color-lake));
 }
 
 .actionPrimary:hover,
 .actionPrimary:hover:visited {
-  background: var(--color-lake-hover, #1780a0);
-  border-color: var(--color-lake-hover, #1780a0);
-  color: #fff !important;
+  background: var(--color-lake-hover, var(--color-lake-hover));
+  border-color: var(--color-lake-hover, var(--color-lake-hover));
+  color: var(--text-white) !important;
   text-decoration: none !important;
 }
 
 .actionSecondary,
 .actionSecondary:link,
 .actionSecondary:visited {
-  background: #fff;
-  color: var(--color-lake, #219ebc) !important;
-  border-color: rgba(33, 158, 188, 0.45);
+  background: var(--bg-white);
+  color: var(--color-lake, var(--color-lake)) !important;
+  border-color: var(--color-lake-mid);
 }
 
 .actionSecondary:hover,
 .actionSecondary:hover:visited {
-  background: var(--color-lake-light, rgba(33, 158, 188, 0.12));
-  border-color: var(--color-lake, #219ebc);
-  color: var(--color-lake-hover, #1780a0) !important;
+  background: var(--color-lake-light, var(--color-lake-light));
+  border-color: var(--color-lake, var(--color-lake));
+  color: var(--color-lake-hover, var(--color-lake-hover)) !important;
   text-decoration: none !important;
 }
 
@@ -301,7 +301,7 @@
 
 .locResolve {
   padding: 10px 14px 12px;
-  border-top: 1px solid rgba(33, 158, 188, 0.1);
+  border-top: 1px solid var(--color-lake-light);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -309,22 +309,22 @@
 
 .locResolveStatus {
   margin: 0;
-  font-size: var(--type-caption, 0.75rem);
-  line-height: 1.45;
-  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-normal);
+  color: var(--text-muted);
 }
 
 .locResolveStatus strong {
-  color: var(--color-deep-teal, #023047);
-  font-weight: 650;
+  color: var(--color-ink);
+  font-weight: 600;
 }
 
 .locResolveOk {
-  color: var(--color-lake-hover, #1780a0);
+  color: var(--color-lake-hover);
 }
 
 .locResolveWarn {
-  color: #9a6b00;
+  color: var(--color-warning-hover);
 }
 
 .locResolveActions {
@@ -335,18 +335,18 @@
 
 .createPanel {
   padding: 12px 14px 14px;
-  border-top: 1px solid rgba(33, 158, 188, 0.1);
+  border-top: 1px solid var(--color-lake-light);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: rgba(33, 158, 188, 0.03);
+  background: var(--color-lake-light);
 }
 
 .createPanelTitle {
   margin: 0;
-  font-size: var(--type-scale-sm);
-  font-weight: 650;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-secondary);
+  font-weight: 600;
+  color: var(--color-ink);
 }
 
 .createGrid {
@@ -367,47 +367,47 @@
 }
 
 .createField label {
-  font-size: var(--type-caption, 0.75rem);
+  font-size: var(--type-caption);
   font-weight: 600;
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
 }
 
 .createField input,
 .createField select {
   width: 100%;
   padding: 7px 10px;
-  border: 1px solid rgba(33, 158, 188, 0.28);
+  border: 1px solid var(--color-lake-mid);
   border-radius: 8px;
   font: inherit;
-  font-size: var(--type-scale-sm);
-  color: var(--text-primary, #1a2b3c);
-  background: #fff;
+  font-size: var(--type-secondary);
+  color: var(--text-primary);
+  background: var(--bg-white);
 }
 
 .createField input:focus,
 .createField select:focus {
   outline: none;
-  border-color: var(--color-lake, #219ebc);
-  box-shadow: 0 0 0 2px rgba(33, 158, 188, 0.18);
+  border-color: var(--color-lake, var(--color-lake));
+  box-shadow: 0 0 0 2px var(--color-lake-light);
 }
 
 .createHint {
   margin: 0;
-  font-size: var(--type-caption, 0.75rem);
-  color: var(--text-muted, #5c6b7a);
+  font-size: var(--type-caption);
+  color: var(--text-muted);
 }
 
 .createMsg {
   margin: 0;
-  font-size: var(--type-caption, 0.75rem);
+  font-size: var(--type-caption);
 }
 
 .createMsgErr {
-  color: #c62828;
+  color: var(--color-danger);
 }
 
 .createMsgOk {
-  color: var(--color-lake-hover, #1780a0);
+  color: var(--color-lake-hover);
 }
 
 @media (max-width: 640px) {
@@ -421,7 +421,7 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: 12px 14px 14px;
-  border-top: 1px solid rgba(33, 158, 188, 0.1);
+  border-top: 1px solid var(--color-lake-light);
 }
 
 .statChip {
@@ -430,15 +430,15 @@
   gap: 4px;
   padding: 5px 10px;
   border-radius: 999px;
-  background: var(--color-lake-light, rgba(33, 158, 188, 0.12));
-  color: var(--color-deep-teal, #023047);
-  font-size: var(--type-caption, 0.75rem);
+  background: var(--color-lake-light, var(--color-lake-light));
+  color: var(--color-ink);
+  font-size: var(--type-caption);
 }
 
 .statChip strong {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
 }
 
 .tableWrap {
@@ -449,52 +449,52 @@
 .speciesTable {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
 }
 
 .speciesTable thead {
-  background: rgba(33, 158, 188, 0.06);
+  background: var(--color-lake-light);
 }
 
 .speciesTable th {
   padding: 10px 12px;
   text-align: left;
-  font-weight: 650;
-  color: var(--color-deep-teal, #023047);
+  font-weight: 600;
+  color: var(--color-ink);
   white-space: nowrap;
-  border-bottom: 1px solid rgba(33, 158, 188, 0.16);
+  border-bottom: 1px solid var(--color-lake-light);
 }
 
 .speciesTable td {
   padding: 9px 12px;
-  border-bottom: 1px solid rgba(2, 48, 71, 0.06);
-  color: var(--text-primary, #1a2b3c);
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
   vertical-align: middle;
 }
 
 .speciesTable tbody tr:nth-child(even) {
-  background: rgba(33, 158, 188, 0.025);
+  background: var(--color-lake-light);
 }
 
 .speciesTable tbody tr:hover {
-  background: rgba(33, 158, 188, 0.07);
+  background: var(--color-lake-light);
 }
 
 .thIndex,
 .tdIndex {
   width: 2.5em;
   text-align: left;
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
 
 .scientific {
   font-style: italic;
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
 }
 
 .englishName {
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
 }
 
 .nameCell {
@@ -505,34 +505,34 @@
 }
 
 .nameLink {
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
   text-decoration: none;
   font-weight: 600;
 }
 
 .nameLink:hover {
-  color: var(--color-lake-hover, #1780a0);
+  color: var(--color-lake-hover);
   text-decoration: underline;
 }
 
 .nameNotable {
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .protectBadge {
   display: inline-block;
   padding: 1px 6px;
   border-radius: 4px;
-  font-size: 0.68rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0.02em;
-  background: rgba(2, 48, 71, 0.08);
-  color: var(--color-deep-teal, #023047);
+  background: var(--border-subtle);
+  color: var(--color-ink);
 }
 
 .rowNotable {
-  background: rgba(33, 158, 188, 0.06) !important;
+  background: var(--color-lake-light) !important;
 }
 
 .sortBtn {
@@ -545,13 +545,13 @@
   align-items: center;
   gap: 4px;
   font: inherit;
-  font-weight: 650;
+  font-weight: 600;
   color: inherit;
   cursor: pointer;
 }
 
 .sortBtn:hover {
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
 }
 
 .sortIcon {
@@ -564,15 +564,15 @@
 }
 
 .muted {
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
 }
 
 .emptyTable {
   margin: 0;
   padding: 28px 16px;
   text-align: center;
-  color: var(--text-muted, #5c6b7a);
-  font-size: var(--type-scale-sm);
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
 }
 
 .belowLayout {
@@ -583,24 +583,24 @@
 }
 
 .prosePanel {
-  background: #fff;
-  border: 1px solid rgba(33, 158, 188, 0.14);
+  background: var(--bg-white);
+  border: 1px solid var(--color-lake-light);
   border-radius: 14px;
   padding: 14px 16px;
 }
 
 .prosePanel h2 {
   margin: 0 0 8px;
-  font-size: var(--type-subsection, 1rem);
-  font-weight: 650;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-subsection);
+  font-weight: 600;
+  color: var(--color-ink);
 }
 
 .prosePanel p {
   margin: 0;
-  font-size: var(--type-scale-sm);
-  line-height: 1.55;
-  color: var(--text-primary, #1a2b3c);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
   white-space: pre-wrap;
 }
 
@@ -620,15 +620,15 @@
   appearance: none;
   border: none;
   background: transparent;
-  color: var(--color-lake, #219ebc);
-  font-size: var(--type-scale-sm);
+  color: var(--color-lake);
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: pointer;
   padding: 0;
 }
 
 .proseHeadAction:hover {
-  color: var(--color-lake-hover, #1780a0);
+  color: var(--color-lake-hover);
   text-decoration: underline;
 }
 
@@ -636,7 +636,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  border: 1px solid #e8eef3;
+  border: 1px solid var(--gray-100);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -647,13 +647,13 @@
   align-items: baseline;
   gap: 6px 10px;
   padding: 9px 12px;
-  border-bottom: 1px solid #eef3f7;
+  border-bottom: 1px solid var(--gray-100);
   text-decoration: none;
-  color: var(--text-primary, #1a2b3c);
+  color: var(--text-primary);
   min-width: 0;
   font-size: var(--type-body);
   font-weight: 600;
-  line-height: 1.45;
+  line-height: var(--line-height-normal);
 }
 
 .relatedList li:last-child .relatedLink {
@@ -661,7 +661,7 @@
 }
 
 .relatedLink:hover {
-  background: #f7fbfc;
+  background: var(--bg-clean);
 }
 
 .relatedDate {
@@ -685,23 +685,23 @@
 
 .relatedBirdCount {
   font-variant-numeric: tabular-nums;
-  font-weight: 650;
-  color: var(--color-deep-teal, #023047);
+  font-weight: 600;
+  color: var(--color-ink);
 }
 
 .detailsToggle {
   appearance: none;
   border: none;
   background: transparent;
-  color: var(--color-lake, #219ebc);
-  font-size: var(--type-caption, 0.75rem);
+  color: var(--color-lake);
+  font-size: var(--type-caption);
   font-weight: 600;
   cursor: pointer;
   padding: 0;
 }
 
 .detailsToggle:hover {
-  color: var(--color-lake-hover, #1780a0);
+  color: var(--color-lake-hover);
   text-decoration: underline;
 }
 
@@ -714,7 +714,7 @@
 
 .tdNotes {
   max-width: 14em;
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

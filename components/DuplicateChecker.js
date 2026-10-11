@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import styles from '../styles/DuplicateChecker.module.css';
+import styles from '@/styles/DuplicateChecker.module.css';
 
 export default function DuplicateChecker({ name, scientificName, onConfirm, onCancel }) {
   const [duplicates, setDuplicates] = useState([]);

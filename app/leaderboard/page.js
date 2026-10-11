@@ -2,10 +2,10 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import PageState from '../../components/PageState';
-import styles from '../../styles/Leaderboard.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import PageState from '@/components/PageState';
+import styles from '@/styles/Leaderboard.module.css';
 
 /** 初见时刻已并入个人统计。 */
 export default function LeaderboardPage() {

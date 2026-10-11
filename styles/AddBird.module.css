@@ -1,6 +1,6 @@
 ﻿.container {
   min-height: 100vh;
-  background: var(--page-bg, #f5f7f9);
+  background: var(--page-bg, var(--bg-clean));
 }
 
 .loadingContainer,
@@ -9,9 +9,9 @@
   margin: 4rem auto;
   padding: 2rem;
   text-align: center;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--glass-bg);
   border-radius: 12px;
-  color: var(--text-dark, #1f2a24);
+  color: var(--text-primary);
 }
 
 .loadingSpinner {
@@ -19,7 +19,7 @@
   height: 40px;
   margin: 0 auto 1rem;
   border: 3px solid rgba(40, 167, 69, 0.2);
-  border-top-color: var(--color-lake, #28a745);
+  border-top-color: var(--color-lake, var(--color-success));
   border-radius: 50%;
   animation: addBirdSpin 0.8s linear infinite;
 }
@@ -35,14 +35,14 @@
   padding: 0.65rem 1.25rem;
   border: none;
   border-radius: 8px;
-  background: var(--color-lake, #28a745);
-  color: #fff;
+  background: var(--color-lake, var(--color-success));
+  color: var(--text-white);
   cursor: pointer;
-  font-size: 1rem;
+  font-size: var(--type-body);
 }
 
 .loginButton:hover {
-  background: var(--color-lake-hover, #218838);
+  background: var(--color-lake-hover, var(--color-success-hover));
 }
 
 .main {
@@ -54,17 +54,17 @@
 .header {
   text-align: center;
   margin-bottom: 2rem;
-  color: white;
+  color: var(--text-white);
 }
 
 .header h1 {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   margin-bottom: 0.5rem;
   font-weight: 700;
 }
 
 .header p {
-  font-size: var(--page-subtitle-size);
+  font-size: var(--type-page-lede);
   opacity: 0.9;
 }
 
@@ -74,11 +74,11 @@
 
 .parseButton {
   background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
-  color: white;
+  color: var(--text-white);
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -122,7 +122,7 @@
   padding: 0.75rem;
   border: 2px solid var(--border-input);
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--type-body);
   transition: border-color 0.3s ease;
 }
 
@@ -142,8 +142,8 @@
 .formGroup small {
   display: block;
   margin-top: 0.25rem;
-  color: #666;
-  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
 }
 
 .sectionHeader {
@@ -153,8 +153,8 @@
 }
 
 .sectionHeader h3 {
-  color: #2c3e50;
-  font-size: 1.2rem;
+  color: var(--color-ink);
+  font-size: var(--type-subsection);
   font-weight: 600;
   margin: 0;
   display: flex;
@@ -173,11 +173,11 @@
 
 .submitButton {
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   border: none;
   padding: 0.75rem 2rem;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -201,7 +201,7 @@
   border: 2px solid var(--color-lake);
   padding: var(--spacing-2) var(--spacing-4);
   border-radius: var(--radius-lg);
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -217,16 +217,16 @@
   margin-right: auto;
   border: none;
   background: transparent;
-  color: #8a4a4a;
+  color: var(--color-danger-hover);
   padding: 0.75rem 0;
-  font-size: 0.92rem;
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
 }
 
 .deleteButton:hover:not(:disabled) {
-  color: #a12d2d;
+  color: var(--color-danger-hover);
 }
 
 .deleteButton:disabled {
@@ -235,12 +235,12 @@
 }
 
 .errorMessage {
-  background: #f8d7da;
-  color: #721c24;
+  background: var(--color-danger-soft);
+  color: var(--color-danger-hover);
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
-  border: 1px solid #f5c6cb;
+  border: 1px solid var(--color-danger-border);
 }
 
 .successMessage {
@@ -254,12 +254,12 @@
 .successMessage h2 {
   color: var(--color-lake);
   margin-bottom: 1rem;
-  font-size: var(--type-scale-xl);
+  font-size: var(--type-section);
 }
 
 .successMessage p {
-  color: #666;
-  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-size: var(--type-page-lede);
 }
 
 /* ???????? */
@@ -267,10 +267,10 @@
   margin: 0 0 1rem;
   padding: 0.75rem 1rem;
   border-radius: 8px;
-  background: rgba(33, 158, 188, 0.12);
-  border: 1px solid rgba(33, 158, 188, 0.28);
-  color: var(--color-deep-teal, #023047);
-  font-size: 0.9rem;
+  background: var(--color-lake-light);
+  border: 1px solid var(--color-lake-mid);
+  color: var(--color-ink);
+  font-size: var(--type-secondary);
   font-weight: 600;
 }
 
@@ -280,7 +280,7 @@
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
-  border: 2px solid #e3f2fd;
+  border: 2px solid var(--color-lake-light);
 }
 
 .parserHeader {
@@ -289,14 +289,14 @@
 }
 
 .parserHeader h3 {
-  color: #1976d2;
+  color: var(--color-lake);
   margin-bottom: 0.5rem;
-  font-size: 1.5rem;
+  font-size: var(--type-section);
 }
 
 .parserHeader p {
-  color: #666;
-  font-size: 1rem;
+  color: var(--text-muted);
+  font-size: var(--type-body);
 }
 
 .parserContent {
@@ -312,8 +312,8 @@
   padding: 1rem;
   border: 2px solid var(--border-input);
   border-radius: 8px;
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: var(--type-body);
+  line-height: var(--line-height-normal);
   resize: vertical;
   min-height: 200px;
   font-family: inherit;
@@ -327,8 +327,8 @@
 }
 
 .parserTextarea::placeholder {
-  color: #999;
-  line-height: 1.6;
+  color: var(--text-muted);
+  line-height: var(--line-height-relaxed);
 }
 
 .parserActions {
@@ -341,11 +341,11 @@
 
 .parseActionButton {
   background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
-  color: white;
+  color: var(--text-white);
   border: none;
   padding: 0.75rem 2rem;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -373,7 +373,7 @@
 .parserSuggestions h4 {
   color: var(--color-lake);
   margin-bottom: 1rem;
-  font-size: 1.1rem;
+  font-size: var(--type-page-lede);
 }
 
 .parserSuggestions ul {
@@ -382,9 +382,9 @@
 }
 
 .parserSuggestions li {
-  color: #666;
+  color: var(--text-muted);
   margin-bottom: 0.5rem;
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
 }
 
 .parserSuggestions li:first-child {

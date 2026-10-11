@@ -2,16 +2,17 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader, { HeaderPrimaryButton } from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import { useConfirmDialog } from '../../../components/ConfirmDialog';
-import NotepadLinkedText from '../../../components/NotepadLinkedText';
-import { useAuth } from '../../../components/AuthProvider';
-import { api } from '../../../utils/api';
-import { buildNotepadLinkTerms } from '../../../utils/linkifyMentions';
-import styles from '../../../styles/PersonalNotepad.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader, { HeaderPrimaryButton } from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import { useConfirmDialog } from '@/components/ConfirmDialog';
+import NotepadLinkedText from '@/components/NotepadLinkedText';
+import { useAuth } from '@/components/AuthProvider';
+import { api } from '@/utils/api';
+import { buildNotepadLinkTerms } from '@/utils/linkifyMentions';
+import { formatDisplayDateTime } from '@/utils/localDate';
+import styles from '@/styles/PersonalNotepad.module.css';
 
 const AUTOSAVE_DEBOUNCE_MS = 1200;
 const MAX_NOTE_COUNT = 100;
@@ -98,12 +99,8 @@ const normalizeNotepadPayload = (raw) => {
 
 const formatNoteTime = (value) => {
   if (!value) return '';
-  const date = value instanceof Date ? value : new Date(value);
-  if (Number.isNaN(date.getTime())) return '';
-  return `${date.toLocaleDateString('zh-CN')} ${date.toLocaleTimeString('zh-CN', {
-    hour: '2-digit',
-    minute: '2-digit',
-  })}`;
+  const text = formatDisplayDateTime(value);
+  return text === '—' ? '' : text;
 };
 
 /** 正文改动后，尽量根据引文重定位评论区间 */
@@ -520,11 +517,8 @@ export default function PersonalNotepadPage() {
 
   const formatTime = (date) => {
     if (!date) return '尚未保存';
-    return `${date.toLocaleDateString('zh-CN')} ${date.toLocaleTimeString('zh-CN', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    })}`;
+    const text = formatDisplayDateTime(date, { withSeconds: true });
+    return text === '—' ? '尚未保存' : text;
   };
 
   return (

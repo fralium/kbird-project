@@ -4,21 +4,22 @@ import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import HabitatGallery from '../../../components/HabitatGallery';
-import { useAuth } from '../../../components/AuthProvider';
-import { api } from '../../../utils/api';
-import { formatAddressRegion } from '../../../utils/formatAddressRegion';
-import { getFullImageUrl, isValidImageUrl } from '../../../utils/imageUtils';
-import { getOrderChineseName, getFamilyChineseName } from '../../../data/taxonomyTranslation';
-import { buildLocationBirdCalendar } from '../../../utils/locationBirdCalendar';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import HabitatGallery from '@/components/HabitatGallery';
+import { useAuth } from '@/components/AuthProvider';
+import { api } from '@/utils/api';
+import { formatAddressRegion } from '@/utils/formatAddressRegion';
+import { getFullImageUrl, isValidImageUrl } from '@/utils/imageUtils';
+import { getOrderChineseName, getFamilyChineseName } from '@/data/taxonomyTranslation';
+import { buildLocationBirdCalendar } from '@/utils/locationBirdCalendar';
+import { formatDisplayDate } from '@/utils/localDate';
 import SimplePageHeader, {
   HeaderPrimaryLink,
   HeaderTextLink,
-} from '../../../components/SimplePageHeader';
-import SpeciesHoverChip from '../../../components/SpeciesHoverChip';
-import styles from '../../../styles/LocationDetail.module.css';
+} from '@/components/SimplePageHeader';
+import SpeciesHoverChip from '@/components/SpeciesHoverChip';
+import styles from '@/styles/LocationDetail.module.css';
 
 function formatTaxonomyLabel(latinName, getChineseName) {
   const latin = String(latinName || '').trim();
@@ -174,14 +175,8 @@ export default function LocationDetailPage() {
       return { dayText: '未知日期', weekdayText: '' };
     }
     return {
-      dayText: date.toLocaleDateString('zh-CN', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      }),
-      weekdayText: date.toLocaleDateString('zh-CN', {
-        weekday: 'short',
-      }),
+      dayText: formatDisplayDate(date, 'short'),
+      weekdayText: formatDisplayDate(date, 'weekday'),
     };
   };
 
@@ -355,11 +350,7 @@ export default function LocationDetailPage() {
         (Array.isArray(hotspotStats.topRecentSpecies) && hotspotStats.topRecentSpecies.length > 0))
   );
   const lastObservedLabel = hotspotStats?.lastObservedAt
-    ? new Date(hotspotStats.lastObservedAt).toLocaleDateString('zh-CN', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
+    ? formatDisplayDate(hotspotStats.lastObservedAt, 'medium')
     : null;
   const sortedRecordList = (locationRecords || [])
     .map((record) => ({
@@ -538,7 +529,7 @@ export default function LocationDetailPage() {
               根据此地历史观鸟记录汇总（不依赖外部数据）。有记录的月份
               {birdCalendar.activeMonthCount} 个
               {birdCalendar.lastVisit
-                ? ` · 最近观察 ${birdCalendar.lastVisit.toLocaleDateString('zh-CN')}`
+                ? ` · 最近观察 ${formatDisplayDate(birdCalendar.lastVisit, 'short')}`
                 : ''}
             </p>
           </div>
@@ -657,7 +648,7 @@ export default function LocationDetailPage() {
                         <Link key={item._id} href={`/records/${item._id}`} className={styles.speciesItem}>
                           <span className={styles.panelMainText}>{item.title}</span>
                           <span className={styles.panelMetaText}>
-                            {new Date(item.date).toLocaleDateString('zh-CN')} · {item.birdCount} 种
+                            {formatDisplayDate(item.date, 'short')} · {item.birdCount} 种
                           </span>
                         </Link>
                       ))}

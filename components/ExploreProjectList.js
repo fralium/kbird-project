@@ -6,10 +6,10 @@ import Link from 'next/link';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import SimplePageHeader from './SimplePageHeader';
-import { listExploreProjects } from '../data/exploreDemo/projects';
-import { api } from '../utils/api';
-import { resolvePlotCover, useHabitatCoverSet } from '../utils/habitatCover';
-import styles from '../styles/ExploreDemo.module.css';
+import { listExploreProjects } from '@/data/exploreDemo/projects';
+import { api } from '@/utils/api';
+import { resolvePlotCover, useHabitatCoverSet } from '@/utils/habitatCover';
+import styles from '@/styles/ExploreDemo.module.css';
 
 function matchLinkedPlot(project, plots) {
   if (!Array.isArray(plots) || !plots.length) return null;

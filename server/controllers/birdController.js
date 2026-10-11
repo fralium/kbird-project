@@ -1,7 +1,6 @@
 const Bird = require('../models/birdModel');
 const Record = require('../models/recordModel');
 const User = require('../models/userModel');
-const { pinyin } = require('pinyin-pro');
 const { clearCache, clearLeaderboardCache } = require('../middleware/cache');
 const { sendControllerError } = require('../middleware/controllerError');
 const { devError, devLog } = require('../utils/devLogger');
@@ -18,7 +17,11 @@ const { getTempUploadsRoot } = require('../config/dataPaths');
 const { normalizeBirdImageTags } = require('../utils/birdImageTags');
 const { normalizeBirdCallTags } = require('../utils/birdCallTags');
 const { todayLocalDateKey } = require('../utils/dateCoords');
-const { buildBirdNameSearchOr, buildAliasPinyinFields } = require('../utils/birdSearch');
+const {
+  escapeRegex,
+  buildBirdSmartSearchOr,
+  buildAliasPinyinFields,
+} = require('../utils/birdSearch');
 
 const parseFormTags = (rawTags, normalizeFn) => {
   if (typeof rawTags === 'string') {
@@ -35,23 +38,6 @@ const parseFormTags = (rawTags, normalizeFn) => {
   }
   return normalizeFn(rawTags);
 };
-
-const escapeRegex = (value = '') => String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-/** 拼音查询归一化：去声调分隔符/空格，便于匹配库内「diao xiao」这类字段 */
-const compactPinyinQuery = (value = '') =>
-  String(value)
-    .toLowerCase()
-    .replace(/[''`´]/g, '')
-    .replace(/[^a-z0-9]/g, '');
-
-/** 「diaoxiao」可匹配「diao xiao」：字母间允许空格 */
-const buildFlexiblePinyinRegex = (compact) => {
-  if (!compact) return null;
-  return new RegExp(compact.split('').map((ch) => escapeRegex(ch)).join('\\s*'), 'i');
-};
-
-const isLatinPinyinQuery = (value = '') => /^[a-zA-Z\s'`´]+$/.test(String(value).trim());
 
 const parseObservationYear = (year) => {
   const yearNum = year != null && String(year).trim() !== '' ? parseInt(String(year).trim(), 10) : NaN;
@@ -311,74 +297,9 @@ const getBirds = async (req, res) => {
     // 构建查询条件
     const query = {};
     
-    // 搜索功能 - 支持模糊搜索和拼音匹配
+    // 搜索：中文名 / 别名 / 英文名 / 学名 / 拼音 / 首字母
     if (search) {
-      const rawSearch = String(search).trim();
-      const searchRegex = new RegExp(escapeRegex(rawSearch), 'i');
-      let searchConditions = [];
-
-      try {
-        if (isLatinPinyinQuery(rawSearch)) {
-          // 拼音 / 首字母 / 学名片段（支持 diao、diao xiao、diao'xiao、diaoxiao）
-          const compact = compactPinyinQuery(rawSearch);
-          const flexiblePinyinRegex = buildFlexiblePinyinRegex(compact);
-          const initialsRegex = compact ? new RegExp(escapeRegex(compact), 'i') : null;
-
-          if (initialsRegex) {
-            searchConditions.push(
-              { namePinyinInitials: initialsRegex },
-              { nameAliasPinyinInitials: initialsRegex },
-              { scientificNamePinyinInitials: initialsRegex }
-            );
-          }
-          if (flexiblePinyinRegex) {
-            searchConditions.push(
-              { namePinyin: flexiblePinyinRegex },
-              { nameAliasPinyin: flexiblePinyinRegex },
-              { scientificNamePinyin: flexiblePinyinRegex }
-            );
-          }
-          // 学名：去掉分隔符后再比，避免拼音干扰过短查询
-          if (compact.length > 2) {
-            searchConditions.push(
-              { scientificName: searchRegex },
-              { scientificName: new RegExp(escapeRegex(compact), 'i') }
-            );
-          }
-          searchConditions.unshift(...buildBirdNameSearchOr(rawSearch));
-        } else {
-          // 中文或其他：名称 + 转拼音再匹配
-          const searchPinyin = pinyin(rawSearch, { toneType: 'none', type: 'string' });
-          const searchPinyinCompact = compactPinyinQuery(searchPinyin);
-          const searchPinyinRegex = new RegExp(escapeRegex(searchPinyin), 'i');
-          const searchPinyinInitials = String(searchPinyin)
-            .split(/\s+/)
-            .map((word) => word.charAt(0))
-            .join('');
-          const searchPinyinInitialsRegex = new RegExp(escapeRegex(searchPinyinInitials), 'i');
-          const flexiblePinyinRegex = buildFlexiblePinyinRegex(searchPinyinCompact);
-
-          searchConditions = [
-            ...buildBirdNameSearchOr(rawSearch),
-            { namePinyin: searchPinyinRegex },
-            { scientificNamePinyin: searchPinyinRegex },
-            { namePinyinInitials: searchPinyinInitialsRegex },
-            { nameAliasPinyinInitials: searchPinyinInitialsRegex },
-            { scientificNamePinyinInitials: searchPinyinInitialsRegex },
-          ];
-          if (flexiblePinyinRegex) {
-            searchConditions.push(
-              { namePinyin: flexiblePinyinRegex },
-              { nameAliasPinyin: flexiblePinyinRegex },
-              { scientificNamePinyin: flexiblePinyinRegex }
-            );
-          }
-        }
-      } catch (error) {
-        devLog('拼音转换失败，回退名称搜索:', error.message);
-        searchConditions = buildBirdNameSearchOr(rawSearch);
-      }
-
+      const searchConditions = buildBirdSmartSearchOr(search);
       if (searchConditions.length > 0) {
         query.$or = searchConditions;
       }
@@ -897,11 +818,22 @@ const getBirdById = async (req, res) => {
 // @desc    创建新鸟类记录
 // @route   POST /api/birds
 // @access  Private
+const enrichTaxonomyWritableFields = async (body = {}) => {
+  try {
+    const { buildTaxonomyWritableFields } = await import('../../utils/birdTaxonomyParse.js');
+    return buildTaxonomyWritableFields(body) || {};
+  } catch (error) {
+    devError('分类字段规范化失败:', error);
+    return {};
+  }
+};
+
 const createBird = async (req, res) => {
   try {
+    const taxonomyFields = await enrichTaxonomyWritableFields(req.body);
     // 仅允许白名单字段，禁止通过 mass assignment 注入 images/sightings 等
     const birdData = {
-      ...pickBirdWritableFields(req.body),
+      ...pickBirdWritableFields({ ...req.body, ...taxonomyFields }),
       createdBy: req.user._id,
       images: [],
       sightings: [],
@@ -949,9 +881,13 @@ const updateBird = async (req, res) => {
     
     devLog('更新前图片数量:', bird.images.length);
     
+    const taxonomyFields = await enrichTaxonomyWritableFields(req.body);
     const updatedBird = await Bird.findByIdAndUpdate(
       req.params.id,
-      pickBirdWritableFields(req.body, { name: bird.name, nameAliases: bird.nameAliases }),
+      pickBirdWritableFields(
+        { ...req.body, ...taxonomyFields },
+        { name: bird.name, nameAliases: bird.nameAliases }
+      ),
       { new: true, runValidators: true }
     );
     
@@ -1218,12 +1154,8 @@ const checkDuplicate = async (req, res) => {
       
       for (const birdName of names) {
         if (birdName && birdName.trim()) {
-          const query = {
-            $or: [
-              { name: { $regex: escapeRegex(birdName.trim()), $options: 'i' } },
-              { nameAliases: { $regex: escapeRegex(birdName.trim()), $options: 'i' } },
-            ],
-          };
+          const smartOr = buildBirdSmartSearchOr(birdName.trim());
+          const query = { $or: smartOr.length ? smartOr : [{ name: birdName.trim() }] };
           const similarBirds = await Bird.find(query)
             .select('name scientificName nameAliases description habitat distribution category order family genus species')
             .populate('createdBy', 'name')
@@ -1257,11 +1189,17 @@ const checkDuplicate = async (req, res) => {
     // 单个名称检查（保持向后兼容）
     const query = {};
     if (name) {
-      const nameRegex = { $regex: escapeRegex(name.trim()), $options: 'i' };
-      query.$or = [{ name: nameRegex }, { nameAliases: nameRegex }];
+      const smartOr = buildBirdSmartSearchOr(name.trim());
+      query.$or = smartOr.length ? smartOr : [{ name: name.trim() }];
     }
     if (scientificName) {
-      query.scientificName = { $regex: escapeRegex(scientificName.trim()), $options: 'i' };
+      const sciOr = buildBirdSmartSearchOr(scientificName.trim());
+      if (query.$or) {
+        query.$and = [{ $or: query.$or }, { $or: sciOr.length ? sciOr : [{ scientificName: scientificName.trim() }] }];
+        delete query.$or;
+      } else {
+        query.$or = sciOr.length ? sciOr : [{ scientificName: scientificName.trim() }];
+      }
     }
 
     // 查找相似的鸟类

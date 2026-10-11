@@ -13,7 +13,7 @@ const {
   buildLocationRecordMatchers,
 } = require('../utils/locationName');
 const { extractValidLngLat } = require('../utils/dateCoords');
-const { buildBirdNameSearchOr } = require('../utils/birdSearch');
+const { buildBirdSmartSearchOr } = require('../utils/birdSearch');
 
 const normalizeRecordImage = (img = {}) => {
   const url = sanitizeActiveUploadImageUrl(img.url);
@@ -122,9 +122,8 @@ const applyRecordSearchFilter = async (query, search) => {
   ];
 
   try {
-    const matchedBirds = await Bird.find({
-      $or: buildBirdNameSearchOr(term),
-    })
+    const birdOr = buildBirdSmartSearchOr(term);
+    const matchedBirds = await Bird.find(birdOr.length ? { $or: birdOr } : { _id: null })
       .select('_id')
       .limit(80)
       .lean();

@@ -5,6 +5,7 @@ const Bird = require('../models/birdModel');
 const { sendControllerError } = require('../middleware/controllerError');
 const { devError } = require('../utils/devLogger');
 const { resolveCanonicalLocationName, normalizeLocationName } = require('../utils/locationName');
+const { formatDisplayDateShort } = require('../utils/dateCoords');
 
 const LOOSE_LIST_TITLE = '许愿目标';
 const LOOSE_LIST_LEGACY_TITLES = new Set(['散装目标', '许愿目标']);
@@ -532,7 +533,7 @@ const createGoalList = async (req, res) => {
     const checklist = await ensureChecklist(userId);
     migrateTargetBirdsIntoLists(checklist);
     const listDoc = {
-      title: title || locationLabel || `加新目标 ${new Date().toLocaleDateString('zh-CN')}`,
+      title: title || locationLabel || `加新目标 ${formatDisplayDateShort(new Date())}`,
       locationLabel,
       sourceHistoryId,
       createdAt: new Date(),

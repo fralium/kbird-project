@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { api } from '../utils/api';
-import { bd09ToWgs84, wgs84ToBd09 } from '../utils/mapCoords';
-import { createBaiduBirdMarker } from '../utils/baiduMapMarker';
+import { api } from '@/utils/api';
+import { bd09ToWgs84, wgs84ToBd09 } from '@/utils/mapCoords';
+import { createBaiduBirdMarker } from '@/utils/baiduMapMarker';
 
 /**
  * 地点编辑页地图选点
@@ -49,7 +49,7 @@ export default function LocationMapPicker({
 
   return (
     <div className="location-map-picker" style={{ padding: '16px', background: '#f5f5f5', borderRadius: 8 }}>
-      <p style={{ margin: 0, color: '#666' }}>
+      <p style={{ margin: 0, color: 'var(--text-muted)'}}>
         请配置 <code>NEXT_PUBLIC_BAIDU_MAP_AK</code>（推荐）或 <code>NEXT_PUBLIC_TIANDITU_TK</code> 后使用地图选点。
       </p>
     </div>
@@ -98,7 +98,7 @@ function SearchBar({ searchKeyword, setSearchKeyword, onSearch, searching, searc
           style={{
             padding: '8px 16px',
             background: '#219EBC',
-            color: '#fff',
+            color: 'var(--text-white)',
             border: 'none',
             borderRadius: 6,
             cursor: searching ? 'wait' : 'pointer',
@@ -107,7 +107,7 @@ function SearchBar({ searchKeyword, setSearchKeyword, onSearch, searching, searc
           {searching ? '搜索中…' : buttonLabel}
         </button>
       </div>
-      {searchError ? <p style={{ margin: '0 0 8px 0', fontSize: 12, color: '#c00' }}>{searchError}</p> : null}
+      {searchError ? <p style={{ margin: '0 0 8px 0', fontSize: 12, color: '#c00'}}>{searchError}</p> : null}
     </>
   );
 }
@@ -314,7 +314,7 @@ function BaiduLocationPicker({
   if (mapError) {
     return (
       <div className="location-map-picker" style={{ padding: '16px', background: '#f5f5f5', borderRadius: 8 }}>
-        <p style={{ margin: 0, color: '#c00' }}>{mapError}</p>
+        <p style={{ margin: 0, color: '#c00'}}>{mapError}</p>
       </div>
     );
   }
@@ -350,14 +350,14 @@ function BaiduLocationPicker({
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: 14,
-              color: '#666',
+              color: 'var(--text-muted)',
             }}
           >
             百度地图加载中…
           </div>
         )}
       </div>
-      <p style={{ margin: '8px 0 0 0', fontSize: 12, color: '#888' }}>
+      <p style={{ margin: '8px 0 0 0', fontSize: 12, color: 'var(--text-muted)'}}>
         点击地图或拖拽标记设点；下方经纬度为库内坐标（WGS84 近似）。
       </p>
     </div>
@@ -527,7 +527,7 @@ function TiandituLocationPicker({
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: 14,
-              color: '#666',
+              color: 'var(--text-muted)',
             }}
           >
             加载地图中…

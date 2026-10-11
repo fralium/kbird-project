@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { SuccessIcon, colors } from './Icons';
-import { api } from '../utils/api';
+import { api } from '@/utils/api';
 import RequestNewBirdButton from './RequestNewBirdButton';
-import styles from '../styles/SmartBirdAdder.module.css';
+import styles from '@/styles/SmartBirdAdder.module.css';
 
 export default function SmartBirdAdder({ onAddBirds, existingBirds = [] }) {
   const [isOpen, setIsOpen] = useState(false);

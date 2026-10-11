@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect, useRef } from 'react';
-import { api } from '../utils/api';
-import { extractLngLatPair } from '../utils/locationCoords';
-import styles from '../styles/LocationAutocomplete.module.css';
+import { api } from '@/utils/api';
+import { extractLngLatPair } from '@/utils/locationCoords';
+import styles from '@/styles/LocationAutocomplete.module.css';
 
 const LocationAutocomplete = ({
   value,
@@ -156,7 +156,7 @@ const LocationAutocomplete = ({
         autoComplete="off"
       />
       {showHint ? (
-        <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#888' }}>
+        <p style={{ margin: '4px 0 0 0', fontSize: 'var(--type-caption)', color: 'var(--text-muted)'}}>
           建议从下拉列表选择已有地点，仅输入名称不会保存准确坐标。
         </p>
       ) : null}

@@ -41,67 +41,67 @@
   padding: 12px 14px 12px 12px;
   text-align: left;
   cursor: pointer;
-  color: var(--text-muted, #5c6b7a);
-  background: var(--surface-card, #fff);
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  color: var(--text-muted);
+  background: var(--surface-card, var(--bg-white));
+  border: 1px solid var(--border-subtle);
   border-left: 6px solid transparent;
   border-radius: var(--radius-panel, 8px);
-  box-shadow: 0 1px 0 rgba(2, 48, 71, 0.03);
+  box-shadow: 0 1px 0 var(--border-subtle);
   font-family: inherit;
   text-decoration: none;
 }
 
 .task:hover {
-  border-color: rgba(33, 158, 188, 0.35);
+  border-color: var(--color-lake-mid);
 }
 
 .taskActive,
 .taskActive:link,
 .taskActive:visited {
-  color: var(--color-deep-teal, #023047);
-  border-color: rgba(33, 158, 188, 0.28);
-  border-left-color: var(--color-lake, #219ebc);
-  background: linear-gradient(180deg, #ffffff 0%, #f7fbfd 100%);
+  color: var(--color-ink);
+  border-color: var(--color-lake-mid);
+  border-left-color: var(--color-lake, var(--color-lake));
+  background: linear-gradient(180deg, var(--bg-white) 0%, var(--bg-clean) 100%);
 }
 
 .taskTitle {
-  font-size: var(--type-scale-base, 1rem);
+  font-size: var(--type-body);
   font-weight: 700;
-  line-height: 1.3;
+  line-height: var(--line-height-snug);
   color: inherit;
 }
 
 .taskHint {
-  font-size: var(--type-caption, 0.75rem);
-  line-height: 1.45;
-  color: rgba(2, 48, 71, 0.68);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-normal);
+  color: var(--border-subtle);
 }
 
 .workspace {
   min-width: 0;
-  background: var(--surface-card, #fff);
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  background: var(--surface-card, var(--bg-white));
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-panel, 8px);
-  box-shadow: 0 1px 0 rgba(2, 48, 71, 0.03);
+  box-shadow: 0 1px 0 var(--border-subtle);
 }
 
 .workspaceHead {
   padding: 16px 18px 12px;
-  border-bottom: 1px solid rgba(2, 48, 71, 0.08);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .workspaceTitle {
   margin: 0;
-  font-size: var(--type-scale-lg, 1.125rem);
+  font-size: var(--type-subsection);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .workspaceHint {
   margin: 6px 0 0;
-  font-size: var(--type-caption, 0.875rem);
-  line-height: 1.5;
-  color: rgba(2, 48, 71, 0.72);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-normal);
+  color: var(--border-subtle);
 }
 
 .workspaceBody {
@@ -120,7 +120,7 @@
 .task:focus-visible,
 .task:visited:hover {
   text-decoration: none;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 @media (max-width: 860px) {

@@ -6,30 +6,30 @@
 }
 
 .loading {
-  background: var(--bg-white, #ffffff);
-  border: 1px solid var(--gray-200, #e5e7eb);
+  background: var(--bg-white, var(--bg-white));
+  border: 1px solid var(--gray-200, var(--gray-200));
 }
 
 .error {
   background: var(--color-danger-soft, rgba(220, 38, 38, 0.12));
-  border: 1px solid var(--color-danger-border, #f5c6cb);
+  border: 1px solid var(--color-danger-border, var(--color-danger-border));
 }
 
 .empty {
-  background: var(--bg-white, #ffffff);
-  border: 1px solid var(--gray-200, #e5e7eb);
+  background: var(--bg-white, var(--bg-white));
+  border: 1px solid var(--gray-200, var(--gray-200));
 }
 
 .title {
   margin: 0 0 12px 0;
-  font-size: var(--type-scale-lg, 1.25rem);
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-subsection);
+  color: var(--color-ink);
 }
 
 .message {
   margin: 0;
-  color: var(--text-muted, #5c6b7a);
-  line-height: 1.5;
+  color: var(--text-muted);
+  line-height: var(--line-height-normal);
   white-space: pre-wrap;
 }
 
@@ -42,8 +42,8 @@
 }
 
 .actionButton {
-  background: var(--button-primary, var(--color-lake, #219ebc));
-  color: var(--text-white, #fff);
+  background: var(--button-primary, var(--color-lake, var(--color-lake)));
+  color: var(--text-white);
   border: none;
   border-radius: var(--radius-md, 8px);
   padding: 10px 18px;
@@ -52,13 +52,13 @@
 }
 
 .actionButton:hover {
-  background: var(--color-lake-hover, #1780a0);
+  background: var(--color-lake-hover, var(--color-lake-hover));
 }
 
 .secondaryButton {
-  background: #fff;
-  color: var(--color-lake, #219ebc);
-  border: 1px solid rgba(33, 158, 188, 0.45);
+  background: var(--bg-white);
+  color: var(--color-lake);
+  border: 1px solid var(--color-lake-mid);
   border-radius: var(--radius-md, 8px);
   padding: 10px 18px;
   cursor: pointer;
@@ -66,6 +66,6 @@
 }
 
 .secondaryButton:hover {
-  background: rgba(33, 158, 188, 0.08);
-  border-color: var(--color-lake, #219ebc);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake, var(--color-lake));
 }

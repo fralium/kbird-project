@@ -2,12 +2,12 @@
 
 import { Suspense, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import PageState from '../../../components/PageState';
-import ExploreProjectList from '../../../components/ExploreProjectList';
-import { useAuth } from '../../../components/AuthProvider';
-import styles from '../../../styles/ExploreDemo.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import PageState from '@/components/PageState';
+import ExploreProjectList from '@/components/ExploreProjectList';
+import { useAuth } from '@/components/AuthProvider';
+import styles from '@/styles/ExploreDemo.module.css';
 
 function PersonalExploreListInner() {
   const router = useRouter();

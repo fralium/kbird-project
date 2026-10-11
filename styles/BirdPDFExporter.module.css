@@ -1,7 +1,7 @@
 ﻿/* 鸟类PDF导出组件样式 */
 
 .container {
-  background: #fff;
+  background: var(--bg-white);
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -16,14 +16,14 @@
 .header h3 {
   color: var(--primary-color);
   margin: 0 0 8px 0;
-  font-size: 1.5rem;
+  font-size: var(--type-section);
   font-weight: 600;
 }
 
 .header p {
-  color: var(--text-medium);
+  color: var(--text-secondary);
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--type-body);
 }
 
 .controls {
@@ -35,12 +35,12 @@
 }
 
 .exportButton {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-ink) 100%);
+  color: var(--text-white);
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -54,7 +54,7 @@
 }
 
 .exportButton:disabled {
-  background: #ccc;
+  background: var(--gray-200);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -76,14 +76,14 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: linear-gradient(90deg, var(--color-lake), var(--color-ink));
   border-radius: 4px;
   transition: width 0.3s ease;
 }
 
 .progressText {
-  color: var(--text-medium);
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-size: var(--type-secondary);
   margin: 0;
 }
 
@@ -97,19 +97,19 @@
 .info h4 {
   color: var(--primary-color);
   margin: 0 0 16px 0;
-  font-size: var(--page-subtitle-size);
+  font-size: var(--type-page-lede);
   font-weight: 600;
 }
 
 .info ul {
   margin: 0;
   padding-left: 20px;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .info li {
   margin-bottom: 8px;
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
 }
 
 .info li:last-child {
@@ -124,7 +124,7 @@
   }
 
   .header h3 {
-    font-size: 1.3rem;
+    font-size: var(--type-subsection);
   }
 
   .controls {
@@ -144,16 +144,16 @@
 
 @media (max-width: 480px) {
   .header h3 {
-    font-size: 1.2rem;
+    font-size: var(--type-subsection);
   }
 
   .header p {
-    font-size: 0.9rem;
+    font-size: var(--type-secondary);
   }
 
   .exportButton {
     padding: 10px 20px;
-    font-size: 0.9rem;
+    font-size: var(--type-secondary);
   }
 }
 

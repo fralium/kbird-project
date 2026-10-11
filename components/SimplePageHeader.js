@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import styles from '../styles/SimplePageHeader.module.css';
+import styles from '@/styles/SimplePageHeader.module.css';
 
 /**
  * 内页轻品牌页头（观察鸟种页验证后的标准）
@@ -34,7 +34,7 @@ export default function SimplePageHeader({
 
 export function HeaderPrimaryLink({ href, children }) {
   return (
-    <Link href={href} className={styles.headerPrimaryBtn}>
+    <Link href={href} className="btn btn-primary">
       {children}
     </Link>
   );
@@ -42,7 +42,7 @@ export function HeaderPrimaryLink({ href, children }) {
 
 export function HeaderSecondaryLink({ href, children }) {
   return (
-    <Link href={href} className={styles.headerSecondaryBtn}>
+    <Link href={href} className="btn btn-secondary">
       {children}
     </Link>
   );
@@ -66,7 +66,7 @@ export function HeaderTextButton({ onClick, children, disabled = false, type = '
 
 export function HeaderPrimaryButton({ onClick, children, disabled = false, type = 'button' }) {
   return (
-    <button type={type} className={styles.headerPrimaryBtn} onClick={onClick} disabled={disabled}>
+    <button type={type} className="btn btn-primary" onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );
@@ -80,13 +80,15 @@ export function HeaderSecondaryButton({
   ...rest
 }) {
   return (
-    <button
-      type={type}
-      className={styles.headerSecondaryBtn}
-      onClick={onClick}
-      disabled={disabled}
-      {...rest}
-    >
+    <button type={type} className="btn btn-secondary" onClick={onClick} disabled={disabled} {...rest}>
+      {children}
+    </button>
+  );
+}
+
+export function HeaderDangerButton({ onClick, children, disabled = false, type = 'button' }) {
+  return (
+    <button type={type} className="btn btn-danger" onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );

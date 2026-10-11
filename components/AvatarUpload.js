@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { api } from '../utils/api';
-import styles from '../styles/AvatarUpload.module.css';
+import { api } from '@/utils/api';
+import styles from '@/styles/AvatarUpload.module.css';
 
 export default function AvatarUpload({ currentAvatar, onAvatarChange }) {
   const [uploading, setUploading] = useState(false);

@@ -1,4 +1,5 @@
 import { devError } from './devLogger';
+import { resolveBackendApiBase } from './backendApiBase';
 
 const NETWORK_ERROR_CODES = new Set([
   'ECONNREFUSED',
@@ -85,4 +86,55 @@ export const sendMethodNotAllowed = (res, allowedMethods = [], message = '方法
     message,
     code: 'METHOD_NOT_ALLOWED',
   });
+};
+
+/**
+ * Factory for Next.js pages/api proxies to Express backend.
+ * @param {{ backendPath: string|((req)=>string), methods?: string[], includeAuth?: boolean, mapQuery?: (query)=>object }} options
+ */
+export const createBackendProxy = ({
+  backendPath,
+  methods = ['GET'],
+  includeAuth = true,
+  mapQuery,
+  errorMessage = '请求失败',
+  errorCode = 'PROXY_FAILED',
+} = {}) => {
+  const allowed = new Set((methods || []).map((m) => String(m).toUpperCase()));
+
+  return async function backendProxyHandler(req, res) {
+    const method = String(req.method || 'GET').toUpperCase();
+    if (!allowed.has(method)) {
+      return sendMethodNotAllowed(res, [...allowed]);
+    }
+
+    try {
+      const API_BASE_URL = resolveBackendApiBase();
+      const path =
+        typeof backendPath === 'function' ? backendPath(req) : String(backendPath || '');
+      const query = mapQuery ? mapQuery(req.query || {}) : { ...req.query };
+      delete query.path;
+      const qs = new URLSearchParams();
+      Object.entries(query || {}).forEach(([key, value]) => {
+        if (value == null || value === '') return;
+        if (Array.isArray(value)) value.forEach((item) => qs.append(key, String(item)));
+        else qs.append(key, String(value));
+      });
+      const url = `${API_BASE_URL}${path}${qs.toString() ? `?${qs}` : ''}`;
+
+      const init = {
+        method,
+        headers: buildJsonHeaders(req, { includeAuth }),
+      };
+      if (method !== 'GET' && method !== 'HEAD' && req.body != null) {
+        init.body = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+      }
+
+      const response = await fetch(url, init);
+      const data = await parseProxyJsonResponse(response);
+      return res.status(response.status).json(data);
+    } catch (error) {
+      return sendProxyError(res, error, { message: errorMessage, code: errorCode });
+    }
+  };
 };

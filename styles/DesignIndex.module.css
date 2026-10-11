@@ -26,41 +26,41 @@
   grid-template-rows: auto auto;
   gap: 4px 16px;
   padding: 16px 18px;
-  background: var(--surface-card, #fff);
-  border: 1px solid rgba(33, 158, 188, 0.16);
+  background: var(--surface-card, var(--bg-white));
+  border: 1px solid var(--color-lake-light);
   border-radius: var(--radius-panel);
   text-decoration: none;
   color: inherit;
 }
 
 .card:hover {
-  border-color: var(--color-lake, #219ebc);
+  border-color: var(--color-lake, var(--color-lake));
 }
 
 .cardTitle {
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .cardNote {
   grid-column: 1;
-  font-size: var(--type-secondary, 0.9rem);
-  color: var(--type-muted-color, #5c6b7a);
+  font-size: var(--type-secondary);
+  color: var(--text-muted);
 }
 
 .live,
 .stale {
   grid-row: 1 / span 2;
   align-self: center;
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0.04em;
 }
 
 .live {
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
 }
 
 .stale {
-  color: var(--type-muted-color, #5c6b7a);
+  color: var(--text-muted);
 }

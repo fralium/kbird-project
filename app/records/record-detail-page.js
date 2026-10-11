@@ -4,29 +4,30 @@ import dynamic from 'next/dynamic';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import ImageViewer from '../../components/ImageViewer';
-import LocationAutocomplete from '../../components/LocationAutocomplete';
-import HabitatGallery from '../../components/HabitatGallery';
-import { useAuth } from '../../components/AuthProvider';
-import { getOrderChineseName, getFamilyChineseName, formatTaxonomyDisplay } from '../../data/taxonomyTranslation';
-import { getRecordBirdHighlight, sortRecordBirdsByImportance } from '../../data/protectionLevels';
-import { api } from '../../utils/api';
-import { formatAddressRegion } from '../../utils/formatAddressRegion';
-import { formatLocalDateKey } from '../../utils/localDate';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ImageViewer from '@/components/ImageViewer';
+import LocationAutocomplete from '@/components/LocationAutocomplete';
+import HabitatGallery from '@/components/HabitatGallery';
+import { useAuth } from '@/components/AuthProvider';
+import { getOrderChineseName, getFamilyChineseName, formatTaxonomyDisplay } from '@/data/taxonomyTranslation';
+import { getRecordBirdHighlight, sortRecordBirdsByImportance } from '@/data/protectionLevels';
+import { api } from '@/utils/api';
+import { formatAddressRegion } from '@/utils/formatAddressRegion';
+import { formatDisplayDate, formatDisplayDateTime, formatLocalDateKey } from '@/utils/localDate';
 import SimplePageHeader, {
   HeaderPrimaryButton,
   HeaderSecondaryButton,
   HeaderTextLink,
-} from '../../components/SimplePageHeader';
-import { useConfirmDialog } from '../../components/ConfirmDialog';
-import SpeciesHoverChip from '../../components/SpeciesHoverChip';
-import styles from '../../styles/RecordDetail.module.css';
-import outingStyles from '../../styles/OutingReport.module.css';
+} from '@/components/SimplePageHeader';
+import { useConfirmDialog } from '@/components/ConfirmDialog';
+import SpeciesHoverChip from '@/components/SpeciesHoverChip';
+import PageState from '@/components/PageState';
+import styles from '@/styles/RecordDetail.module.css';
+import outingStyles from '@/styles/OutingReport.module.css';
 
 // 地图依赖 window/Leaflet，仅客户端加载，避免 SSR 报错 "window is not defined"
-const BirdMapProvider = dynamic(() => import('../../components/BirdMapProvider'), { ssr: false });
+const BirdMapProvider = dynamic(() => import('@/components/BirdMapProvider'), { ssr: false });
 
 function resolveRecordImageUrl(url) {
   if (!url) return '';
@@ -944,9 +945,7 @@ export default function RecordDetail() {
       <div className={styles.container}>
         <Navbar />
         <main className={styles.main}>
-          <div className={styles.loadingContainer}>
-            <p>加载中...</p>
-          </div>
+          <PageState type="loading" title="加载中..." />
         </main>
         <Footer />
       </div>
@@ -958,13 +957,13 @@ export default function RecordDetail() {
       <div className={styles.container}>
         <Navbar />
         <main className={styles.main}>
-          <div className={styles.errorContainer}>
-            <h2>错误</h2>
-            <p>{error}</p>
-            <Link href="/records" className={styles.backButton}>
-              返回记录列表
-            </Link>
-          </div>
+          <PageState
+            type="error"
+            title="错误"
+            message={error}
+            actionLabel="返回记录列表"
+            onAction={() => router.push('/records')}
+          />
         </main>
         <Footer />
       </div>
@@ -976,13 +975,13 @@ export default function RecordDetail() {
       <div className={styles.container}>
         <Navbar />
         <main className={styles.main}>
-          <div className={styles.errorContainer}>
-            <h2>记录不存在</h2>
-            <p>您要查看的观鸟记录不存在或已被删除</p>
-            <Link href="/records" className={styles.backButton}>
-              返回记录列表
-            </Link>
-          </div>
+          <PageState
+            type="error"
+            title="记录不存在"
+            message="您要查看的观鸟记录不存在或已被删除"
+            actionLabel="返回记录列表"
+            onAction={() => router.push('/records')}
+          />
         </main>
         <Footer />
       </div>
@@ -997,7 +996,7 @@ export default function RecordDetail() {
         <SimplePageHeader
           title={record.title}
           description={[
-            new Date(record.date).toLocaleDateString('zh-CN'),
+            formatDisplayDate(record.date, 'short'),
             formatRecordRegion(record.location) || record.location?.name || '地点未知',
           ]
             .filter(Boolean)
@@ -1530,7 +1529,7 @@ export default function RecordDetail() {
                     <tbody>
                       <tr>
                         <th scope="row">日期</th>
-                        <td>{new Date(record.date).toLocaleDateString('zh-CN')}</td>
+                        <td>{formatDisplayDate(record.date, 'short')}</td>
                       </tr>
                       <tr>
                         <th scope="row">地点</th>
@@ -1598,11 +1597,11 @@ export default function RecordDetail() {
                                 <span className={outingStyles.muted}>
                                   {bits.length ? ' · ' : ''}
                                   {effort.startTime
-                                    ? new Date(effort.startTime).toLocaleString('zh-CN')
+                                    ? formatDisplayDateTime(effort.startTime)
                                     : ''}
                                   {effort.startTime && effort.endTime ? ' → ' : ''}
                                   {effort.endTime
-                                    ? new Date(effort.endTime).toLocaleString('zh-CN')
+                                    ? formatDisplayDateTime(effort.endTime)
                                     : ''}
                                 </span>
                               ) : null}
@@ -1970,7 +1969,7 @@ export default function RecordDetail() {
                   <ul className={outingStyles.relatedList}>
                     {nearbyRecords.map((item) => {
                       const dateLabel = item.date
-                        ? new Date(item.date).toLocaleDateString('zh-CN')
+                        ? formatDisplayDate(item.date, 'short')
                         : '日期未知';
                       const outingBirds = formatRelatedOutingBirds(item);
                       return (

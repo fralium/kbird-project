@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { api } from '../../utils/api';
-import { useAuth } from '../../components/AuthProvider';
-import styles from '../../styles/Init.module.css';
+import { api } from '@/utils/api';
+import { useAuth } from '@/components/AuthProvider';
+import styles from '@/styles/Init.module.css';
 
 /** 软件名写死；端口 / 主机等走推荐默认，不在向导里改 */
 const SITE_NAME = 'KBird';
@@ -413,7 +413,7 @@ export default function InitPage() {
             <div className={styles.actions} style={{ marginTop: '1.5rem' }}>
               <button
                 type="button"
-                className={styles.btnPrimary}
+                className="btn btn-primary"
                 onClick={async () => {
                   if (appMode?.autoLogin !== false) {
                     const session = await ensureLocalSession();
@@ -464,7 +464,7 @@ export default function InitPage() {
       <div className={styles.actions} onClick={(e) => e.stopPropagation()}>
         {step > 1 ? (
           <button
-            className={styles.btnSecondary}
+            className="btn btn-secondary"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -478,7 +478,7 @@ export default function InitPage() {
 
         {step < TOTAL_STEPS ? (
           <button
-            className={styles.btnPrimary}
+            className="btn btn-primary"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -490,7 +490,7 @@ export default function InitPage() {
             {step === 2 ? '跳过 / 下一步' : '下一步'}
           </button>
         ) : (
-          <button className={styles.btnPrimary} onClick={handleSubmit} disabled={loading}>
+          <button className="btn btn-primary" onClick={handleSubmit} disabled={loading}>
             {loading ? '提交中...' : alreadyInitialized ? '确认覆盖并重配' : '完成重配'}
           </button>
         )}

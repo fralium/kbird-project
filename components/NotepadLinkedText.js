@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { linkifyMentions } from '../utils/linkifyMentions';
-import styles from '../styles/NotepadLinkedText.module.css';
+import { linkifyMentions } from '@/utils/linkifyMentions';
+import styles from '@/styles/NotepadLinkedText.module.css';
 
 export default function NotepadLinkedText({ text = '', terms = [], className = '' }) {
   const parts = linkifyMentions(text, terms);

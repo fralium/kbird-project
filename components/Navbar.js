@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BirdIcon, AddIcon, UserIcon, TrophyIcon, MapIcon, LogoutIcon, ChevronDownIcon, colors } from './Icons';
 import { useAuth } from './AuthProvider';
-import styles from '../styles/Navbar.module.css';
+import styles from '@/styles/Navbar.module.css';
 
 const Navbar = () => {
   const pathname = usePathname();

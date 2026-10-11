@@ -35,13 +35,13 @@
 }
 
 .icon {
-  font-size: var(--type-scale-md);
+  font-size: var(--type-page-lede);
   flex-shrink: 0;
 }
 
 .message {
   flex: 1;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 500;
   color: var(--text-primary);
   line-height: var(--line-height-snug);
@@ -50,7 +50,7 @@
 .closeButton {
   background: none;
   border: none;
-  font-size: var(--type-scale-xl);
+  font-size: var(--type-section);
   color: var(--text-muted);
   cursor: pointer;
   padding: 0;
@@ -157,6 +157,6 @@
   }
 
   .message {
-    font-size: var(--type-scale-sm);
+    font-size: var(--type-secondary);
   }
 }

@@ -4,7 +4,7 @@
   background: white;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px var(--border-subtle);
   border: 1px solid var(--gray-200);
   max-width: 600px;
   margin: 0 auto;
@@ -17,8 +17,8 @@
 }
 
 .title {
-  color: var(--color-deep-teal);
-  font-size: 1.4rem;
+  color: var(--color-ink);
+  font-size: var(--type-section);
   margin: 0 0 8px 0;
   font-weight: 600;
   display: flex;
@@ -28,7 +28,7 @@
 
 .title::before {
   content: '📝';
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
 }
 
 .birdInfo {
@@ -38,14 +38,14 @@
 }
 
 .birdName {
-  color: var(--color-deep-teal);
-  font-size: 1.1rem;
+  color: var(--color-ink);
+  font-size: var(--type-page-lede);
   font-weight: 500;
 }
 
 .scientificName {
-  color: #6c757d;
-  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
   font-style: italic;
 }
 
@@ -63,11 +63,11 @@
 .label {
   margin-bottom: 6px;
   font-weight: 500;
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
 }
 
 .required {
-  color: #e74c3c;
+  color: var(--color-danger);
   margin-left: 2px;
 }
 
@@ -75,7 +75,7 @@
   padding: 12px;
   border: 2px solid var(--border-input);
   border-radius: 8px;
-  font-size: 16px;
+  font-size: var(--type-body);
   transition: all 0.2s ease;
 }
 
@@ -147,8 +147,8 @@
 }
 
 .imageCaption {
-  font-size: 12px;
-  color: #666;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -156,23 +156,23 @@
 }
 
 .removeImageButton {
-  background: #dc3545;
-  color: white;
+  background: var(--color-danger);
+  color: var(--text-white);
   border: none;
   padding: 2px 6px;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: var(--type-caption);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .removeImageButton:hover {
-  background: #c82333;
+  background: var(--color-danger);
 }
 
 .error {
-  color: #e74c3c;
-  font-size: 14px;
+  color: var(--color-danger);
+  font-size: var(--type-secondary);
   margin-top: 4px;
   display: flex;
   align-items: center;
@@ -195,7 +195,7 @@
 .cancelButton, .submitButton {
   padding: var(--spacing-2) var(--spacing-4);
   border-radius: var(--radius-lg);
-  font-size: var(--type-scale-base);
+  font-size: var(--type-body);
   font-weight: 500;
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -220,7 +220,7 @@
 
 .submitButton {
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
 }
 
 .submitButton:hover:not(:disabled) {

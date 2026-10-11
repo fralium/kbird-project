@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import styles from '../styles/PopularLocations.module.css';
-import { api } from '../utils/api';
+import styles from '@/styles/PopularLocations.module.css';
+import { api } from '@/utils/api';
+import { formatDisplayDate } from '@/utils/localDate';
 
 const PopularLocations = ({ onLocationSelect, selectedLocation }) => {
   const [popularLocations, setPopularLocations] = useState([]);
@@ -79,10 +80,7 @@ const PopularLocations = ({ onLocationSelect, selectedLocation }) => {
                 </span>
                 {location.lastRecordDate && (
                   <span className={styles.lastRecord}>
-                    最近: {new Date(location.lastRecordDate).toLocaleDateString('zh-CN', { 
-                      month: 'short', 
-                      day: 'numeric' 
-                    })}
+                    最近: {formatDisplayDate(location.lastRecordDate, 'monthDay')}
                   </span>
                 )}
               </div>

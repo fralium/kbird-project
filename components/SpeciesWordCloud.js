@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef } from 'react';
-import styles from '../styles/SpeciesWordCloud.module.css';
+import styles from '@/styles/SpeciesWordCloud.module.css';
 
 const MAX_WORDS = 100;
 

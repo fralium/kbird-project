@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import styles from '../styles/KeyboardNavigation.module.css';
+import styles from '@/styles/KeyboardNavigation.module.css';
 
 const KeyboardNavigation = ({ 
   children, 

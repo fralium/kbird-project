@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import LocationAutocomplete from './LocationAutocomplete';
-import { todayLocalDateKey } from '../utils/localDate';
-import styles from '../styles/SightingForm.module.css';
+import { todayLocalDateKey } from '@/utils/localDate';
+import styles from '@/styles/SightingForm.module.css';
 
 export default function SightingForm({ onSubmit, onCancel }) {
   const [formData, setFormData] = useState({

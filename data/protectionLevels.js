@@ -23,7 +23,7 @@ export const chinaProtectionLevels = {
   "省级保护": {
     value: "省级保护",
     description: "省级重点保护野生动物",
-    color: "#219EBC", // 湖泊蓝
+    color: "#247896", // 普蓝交互色
     icon: "🔵"
   },
   "未列入": {
@@ -40,7 +40,7 @@ export const iucnProtectionLevels = {
     value: "无危(LC)",
     fullName: "Least Concern",
     description: "Least Concern - 无危",
-    color: "#219EBC", // 湖泊蓝
+    color: "#247896", // 普蓝交互色
     icon: "🟢"
   },
   "近危(NT)": {

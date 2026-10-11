@@ -172,9 +172,20 @@ export const getOrderChineseName = (latinOrChinese) => {
   return latinOrChinese;
 };
 
-// 获取科的中文名
-export const getFamilyChineseName = (latinName) => {
-  return familyTranslation[latinName] || latinName;
+// 获取科的中文名（拉丁或中文均可）
+export const getFamilyChineseName = (latinOrChinese) => {
+  if (!latinOrChinese) return '';
+  if (familyTranslation[latinOrChinese]) return familyTranslation[latinOrChinese];
+  const found = Object.entries(familyTranslation).find(([, cn]) => cn === latinOrChinese);
+  return found ? found[1] : latinOrChinese;
+};
+
+// 获取科的拉丁名（若传入已是拉丁则原样返回）
+export const getFamilyLatinName = (chineseOrLatin) => {
+  if (!chineseOrLatin) return '';
+  if (familyTranslation[chineseOrLatin]) return chineseOrLatin;
+  const found = Object.entries(familyTranslation).find(([, cn]) => cn === chineseOrLatin);
+  return found ? found[0] : '';
 };
 
 // 格式化分类显示：中文名/拉丁名

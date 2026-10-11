@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--page-bg, #f5f8fa);
+  background: var(--page-bg, var(--bg-clean));
 }
 
 .main {
@@ -19,31 +19,31 @@
   margin: 0 0 16px;
   padding: 10px 14px;
   border-radius: var(--radius-md, 8px);
-  border: 1px dashed rgba(33, 158, 188, 0.45);
-  background: rgba(33, 158, 188, 0.08);
-  color: var(--text-primary, #1a2b33);
-  font-size: var(--type-scale-sm, 0.875rem);
-  line-height: 1.5;
+  border: 1px dashed var(--color-lake-mid);
+  background: var(--color-lake-light);
+  color: var(--text-primary);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
 }
 
 .demoBanner strong {
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
 }
 
 .pageNote {
   margin: 28px 0 0;
   padding: 12px 0 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  font-size: 0.8125rem;
-  line-height: 1.55;
-  color: var(--text-medium, #5a6b73);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-normal);
+  color: var(--text-secondary);
 }
 
 .pageNoteLabel {
   display: inline-block;
   margin-right: 8px;
-  font-weight: 650;
-  color: var(--text-dark, #1a2b33);
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .projectGrid {
@@ -57,8 +57,8 @@
   position: relative;
   border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(2, 48, 71, 0.08);
-  background: #0f2a33;
+  border: 1px solid var(--border-subtle);
+  background: var(--color-ink);
   text-decoration: none;
   color: inherit;
   transition: transform 0.15s ease, border-color 0.15s ease;
@@ -66,11 +66,11 @@
 
 .projectCard:hover {
   transform: translateY(-2px);
-  border-color: rgba(33, 158, 188, 0.45);
+  border-color: var(--color-lake-mid);
 }
 
 .projectCard:focus-visible {
-  outline: 2px solid var(--color-lake, #219ebc);
+  outline: 2px solid var(--color-lake, var(--color-lake));
   outline-offset: 2px;
 }
 
@@ -105,8 +105,8 @@
   padding: 3px 8px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.9);
-  color: var(--color-deep-teal, #023047);
-  font-size: 0.72rem;
+  color: var(--color-ink);
+  font-size: var(--type-caption);
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
@@ -132,13 +132,13 @@
   flex-direction: column;
   gap: 4px;
   padding: 12px 12px 14px;
-  color: #fff;
+  color: var(--text-white);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .projectCardNew {
   border-style: dashed;
-  border-color: rgba(0, 0, 0, 0.12);
+  border-color: var(--border-subtle);
   background: rgba(245, 248, 250, 0.85);
   cursor: default;
 }
@@ -157,29 +157,29 @@
 }
 
 .projectCardLabel {
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--glass-bg);
 }
 
 .projectCardVersion {
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
 }
 
 .projectCardTitle {
   margin: 0;
-  font-size: 0.98rem;
+  font-size: var(--type-body);
   font-weight: 700;
-  line-height: 1.3;
-  color: #fff;
+  line-height: var(--line-height-snug);
+  color: var(--text-white);
 }
 
 .projectCardRegion {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: var(--type-caption);
   color: rgba(255, 255, 255, 0.9);
-  line-height: 1.4;
+  line-height: var(--line-height-snug);
 }
 
 .projectCardStats {
@@ -187,17 +187,17 @@
   flex-wrap: wrap;
   gap: 6px 10px;
   margin-top: 2px;
-  font-size: 0.78rem;
-  color: #fff;
+  font-size: var(--type-caption);
+  color: var(--text-white);
   font-weight: 600;
   opacity: 0.95;
 }
 
 .projectCardCta {
   margin-top: 2px;
-  font-size: 0.8rem;
+  font-size: var(--type-caption);
   font-weight: 600;
-  color: #fff;
+  color: var(--text-white);
 }
 
 .projectNewBtn {
@@ -208,8 +208,8 @@
   border-radius: var(--radius-md, 8px);
   border: 1px solid rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.7);
-  color: var(--text-medium, #5a6b73);
-  font-size: var(--type-scale-sm, 0.875rem);
+  color: var(--text-secondary);
+  font-size: var(--type-secondary);
   font-weight: 600;
   cursor: not-allowed;
 }
@@ -219,9 +219,9 @@
   align-items: center;
   gap: 4px;
   margin: 0 0 12px;
-  font-size: var(--type-scale-sm, 0.875rem);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
   text-decoration: none;
   background: none;
   border: none;
@@ -239,9 +239,9 @@
   flex-wrap: wrap;
   gap: 8px 14px;
   margin: 0 0 12px;
-  font-size: var(--type-scale-sm, 0.875rem);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
 }
 
 .ledgerHeadAside {
@@ -264,8 +264,8 @@
 }
 
 .ledgerLink {
-  color: var(--color-lake-dark, #126782);
-  font-weight: 650;
+  color: var(--color-lake-hover);
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -278,9 +278,9 @@
   border: none;
   background: none;
   padding: 0;
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
   font: inherit;
-  font-weight: 650;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -300,14 +300,14 @@
   flex-wrap: wrap;
   gap: 8px 12px;
   align-items: center;
-  font-size: 0.875rem;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  color: var(--text-primary);
 }
 
 .ledgerMapMeta {
   margin: 0 0 8px;
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
 }
 
 .ledgerMapFrame {
@@ -315,8 +315,8 @@
   min-height: 260px;
   border-radius: var(--radius-md, 8px);
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #eef3f5;
+  border: 1px solid var(--border-subtle);
+  background: var(--gray-100);
 }
 
 .ledgerQuickLinks {
@@ -347,8 +347,8 @@
   min-height: 240px;
   border-radius: var(--radius-md, 8px);
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #eef3f5;
+  border: 1px solid var(--border-subtle);
+  background: var(--gray-100);
 }
 
 @media (max-width: 840px) {
@@ -369,37 +369,37 @@
   gap: 10px;
   margin: 4px 0 22px;
   padding: 6px 0 16px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .tab {
   appearance: none;
   border: 1px solid transparent;
   background: transparent;
-  color: var(--text-medium, #5a6b73);
-  font-size: 1rem;
-  font-weight: 650;
+  color: var(--text-secondary);
+  font-size: var(--type-body);
+  font-weight: 600;
   letter-spacing: 0.02em;
   padding: 11px 18px;
   border-radius: var(--radius-md, 8px);
   cursor: pointer;
-  line-height: 1.3;
+  line-height: var(--line-height-snug);
 }
 
 .tab:hover {
-  color: var(--color-lake-dark, #126782);
-  background: rgba(33, 158, 188, 0.06);
+  color: var(--color-lake-hover);
+  background: var(--color-lake-light);
 }
 
 .tabActive {
-  color: var(--color-lake-dark, #126782);
-  background: rgba(33, 158, 188, 0.12);
-  border-color: rgba(33, 158, 188, 0.28);
+  color: var(--color-lake-hover);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-mid);
 }
 
 .panel {
-  background: var(--bg-white, #fff);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: var(--bg-white, var(--bg-white));
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg, 12px);
   padding: 16px 18px;
   margin-bottom: 14px;
@@ -407,16 +407,16 @@
 
 .panelTitle {
   margin: 0 0 4px;
-  font-size: var(--type-subsection, 1rem);
+  font-size: var(--type-subsection);
   font-weight: 600;
-  color: var(--text-dark, #1a2b33);
+  color: var(--text-primary);
 }
 
 .panelHint {
   margin: 0 0 12px;
-  font-size: 0.875rem;
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.5;
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
 }
 
 .panelCentered .panelTitle,
@@ -438,8 +438,8 @@
   min-width: 132px;
   padding: 16px 14px;
   border-radius: var(--radius-md, 8px);
-  background: linear-gradient(160deg, rgba(33, 158, 188, 0.08), rgba(245, 248, 250, 0.9));
-  border: 1px solid rgba(33, 158, 188, 0.12);
+  background: linear-gradient(160deg, var(--color-lake-light), rgba(245, 248, 250, 0.9));
+  border: 1px solid var(--color-lake-light);
   text-align: center;
 }
 
@@ -452,20 +452,20 @@
 }
 
 .metricClickable:hover {
-  border-color: rgba(33, 158, 188, 0.45);
-  background: linear-gradient(160deg, rgba(33, 158, 188, 0.14), rgba(255, 255, 255, 0.95));
+  border-color: var(--color-lake-mid);
+  background: linear-gradient(160deg, var(--color-lake-light), var(--glass-bg));
   transform: translateY(-1px);
 }
 
 .metricClickable:focus-visible {
-  outline: 2px solid var(--color-lake, #219ebc);
+  outline: 2px solid var(--color-lake, var(--color-lake));
   outline-offset: 2px;
 }
 
 .metricActive {
-  border-color: rgba(33, 158, 188, 0.55);
-  background: linear-gradient(160deg, rgba(33, 158, 188, 0.18), rgba(255, 255, 255, 0.98));
-  box-shadow: inset 0 0 0 1px rgba(33, 158, 188, 0.2);
+  border-color: var(--color-lake-strong);
+  background: linear-gradient(160deg, var(--color-lake-light), var(--glass-bg));
+  box-shadow: inset 0 0 0 1px var(--color-lake-light);
 }
 
 .metricStatic {
@@ -475,42 +475,42 @@
 .metricDetail {
   display: block;
   margin-top: 4px;
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 600;
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.35;
+  color: var(--text-secondary);
+  line-height: var(--line-height-snug);
 }
 
 .metricHint {
   display: block;
   margin-top: 6px;
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 600;
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
   opacity: 0.75;
 }
 
 .metricValue {
   display: block;
-  font-size: 1.5rem;
+  font-size: var(--type-section);
   font-weight: 700;
-  color: var(--color-lake-dark, #126782);
-  line-height: 1.2;
+  color: var(--color-lake-hover);
+  line-height: var(--line-height-tight);
   font-variant-numeric: tabular-nums;
 }
 
 .metricLabel {
   display: block;
   margin-top: 4px;
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
 }
 
 .browsePanel {
   margin-top: 14px;
   padding: 12px 14px;
   border-radius: var(--radius-md, 8px);
-  border: 1px solid rgba(33, 158, 188, 0.2);
+  border: 1px solid var(--color-lake-light);
   background: rgba(245, 248, 250, 0.85);
 }
 
@@ -524,32 +524,32 @@
 
 .browseTitle {
   margin: 0;
-  font-size: 1rem;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-body);
+  color: var(--text-primary);
 }
 
 .browseMeta {
   margin: 4px 0 0;
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
 }
 
 .browseClose {
   appearance: none;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  background: #fff;
+  background: var(--bg-white);
   border-radius: 8px;
   padding: 6px 12px;
-  font-size: var(--type-scale-sm, 0.875rem);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
   cursor: pointer;
   flex-shrink: 0;
 }
 
 .browseClose:hover {
-  border-color: rgba(33, 158, 188, 0.4);
-  color: var(--color-lake-dark, #126782);
+  border-color: var(--color-lake-mid);
+  color: var(--color-lake-hover);
 }
 
 .browseToolbar {
@@ -558,8 +558,8 @@
 
 .browseHint {
   margin: 12px 0 0;
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
 }
 
 .orderGrid {
@@ -574,9 +574,9 @@
   gap: 6px;
   text-align: left;
   padding: 12px 12px 10px;
-  border: 1px solid rgba(2, 48, 71, 0.1);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  background: #f8fbfc;
+  background: var(--bg-clean);
   cursor: pointer;
   font: inherit;
   appearance: none;
@@ -585,24 +585,24 @@
 }
 
 .orderCard:hover {
-  border-color: rgba(33, 158, 188, 0.45);
-  background: #fff;
+  border-color: var(--color-lake-mid);
+  background: var(--bg-white);
 }
 
 .orderCardActive {
-  border-color: rgba(33, 158, 188, 0.55);
-  background: #fff;
-  box-shadow: inset 0 0 0 1px rgba(33, 158, 188, 0.18);
+  border-color: var(--color-lake-strong);
+  background: var(--bg-white);
+  box-shadow: inset 0 0 0 1px var(--color-lake-light);
 }
 
 .orderCardDone {
   border-color: rgba(21, 128, 61, 0.28);
-  background: linear-gradient(180deg, rgba(21, 128, 61, 0.1), #f8fbfc 55%);
+  background: linear-gradient(180deg, rgba(21, 128, 61, 0.1), var(--bg-clean) 55%);
 }
 
 .orderCardDone:hover {
   border-color: rgba(21, 128, 61, 0.45);
-  background: linear-gradient(180deg, rgba(21, 128, 61, 0.14), #fff 55%);
+  background: linear-gradient(180deg, rgba(21, 128, 61, 0.14), var(--bg-white) 55%);
 }
 
 .orderCardDone.orderCardActive {
@@ -610,7 +610,7 @@
 }
 
 .orderCardDone .orderCardStat {
-  color: #15803d;
+  color: var(--color-success);
 }
 
 .orderCardTop {
@@ -629,47 +629,47 @@
 
 .orderCardTitle {
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
-  font-size: 0.92rem;
+  color: var(--color-ink);
+  font-size: var(--type-secondary);
 }
 
 .orderCardStat {
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 
 .orderCardLatin {
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-style: italic;
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
 }
 
 .progressTrack {
   height: 6px;
   border-radius: 999px;
-  background: rgba(2, 48, 71, 0.08);
+  background: var(--border-subtle);
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
   border-radius: 999px;
-  background: var(--color-lake, #219ebc);
+  background: var(--color-lake, var(--color-lake));
 }
 
 .progressFillDone {
-  background: #15803d;
+  background: var(--color-success);
 }
 
 .orderDetail {
   margin-top: 12px;
   padding: 12px;
   border-radius: 12px;
-  border: 1px solid rgba(33, 158, 188, 0.18);
-  background: #fff;
+  border: 1px solid var(--color-lake-light);
+  background: var(--bg-white);
 }
 
 .orderDetailHead {
@@ -695,19 +695,19 @@
   gap: 6px;
   padding: 12px 12px 10px;
   border-radius: 12px;
-  border: 1px solid rgba(2, 48, 71, 0.1);
-  background: #f8fbfc;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-clean);
   min-height: 108px;
 }
 
 .speciesCardRecorded {
   border-color: rgba(21, 128, 61, 0.22);
-  background: linear-gradient(180deg, rgba(21, 128, 61, 0.08), #f8fbfc 60%);
+  background: linear-gradient(180deg, rgba(21, 128, 61, 0.08), var(--bg-clean) 60%);
 }
 
 .speciesCardPending {
   border-color: rgba(183, 28, 28, 0.16);
-  background: linear-gradient(180deg, rgba(183, 28, 28, 0.05), #f8fbfc 60%);
+  background: linear-gradient(180deg, rgba(183, 28, 28, 0.05), var(--bg-clean) 60%);
 }
 
 .speciesCardTop {
@@ -719,16 +719,16 @@
 
 .speciesName {
   font-weight: 700;
-  font-size: 0.92rem;
-  color: var(--color-deep-teal, #023047);
-  line-height: 1.3;
+  font-size: var(--type-secondary);
+  color: var(--color-ink);
+  line-height: var(--line-height-snug);
 }
 
 .speciesSci {
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-style: italic;
-  color: var(--text-muted, #5c6b7a);
-  line-height: 1.35;
+  color: var(--text-muted);
+  line-height: var(--line-height-snug);
 }
 
 .speciesMeta {
@@ -748,27 +748,27 @@
   height: 22px;
   padding: 0 8px;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
 }
 
 .metaChip {
-  background: rgba(2, 48, 71, 0.06);
-  color: #3d4f57;
+  background: var(--border-subtle);
+  color: var(--text-secondary);
 }
 
 .chipResidence {
-  background: rgba(33, 158, 188, 0.18);
-  color: #0a5870;
+  background: var(--color-lake-light);
+  color: var(--color-lake-hover);
 }
 
 .speciesZone {
   margin: 0;
-  font-size: 0.8125rem;
-  color: var(--text-muted, #5c6b7a);
-  line-height: 1.4;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+  line-height: var(--line-height-snug);
 }
 
 .targetsHead {
@@ -813,13 +813,13 @@
   min-width: 0;
   padding: 8px 10px;
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
   background: rgba(248, 251, 252, 0.9);
 }
 
 .filterGroupLevel {
-  border-color: rgba(33, 158, 188, 0.18);
-  background: rgba(33, 158, 188, 0.05);
+  border-color: var(--color-lake-light);
+  background: var(--color-lake-light);
 }
 
 .filterGroupResidence {
@@ -828,35 +828,35 @@
 }
 
 .filterGroupStatus {
-  border-color: rgba(2, 48, 71, 0.1);
-  background: rgba(2, 48, 71, 0.03);
+  border-color: var(--border-subtle);
+  background: var(--border-subtle);
 }
 
 .filterLabel {
   flex: 0 0 auto;
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   letter-spacing: 0.04em;
   padding: 3px 8px;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(2, 48, 71, 0.08);
+  border: 1px solid var(--border-subtle);
 }
 
 .filterGroupLevel .filterLabel {
-  color: var(--color-lake-dark, #126782);
-  border-color: rgba(33, 158, 188, 0.22);
-  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-lake-hover);
+  border-color: var(--color-lake-mid);
+  background: var(--glass-bg);
 }
 
 .filterGroupResidence .filterLabel {
-  color: #0f766e;
+  color: var(--color-lake);
   border-color: rgba(15, 118, 110, 0.22);
 }
 
 .filterGroupStatus .filterLabel {
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .filterGroup .chipRow {
@@ -873,12 +873,12 @@
 
 .search,
 .select {
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md, 8px);
   padding: 8px 10px;
-  font-size: var(--type-scale-sm, 0.875rem);
-  background: #fff;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  background: var(--bg-white);
+  color: var(--text-primary);
   min-width: 0;
 }
 
@@ -899,9 +899,9 @@
 .chip {
   appearance: none;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  background: #fff;
-  color: var(--text-medium, #5a6b73);
-  font-size: 0.8125rem;
+  background: var(--bg-white);
+  color: var(--text-secondary);
+  font-size: var(--type-caption);
   font-weight: 600;
   padding: 4px 9px;
   border-radius: 999px;
@@ -909,9 +909,9 @@
 }
 
 .chipActive {
-  border-color: rgba(33, 158, 188, 0.4);
-  background: rgba(33, 158, 188, 0.12);
-  color: var(--color-lake-dark, #126782);
+  border-color: var(--color-lake-mid);
+  background: var(--color-lake-light);
+  color: var(--color-lake-hover);
 }
 
 .speciesMonths {
@@ -921,7 +921,7 @@
 .detailTableSection {
   margin-top: 18px;
   padding-top: 14px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .detailTableHead {
@@ -930,9 +930,9 @@
 
 .detailTableTitle {
   margin: 0 0 2px;
-  font-size: var(--type-subsection, 1rem);
+  font-size: var(--type-subsection);
   font-weight: 600;
-  color: var(--text-dark, #1a2b33);
+  color: var(--text-primary);
 }
 
 .tableWrap {
@@ -940,27 +940,27 @@
   margin: 0 -4px;
   max-height: min(55vh, 560px);
   overflow-y: auto;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--type-scale-sm, 0.875rem);
+  font-size: var(--type-secondary);
 }
 
 .table th,
 .table td {
   padding: 8px 10px;
   text-align: left;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid var(--border-subtle);
   vertical-align: top;
 }
 
 .table th {
   font-weight: 600;
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
   white-space: nowrap;
   background: rgba(245, 248, 250, 0.8);
   position: sticky;
@@ -968,18 +968,18 @@
 }
 
 .table tbody tr:hover {
-  background: rgba(33, 158, 188, 0.04);
+  background: var(--color-lake-light);
 }
 
 .nameCell {
   font-weight: 600;
-  color: var(--text-dark, #1a2b33);
+  color: var(--text-primary);
   white-space: nowrap;
 }
 
 .sciCell {
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
   white-space: nowrap;
 }
 
@@ -991,48 +991,48 @@
   display: block;
   font-weight: 400;
   font-style: italic;
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
 }
 
 .badgeOk {
   background: rgba(46, 125, 50, 0.12);
-  color: #1b5e20;
+  color: var(--color-success-hover);
 }
 
 .badgePending {
   background: rgba(198, 40, 40, 0.1);
-  color: #b71c1c;
+  color: var(--color-danger-hover);
 }
 
 .badgeKey {
   background: rgba(234, 88, 12, 0.16);
-  color: #c2410c;
+  color: var(--color-warning);
 }
 
 .badgeMid {
   background: rgba(255, 183, 3, 0.32);
-  color: var(--color-reed-ink, #5c4300);
+  color: var(--color-reed-ink, var(--color-warning-hover));
 }
 
 .badgeCommon {
-  background: rgba(2, 48, 71, 0.08);
-  color: #455a64;
+  background: var(--border-subtle);
+  color: var(--text-secondary);
 }
 
 .badgeRare {
   background: rgba(123, 31, 162, 0.12);
-  color: #6a1b9a;
+  color: var(--color-lake);
 }
 
 .badgeProtect {
   background: rgba(185, 28, 28, 0.14);
-  color: #9f1239;
+  color: var(--color-danger-hover);
 }
 
 .badgeProtectI {
   background: rgba(159, 18, 57, 0.2);
-  color: #881337;
+  color: var(--color-danger-hover);
 }
 
 .monthDots {
@@ -1045,28 +1045,28 @@
   width: 8px;
   height: 8px;
   border-radius: 2px;
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--border-subtle);
 }
 
 .monthDotOn {
-  background: var(--color-lake, #219ebc);
+  background: var(--color-lake, var(--color-lake));
 }
 
 .monthDotEdge {
-  background: rgba(33, 158, 188, 0.4);
+  background: var(--color-lake-mid);
 }
 
 .listMeta {
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
   margin: 0 0 8px;
 }
 
 .orderBlockStat {
   flex: 0 0 auto;
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -1081,12 +1081,12 @@
 .plotBtn {
   appearance: none;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  background: #fff;
+  background: var(--bg-white);
   padding: 8px 12px;
   border-radius: var(--radius-md, 8px);
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -1094,9 +1094,9 @@
 }
 
 .plotBtnActive {
-  border-color: rgba(33, 158, 188, 0.4);
-  background: rgba(33, 158, 188, 0.12);
-  color: var(--color-lake-dark, #126782);
+  border-color: var(--color-lake-mid);
+  background: var(--color-lake-light);
+  color: var(--color-lake-hover);
 }
 
 .plotBtnEmpty {
@@ -1105,19 +1105,19 @@
 
 .plotBadgeOk,
 .plotBadgeEmpty {
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 999px;
 }
 
 .plotBadgeOk {
-  color: #15803d;
+  color: var(--color-success);
   background: rgba(21, 128, 61, 0.12);
 }
 
 .plotBadgeEmpty {
-  color: #92400e;
+  color: var(--color-warning-hover);
   background: rgba(255, 183, 3, 0.22);
 }
 
@@ -1129,22 +1129,22 @@
   margin: 0 0 4px;
   padding: 14px 16px;
   border-radius: 12px;
-  border: 1px solid rgba(33, 158, 188, 0.2);
-  background: linear-gradient(160deg, rgba(33, 158, 188, 0.1), #fff 70%);
+  border: 1px solid var(--color-lake-light);
+  background: linear-gradient(160deg, var(--color-lake-light), var(--bg-white) 70%);
 }
 
 .plotHeroTitle {
   margin: 0 0 4px;
-  font-size: 1.15rem;
-  font-weight: 750;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-page-lede);
+  font-weight: 700;
+  color: var(--color-ink);
 }
 
 .plotHeroMeta {
   margin: 0;
-  font-size: 0.875rem;
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.5;
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
   max-width: 42rem;
 }
 
@@ -1160,15 +1160,15 @@
 
 .plotHeroStats strong {
   display: block;
-  font-size: 1.25rem;
-  color: var(--color-lake-dark, #126782);
+  font-size: var(--type-subsection);
+  color: var(--color-lake-hover);
   font-variant-numeric: tabular-nums;
 }
 
 .plotHeroStats span {
-  font-size: 0.8125rem;
-  font-weight: 650;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
 .plotBirdStrip {
@@ -1178,15 +1178,15 @@
   margin: 0;
   padding: 14px;
   border-radius: 12px;
-  background: rgba(33, 158, 188, 0.04);
-  border: 1px solid rgba(33, 158, 188, 0.1);
+  background: var(--color-lake-light);
+  border: 1px solid var(--color-lake-light);
 }
 
 .plotBirdSubHint {
   margin: 2px 0 6px;
-  font-size: 0.75rem;
-  line-height: 1.4;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-snug);
+  color: var(--text-secondary);
 }
 
 .plotRecordStack {
@@ -1203,58 +1203,58 @@
 .plotSurveyStat {
   padding: 12px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(33, 158, 188, 0.14);
-  background: linear-gradient(160deg, rgba(33, 158, 188, 0.08), #fff 70%);
+  border: 1px solid var(--color-lake-light);
+  background: linear-gradient(160deg, var(--color-lake-light), var(--bg-white) 70%);
   text-align: center;
 }
 
 .plotSurveyStat strong {
   display: block;
-  font-size: 1.25rem;
-  font-weight: 750;
-  color: var(--color-lake-dark, #126782);
+  font-size: var(--type-subsection);
+  font-weight: 700;
+  color: var(--color-lake-hover);
   font-variant-numeric: tabular-nums;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
 }
 
 .plotSurveyStatWide {
-  font-size: 1rem !important;
-  line-height: 1.35 !important;
+  font-size: var(--type-body) !important;
+  line-height: var(--line-height-snug) !important;
 }
 
 .plotSurveyStat span {
   display: block;
   margin-top: 4px;
-  font-size: 0.8125rem;
-  font-weight: 650;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
 .plotReportTableWrap {
   overflow-x: auto;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  background: #fff;
+  background: var(--bg-white);
 }
 
 .plotReportTable {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
 }
 
 .plotReportTable th,
 .plotReportTable td {
   padding: 10px 12px;
   text-align: left;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--border-subtle);
   vertical-align: top;
 }
 
 .plotReportTable th {
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
   background: rgba(248, 251, 252, 0.95);
   white-space: nowrap;
 }
@@ -1264,12 +1264,12 @@
 }
 
 .plotReportTable tbody tr:hover td {
-  background: rgba(33, 158, 188, 0.04);
+  background: var(--color-lake-light);
 }
 
 .plotReportNote {
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.45;
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
   max-width: 28rem;
 }
 
@@ -1298,8 +1298,8 @@
 
 .fieldSectionTitle {
   margin: 0 0 8px;
-  font-size: 0.88rem;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-secondary);
+  color: var(--color-ink);
 }
 
 .sectionMark {
@@ -1310,10 +1310,10 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  font-size: 0.9375rem;
-  font-weight: 750;
-  color: #fff;
-  background: var(--color-lake-dark, #126782);
+  font-size: var(--type-secondary);
+  font-weight: 700;
+  color: var(--text-white);
+  background: var(--color-lake-dark, var(--color-lake-hover));
   line-height: 1;
 }
 
@@ -1325,19 +1325,19 @@
   min-width: 1.75rem;
   padding: 2px 6px;
   border-radius: 6px;
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0.02em;
-  color: var(--color-lake-dark, #126782);
-  background: rgba(33, 158, 188, 0.12);
+  color: var(--color-lake-hover);
+  background: var(--color-lake-light);
   font-variant-numeric: tabular-nums;
-  line-height: 1.4;
+  line-height: var(--line-height-snug);
 }
 
 .seasonStep {
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
 }
 
 .plotFactRow {
@@ -1349,34 +1349,34 @@
 .plotFact {
   padding: 10px 12px;
   border-radius: 10px;
-  background: rgba(33, 158, 188, 0.05);
-  border: 1px solid rgba(33, 158, 188, 0.1);
+  background: var(--color-lake-light);
+  border: 1px solid var(--color-lake-light);
 }
 
 .plotFactEmpty {
   background: rgba(0, 0, 0, 0.02);
   border-style: dashed;
-  border-color: rgba(0, 0, 0, 0.08);
+  border-color: var(--border-subtle);
 }
 
 .plotFactLabel {
   display: block;
   margin-bottom: 4px;
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
   letter-spacing: 0.02em;
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
 }
 
 .plotFactValue {
   margin: 0;
-  font-size: 0.88rem;
-  line-height: 1.45;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .plotFactEmpty .plotFactValue {
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
@@ -1392,9 +1392,9 @@
 
 .dossierProse {
   margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.55;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .microList {
@@ -1412,34 +1412,34 @@
   gap: 2px;
   padding: 8px 10px;
   border-radius: 8px;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: var(--bg-white);
+  border: 1px solid var(--border-subtle);
 }
 
 .microPlace {
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--text-dark, #1a2b33);
+  color: var(--text-primary);
 }
 
 .microBirds {
-  font-size: 0.875rem;
-  color: var(--color-lake-dark, #126782);
-  line-height: 1.35;
+  font-size: var(--type-secondary);
+  color: var(--color-lake-hover);
+  line-height: var(--line-height-snug);
 }
 
 .seasonCallout {
   padding: 10px 12px;
   border-radius: 10px;
-  border-left: 3px solid var(--color-lake, #219ebc);
-  background: linear-gradient(90deg, rgba(33, 158, 188, 0.1), rgba(33, 158, 188, 0.02));
+  border-left: 3px solid var(--color-lake, var(--color-lake));
+  background: linear-gradient(90deg, var(--color-lake-light), var(--color-lake-light));
 }
 
 .seasonCallout p {
   margin: 0;
-  font-size: 0.86rem;
-  line-height: 1.5;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .seasonCalloutEmpty {
@@ -1448,7 +1448,7 @@
 }
 
 .seasonCalloutEmpty p {
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
@@ -1461,15 +1461,15 @@
 .dossierSide {
   padding: 12px;
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: #fff;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-white);
 }
 
 .dossierSide p {
   margin: 0;
-  font-size: 0.86rem;
-  line-height: 1.5;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .dossierSideTop {
@@ -1481,12 +1481,12 @@
 }
 
 .dossierStatus {
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   padding: 2px 7px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.05);
-  color: var(--text-medium, #5a6b73);
+  background: var(--border-subtle);
+  color: var(--text-secondary);
 }
 
 .dossierSidePending {
@@ -1495,7 +1495,7 @@
 }
 
 .dossierSidePending p {
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
@@ -1506,17 +1506,17 @@
 
 .dossierSideWarn .dossierStatus {
   background: rgba(146, 64, 14, 0.12);
-  color: #92400e;
+  color: var(--color-warning-hover);
 }
 
 .dossierSideOk {
-  border-color: rgba(33, 158, 188, 0.22);
-  background: rgba(33, 158, 188, 0.06);
+  border-color: var(--color-lake-mid);
+  background: var(--color-lake-light);
 }
 
 .dossierSideOk .dossierStatus {
-  background: rgba(33, 158, 188, 0.14);
-  color: var(--color-lake-dark, #126782);
+  background: var(--color-lake-light);
+  color: var(--color-lake-hover);
 }
 
 .recordList {
@@ -1532,11 +1532,11 @@
   position: relative;
   padding: 8px 10px 8px 14px;
   border-radius: 8px;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  font-size: 0.84rem;
-  line-height: 1.45;
-  color: var(--text-dark, #1a2b33);
+  background: var(--bg-white);
+  border: 1px solid var(--border-subtle);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .recordList li::before {
@@ -1547,13 +1547,13 @@
   bottom: 8px;
   width: 3px;
   border-radius: 999px;
-  background: var(--color-lake, #219ebc);
+  background: var(--color-lake, var(--color-lake));
 }
 
 .dossierNote {
   margin-top: 2px;
   padding-top: 10px;
-  border-top: 1px dashed rgba(0, 0, 0, 0.08);
+  border-top: 1px dashed var(--border-subtle);
 }
 
 @media (max-width: 720px) {
@@ -1570,7 +1570,7 @@
 .emptyPlotTitle {
   margin: 0 0 6px;
   font-weight: 700;
-  color: #92400e;
+  color: var(--color-warning-hover);
 }
 
 .emptyPlotChecklist {
@@ -1583,21 +1583,21 @@
 .emptyPlotGroup {
   padding: 10px;
   border-radius: 8px;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: var(--bg-white);
+  border: 1px solid var(--border-subtle);
 }
 
 .emptyPlotGroup strong {
   display: block;
   margin-bottom: 4px;
-  font-size: 0.875rem;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  color: var(--text-primary);
 }
 
 .emptyPlotGroup span {
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.4;
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
+  line-height: var(--line-height-snug);
 }
 
 .seasonGrid {
@@ -1616,10 +1616,10 @@
 .smBlock {
   padding: 16px 18px 18px;
   border-radius: 14px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-subtle);
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.98),
+    var(--glass-bg),
     rgba(248, 251, 252, 0.92)
   );
 }
@@ -1630,7 +1630,7 @@
   gap: 10px;
   margin-bottom: 14px;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(33, 158, 188, 0.12);
+  border-bottom: 1px solid var(--color-lake-light);
 }
 
 .smFoldHead {
@@ -1642,7 +1642,7 @@
   margin: 0;
   padding: 0 0 10px;
   border: none;
-  border-bottom: 1px solid rgba(33, 158, 188, 0.12);
+  border-bottom: 1px solid var(--color-lake-light);
   background: transparent;
   cursor: pointer;
   text-align: left;
@@ -1657,7 +1657,7 @@
 }
 
 .smFoldHead:hover .smTitle {
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
 }
 
 .smFoldMain {
@@ -1672,10 +1672,10 @@
 .smFoldChevron {
   flex: 0 0 auto;
   margin-top: 2px;
-  font-size: 0.95rem;
+  font-size: var(--type-body);
   font-weight: 700;
-  color: var(--color-lake-dark, #126782);
-  line-height: 1.4;
+  color: var(--color-lake-hover);
+  line-height: var(--line-height-snug);
 }
 
 .smFoldBody {
@@ -1684,9 +1684,9 @@
 
 .planFoldTip {
   margin: 0 0 4px;
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.45;
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
 }
 
 .monthRowHeadBtn {
@@ -1714,40 +1714,40 @@
 
 .monthFocusCompact {
   display: inline-block;
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 500;
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.4;
+  color: var(--text-secondary);
+  line-height: var(--line-height-snug);
 }
 
 .smTitle {
   margin: 0 0 2px;
-  font-size: 1.05rem;
+  font-size: var(--type-body);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .smHint {
   margin: 0;
-  font-size: 0.875rem;
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.5;
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
 }
 
 .smLabel {
   display: block;
   margin-bottom: 6px;
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
   letter-spacing: 0.02em;
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
 }
 
 .seasonsModule .metaChip,
 .seasonsModule .targetChip {
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
   padding: 5px 10px;
-  line-height: 1.3;
+  line-height: var(--line-height-snug);
 }
 
 .seasonsModule .targetChips {
@@ -1760,9 +1760,9 @@
 .monthCard,
 .campaignCard {
   padding: 12px 14px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  background: #fff;
+  background: var(--bg-white);
 }
 
 .seasonCard {
@@ -1773,28 +1773,28 @@
   padding: 14px;
   border: 1px solid transparent;
   border-radius: 12px;
-  background: #fff;
-  box-shadow: inset 0 3px 0 0 rgba(33, 158, 188, 0.35);
+  background: var(--bg-white);
+  box-shadow: inset 0 3px 0 0 var(--color-lake-mid);
 }
 
 .seasonToneSpring {
-  box-shadow: inset 0 3px 0 0 #5a9e6f;
-  background: linear-gradient(180deg, rgba(90, 158, 111, 0.08), #fff 42%);
+  box-shadow: inset 0 3px 0 0 var(--color-success);
+  background: linear-gradient(180deg, rgba(90, 158, 111, 0.08), var(--bg-white) 42%);
 }
 
 .seasonToneBreed {
-  box-shadow: inset 0 3px 0 0 #219ebc;
-  background: linear-gradient(180deg, rgba(33, 158, 188, 0.1), #fff 42%);
+  box-shadow: inset 0 3px 0 0 var(--color-lake);
+  background: linear-gradient(180deg, var(--color-lake-light), var(--bg-white) 42%);
 }
 
 .seasonToneAutumn {
-  box-shadow: inset 0 3px 0 0 #c27803;
-  background: linear-gradient(180deg, rgba(194, 120, 3, 0.09), #fff 42%);
+  box-shadow: inset 0 3px 0 0 var(--color-warning);
+  background: linear-gradient(180deg, rgba(194, 120, 3, 0.09), var(--bg-white) 42%);
 }
 
 .seasonToneWinter {
-  box-shadow: inset 0 3px 0 0 #3d6b8a;
-  background: linear-gradient(180deg, rgba(61, 107, 138, 0.1), #fff 42%);
+  box-shadow: inset 0 3px 0 0 var(--color-lake);
+  background: linear-gradient(180deg, rgba(61, 107, 138, 0.1), var(--bg-white) 42%);
 }
 
 .seasonCardTop {
@@ -1806,36 +1806,36 @@
 }
 
 .seasonIndex {
-  font-size: 0.8125rem;
-  font-weight: 750;
-  color: var(--color-lake-dark, #126782);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  color: var(--color-lake-hover);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
 }
 
 .seasonMonths {
-  font-size: 0.8125rem;
-  font-weight: 650;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--text-secondary);
   padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--border-subtle);
 }
 
 .seasonName {
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: 750;
-  color: var(--color-deep-teal, #023047);
-  line-height: 1.25;
+  font-size: var(--type-page-lede);
+  font-weight: 700;
+  color: var(--color-ink);
+  line-height: var(--line-height-tight);
 }
 
 .seasonFocus {
   margin: 0;
   flex: 1;
-  font-size: 0.875rem;
-  line-height: 1.55;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .seasonRouteRow {
@@ -1845,7 +1845,7 @@
 .seasonHighlights {
   margin-top: auto;
   padding-top: 8px;
-  border-top: 1px dashed rgba(0, 0, 0, 0.08);
+  border-top: 1px dashed var(--border-subtle);
 }
 
 .seasonHighlights .filterLabel {
@@ -1862,8 +1862,8 @@
 .transectCard {
   padding: 14px;
   border-radius: 12px;
-  border: 1px solid rgba(33, 158, 188, 0.14);
-  background: #fff;
+  border: 1px solid var(--color-lake-light);
+  background: var(--bg-white);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -1878,12 +1878,12 @@
 
 .transectNum {
   flex: 0 0 auto;
-  font-size: 0.8125rem;
-  font-weight: 750;
-  color: var(--color-lake-dark, #126782);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  color: var(--color-lake-hover);
   letter-spacing: 0.04em;
   font-variant-numeric: tabular-nums;
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
 }
 
 .transectTitleWrap {
@@ -1898,26 +1898,26 @@
 
 .transectName {
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .transectSeason {
-  font-size: 0.8125rem;
-  font-weight: 650;
-  color: var(--color-lake-dark, #126782);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--color-lake-hover);
   padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(33, 158, 188, 0.1);
+  background: var(--color-lake-light);
   white-space: nowrap;
 }
 
 .transectArea {
   margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.55;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .transectPlots {
@@ -1933,8 +1933,8 @@
 .specialCard {
   padding: 14px;
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: linear-gradient(160deg, rgba(33, 158, 188, 0.07), #fff 55%);
+  border: 1px solid var(--border-subtle);
+  background: linear-gradient(160deg, var(--color-lake-light), var(--bg-white) 55%);
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -1949,10 +1949,10 @@
 
 .specialName {
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
-  line-height: 1.3;
+  color: var(--color-ink);
+  line-height: var(--line-height-snug);
 }
 
 .specialMeta {
@@ -1964,25 +1964,25 @@
 .specialBadge {
   display: inline-flex;
   align-self: flex-start;
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: var(--color-lake-dark, #126782);
-  background: rgba(33, 158, 188, 0.12);
+  color: var(--color-lake-hover);
+  background: var(--color-lake-light);
   padding: 4px 10px;
   border-radius: 6px;
 }
 
 .specialFreq {
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.45;
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
 }
 
 .specialBody {
   margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.55;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .zoneGrid {
@@ -1994,36 +1994,36 @@
 .zoneCard {
   padding: 12px 13px;
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: #fff;
-  border-top: 3px solid rgba(33, 158, 188, 0.5);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-white);
+  border-top: 3px solid var(--color-lake-strong);
   min-width: 0;
 }
 
 .zoneName {
   margin: 0 0 4px;
-  font-size: 0.9375rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .zoneRange {
   margin: 0 0 6px;
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.45;
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
 }
 
 .zoneValue {
   margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .gapCard {
   border: 1px solid rgba(146, 64, 14, 0.16);
-  background: linear-gradient(180deg, rgba(255, 183, 3, 0.1), #fff 50%);
+  background: linear-gradient(180deg, rgba(255, 183, 3, 0.1), var(--bg-white) 50%);
   border-radius: 12px;
   padding: 14px;
   display: flex;
@@ -2049,9 +2049,9 @@
 
 .gapTitle {
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
 }
 
 .gapBlock {
@@ -2069,7 +2069,7 @@
   flex: 0 0 auto;
   margin-top: auto;
   padding-top: 10px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .gapText,
@@ -2079,21 +2079,21 @@
 .fixedBase,
 .campaignRows p {
   margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.55;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .gapActionText {
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
   font-weight: 600;
 }
 
 .gapAction {
   margin: 8px 0 0;
-  font-size: 0.875rem;
-  color: var(--text-dark, #1a2b33);
-  line-height: 1.5;
+  font-size: var(--type-secondary);
+  color: var(--text-primary);
+  line-height: var(--line-height-normal);
 }
 
 .monthGrid {
@@ -2110,9 +2110,9 @@
 
 .monthRow {
   padding: 16px 18px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  background: #fff;
+  background: var(--bg-white);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -2120,9 +2120,9 @@
 }
 
 .monthRowNow {
-  border-color: rgba(33, 158, 188, 0.45);
-  box-shadow: inset 0 0 0 1px rgba(33, 158, 188, 0.12);
-  background: linear-gradient(180deg, rgba(33, 158, 188, 0.08), #fff 40%);
+  border-color: var(--color-lake-mid);
+  box-shadow: inset 0 0 0 1px var(--color-lake-light);
+  background: linear-gradient(180deg, var(--color-lake-light), var(--bg-white) 40%);
 }
 
 .monthRowCovered {
@@ -2146,9 +2146,9 @@
 
 .monthCard {
   padding: 14px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  background: #fff;
+  background: var(--bg-white);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -2163,23 +2163,23 @@
 }
 
 .monthName {
-  font-size: 1.15rem;
-  font-weight: 750;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-page-lede);
+  font-weight: 700;
+  color: var(--color-ink);
 }
 
 .monthTheme {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--type-body);
   font-weight: 700;
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
 }
 
 .monthFocus {
   margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .monthBody {
@@ -2211,15 +2211,15 @@
   align-items: baseline;
   padding: 8px 10px;
   border-radius: 8px;
-  background: rgba(33, 158, 188, 0.05);
-  border: 1px solid rgba(33, 158, 188, 0.1);
+  background: var(--color-lake-light);
+  border: 1px solid var(--color-lake-light);
 }
 
 .monthAreaPlot,
 .monthAreaPlotText {
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--color-lake-dark, #126782);
+  color: var(--color-lake-hover);
   text-align: left;
 }
 
@@ -2230,25 +2230,25 @@
   padding: 0;
   cursor: pointer;
   text-decoration: underline;
-  text-decoration-color: rgba(33, 158, 188, 0.35);
+  text-decoration-color: var(--color-lake-mid);
   text-underline-offset: 2px;
 }
 
 .monthAreaPlot:hover {
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
 }
 
 .monthAreaRole {
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: #e65100;
+  color: var(--color-warning);
   white-space: nowrap;
 }
 
 .monthAreaNote {
-  font-size: 0.8125rem;
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.4;
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
+  line-height: var(--line-height-snug);
 }
 
 .monthMetaRow {
@@ -2256,7 +2256,7 @@
   flex-direction: column;
   gap: 6px;
   padding-top: 4px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .monthMeta {
@@ -2265,9 +2265,9 @@
   flex-wrap: wrap;
   gap: 6px 10px;
   align-items: baseline;
-  font-size: 0.8125rem;
-  line-height: 1.45;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .monthMeta .smLabel {
@@ -2275,9 +2275,9 @@
 }
 
 .monthCardNow {
-  border-color: rgba(33, 158, 188, 0.45);
-  box-shadow: inset 0 0 0 1px rgba(33, 158, 188, 0.15);
-  background: linear-gradient(180deg, rgba(33, 158, 188, 0.1), #fff 55%);
+  border-color: var(--color-lake-mid);
+  box-shadow: inset 0 0 0 1px var(--color-lake-light);
+  background: linear-gradient(180deg, var(--color-lake-light), var(--bg-white) 55%);
 }
 
 @media (max-width: 800px) {
@@ -2300,8 +2300,8 @@
 .fixedCard {
   padding: 14px;
   border-radius: 12px;
-  border: 1px solid rgba(33, 158, 188, 0.14);
-  background: #fff;
+  border: 1px solid var(--color-lake-light);
+  background: var(--bg-white);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -2316,18 +2316,18 @@
 
 .fixedName {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--type-body);
   font-weight: 700;
-  color: var(--color-deep-teal, #023047);
-  line-height: 1.35;
+  color: var(--color-ink);
+  line-height: var(--line-height-snug);
 }
 
 .fixedFreq {
   align-self: flex-start;
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: var(--color-lake-dark, #126782);
-  background: rgba(33, 158, 188, 0.1);
+  color: var(--color-lake-hover);
+  background: var(--color-lake-light);
   padding: 3px 10px;
   border-radius: 999px;
 }
@@ -2340,9 +2340,9 @@
 
 .campaignCard {
   padding: 12px 12px 10px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  background: linear-gradient(160deg, rgba(33, 158, 188, 0.06), #fff 50%);
+  background: linear-gradient(160deg, var(--color-lake-light), var(--bg-white) 50%);
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -2360,7 +2360,7 @@
 .campaignNameBtn {
   flex: 1;
   min-width: 0;
-  font-size: 0.95rem;
+  font-size: var(--type-body);
 }
 
 .campaignTierKey,
@@ -2368,19 +2368,19 @@
   flex: 0 0 auto;
   padding: 2px 7px;
   border-radius: 999px;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  line-height: 1.3;
+  line-height: var(--line-height-snug);
 }
 
 .campaignTierKey {
-  color: #e65100;
+  color: var(--color-warning);
   background: rgba(230, 81, 0, 0.1);
 }
 
 .campaignTierExt {
-  color: var(--color-lake-dark, #126782);
-  background: rgba(33, 158, 188, 0.12);
+  color: var(--color-lake-hover);
+  background: var(--color-lake-light);
 }
 
 .campaignChips {
@@ -2396,41 +2396,41 @@
   align-items: center;
   padding: 2px 8px;
   border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 650;
-  line-height: 1.35;
+  font-size: var(--type-caption);
+  font-weight: 600;
+  line-height: var(--line-height-snug);
 }
 
 .campaignChip {
-  color: #e65100;
+  color: var(--color-warning);
   background: rgba(230, 81, 0, 0.08);
 }
 
 .campaignChipMuted {
-  color: var(--text-medium, #5a6b73);
-  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-secondary);
+  background: var(--border-subtle);
 }
 
 .campaignChipBtn {
   appearance: none;
   border: none;
   cursor: pointer;
-  color: var(--color-lake-dark, #126782);
-  background: rgba(33, 158, 188, 0.12);
+  color: var(--color-lake-hover);
+  background: var(--color-lake-light);
   font: inherit;
-  font-size: 0.75rem;
-  font-weight: 650;
+  font-size: var(--type-caption);
+  font-weight: 600;
 }
 
 .campaignChipBtn:hover {
-  background: rgba(33, 158, 188, 0.2);
+  background: var(--color-lake-light);
 }
 
 .campaignWhere {
   margin: 0;
-  font-size: 0.8125rem;
-  line-height: 1.45;
-  color: var(--text-medium, #5a6b73);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-normal);
+  color: var(--text-secondary);
 }
 
 .campaignHow,
@@ -2440,9 +2440,9 @@
   flex-wrap: wrap;
   gap: 4px 8px;
   align-items: baseline;
-  font-size: 0.8125rem;
-  line-height: 1.45;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .campaignHow .smLabel,
@@ -2458,9 +2458,9 @@
 
 .campaignName {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 750;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-body);
+  font-weight: 700;
+  color: var(--color-ink);
 }
 
 .campaignTop .cardTitle {
@@ -2473,7 +2473,7 @@
   gap: 4px;
   margin-top: 2px;
   padding-top: 6px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .checkHeadMain {
@@ -2503,11 +2503,11 @@
   min-width: 0;
   padding: 16px 18px;
   border-radius: 14px;
-  border: 1px solid rgba(33, 158, 188, 0.16);
+  border: 1px solid var(--color-lake-light);
   background: linear-gradient(
     160deg,
-    rgba(33, 158, 188, 0.07),
-    rgba(255, 255, 255, 0.98) 42%
+    var(--color-lake-light),
+    var(--glass-bg) 42%
   );
 }
 
@@ -2516,7 +2516,7 @@
   background: linear-gradient(
     160deg,
     rgba(46, 125, 50, 0.08),
-    rgba(255, 255, 255, 0.98) 42%
+    var(--glass-bg) 42%
   );
 }
 
@@ -2526,7 +2526,7 @@
   justify-content: space-between;
   gap: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .checkCardTitleRow {
@@ -2538,25 +2538,25 @@
 
 .checkCardTitle {
   margin: 0;
-  font-size: 1.05rem;
-  font-weight: 750;
-  line-height: 1.4;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-body);
+  font-weight: 700;
+  line-height: var(--line-height-snug);
+  color: var(--color-ink);
 }
 
 .checkCardProgress {
   flex: 0 0 auto;
   padding: 3px 10px;
   border-radius: 999px;
-  font-size: 0.8125rem;
+  font-size: var(--type-caption);
   font-weight: 700;
-  color: var(--color-lake-dark, #126782);
-  background: rgba(33, 158, 188, 0.12);
+  color: var(--color-lake-hover);
+  background: var(--color-lake-light);
   font-variant-numeric: tabular-nums;
 }
 
 .checkCardProgressDone {
-  color: #2e7d32;
+  color: var(--color-success);
   background: rgba(46, 125, 50, 0.14);
 }
 
@@ -2576,22 +2576,22 @@
   margin: 0;
   padding: 10px 12px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: var(--glass-bg);
+  border: 1px solid var(--border-subtle);
   cursor: pointer;
-  font-size: 1rem;
-  line-height: 1.55;
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-body);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
 }
 
 .checkCardItem:hover {
-  border-color: rgba(33, 158, 188, 0.28);
+  border-color: var(--color-lake-mid);
 }
 
 .checkCardItemDone {
   background: rgba(46, 125, 50, 0.06);
   border-color: rgba(46, 125, 50, 0.18);
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
 }
 
 .checkCardItemDone span {
@@ -2604,7 +2604,7 @@
   width: 1.05rem;
   height: 1.05rem;
   margin-top: 0.2rem;
-  accent-color: var(--color-lake, #219ebc);
+  accent-color: var(--color-lake, var(--color-lake));
   cursor: pointer;
 }
 
@@ -2664,19 +2664,19 @@
   justify-content: space-between;
   gap: 10px;
   padding: 10px 12px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
-  background: #f8fbfc;
+  background: var(--bg-clean);
   cursor: pointer;
   text-align: left;
   font: inherit;
   font-weight: 600;
-  color: var(--text-dark, #1a2b33);
+  color: var(--text-primary);
   margin-bottom: 6px;
 }
 
 .checkSectionHead:hover {
-  border-color: rgba(33, 158, 188, 0.35);
+  border-color: var(--color-lake-mid);
 }
 
 .checkSection .checkList {
@@ -2692,8 +2692,8 @@
 .field {
   padding: 12px 14px;
   border-radius: var(--radius-md, 8px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: #fafbfc;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-clean);
 }
 
 .fieldWide {
@@ -2702,22 +2702,22 @@
 
 .fieldLabel {
   display: block;
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
   margin-bottom: 4px;
 }
 
 .fieldValue {
   margin: 0;
-  font-size: var(--type-scale-sm, 0.875rem);
-  color: var(--text-dark, #1a2b33);
-  line-height: 1.55;
+  font-size: var(--type-secondary);
+  color: var(--text-primary);
+  line-height: var(--line-height-normal);
   white-space: pre-wrap;
 }
 
 .fieldEmpty {
-  color: var(--text-medium, #5a6b73);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
@@ -2732,8 +2732,8 @@
   padding: 5px 10px;
   border-radius: 999px;
   background: rgba(230, 81, 0, 0.1);
-  color: #e65100;
-  font-size: 0.875rem;
+  color: var(--color-warning);
+  font-size: var(--type-secondary);
   font-weight: 600;
 }
 
@@ -2743,29 +2743,29 @@
   display: inline-block;
   padding: 5px 10px;
   border-radius: 999px;
-  font-size: 0.875rem;
+  font-size: var(--type-secondary);
   font-weight: 600;
-  line-height: 1.3;
+  line-height: var(--line-height-snug);
   border: 1px solid transparent;
   box-sizing: border-box;
 }
 
 .birdChipStable {
-  background: rgba(33, 158, 188, 0.12);
-  border-color: rgba(33, 158, 188, 0.22);
-  color: var(--color-lake-dark, #126782);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake-mid);
+  color: var(--color-lake-hover);
 }
 
 .birdChipKey {
   background: rgba(230, 81, 0, 0.1);
   border-color: rgba(230, 81, 0, 0.22);
-  color: #e65100;
+  color: var(--color-warning);
 }
 
 .birdChipPredict {
   background: rgba(46, 125, 50, 0.1);
   border-color: rgba(46, 125, 50, 0.22);
-  color: #2e7d32;
+  color: var(--color-success);
 }
 
 .birdChipBtn {
@@ -2782,7 +2782,7 @@
 }
 
 .birdChipBtn:focus-visible {
-  outline: 2px solid var(--color-lake, #219ebc);
+  outline: 2px solid var(--color-lake, var(--color-lake));
   outline-offset: 2px;
 }
 
@@ -2796,31 +2796,31 @@
   padding: 0;
   margin: 0;
   font: inherit;
-  font-weight: 750;
-  color: var(--color-lake-dark, #126782);
+  font-weight: 700;
+  color: var(--color-lake-hover);
   cursor: pointer;
   text-align: left;
   text-decoration: underline;
-  text-decoration-color: rgba(33, 158, 188, 0.35);
+  text-decoration-color: var(--color-lake-mid);
   text-underline-offset: 2px;
-  line-height: 1.3;
+  line-height: var(--line-height-snug);
 }
 
 .campaignNameBtn {
-  font-size: 1rem;
+  font-size: var(--type-body);
 }
 
 .specialNameBtn,
 .fixedNameBtn {
-  font-size: 0.95rem;
-  color: var(--color-deep-teal, #023047);
+  font-size: var(--type-body);
+  color: var(--color-ink);
 }
 
 .speciesNameBtn:hover,
 .campaignNameBtn:hover,
 .specialNameBtn:hover,
 .fixedNameBtn:hover {
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
 }
 
 .coverageBadge,
@@ -2829,19 +2829,19 @@
   align-items: center;
   padding: 2px 8px;
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   white-space: nowrap;
 }
 
 .coverageBadge {
   background: rgba(46, 125, 50, 0.12);
-  color: #2e7d32;
+  color: var(--color-success);
 }
 
 .coverageBadgeEmpty {
-  background: rgba(0, 0, 0, 0.05);
-  color: var(--text-medium, #5a6b73);
+  background: var(--border-subtle);
+  color: var(--text-secondary);
 }
 
 .seasonCardCovered {
@@ -2866,17 +2866,17 @@
   align-items: center;
   padding: 3px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(33, 158, 188, 0.28);
-  background: rgba(33, 158, 188, 0.08);
-  color: var(--color-lake-dark, #126782);
-  font-size: 0.72rem;
-  font-weight: 650;
+  border: 1px solid var(--color-lake-mid);
+  background: var(--color-lake-light);
+  color: var(--color-lake-hover);
+  font-size: var(--type-caption);
+  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
 }
 
 .campaignAction:hover {
-  background: rgba(33, 158, 188, 0.16);
+  background: var(--color-lake-light);
 }
 
 .cardGrid {
@@ -2887,30 +2887,30 @@
 
 .card {
   padding: 12px 14px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md, 8px);
-  background: #fff;
+  background: var(--bg-white);
 }
 
 .cardTitle {
   margin: 0 0 6px;
-  font-size: var(--type-scale-sm, 0.875rem);
+  font-size: var(--type-secondary);
   font-weight: 700;
-  color: var(--text-dark, #1a2b33);
+  color: var(--text-primary);
 }
 
 .cardMeta {
   margin: 0 0 4px;
-  font-size: 0.8125rem;
-  color: var(--color-lake-dark, #126782);
+  font-size: var(--type-caption);
+  color: var(--color-lake-hover);
   font-weight: 600;
 }
 
 .cardBody {
   margin: 0;
-  font-size: var(--type-scale-sm, 0.875rem);
-  color: var(--text-medium, #5a6b73);
-  line-height: 1.5;
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
 }
 
 .checkSection {
@@ -2919,8 +2919,8 @@
 
 .checkSection h4 {
   margin: 0 0 8px;
-  font-size: var(--type-scale-sm, 0.875rem);
-  color: var(--text-dark, #1a2b33);
+  font-size: var(--type-secondary);
+  color: var(--text-primary);
 }
 
 .checkList {
@@ -2936,9 +2936,9 @@
   display: flex;
   gap: 8px;
   align-items: flex-start;
-  font-size: var(--type-scale-sm, 0.875rem);
-  color: var(--text-dark, #1a2b33);
-  line-height: 1.45;
+  font-size: var(--type-secondary);
+  color: var(--text-primary);
+  line-height: var(--line-height-normal);
 }
 
 .checkList input {
@@ -2947,8 +2947,8 @@
 
 .empty {
   margin: 8px 0;
-  color: var(--text-medium, #5a6b73);
-  font-size: var(--type-scale-sm, 0.875rem);
+  color: var(--text-secondary);
+  font-size: var(--type-secondary);
 }
 
 @media (max-width: 640px) {
@@ -2957,7 +2957,7 @@
   }
 
   .tab {
-    font-size: 0.9375rem;
+    font-size: var(--type-secondary);
     padding: 9px 14px;
   }
 
@@ -2971,7 +2971,7 @@
   }
 
   .metricValue {
-    font-size: 1.25rem;
+    font-size: var(--type-subsection);
   }
 
   /* 窄屏保留：鸟种 / 学名 / 目标 / 保护 / 状态 */

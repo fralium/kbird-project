@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import ErrorMessage from '../../components/ErrorMessage';
-import { useAuth } from '../../components/AuthProvider';
-import styles from '../../styles/Login.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ErrorMessage from '@/components/ErrorMessage';
+import { useAuth } from '@/components/AuthProvider';
+import styles from '@/styles/Login.module.css';
 
 export default function LoginPage() {
   const router = useRouter();

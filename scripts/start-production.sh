@@ -141,8 +141,8 @@ echo "📝 日志文件:"
 echo "  • 后端日志: logs/server.log"
 echo "  • 前端日志: logs/frontend.log"
 echo
-echo "🛑 停止服务: ./stop.sh"
-echo "🔄 重启服务: ./restart.sh"
+echo "🛑 停止服务: 按 Ctrl+C，或使用 scripts/stop-windows / 本机进程管理"
+echo "🔄 重启服务: 重新运行本脚本（旧 PM2 脚本见 temp/linux-pm2/）"
 echo
 
 # 保存PID到文件

@@ -4,12 +4,13 @@ import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import { sanitizeKnowledgeHtml } from '../../../utils/sanitizeKnowledgeHtml';
-import { knowledgeData } from '../../../data/knowledgeData';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import styles from '../../../styles/KnowledgeDetail.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { sanitizeKnowledgeHtml } from '@/utils/sanitizeKnowledgeHtml';
+import { knowledgeData } from '@/data/knowledgeData';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import styles from '@/styles/KnowledgeDetail.module.css';
 
 export default function KnowledgeDetailPage() {
   const params = useParams();
@@ -23,10 +24,7 @@ export default function KnowledgeDetailPage() {
   if (!Number.isFinite(id)) {
     return (
       <div className={styles.container}>
-        <div className={styles.loading}>
-          <div className={styles.spinner}></div>
-          <p>加载中...</p>
-        </div>
+        <PageState type="loading" title="加载中..." />
       </div>
     );
   }

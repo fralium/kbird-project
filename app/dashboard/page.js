@@ -1,9 +1,10 @@
 'use client';
 import { Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Navbar from '../../components/Navbar';
-import { useAuth } from '../../components/AuthProvider';
-import styles from '../../styles/Dashboard.module.css';
+import Navbar from '@/components/Navbar';
+import PageState from '@/components/PageState';
+import { useAuth } from '@/components/AuthProvider';
+import styles from '@/styles/Dashboard.module.css';
 
 function DashboardRedirectClient() {
   const router = useRouter();
@@ -35,9 +36,7 @@ function DashboardRedirectClient() {
     <div className={styles.container}>
       <Navbar />
       <main className={styles.main}>
-        <div className={styles.loading}>
-          <p>正在进入首页...</p>
-        </div>
+        <PageState type="loading" title="正在进入首页..." />
       </main>
     </div>
   );
@@ -50,9 +49,7 @@ export default function DashboardPage() {
         <div className={styles.container}>
           <Navbar />
           <main className={styles.main}>
-            <div className={styles.loading}>
-              <p>加载中...</p>
-            </div>
+            <PageState type="loading" title="加载中..." />
           </main>
         </div>
       }

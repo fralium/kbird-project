@@ -17,7 +17,7 @@ const endangeredBirds = [
     threats: '栖息地破坏、环境污染、人类活动',
     conservation: '国家一级保护动物，建立自然保护区',
     icon: '🦩',
-    color: '#e74c3c'
+    color: 'var(--color-danger)'
   },
   {
     name: '丹顶鹤',
@@ -29,7 +29,7 @@ const endangeredBirds = [
     threats: '湿地开发、环境污染、气候变化',
     conservation: '国家一级保护动物，国际重要湿地保护',
     icon: '🦩',
-    color: '#f39c12'
+    color: 'var(--color-warning)'
   },
   {
     name: '白鹤',
@@ -53,7 +53,7 @@ const endangeredBirds = [
     threats: '湿地开发、污染、气候变化',
     conservation: '国家二级保护动物，湿地保护',
     icon: '🦩',
-    color: '#3498db'
+    color: 'var(--color-lake)'
   },
   {
     name: '中华秋沙鸭',
@@ -65,7 +65,7 @@ const endangeredBirds = [
     threats: '河流污染、森林砍伐、水坝建设',
     conservation: '国家一级保护动物，河流生态保护',
     icon: '🦆',
-    color: '#2ecc71'
+    color: 'var(--color-success)'
   }
 ];
 
@@ -111,7 +111,7 @@ export default function Error({ statusCode }) {
       <main className={styles.main}>
         <div className={styles.errorContent}>
           <div className={styles.birdSection}>
-            <div className={styles.birdIcon} style={{ color: bird.color }}>
+            <div className={styles.birdIcon} style={{ color: bird.color}}>
               {bird.icon}
             </div>
             <h1 className={styles.birdName}>{bird.name}</h1>

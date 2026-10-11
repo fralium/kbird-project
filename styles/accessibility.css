@@ -2,29 +2,29 @@
 
 /* 高对比度模式 */
 .high-contrast {
-  --primary-green: #000000;
-  --secondary-green: #000000;
-  --text-dark: #000000;
-  --text-medium: #000000;
-  --text-light: #333333;
-  --text-white: #ffffff;
-  --background-light: #ffffff;
-  --background-white: #ffffff;
+  --primary-green: var(--color-ink);
+  --secondary-green: var(--color-ink);
+  --text-dark: var(--color-ink);
+  --text-medium: var(--color-ink);
+  --text-light: var(--text-secondary)333;
+  --text-white: var(--bg-white);
+  --background-light: var(--bg-white);
+  --background-white: var(--bg-white);
 }
 
 .high-contrast * {
-  border-color: #000000 !important;
-  background-color: #ffffff !important;
-  color: #000000 !important;
+  border-color: var(--color-ink) !important;
+  background-color: var(--bg-white) !important;
+  color: var(--color-ink) !important;
 }
 
 .high-contrast button,
 .high-contrast input,
 .high-contrast select,
 .high-contrast textarea {
-  border: 2px solid #000000 !important;
-  background-color: #ffffff !important;
-  color: #000000 !important;
+  border: 2px solid var(--color-ink) !important;
+  background-color: var(--bg-white) !important;
+  color: var(--color-ink) !important;
 }
 
 /* 大字体模式 */
@@ -70,8 +70,8 @@
   position: absolute;
   top: -40px;
   left: 6px;
-  background: #000;
-  color: #fff;
+  background: var(--color-ink);
+  color: var(--text-white);
   padding: 8px;
   text-decoration: none;
   z-index: 1000;
@@ -108,16 +108,16 @@
 
 /* 高对比度按钮 */
 .high-contrast button {
-  border: 2px solid #000000;
-  background-color: #ffffff;
-  color: #000000;
-  font-weight: bold;
+  border: 2px solid var(--color-ink);
+  background-color: var(--bg-white);
+  color: var(--color-ink);
+  font-weight: 700;
 }
 
 .high-contrast button:hover,
 .high-contrast button:focus {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--color-ink);
+  color: var(--text-white);
 }
 
 /* 表单标签增强 */
@@ -129,7 +129,7 @@ label {
 
 /* 错误消息增强 */
 .error-message {
-  color: #d32f2f;
+  color: var(--color-danger);
   font-weight: 600;
   margin-top: 4px;
   display: block;
@@ -137,7 +137,7 @@ label {
 
 /* 成功消息增强 */
 .success-message {
-  color: #2e7d32;
+  color: var(--color-success);
   font-weight: 600;
   margin-top: 4px;
   display: block;
@@ -156,7 +156,7 @@ label {
   width: 20px;
   height: 20px;
   margin: -10px 0 0 -10px;
-  border: 2px solid #f3f3f3;
+  border: 2px solid var(--bg-clean);
   border-top: 2px solid var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -180,13 +180,13 @@ table {
 }
 
 th, td {
-  border: 1px solid #ddd;
+  border: 1px solid var(--gray-200);
   padding: 12px;
   text-align: left;
 }
 
 th {
-  background-color: #f5f5f5;
+  background-color: var(--bg-clean);
   font-weight: 600;
 }
 
@@ -197,10 +197,10 @@ img {
 }
 
 /* 链接状态：湖泊蓝 + 站点灰，不用浏览器默认紫 */
-a:link { color: var(--link-color, #219ebc); }
-a:visited { color: var(--text-muted, #5c6b7a); }
-a:hover { color: var(--link-hover, #1a7a94); text-decoration: underline; }
-a:active { color: var(--color-deep-teal, #023047); }
+a:link { color: var(--link-color, var(--color-lake)); }
+a:visited { color: var(--text-muted); }
+a:hover { color: var(--link-hover, var(--color-lake-hover)); text-decoration: underline; }
+a:active { color: var(--color-ink); }
 
 /* 导航栏链接特殊处理 */
 /* 注意：.navLink 样式已在 globals.css 中统一定义，此处删除重复定义 */
@@ -210,7 +210,7 @@ a:active { color: var(--color-deep-teal, #023047); }
 .high-contrast a:visited,
 .high-contrast a:hover,
 .high-contrast a:active {
-  color: #000000;
+  color: var(--color-ink);
   text-decoration: underline;
-  font-weight: bold;
+  font-weight: 700;
 }

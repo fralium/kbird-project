@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef, useMemo, useId } from 'react';
-import { wgs84ToBd09 } from '../utils/mapCoords';
-import { createBaiduBirdMarker } from '../utils/baiduMapMarker';
-import { buildMapInfoWindowHtml } from '../utils/mapInfoWindowHtml';
-import { splitPathIntoProgressSegments } from '../utils/mapPathSegments';
-import styles from '../styles/BirdMapBaidu.module.css';
+import { wgs84ToBd09 } from '@/utils/mapCoords';
+import { createBaiduBirdMarker } from '@/utils/baiduMapMarker';
+import { buildMapInfoWindowHtml } from '@/utils/mapInfoWindowHtml';
+import { splitPathIntoProgressSegments } from '@/utils/mapPathSegments';
+import styles from '@/styles/BirdMapBaidu.module.css';
 
 /**
  * 观鸟地图组件 - 百度地图
@@ -279,7 +279,7 @@ export default function BirdMapBaidu({
           if (pts.length < 2) return;
           pts.forEach((p) => pathPoints.push(p));
           const polyline = new BMap.Polyline(pts, {
-            strokeColor: pathStyle === 'gradient' ? seg.color : '#219EBC',
+            strokeColor: pathStyle === 'gradient' ? seg.color : 'var(--color-lake)',
             strokeWeight: 5,
             strokeOpacity: 0.95,
             strokeStyle: pathStyle === 'dashed' ? 'dashed' : 'solid',
@@ -392,18 +392,18 @@ export default function BirdMapBaidu({
           border: '1px solid #ddd',
           padding: '20px',
           textAlign: 'center',
-          color: '#666',
+          color: 'var(--text-muted)',
         }}
       >
         <p style={{ margin: '0 0 8px 0' }}>地图功能需要配置百度地图 AK</p>
-        <p style={{ margin: 0, fontSize: '12px' }}>
+        <p style={{ margin: 0, fontSize: 'var(--type-caption)' }}>
           在 .env 中设置 <code>NEXT_PUBLIC_BAIDU_MAP_AK</code>，应用类型选择「浏览器端」
         </p>
         <a
           href="https://lbsyun.baidu.com/apiconsole/key"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ marginTop: '10px', fontSize: '13px' }}
+          style={{ marginTop: '10px', fontSize: 'var(--type-secondary)' }}
         >
           申请百度地图 AK →
         </a>
@@ -425,11 +425,11 @@ export default function BirdMapBaidu({
           border: '1px solid #ddd',
           padding: '20px',
           textAlign: 'center',
-          color: '#666',
+          color: 'var(--text-muted)',
         }}
       >
         <p style={{ margin: '0 0 8px 0' }}>百度地图当前不可用</p>
-        <p style={{ margin: 0, fontSize: '12px' }}>{mapError}</p>
+        <p style={{ margin: 0, fontSize: 'var(--type-caption)' }}>{mapError}</p>
       </div>
     );
   }
@@ -480,7 +480,7 @@ export default function BirdMapBaidu({
             alignItems: 'center',
             justifyContent: 'center',
             background: 'rgba(255,255,255,0.8)',
-            color: '#666',
+            color: 'var(--text-muted)',
             pointerEvents: 'none',
           }}
         >
@@ -499,7 +499,7 @@ export default function BirdMapBaidu({
             borderRadius: 8,
             padding: '8px 10px',
             fontSize: 12,
-            color: '#5f6c72',
+            color: 'var(--text-muted)',
             maxWidth: '72%',
           }}
         >

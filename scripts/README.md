@@ -1,44 +1,40 @@
 # KBird 脚本说明
 
-本目录包含开发、部署与运维相关脚本，按用途分类如下。
+日常启动请用仓库根目录的 `KBird-Start.bat` / `KBird-Start-Prod.bat` / `KBird-Stop.bat`（薄封装，实际逻辑在 `scripts/windows/`）。
 
 ## Windows 本地运行
 
-- **windows/install.ps1** - 首次安装（Node、依赖等）
-- **windows/setup-mongodb.ps1** - 配置/安装 MongoDB 服务
-- **windows/KBird-Start.bat** - 启动前后端并打开浏览器（推荐从项目根目录运行 `KBird-Start.bat`；旧名 Desktop 仍为兼容别名）
-- **windows/KBird-Stop.bat** - 停止前后端窗口
-- **windows/kill-port.ps1** / **kill-port.bat** - 按端口结束进程
-- **start-windows.ps1** / **start-windows.bat** / **stop-windows.ps1** 等 - 启动/停止的其它入口
+- **windows/install.ps1** — 首次安装（Node、依赖、`KBird-Data`）
+- **windows/setup-mongodb.ps1** — 配置/安装 MongoDB 服务
+- **windows/init-database.ps1** — 导入公开鸟种文字种子
+- **windows/KBird-Start.bat** / **KBird-Start-Prod.bat** / **KBird-Stop.bat** — 启停（根目录同名 bat 会转调这里）
+- **windows/update.ps1** — `git pull` + `npm install`（根目录 `KBird-Update.bat`）
+- **windows/create-desktop-shortcut.ps1** — 桌面快捷方式
+- **windows/kill-port.ps1** / **kill-port.bat** — 按端口结束进程
+- **start-windows.ps1** / **.bat**、**stop-windows.ps1** / **.bat** — 其它启停入口
 
-## 生产/部署
+## 生产 / 缓存
 
-- **start-production.sh** - Linux 生产启动
-- **start-production-windows.ps1** / **.bat** - Windows 生产启动
-- **deploy.sh** - 通用部署
-- **docker-deploy.sh** - Docker 部署
-- **deploy-to-gitee.ps1** - 部署到 Gitee
-- **get-public-ip.sh** - 获取本机公网 IP（部署时有用）
-- **tag-stable.ps1** / **tag-stable.sh** - 创建稳定版本标签并记录到 `.last-stable-tag`
-- **rollback-to-stable.ps1** / **rollback-to-stable.sh** - 快速切换到最近稳定标签
+- **start-production-windows.ps1** / **.bat** — Windows 生产启动
+- **start-production.sh** — Linux 生产启动（concurrently / 非根目录 PM2 旧脚本）
+- **clear-cache.ps1** / **.bat** — 清除 `.next` 等缓存
+- **tag-stable.ps1** / **.sh**、**rollback-to-stable.ps1** / **.sh** — 稳定标签与回滚
 
-## 缓存与维护
+## 数据与运维
 
-- **clear-cache.ps1** / **clear-cache.bat** - 清除 Next.js `.next` 等缓存
-- **reset-admin-password.js** - 重置管理员密码（需配置好 MongoDB 与 .env）
-- **reset-user-password.js** - 按用户名或邮箱重置任意用户密码（忘记密码时用）
-- **auto-update.ps1** - 自动更新相关逻辑
+- **backup-personal-data.ps1** / **.bat** — 备份个人数据（根目录 `KBird-Backup.bat`）
+- **ensure-kbird-data.js**、**migrate-uploads-to-data-root.ps1** — 数据根目录
+- **export-public-bird-seed.js**、**export-birds*.js** — 种子导出
+- **sync-birds-from-cnbirdlist-2024.js**、**normalize-*.js**、**merge-record-locations-by-name.js** 等 — 名录/地址维护
+- **reset-admin-password.js**、**reset-user-password.js** — 密码重置
+- **check-share-hygiene.js**、**check-imports.js**、**check-missing-taxonomy-names.js** — 检查
+- **generate-jwt-secret.js** — 生成 JWT 密钥
+- **sync-to-server.ps1** / **.sh** — 同步到服务器（按需）
 
-## 数据与同步
+## 已归档（本机 `temp/`，不进 git）
 
-- **compare_csv.py** - 比较 CSV 文件
-- **extract-birds.js** - 从数据中提取鸟类信息
-- **sync-to-server.ps1** / **sync-to-server.sh** - 同步到服务器
-- **sync-git.ps1**、**sync-changes.ps1**、**sync-to-release.ps1** 等 - 各类 Git/发布同步，按需选用
+- **temp/scripts-archive/** — 一次性数据整理脚本（sanyou、stub 统计等）
+- **temp/linux-pm2/** — 原根目录 PM2 版 `start.sh` / `stop.sh` / `restart.sh`
+- **temp/docs-archive/** — 旧部署/回归文档
 
-## Git 与 Gitee
-
-- **git-config-setup.ps1** / **git-config-setup.sh** - 仓库与 Git 配置
-- **gitee-share.ps1** / **gitee-share-simple.ps1** - Gitee 分享相关
-
-脚本如需环境变量，请参考项目根目录 `env.example` 与 `README.md`。
+环境变量见根目录 `env.example` 与 `README.md`。

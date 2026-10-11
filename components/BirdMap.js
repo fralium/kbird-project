@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useMap } from 'react-leaflet';
-import layerStyles from '../styles/BirdMapBaidu.module.css';
+import layerStyles from '@/styles/BirdMapBaidu.module.css';
 
 // 动态导入Leaflet，避免SSR问题
 const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
@@ -18,7 +18,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import { splitPathIntoProgressSegments } from '../utils/mapPathSegments';
+import { splitPathIntoProgressSegments } from '@/utils/mapPathSegments';
 
 // 修复默认图标
 const DefaultIcon = L.icon({
@@ -158,11 +158,11 @@ export default function BirdMap({
         border: '1px solid #ddd',
         padding: '20px',
         textAlign: 'center',
-        color: '#666'
+        color: 'var(--text-muted)'
       }}>
         <p style={{ margin: '0 0 8px 0' }}>📍 暂无位置信息</p>
-        <p style={{ margin: 0, fontSize: '12px' }}>请确保记录包含有效的地理坐标</p>
-        <p style={{ margin: '10px 0 0 0', fontSize: '12px', color: '#888' }}>
+        <p style={{ margin: 0, fontSize: 'var(--type-caption)' }}>请确保记录包含有效的地理坐标</p>
+        <p style={{ margin: '10px 0 0 0', fontSize: 'var(--type-caption)', color: 'var(--text-muted)'}}>
           编辑本记录，在「地点」中从下拉列表<strong>选择</strong>带坐标的地点，地图即可显示
         </p>
       </div>
@@ -215,7 +215,7 @@ export default function BirdMap({
                 key={`path-seg-${seg.index}-${seg.color}`}
                 positions={seg.positions.map((p) => [p.lat, p.lng])}
                 pathOptions={{
-                  color: pathStyle === 'gradient' ? seg.color : '#219EBC',
+                  color: pathStyle === 'gradient' ? seg.color : 'var(--color-lake)',
                   weight: 4,
                   opacity: 0.9,
                   dashArray: pathStyle === 'dashed' ? '8 10' : undefined,
@@ -252,10 +252,10 @@ export default function BirdMap({
               {showInfoWindow ? (
                 <Popup>
                   <div style={{ minWidth: 160, borderLeft: '3px solid #219EBC', paddingLeft: 10 }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#219EBC' }}>足迹点位</div>
-                    <strong style={{ color: '#023047' }}>{name}</strong>
-                    {birdCount > 0 ? <div style={{ fontSize: 12, color: '#5c6b7a' }}>{birdCount} 种</div> : null}
-                    {recordCount > 0 ? <div style={{ fontSize: 12, color: '#5c6b7a' }}>{recordCount} 次</div> : null}
+                    <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-lake)'}}>足迹点位</div>
+                    <strong style={{ color: 'var(--color-ink)'}}>{name}</strong>
+                    {birdCount > 0 ? <div style={{ fontSize: 12, color: 'var(--text-muted)'}}>{birdCount} 种</div> : null}
+                    {recordCount > 0 ? <div style={{ fontSize: 12, color: 'var(--text-muted)'}}>{recordCount} 次</div> : null}
                   </div>
                 </Popup>
               ) : null}
@@ -286,7 +286,7 @@ export default function BirdMap({
               pathOptions={{
                 fillColor: '#219EBC',
                 fillOpacity: 0.6,
-                color: '#1780a0',
+                color: 'var(--color-lake-hover)',
                 weight: 2
               }}
             >

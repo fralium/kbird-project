@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import styles from '../styles/ErrorMessage.module.css';
+import styles from '@/styles/ErrorMessage.module.css';
 
 const ErrorMessage = ({ 
   error, 

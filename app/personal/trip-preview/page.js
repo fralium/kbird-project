@@ -2,10 +2,10 @@
 
 import { Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import PageState from '../../../components/PageState';
-import styles from '../../../styles/PersonalGoals.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import PageState from '@/components/PageState';
+import styles from '@/styles/PersonalGoals.module.css';
 
 function TripPreviewRedirectClient() {
   const router = useRouter();

@@ -2,8 +2,8 @@ import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
-import { devError, devLog } from '../../../utils/devLogger';
-import { sendMethodNotAllowed } from '../../../utils/proxyApi';
+import { devError, devLog } from '@/utils/devLogger';
+import { sendMethodNotAllowed } from '@/utils/proxyApi';
 
 // 禁用默认的body parser
 export const config = {

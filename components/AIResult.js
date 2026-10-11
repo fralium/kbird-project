@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { formatAiUsageLine } from '../utils/aiUsage';
+import { formatAiUsageLine } from '@/utils/aiUsage';
 import SpeciesHoverChip from './SpeciesHoverChip';
-import styles from '../styles/AIResult.module.css';
+import styles from '@/styles/AIResult.module.css';
 
 export default function AIResult({ result, onConfirm, onReject }) {
   const [selectedCandidateIndex, setSelectedCandidateIndex] = useState(-1);

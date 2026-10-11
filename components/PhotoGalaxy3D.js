@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styles from '../styles/PhotoGalaxy3D.module.css';
+import styles from '@/styles/PhotoGalaxy3D.module.css';
 
 const LAYOUTS = [
   { id: 'sphere', label: '球形' },

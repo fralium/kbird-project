@@ -3,33 +3,34 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import CategoryDisplay from '../../../components/CategoryDisplay';
-import ImageViewer from '../../../components/ImageViewer';
-import LocationAutocomplete from '../../../components/LocationAutocomplete';
-import LazyImage from '../../../components/LazyImage';
-import PageState from '../../../components/PageState';
-import { useConfirmDialog } from '../../../components/ConfirmDialog';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import CategoryDisplay from '@/components/CategoryDisplay';
+import ImageViewer from '@/components/ImageViewer';
+import LocationAutocomplete from '@/components/LocationAutocomplete';
+import LazyImage from '@/components/LazyImage';
+import PageState from '@/components/PageState';
+import { useConfirmDialog } from '@/components/ConfirmDialog';
 import SimplePageHeader, {
   HeaderSecondaryButton,
   HeaderSecondaryLink,
   HeaderTextLink,
-} from '../../../components/SimplePageHeader';
-import { CameraIcon, InfoIcon, LocationIcon } from '../../../components/Icons';
-import { getOrderChineseName, getFamilyChineseName } from '../../../data/taxonomyTranslation';
-import { useAuth } from '../../../components/AuthProvider';
-import { formatAddressRegion } from '../../../utils/formatAddressRegion';
-import { api } from '../../../utils/api';
-import { getFullImageUrl, isValidImageUrl, getImageKey } from '../../../utils/imageUtils';
-import { formatLocalDateKey, todayLocalDateKey } from '../../../utils/localDate';
-import { BIRD_IMAGE_TAG_GROUPS, normalizeBirdImageTags } from '../../../data/birdImageTags';
-import { BIRD_CALL_TAG_GROUPS, normalizeBirdCallTags } from '../../../data/birdCallTags';
+} from '@/components/SimplePageHeader';
+import { CameraIcon, InfoIcon, LocationIcon } from '@/components/Icons';
+import { getOrderChineseName, getFamilyChineseName } from '@/data/taxonomyTranslation';
+import { useAuth } from '@/components/AuthProvider';
+import { formatAddressRegion } from '@/utils/formatAddressRegion';
+import { api } from '@/utils/api';
+import { useBirdImageUpload } from '@/hooks/useBirdImageUpload';
+import { getFullImageUrl, isValidImageUrl, getImageKey } from '@/utils/imageUtils';
+import { formatDisplayDate, formatLocalDateKey, todayLocalDateKey } from '@/utils/localDate';
+import { BIRD_IMAGE_TAG_GROUPS, normalizeBirdImageTags } from '@/data/birdImageTags';
+import { BIRD_CALL_TAG_GROUPS, normalizeBirdCallTags } from '@/data/birdCallTags';
 import {
   getProtectionLevelInfo,
-} from '../../../data/protectionLevels';
-import styles from '../../../styles/BirdDetail.module.css';
-import lab from '../../../styles/BirdDetailLab.module.css';
+} from '@/data/protectionLevels';
+import styles from '@/styles/BirdDetail.module.css';
+import lab from '@/styles/BirdDetailLab.module.css';
 
 const OUTING_BIRD_PREVIEW = 10;
 const DETAIL_TABS = [
@@ -286,7 +287,6 @@ export default function BirdDetailNotebook() {
 
   const [bird, setBird] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
   const [uploadingCall, setUploadingCall] = useState(false);
   const [error, setError] = useState(null);
   const [editingImage, setEditingImage] = useState(null);
@@ -311,6 +311,20 @@ export default function BirdDetailNotebook() {
       setError(message);
     }
   }, []);
+
+  const { uploadFile, uploading, error: uploadError, setError: setUploadError } = useBirdImageUpload(id, {
+    onSuccess: (data) => {
+      setBird((prevBird) => ({
+        ...prevBird,
+        ...data.data,
+        sightings: prevBird?.sightings ?? [],
+        calls: Array.isArray(data.data?.calls)
+          ? [...data.data.calls].sort((a, b) => (a.order || 0) - (b.order || 0))
+          : prevBird?.calls ?? [],
+      }));
+      notify('图片上传成功', 'success');
+    },
+  });
 
   const fetchBirdData = useCallback(async (forceRefresh = false) => {
     if (!id) return;
@@ -406,7 +420,7 @@ export default function BirdDetailNotebook() {
     const last = sortedSightings[0];
     return {
       count: sortedSightings.length,
-      lastDate: last?.date ? new Date(last.date).toLocaleDateString('zh-CN') : '—',
+      lastDate: last?.date ? formatDisplayDate(last.date, 'short') : '—',
       lastPlace: last?.location?.name || '—',
     };
   }, [sortedSightings]);
@@ -455,47 +469,20 @@ export default function BirdDetailNotebook() {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      setError('请选择图片文件');
-      return;
-    }
-    if (file.size > 10 * 1024 * 1024) {
-      setError('图片大小不能超过10MB');
-      return;
-    }
-
-    setUploading(true);
+    setUploadError('');
     setError(null);
-
-    try {
-      const formData = new FormData();
-      formData.append('image', file);
-      formData.append('caption', `${bird.name} - ${new Date().toLocaleDateString()}`);
-      formData.append('location', '用户上传');
-      formData.append('date', new Date().toISOString());
-
-      const data = await api.birds.addImage(id, formData);
-
-      if (data.success) {
-        setBird((prevBird) => ({
-          ...prevBird,
-          ...data.data,
-          sightings: prevBird.sightings ?? [],
-          calls: Array.isArray(data.data?.calls)
-            ? [...data.data.calls].sort((a, b) => (a.order || 0) - (b.order || 0))
-            : prevBird.calls ?? [],
-        }));
-        notify('图片上传成功', 'success');
-      } else {
-        setError(data.message || '上传失败');
-      }
-    } catch {
-      setError('上传失败，请重试');
-    } finally {
-      setUploading(false);
-      e.target.value = '';
-    }
+    const captionName = bird?.name || '鸟种';
+    await uploadFile(file, {
+      caption: `${captionName} - ${formatDisplayDate(new Date(), 'short')}`,
+      location: '用户上传',
+      date: new Date().toISOString(),
+    });
+    e.target.value = '';
   };
+
+  useEffect(() => {
+    if (uploadError) setError(uploadError);
+  }, [uploadError]);
 
   const handleCallUpload = async (e) => {
     const file = e.target.files[0];
@@ -528,7 +515,7 @@ export default function BirdDetailNotebook() {
     try {
       const formData = new FormData();
       formData.append('audio', file);
-      formData.append('caption', `${bird.name} 鸣叫 - ${new Date().toLocaleDateString()}`);
+      formData.append('caption', `${bird.name} 鸣叫 - ${formatDisplayDate(new Date(), 'short')}`);
       formData.append('location', '用户上传');
       formData.append('date', new Date().toISOString());
 
@@ -1357,7 +1344,7 @@ export default function BirdDetailNotebook() {
                 sortedSightings.map((sighting, index) => {
                   const locationName = sighting?.location?.name || '地点未知';
                   const dateLabel = sighting?.date
-                    ? new Date(sighting.date).toLocaleDateString('zh-CN')
+                    ? formatDisplayDate(sighting.date, 'short')
                     : '—';
                   const regionLabel = formatAddressRegion(sighting?.location?.address);
                   const recordHref = sighting.recordId ? `/records/${sighting.recordId}` : '';

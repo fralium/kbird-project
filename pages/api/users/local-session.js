@@ -1,6 +1,6 @@
 // Next.js API 代理：本机自动登录（仅后端允许回环）
-import { resolveBackendApiBase } from '../../../utils/backendApiBase';
-import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

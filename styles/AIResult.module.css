@@ -17,14 +17,14 @@
 }
 
 .header h3 {
-  font-size: 1.3rem;
-  color: var(--text-dark);
+  font-size: var(--type-subsection);
+  color: var(--text-primary);
   margin: 0;
 }
 
 .provider {
-  font-size: 0.9rem;
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   background: var(--background-light);
   padding: 5px 10px;
   border-radius: var(--radius-small);
@@ -32,9 +32,9 @@
 
 .usageLine {
   margin: -8px 0 16px;
-  font-size: var(--type-caption, 0.75rem);
-  color: var(--text-muted, #5c6b7a);
-  line-height: 1.4;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+  line-height: var(--line-height-snug);
 }
 
 .mainResult {
@@ -42,7 +42,7 @@
 }
 
 .resultCard {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, var(--bg-clean) 0%, var(--color-sky) 100%);
   padding: 20px;
   border-radius: var(--radius-medium);
   margin-bottom: 15px;
@@ -53,8 +53,8 @@
 }
 
 .resultHeader h4 {
-  font-size: 1.5rem;
-  color: var(--text-dark);
+  font-size: var(--type-section);
+  color: var(--text-primary);
   margin: 0 0 5px 0;
 }
 
@@ -65,8 +65,8 @@
 }
 
 .scientificName {
-  font-size: 1rem;
-  color: var(--text-medium);
+  font-size: var(--type-body);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
@@ -91,16 +91,16 @@
 }
 
 .confidenceText {
-  font-size: 0.9rem;
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .pickButton {
   align-self: flex-start;
   border: 1px solid var(--primary-green);
-  background: #fff;
-  color: var(--primary-green);
+  background: var(--bg-white);
+  color: var(--color-lake);
   border-radius: 8px;
   padding: 6px 10px;
   cursor: pointer;
@@ -120,11 +120,11 @@
   gap: 8px;
   margin-bottom: 10px;
   font-weight: 500;
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
 }
 
 .matchedIcon {
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
 }
 
 .matchedContent {
@@ -136,25 +136,25 @@
 
 .matchedName {
   margin: 0;
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
   font-weight: 500;
 }
 
 .matchHint {
   margin: 0;
-  font-size: 0.9rem;
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
 }
 
 .autoAlignHint {
   margin: 0;
-  font-size: 0.9rem;
-  color: var(--primary-green);
+  font-size: var(--type-secondary);
+  color: var(--color-lake);
   font-weight: 500;
 }
 
 .birdLink {
-  color: var(--primary-green);
+  color: var(--color-lake);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
@@ -170,8 +170,8 @@
 }
 
 .candidates h5 {
-  font-size: 1rem;
-  color: var(--text-dark);
+  font-size: var(--type-body);
+  color: var(--text-primary);
   margin: 0 0 10px 0;
 }
 
@@ -194,31 +194,31 @@
 }
 
 .candidateItem:hover {
-  border-color: var(--primary-green);
+  border-color: var(--color-lake);
   background: var(--background-white);
 }
 
 .candidateItem.selected,
 .candidateItemActive {
-  border-color: var(--primary-green);
+  border-color: var(--color-lake);
   background: var(--color-lake-light);
 }
 
 .candidateName {
   font-weight: 500;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .candidateConfidence {
-  font-size: 0.9rem;
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
 }
 
 .candidateSelectButton {
   margin-left: 10px;
   border: 1px solid var(--primary-green);
-  background: #fff;
-  color: var(--primary-green);
+  background: var(--bg-white);
+  color: var(--color-lake);
   border-radius: 8px;
   padding: 4px 8px;
   cursor: pointer;
@@ -229,8 +229,8 @@
 }
 
 .encyclopedia h5 {
-  font-size: 1rem;
-  color: var(--text-dark);
+  font-size: var(--type-body);
+  color: var(--text-primary);
   margin: 0 0 10px 0;
 }
 
@@ -244,14 +244,14 @@
 
 .encyclopediaContent p {
   margin: 0;
-  color: var(--text-medium);
-  line-height: 1.6;
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
 }
 
 .encyclopediaContent pre {
   margin: 0;
-  font-size: 0.9rem;
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   white-space: pre-wrap;
   word-wrap: break-word;
 }
@@ -260,10 +260,10 @@
   margin-bottom: 15px;
   padding: 10px 12px;
   border-radius: var(--radius-medium);
-  border: 1px solid #f2b94b;
-  background: #fff7e8;
-  color: #8a5a00;
-  font-size: 0.95rem;
+  border: 1px solid var(--color-reed);
+  background: var(--color-warning-soft);
+  color: var(--color-warning-hover);
+  font-size: var(--type-body);
 }
 
 .feedbackBlock {
@@ -279,8 +279,8 @@
 
 .feedbackBlock p {
   margin: 0 0 8px 0;
-  color: var(--text-medium);
-  line-height: 1.6;
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
 }
 
 .feedbackBlock p:last-child {
@@ -290,7 +290,7 @@
 .lookalikeList {
   margin: 8px 0 8px 18px;
   padding: 0;
-  color: var(--text-medium);
+  color: var(--text-secondary);
 }
 
 .lookalikeList li {
@@ -310,7 +310,7 @@
   padding: 12px 20px;
   border: none;
   border-radius: var(--radius-medium);
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -328,7 +328,7 @@
 
 .rejectButton {
   background: var(--background-light);
-  color: var(--text-dark);
+  color: var(--text-primary);
   border: 2px solid var(--medium-gray);
 }
 

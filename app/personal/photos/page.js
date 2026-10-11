@@ -1,36 +1,20 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { formatDisplayDate, formatDisplayDateTime } from '@/utils/localDate';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import { useAuth } from '../../../components/AuthProvider';
-import ImageViewer from '../../../components/ImageViewer';
-import PhotoGalaxy3D from '../../../components/PhotoGalaxy3D';
-import { api } from '../../../utils/api';
-import styles from '../../../styles/PersonalPhotos.module.css';
-
-const FILTER_PANEL_STORAGE_KEY = 'kbird.photos.filterPanel';
-
-function readPhotosFilterPanelOpen() {
-  if (typeof window === 'undefined') return false;
-  try {
-    return localStorage.getItem(FILTER_PANEL_STORAGE_KEY) === '1';
-  } catch {
-    return false;
-  }
-}
-
-function writePhotosFilterPanelOpen(open) {
-  try {
-    localStorage.setItem(FILTER_PANEL_STORAGE_KEY, open ? '1' : '0');
-  } catch {
-    /* ignore */
-  }
-}
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import { useAuth } from '@/components/AuthProvider';
+import ImageViewer from '@/components/ImageViewer';
+import PhotoGalaxy3D from '@/components/PhotoGalaxy3D';
+import FoldFilterPanel from '@/components/FoldFilterPanel';
+import { useFoldOpen } from '@/utils/foldPanel';
+import { api } from '@/utils/api';
+import styles from '@/styles/PersonalPhotos.module.css';
 
 export default function PersonalPhotosPage() {
   const router = useRouter();
@@ -61,12 +45,8 @@ export default function PersonalPhotosPage() {
 
   const [sortBy, setSortBy] = useState('date');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
+  const [filterPanelOpen, setFilterPanelOpen] = useFoldOpen('kbird.photos.filterPanel', false);
   const [viewMode, setViewMode] = useState('grid');
-
-  useEffect(() => {
-    setFilterPanelOpen(readPhotosFilterPanelOpen());
-  }, []);
 
   const fetchPhotos = useCallback(async () => {
     try {
@@ -156,7 +136,6 @@ export default function PersonalPhotosPage() {
     setPagination((prev) => ({ ...prev, page: 1 }));
     if (key === 'organize' && value) {
       setFilterPanelOpen(true);
-      writePhotosFilterPanelOpen(true);
     }
   };
 
@@ -189,6 +168,24 @@ export default function PersonalPhotosPage() {
     );
   }
 
+  const filterPanelSummary = (() => {
+    const parts = [];
+    if (filters.search.trim()) parts.push(`搜索「${filters.search.trim()}」`);
+    if (filters.organize === 'needsSpecies') parts.push('待补种');
+    else if (filters.organize === 'unlinked') parts.push('未挂记录');
+    else if (filters.organize === 'linked') parts.push('已关联记录');
+    if (filters.birdId) {
+      const bird = birds.find((b) => String(b._id) === String(filters.birdId));
+      parts.push(bird?.name || '指定鸟种');
+    }
+    if (filters.location.trim()) parts.push(filters.location.trim());
+    if (filters.dateFrom || filters.dateTo) {
+      parts.push(`${filters.dateFrom || '…'} ~ ${filters.dateTo || '…'}`);
+    }
+    if (parts.length === 0) return '搜索 · 整理 · 鸟种 · 地点 · 日期';
+    return parts.join(' · ');
+  })();
+
   return (
     <div className={styles.container}>
       <Navbar />
@@ -200,45 +197,14 @@ export default function PersonalPhotosPage() {
           descriptionVariant="caption"
         />
 
-        <div className={styles.foldPanel} aria-label="照片筛选">
-          <button
-            type="button"
-            className={styles.foldToggle}
-            onClick={() => {
-              setFilterPanelOpen((prev) => {
-                const next = !prev;
-                writePhotosFilterPanelOpen(next);
-                return next;
-              });
-            }}
-            aria-expanded={filterPanelOpen}
-          >
-            <span className={styles.foldToggleTitle}>筛选</span>
-            <span className={styles.foldToggleSummary}>
-              {(() => {
-                const parts = [];
-                if (filters.search.trim()) parts.push(`搜索「${filters.search.trim()}」`);
-                if (filters.organize === 'needsSpecies') parts.push('待补种');
-                else if (filters.organize === 'unlinked') parts.push('未挂记录');
-                else if (filters.organize === 'linked') parts.push('已关联记录');
-                if (filters.birdId) {
-                  const bird = birds.find((b) => String(b._id) === String(filters.birdId));
-                  parts.push(bird?.name || '指定鸟种');
-                }
-                if (filters.location.trim()) parts.push(filters.location.trim());
-                if (filters.dateFrom || filters.dateTo) {
-                  parts.push(`${filters.dateFrom || '…'} ~ ${filters.dateTo || '…'}`);
-                }
-                if (parts.length === 0) return '搜索 · 整理 · 鸟种 · 地点 · 日期';
-                return parts.join(' · ');
-              })()}
-            </span>
-            <span className={styles.foldToggleChevron} aria-hidden="true">
-              {filterPanelOpen ? '▴' : '▾'}
-            </span>
-          </button>
-          {filterPanelOpen ? (
-            <div className={styles.foldBody}>
+        <FoldFilterPanel
+          storageKey="kbird.photos.filterPanel"
+          open={filterPanelOpen}
+          onOpenChange={setFilterPanelOpen}
+          title="筛选"
+          summary={filterPanelSummary}
+          className={styles.foldPanel}
+        >
         <div className={styles.filters}>
           <div className={styles.filterRow}>
             <input
@@ -316,9 +282,7 @@ export default function PersonalPhotosPage() {
             </button>
           </div>
         </div>
-            </div>
-          ) : null}
-        </div>
+        </FoldFilterPanel>
 
         <div className={styles.listMeta}>
           <div className={styles.listMetaLead}>
@@ -423,7 +387,7 @@ export default function PersonalPhotosPage() {
                   {photo.caption && <div className={styles.photoCaption}>{photo.caption}</div>}
                   <div className={styles.photoMeta}>
                     <span>{photo.location || '地点未填'}</span>
-                    <span>{photo.date ? new Date(photo.date).toLocaleDateString('zh-CN') : '-'}</span>
+                    <span>{photo.date ? formatDisplayDate(photo.date, 'short') : '-'}</span>
                   </div>
                   <div className={styles.photoActions}>
                     {photo.recordId ? (

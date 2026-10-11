@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
+import { formatDisplayDate, formatDisplayDateTime } from '@/utils/localDate';
 import Image from 'next/image';
-import styles from '../styles/ImageViewer.module.css';
+import styles from '@/styles/ImageViewer.module.css';
 
 const ImageViewer = ({ images, currentIndex, onClose }) => {
   const [activeIndex, setActiveIndex] = useState(currentIndex);
@@ -97,7 +98,7 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
           </h3>
           <p className={styles.imageMeta}>
             {currentImage && typeof currentImage === 'object' && currentImage.location && `📍 ${currentImage.location}`}
-            {currentImage && typeof currentImage === 'object' && currentImage.date && ` • ${new Date(currentImage.date).toLocaleDateString()}`}
+            {currentImage && typeof currentImage === 'object' && currentImage.date && ` • ${formatDisplayDate(currentImage.date, 'short')}`}
           </p>
         </div>
 

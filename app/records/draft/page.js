@@ -2,16 +2,16 @@
 
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import { useAuth } from '../../../components/AuthProvider';
-import { api } from '../../../utils/api';
-import { saveRecordDraft } from '../../../utils/recordDraft';
-import { formatAiUsageLine } from '../../../utils/aiUsage';
-import SpeciesHoverChip from '../../../components/SpeciesHoverChip';
-import styles from '../../../styles/RecordDraft.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import { useAuth } from '@/components/AuthProvider';
+import { api } from '@/utils/api';
+import { saveRecordDraft } from '@/utils/recordDraft';
+import { formatAiUsageLine } from '@/utils/aiUsage';
+import SpeciesHoverChip from '@/components/SpeciesHoverChip';
+import styles from '@/styles/RecordDraft.module.css';
 
 const DRAFT_TEXT_MAX = 4000;
 

@@ -1,6 +1,6 @@
 // Next.js API代理路由 - 地点详情和编辑
-import { resolveBackendApiBase } from '../../../utils/backendApiBase';
-import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   const { id } = req.query;

@@ -23,20 +23,20 @@
   margin-bottom: 16px;
   text-align: left;
   font-weight: 500;
-  font-size: 0.95rem;
-  line-height: 1.45;
+  font-size: var(--type-body);
+  line-height: var(--line-height-normal);
 }
 
 .message.success {
   background: var(--color-lake-light);
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
   border: 1px solid var(--color-lake);
 }
 
 .message.error {
-  background: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background: var(--color-danger-soft);
+  color: var(--color-danger-hover);
+  border: 1px solid var(--color-danger-border);
   white-space: pre-line;
 }
 
@@ -45,13 +45,13 @@
   padding: 20px 22px 24px;
   border-radius: var(--radius-large);
   box-shadow: var(--shadow-medium);
-  border: 1px solid rgba(2, 48, 71, 0.08);
+  border: 1px solid var(--border-subtle);
 }
 
 .formSection {
   padding: 2px 0 14px;
   margin-bottom: 2px;
-  border-bottom: 1px solid rgba(2, 48, 71, 0.1);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .formSection:last-of-type {
@@ -62,9 +62,9 @@
 
 .sectionTitle {
   margin: 0 0 10px;
-  font-size: 0.98rem;
-  font-weight: 650;
-  color: var(--color-deep-teal);
+  font-size: var(--type-body);
+  font-weight: 600;
+  color: var(--color-ink);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -82,9 +82,9 @@
 
 .optionalTag {
   margin-left: auto;
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   font-weight: 500;
-  color: var(--text-medium);
+  color: var(--text-secondary);
   background: var(--background-light);
   padding: 2px 8px;
   border-radius: 999px;
@@ -107,9 +107,9 @@
 
 .label {
   display: block;
-  font-size: 0.92rem;
-  font-weight: 550;
-  color: var(--text-dark);
+  font-size: var(--type-secondary);
+  font-weight: 500;
+  color: var(--text-primary);
   margin-bottom: 6px;
 }
 
@@ -132,9 +132,9 @@
 
 .quickHint {
   margin: -6px 0 12px;
-  font-size: 0.82rem;
-  color: var(--text-medium);
-  line-height: 1.4;
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
+  line-height: var(--line-height-snug);
 }
 
 .input,
@@ -143,10 +143,10 @@
   padding: 11px 14px;
   border: 2px solid var(--border-input);
   border-radius: var(--radius-medium);
-  font-size: 1rem;
+  font-size: var(--type-body);
   transition: border-color 0.2s ease;
   font-family: inherit;
-  background: #ffffff;
+  background: var(--bg-white);
   box-sizing: border-box;
 }
 
@@ -174,8 +174,8 @@
 }
 
 .recentLabel {
-  font-size: 0.82rem;
-  color: var(--text-medium);
+  font-size: var(--type-caption);
+  color: var(--text-secondary);
   margin-right: 2px;
 }
 
@@ -184,10 +184,10 @@
   background: var(--background-light);
   border: 1px solid var(--medium-gray);
   border-radius: var(--radius-small);
-  font-size: 0.85rem;
+  font-size: var(--type-secondary);
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .recentLocationButton:hover {
@@ -215,9 +215,9 @@
   padding: 11px 8px;
   border: 2px solid var(--border-input);
   border-radius: var(--radius-medium);
-  font-size: 1rem;
+  font-size: var(--type-body);
   text-align: center;
-  background: #ffffff;
+  background: var(--bg-white);
   box-sizing: border-box;
 }
 
@@ -227,8 +227,8 @@
 }
 
 .birdCountLabel {
-  font-size: 0.85rem;
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   flex-shrink: 0;
 }
 
@@ -241,7 +241,7 @@
   background: var(--error);
   color: var(--text-white);
   border-radius: var(--radius-small);
-  font-size: 1rem;
+  font-size: var(--type-body);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -257,8 +257,8 @@
   background: transparent;
   border: 1px dashed var(--medium-gray);
   border-radius: var(--radius-medium);
-  font-size: 0.9rem;
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
   width: 100%;
@@ -268,7 +268,7 @@
 .addBirdButton:hover {
   border-color: var(--color-lake);
   color: var(--color-lake);
-  background: var(--color-lake-light, rgba(33, 158, 188, 0.12));
+  background: var(--color-lake-light, var(--color-lake-light));
 }
 
 .formActions {
@@ -277,16 +277,16 @@
   gap: 12px;
   margin-top: 8px;
   padding-top: 16px;
-  border-top: 1px solid rgba(2, 48, 71, 0.1);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .submitButton {
   padding: 12px 20px;
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
   border: none;
   border-radius: var(--radius-medium);
-  font-size: 1.05rem;
+  font-size: var(--type-body);
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s ease;
@@ -307,7 +307,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 0.88rem;
+  font-size: var(--type-secondary);
   padding: 4px;
   font-family: inherit;
 }

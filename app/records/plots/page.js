@@ -4,16 +4,16 @@ import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import SimplePageHeader, {
   HeaderPrimaryButton,
-} from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import { useAuth } from '../../../components/AuthProvider';
-import { api } from '../../../utils/api';
-import { HABITAT_COVER_SETS, resolvePlotCover, useHabitatCoverSet } from '../../../utils/habitatCover';
-import styles from '../../../styles/PersonalPlots.module.css';
+} from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import { useAuth } from '@/components/AuthProvider';
+import { api } from '@/utils/api';
+import { HABITAT_COVER_SETS, resolvePlotCover, useHabitatCoverSet } from '@/utils/habitatCover';
+import styles from '@/styles/PersonalPlots.module.css';
 
 const emptyForm = {
   title: '',
@@ -232,12 +232,12 @@ export default function PersonalPlotsPage() {
                 </div>
               </div>
               <div className={styles.actions}>
-                <button type="submit" className={styles.btn} disabled={saving}>
+                <button type="submit" className="btn btn-primary" disabled={saving}>
                   {saving ? '创建中…' : '创建'}
                 </button>
                 <button
                   type="button"
-                  className={`${styles.btn} ${styles.btnSecondary}`}
+                  className="btn btn-secondary"
                   onClick={closeCreate}
                   disabled={saving}
                 >
@@ -255,7 +255,7 @@ export default function PersonalPlotsPage() {
             <div className={styles.emptyBlock}>
               <p className={styles.empty}>还没有自留地。建一块后可手动录入或导入鸟类记录中心报告表。</p>
               {!showCreate ? (
-                <button type="button" className={styles.btn} onClick={openCreate}>
+                <button type="button" className="btn btn-primary" onClick={openCreate}>
                   新建自留地
                 </button>
               ) : null}

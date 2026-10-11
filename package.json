@@ -13,9 +13,10 @@
     "build": "cross-env NODE_ENV=production next build --webpack",
     "start": "cross-env NODE_ENV=production next start --webpack -p 13080",
     "server": "nodemon server/index.js",
-    "start:all": "./start.sh",
-    "stop:all": "./stop.sh",
-    "restart:all": "./restart.sh",
+    "start:all": "npm run prod:all",
+    "stop:all": "npm run stop:windows",
+    "stop:windows": "powershell -ExecutionPolicy Bypass -File ./scripts/stop-windows.ps1",
+    "restart:all": "npm run prod:all",
     "dev:all": "concurrently \"npm run server\" \"npm run dev\"",
     "prod:all": "concurrently \"npm run server\" \"npm run start\"",
     "build:prod": "cp next.config.production.js next.config.js && npm run build",
@@ -33,7 +34,7 @@
     "摄影"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
     "@fontsource/noto-sans-sc": "^5.2.8",

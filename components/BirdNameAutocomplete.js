@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
-import { api } from '../utils/api';
+import { api } from '@/utils/api';
 import RequestNewBirdButton from './RequestNewBirdButton';
-import { findMatchedAlias } from '../utils/birdAliasMatch';
-import styles from '../styles/BirdNameAutocomplete.module.css';
+import BirdSearchField from './BirdSearchField';
+import { findMatchedAlias } from '@/utils/birdAliasMatch';
+import { BIRD_SEARCH_PLACEHOLDER } from '@/utils/birdSearchUi';
+import styles from '@/styles/BirdNameAutocomplete.module.css';
 
 const BirdNameAutocomplete = ({ 
   value, 
   onChange, 
   onSelect,
   onInputKeyDown,
-  placeholder = "输入鸟类名称（如：麻雀）", 
+  placeholder = BIRD_SEARCH_PLACEHOLDER, 
   required = false,
   className = "",
   containerProps = {}
@@ -62,17 +64,12 @@ const BirdNameAutocomplete = ({
     }, 300); // 300ms 延迟
   };
 
-  // 处理输入变化
-  const handleInputChange = (e) => {
-    const inputValue = e.target.value || '';
-    
-    // 调用onChange回调
+  const handleInputChange = (inputValue) => {
+    const next = inputValue || '';
     if (onChange && typeof onChange === 'function') {
-      onChange(inputValue);
+      onChange(next);
     }
-    
-    // 搜索鸟类
-    searchBirds(inputValue);
+    searchBirds(next);
   };
 
   // 选择鸟类
@@ -139,9 +136,8 @@ const BirdNameAutocomplete = ({
 
   return (
     <div className={`${styles.autocompleteContainer} ${className}`} {...containerProps}>
-      <input
-        ref={inputRef}
-        type="text"
+      <BirdSearchField
+        inputRef={inputRef}
         value={value || ''}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
@@ -152,8 +148,9 @@ const BirdNameAutocomplete = ({
         }}
         placeholder={placeholder}
         required={required}
-        className={styles.input}
-        autoComplete="off"
+        roundedRect
+        size="md"
+        clearable={false}
       />
       
       {loading && (

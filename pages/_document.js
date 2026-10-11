@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="zh-CN" data-scroll-behavior="smooth">
       <Head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#219EBC" />
+        <meta name="theme-color" content="#003153" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />

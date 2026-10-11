@@ -6,10 +6,15 @@ import Link from 'next/link';
 import PageState from './PageState';
 import HabitatGallery from './HabitatGallery';
 import SpeciesHoverChip from './SpeciesHoverChip';
-import { api } from '../utils/api';
-import { getOrderChineseName } from '../data/taxonomyTranslation';
-import plotStyles from '../styles/PersonalPlots.module.css';
-import styles from '../styles/ExploreDemo.module.css';
+import { api } from '@/utils/api';
+import { getOrderChineseName } from '@/data/taxonomyTranslation';
+import { orderDisplayName } from '@/utils/taxonomyOrderUi';
+import BirdSearchField from './BirdSearchField';
+import { speciesMatchesSearch } from '@/utils/clientPinyinMatch';
+import { BIRD_SEARCH_PLACEHOLDER } from '@/utils/birdSearchUi';
+import { extractCoords as extractCoordsBase } from '@/utils/locationCoords';
+import plotStyles from '@/styles/PersonalPlots.module.css';
+import styles from '@/styles/ExploreDemo.module.css';
 
 const BirdMapProvider = dynamic(() => import('./BirdMapProvider'), { ssr: false });
 
@@ -62,29 +67,10 @@ export function PlotHabitatGallery({ plot }) {
   );
 }
 
-function orderDisplayName(orderKey) {
-  if (!orderKey || orderKey === '未分类') return '未分类';
-  return getOrderChineseName(orderKey) || orderKey;
-}
-
 function extractCoords(location) {
-  if (!location) return null;
-  const lat =
-    location.coordinates?.coordinates?.[1] ??
-    location.coordinates?.[1] ??
-    location.lat ??
-    location.latitude;
-  const lng =
-    location.coordinates?.coordinates?.[0] ??
-    location.coordinates?.[0] ??
-    location.lng ??
-    location.longitude;
-  if (lat == null || lng == null) return null;
-  const nLat = Number(lat);
-  const nLng = Number(lng);
-  if (!Number.isFinite(nLat) || !Number.isFinite(nLng)) return null;
-  if (nLat === 0 && nLng === 0) return null;
-  return { lat: nLat, lng: nLng };
+  const coords = extractCoordsBase(location);
+  if (!coords || (coords.lat === 0 && coords.lng === 0)) return null;
+  return coords;
 }
 
 function spotCandidatesFromText(text) {
@@ -381,17 +367,13 @@ export default function ExploreLedgerPanel({
   const allSpecies = useMemo(() => plot?.species || [], [plot]);
 
   const filteredSpecies = useMemo(() => {
-    const q = filterQ.trim().toLowerCase();
+    const q = filterQ.trim();
     let list = allSpecies.slice();
     if (q) {
-      list = list.filter(
-        (s) =>
-          String(s.name || '')
-            .toLowerCase()
-            .includes(q) ||
-          String(s.scientificName || '')
-            .toLowerCase()
-            .includes(q)
+      list = list.filter((s) =>
+        speciesMatchesSearch(s, q, {
+          orderLabel: getOrderChineseName(s.order),
+        })
       );
     }
     if (filterSource) {
@@ -535,12 +517,13 @@ export default function ExploreLedgerPanel({
         {section === 'species' ? (
           <div className={styles.ledgerBlock}>
             <div className={styles.filterBar}>
-              <input
+              <BirdSearchField
                 className={styles.search}
-                type="search"
                 value={filterQ}
-                onChange={(e) => setFilterQ(e.target.value)}
-                placeholder="搜索中文名 / 学名…"
+                onChange={setFilterQ}
+                placeholder={BIRD_SEARCH_PLACEHOLDER}
+                size="sm"
+                roundedRect
               />
               <select
                 className={styles.select}

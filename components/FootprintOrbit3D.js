@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
-import styles from '../styles/FootprintOrbit3D.module.css';
+import styles from '@/styles/FootprintOrbit3D.module.css';
 
 const PERSPECTIVE = 1100;
 

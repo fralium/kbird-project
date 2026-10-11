@@ -4,10 +4,10 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageState from './PageState';
-import { api } from '../utils/api';
-import { getFullImageUrl, isValidImageUrl } from '../utils/imageUtils';
-import { resolveLocationCover } from '../utils/habitatCover';
-import styles from '../styles/FirstsTrail.module.css';
+import { api } from '@/utils/api';
+import { getFullImageUrl, isValidImageUrl } from '@/utils/imageUtils';
+import { resolveLocationCover } from '@/utils/habitatCover';
+import styles from '@/styles/FirstsTrail.module.css';
 
 function colsForWidth(width) {
   if (width <= 520) return 2;

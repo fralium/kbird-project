@@ -3,34 +3,42 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
-import Navbar from '../../../../components/Navbar';
-import Footer from '../../../../components/Footer';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import SimplePageHeader, {
   HeaderPrimaryButton,
   HeaderSecondaryButton,
   HeaderSecondaryLink,
-} from '../../../../components/SimplePageHeader';
-import PageState from '../../../../components/PageState';
-import { useAuth } from '../../../../components/AuthProvider';
-import { api } from '../../../../utils/api';
+} from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import FormModal from '@/components/FormModal';
+import { useConfirmDialog } from '@/components/ConfirmDialog';
+import { useAuth } from '@/components/AuthProvider';
+import { api } from '@/utils/api';
 import {
-  getOrderChineseName,
-  getOrderLatinName,
-} from '../../../../data/taxonomyTranslation';
+  orderDisplayName,
+  orderGroupKey,
+  orderLatinSubtitle,
+} from '@/utils/taxonomyOrderUi';
 import {
   provinces,
   getCitiesByProvince,
   getProvinceCodeByName,
   getCityCodeByName,
-} from '../../../../data/chinaRegions';
+} from '@/data/chinaRegions';
 import {
   MAX_SPECIES_LIST_UPLOAD_FILES,
   mergeSpeciesLists,
   parseSpeciesListFile,
-} from '../../../../utils/cbrcSpeciesListParser';
-import LocationAutocomplete from '../../../../components/LocationAutocomplete';
-import SpeciesHoverChip from '../../../../components/SpeciesHoverChip';
-import styles from '../../../../styles/RegionBirdLists.module.css';
+} from '@/utils/cbrcSpeciesListParser';
+import LocationAutocomplete from '@/components/LocationAutocomplete';
+import SpeciesHoverChip from '@/components/SpeciesHoverChip';
+import BirdSearchField from '@/components/BirdSearchField';
+import SpeciesLedgerBrowse from '@/components/SpeciesLedgerBrowse';
+import { speciesMatchesSearch } from '@/utils/clientPinyinMatch';
+import { canonicalizeBirdName } from '@/utils/canonicalizeBirdName';
+import { BIRD_SEARCH_PLACEHOLDER_TAXON } from '@/utils/birdSearchUi';
+import styles from '@/styles/RegionBirdLists.module.css';
 
 function formatVersionLabel(year, month) {
   const y = Number(year);
@@ -40,46 +48,6 @@ function formatVersionLabel(year, month) {
   }
   if (Number.isFinite(y)) return `${y}年版本`;
   return '';
-}
-
-function orderDisplayName(orderKey) {
-  if (!orderKey || orderKey === '未分类') return '未分类';
-  const cn = getOrderChineseName(orderKey);
-  return cn || orderKey;
-}
-
-function orderGroupKey(orderKey) {
-  if (!orderKey || orderKey === '未分类') return '未分类';
-  return getOrderLatinName(orderKey) || String(orderKey).trim() || '未分类';
-}
-
-function orderLatinSubtitle(orderKey) {
-  if (!orderKey || orderKey === '未分类') return '';
-  const latin = getOrderLatinName(orderKey);
-  if (latin && latin !== orderKey) return latin;
-  if (/^[A-Za-z]/.test(orderKey)) return orderKey;
-  return latin || '';
-}
-
-/** 与 data/birdNameAliases 保持一致的轻量规范化（避免客户端直接依赖 CJS） */
-const BIRD_NAME_ALIASES = {
-  黄斑苇鳽: '黄苇鳽',
-  黑苇鳽: '黑鳽',
-  白眉苦恶鸟: '白眉田鸡',
-  极北朱顶雀: '白腰朱顶雀',
-  北极朱顶雀: '白腰朱顶雀',
-  白颈凤鹛: '白项凤鹛',
-  黄喉穗鹛: '红额穗鹛',
-  长尾鹩鹛: '灰腹鹩鹛',
-  赤腰燕: '斑腰燕',
-  白尾八哥: '爪哇八哥',
-  环颈雉: '雉鸡',
-};
-
-function canonicalizeBirdName(name) {
-  const raw = String(name || '').trim();
-  if (!raw) return '';
-  return BIRD_NAME_ALIASES[raw] || raw;
 }
 
 function normalizeNameKey(value) {
@@ -104,6 +72,7 @@ export default function RegionBirdListDetailPage() {
   const searchParams = useSearchParams();
   const id = params?.id;
   const { user } = useAuth();
+  const { ask, dialog: confirmDialog } = useConfirmDialog();
   const publishFileRef = useRef(null);
   const [data, setData] = useState(null);
   const [allSpecies, setAllSpecies] = useState([]);
@@ -429,13 +398,13 @@ export default function RegionBirdListDetailPage() {
     const nameList = unmatchedSpecies
       .map((row) => row.name || row.scientificName || '未命名')
       .join('、');
-    if (
-      !window.confirm(
-        `将为以下 ${unmatchedSpecies.length} 种「库中暂无」鸟种创建基础档案并关联到本清单：\n\n${nameList}\n\n之后可在鸟种页补全。继续？`
-      )
-    ) {
-      return;
-    }
+    const ok = await ask({
+      title: '批量入库',
+      message: `将为以下 ${unmatchedSpecies.length} 种「库中暂无」鸟种创建基础档案并关联到本清单：\n\n${nameList}\n\n之后可在鸟种页补全。继续？`,
+      confirmLabel: '继续入库',
+      cancelLabel: '取消',
+    });
+    if (!ok) return;
     setCatalogBusy(true);
     setCatalogError('');
     try {
@@ -559,9 +528,9 @@ export default function RegionBirdListDetailPage() {
 
   const matchesSummaryQuery = useCallback((row, q) => {
     if (!q) return true;
-    const hay = `${row.name || ''} ${row.scientificName || ''} ${row.order || ''} ${row.family || ''}`.toLowerCase();
-    const orderCn = orderDisplayName(row.order || '未分类').toLowerCase();
-    return hay.includes(q) || orderCn.includes(q);
+    return speciesMatchesSearch(row, q, {
+      orderLabel: orderDisplayName(row.order || '未分类'),
+    });
   }, []);
 
   const passesSummaryFilter = useCallback(
@@ -630,10 +599,11 @@ export default function RegionBirdListDetailPage() {
     }
     if (family) rows = rows.filter((row) => row.family === family);
     if (q) {
-      rows = rows.filter((row) => {
-        const hay = `${row.code || ''} ${row.name || ''} ${row.scientificName || ''} ${row.englishName || ''}`.toLowerCase();
-        return hay.includes(q);
-      });
+      rows = rows.filter((row) =>
+        speciesMatchesSearch(row, q, {
+          orderLabel: orderDisplayName(row.order || '未分类'),
+        })
+      );
     }
     const dir = sortOrder === 'asc' ? 1 : -1;
     rows.sort((a, b) => {
@@ -898,88 +868,48 @@ export default function RegionBirdListDetailPage() {
           </section>
         ) : null}
 
-        <section className={styles.summarySection}>
-          <div className={styles.summaryHeader}>
-            <div className={styles.summaryProgressBlock}>
-              <div className={styles.summaryProgressLabel}>
-                已见 {summaryStats.seen} / {summaryStats.total}
-                <span className={styles.summaryPct}>（{summaryStats.pct}%）</span>
-              </div>
-              <div className={styles.progressTrack}>
-                <div
-                  className={styles.progressFill}
-                  style={{ width: `${summaryStats.pct}%` }}
-                />
-              </div>
-            </div>
-            <input
-              className={styles.searchInput}
-              value={summarySearch}
-              onChange={(e) => setSummarySearch(e.target.value)}
-              placeholder="搜索种名、学名、目、科"
-            />
-            <div className={styles.summaryFilters} role="tablist" aria-label="进度筛选">
-              {[
-                { id: 'all', label: '全部' },
-                { id: 'unseen', label: '只看未见' },
-                { id: 'seen', label: '只看已见' },
-              ].map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`${styles.filterChip} ${summaryFilter === item.id ? styles.filterChipActive : ''}`}
-                  onClick={() => setSummaryFilter(item.id)}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {orderCards.length === 0 ? (
-            <p className={styles.summaryEmpty}>没有匹配的目</p>
-          ) : (
-            <div className={styles.orderGrid}>
-              {orderCards.map((card) => {
-                const isComplete = card.total > 0 && card.seen === card.total;
-                return (
-                <button
-                  key={card.key}
-                  type="button"
-                  className={`${styles.orderCard} ${isComplete ? styles.orderCardDone : ''}`}
-                  onClick={() => {
-                    setOrder(card.key === '未分类' ? '' : card.key);
-                    setFamily('');
-                  }}
-                >
-                  <div className={styles.orderCardTop}>
-                    <div className={styles.orderCardTitle}>{card.label}</div>
-                    <div className={styles.orderCardStat}>
-                      {card.focus}/{card.total} {card.pct}%
-                    </div>
-                  </div>
-                  {card.latin ? <div className={styles.orderCardLatin}>{card.latin}</div> : null}
-                  <div className={styles.progressTrack}>
-                    <div
-                      className={`${styles.progressFill} ${isComplete ? styles.progressFillDone : ''}`}
-                      style={{ width: `${card.pct}%` }}
-                    />
-                  </div>
-                </button>
-                );
-              })}
-            </div>
-          )}
-        </section>
+        <SpeciesLedgerBrowse
+          className={styles.summarySection}
+          progressLabel={
+            <>
+              已见 {summaryStats.seen} / {summaryStats.total}
+              <span className={styles.summaryPct}>（{summaryStats.pct}%）</span>
+            </>
+          }
+          progressPct={summaryStats.pct}
+          searchValue={summarySearch}
+          onSearchChange={setSummarySearch}
+          filterValue={summaryFilter}
+          onFilterChange={setSummaryFilter}
+          orderCards={orderCards.map((card) => ({
+            key: card.key,
+            label: card.label,
+            latin: card.latin,
+            stat: `${card.focus}/${card.total} ${card.pct}%`,
+            pct: card.pct,
+            done: card.total > 0 && card.seen === card.total,
+            active: orderGroupKey(order || '') === card.key && Boolean(order),
+          }))}
+          onSelectOrder={(card) => {
+            if (order && orderGroupKey(order) === card.key) {
+              setOrder('');
+            } else {
+              setOrder(card.key === '未分类' ? '' : card.key);
+            }
+            setFamily('');
+          }}
+        />
 
         {error ? <div className={styles.errorBanner}>{error}</div> : null}
 
         <div className={styles.toolbar}>
-          <input
+          <BirdSearchField
             className={styles.searchInput}
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="搜索中文名 / 学名 / 编号…"
+            onChange={setSearch}
+            placeholder={BIRD_SEARCH_PLACEHOLDER_TAXON}
+            size="sm"
+            roundedRect
           />
           <select
             className={styles.filterSelect}
@@ -1111,11 +1041,22 @@ export default function RegionBirdListDetailPage() {
       </main>
       <Footer />
 
-      {showEdit ? (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h3>编辑清单信息</h3>
-            <form onSubmit={handleSaveEdit}>
+      <FormModal
+        open={showEdit}
+        onClose={() => setShowEdit(false)}
+        title="编辑清单信息"
+        actions={
+          <>
+            <button type="button" className={styles.secondaryBtn} onClick={() => setShowEdit(false)}>
+              取消
+            </button>
+            <button type="submit" form="region-edit-list-form" className={styles.primaryBtn} disabled={savingEdit}>
+              {savingEdit ? '保存中…' : '保存'}
+            </button>
+          </>
+        }
+      >
+            <form id="region-edit-list-form" onSubmit={handleSaveEdit}>
               <label>
                 省份 *
                 <select
@@ -1231,28 +1172,42 @@ export default function RegionBirdListDetailPage() {
                 预览：
                 {formatVersionLabel(editForm.year, editForm.versionMonth) || '（未设置版本）'}
               </p>
-              <div className={styles.modalActions}>
-                <button type="button" className={styles.secondaryBtn} onClick={() => setShowEdit(false)}>
-                  取消
-                </button>
-                <button type="submit" className={styles.primaryBtn} disabled={savingEdit}>
-                  {savingEdit ? '保存中…' : '保存'}
-                </button>
-              </div>
             </form>
-          </div>
-        </div>
-      ) : null}
+      </FormModal>
 
-      {showCatalogModal ? (
-        <div className={styles.modalOverlay}>
-          <div className={`${styles.modal} ${styles.publishModal}`}>
-            <h3>入库到鸟种库</h3>
+      <FormModal
+        open={showCatalogModal}
+        onClose={() => setShowCatalogModal(false)}
+        title="入库到鸟种库"
+        wide
+        actions={
+          <>
+            <button
+              type="button"
+              className={styles.secondaryBtn}
+              onClick={() => setShowCatalogModal(false)}
+            >
+              取消
+            </button>
+            <button
+              type="button"
+              className={styles.secondaryBtn}
+              disabled={catalogBusy}
+              onClick={handleSaveCatalogAndEdit}
+            >
+              {catalogBusy ? '处理中…' : '入库并打开编辑'}
+            </button>
+            <button type="submit" form="region-catalog-form" className={styles.primaryBtn} disabled={catalogBusy}>
+              {catalogBusy ? '入库中…' : '确认入库'}
+            </button>
+          </>
+        }
+      >
             <p className={styles.modalHint}>
               将用下列信息创建鸟种档案并关联到本清单。可先改再保存，或保存后打开编辑页继续补全。
             </p>
             {catalogError ? <p className={styles.catalogError}>{catalogError}</p> : null}
-            <form onSubmit={handleSaveCatalogForm}>
+            <form id="region-catalog-form" onSubmit={handleSaveCatalogForm}>
               <label>
                 中文名 *
                 <input
@@ -1326,35 +1281,51 @@ export default function RegionBirdListDetailPage() {
                   />
                 </label>
               </div>
-              <div className={styles.modalActions}>
-                <button
-                  type="button"
-                  className={styles.secondaryBtn}
-                  onClick={() => setShowCatalogModal(false)}
-                >
-                  取消
-                </button>
-                <button
-                  type="button"
-                  className={styles.secondaryBtn}
-                  disabled={catalogBusy}
-                  onClick={handleSaveCatalogAndEdit}
-                >
-                  {catalogBusy ? '处理中…' : '入库并打开编辑'}
-                </button>
-                <button type="submit" className={styles.primaryBtn} disabled={catalogBusy}>
-                  {catalogBusy ? '入库中…' : '确认入库'}
-                </button>
-              </div>
             </form>
-          </div>
-        </div>
-      ) : null}
+      </FormModal>
 
-      {showPublish ? (
-        <div className={styles.modalOverlay}>
-          <div className={`${styles.modal} ${styles.publishModal}`}>
-            <h3>发布新版本</h3>
+      <FormModal
+        open={showPublish}
+        onClose={() => {
+          setShowPublish(false);
+          resetPublish();
+        }}
+        title="发布新版本"
+        wide
+        actions={
+          <>
+            <button
+              type="button"
+              className={styles.secondaryBtn}
+              onClick={() => {
+                setShowPublish(false);
+                resetPublish();
+              }}
+            >
+              取消
+            </button>
+            {!publishPreview ? (
+              <button
+                type="button"
+                className={styles.primaryBtn}
+                onClick={handlePreviewVersion}
+                disabled={publishBusy || !publishForm.species.length}
+              >
+                {publishBusy ? '对比中…' : '对比差异'}
+              </button>
+            ) : (
+              <button
+                type="button"
+                className={styles.primaryBtn}
+                onClick={handlePublishVersion}
+                disabled={publishBusy}
+              >
+                {publishBusy ? '发布中…' : '确认发布'}
+              </button>
+            )}
+          </>
+        }
+      >
             <p className={styles.modalHint}>
               当前：{versionLabel || '未标注版本'}（{data.speciesCount || allSpecies.length || 0}{' '}
               种）。上传新清单后先对比，再确认发布。
@@ -1480,41 +1451,8 @@ export default function RegionBirdListDetailPage() {
                 ) : null}
               </div>
             ) : null}
-
-            <div className={styles.modalActions}>
-              <button
-                type="button"
-                className={styles.secondaryBtn}
-                onClick={() => {
-                  setShowPublish(false);
-                  resetPublish();
-                }}
-              >
-                取消
-              </button>
-              {!publishPreview ? (
-                <button
-                  type="button"
-                  className={styles.primaryBtn}
-                  onClick={handlePreviewVersion}
-                  disabled={publishBusy || !publishForm.species.length}
-                >
-                  {publishBusy ? '对比中…' : '对比差异'}
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className={styles.primaryBtn}
-                  onClick={handlePublishVersion}
-                  disabled={publishBusy}
-                >
-                  {publishBusy ? '发布中…' : '确认发布'}
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : null}
+      </FormModal>
+      {confirmDialog}
     </div>
   );
 }

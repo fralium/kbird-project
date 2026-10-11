@@ -14,17 +14,17 @@
 .header {
   text-align: center;
   margin-bottom: 3rem;
-  color: white;
+  color: var(--text-white);
 }
 
 .header h1 {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .header p {
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
   opacity: 0.9;
 }
 
@@ -44,8 +44,8 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #2d3748;
-  font-size: 1rem;
+  color: var(--text-secondary);
+  font-size: var(--type-body);
 }
 
 .formGroup input,
@@ -53,9 +53,9 @@
 .formGroup textarea {
   width: 100%;
   padding: 0.8rem 1rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--gray-200);
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--type-body);
   transition: all 0.3s ease;
   font-family: inherit;
 }
@@ -75,8 +75,8 @@
 
 .charCount {
   text-align: right;
-  font-size: 0.8rem;
-  color: #718096;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
   margin-top: 0.3rem;
 }
 
@@ -87,7 +87,7 @@
   justify-content: flex-end;
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--gray-200);
 }
 
 .cancelButton,
@@ -95,7 +95,7 @@
   padding: 0.8rem 2rem;
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -115,7 +115,7 @@
 
 .submitButton {
   background: var(--color-lake);
-  color: white;
+  color: var(--text-white);
 }
 
 .submitButton:hover:not(:disabled) {
@@ -125,7 +125,7 @@
 }
 
 .submitButton:disabled {
-  background: #cbd5e0;
+  background: var(--gray-300);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -139,7 +139,7 @@
   justify-content: center;
   min-height: 100vh;
   background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
-  color: white;
+  color: var(--text-white);
 }
 
 .loadingSpinner {
@@ -165,17 +165,17 @@
   justify-content: center;
   min-height: 100vh;
   background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
-  color: white;
+  color: var(--text-white);
   text-align: center;
 }
 
 .errorContainer h1 {
-  font-size: var(--page-title-size);
+  font-size: var(--type-page-title);
   margin-bottom: 1rem;
 }
 
 .errorContainer p {
-  font-size: var(--page-subtitle-size);
+  font-size: var(--type-page-lede);
   opacity: 0.9;
 }
 
@@ -186,7 +186,7 @@
   }
   
   .header h1 {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
   
   .form {
@@ -207,7 +207,7 @@
 .formGroup input:invalid,
 .formGroup select:invalid,
 .formGroup textarea:invalid {
-  border-color: #f56565;
+  border-color: var(--color-danger);
 }
 
 .formGroup input:valid,

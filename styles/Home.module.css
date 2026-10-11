@@ -30,7 +30,7 @@
   flex-direction: column;
   min-height: 100svh;
   margin-top: calc(-1 * var(--navbar-height, 72px));
-  background: var(--bg-clean, #f7fafb);
+  background: var(--bg-clean, var(--bg-clean));
 }
 
 .hero,
@@ -59,7 +59,7 @@
   left: 0;
   right: 0;
   height: 100px;
-  background: linear-gradient(to top, var(--bg-clean, #f7fafb) 0%, rgba(247, 250, 251, 0.55) 45%, transparent 100%);
+  background: linear-gradient(to top, var(--bg-clean, var(--bg-clean)) 0%, rgba(247, 250, 251, 0.55) 45%, transparent 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -109,12 +109,12 @@
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.55);
   background: rgba(2, 28, 38, 0.28);
-  color: #fff;
+  color: var(--text-white);
   font: inherit;
-  font-size: var(--type-scale-sm, 0.875rem);
+  font-size: var(--type-secondary);
   font-weight: 600;
   letter-spacing: 0.02em;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
   cursor: pointer;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -124,7 +124,7 @@
 .heroSwap:hover,
 .heroSwap:focus-visible {
   background: rgba(2, 28, 38, 0.48);
-  border-color: #fff;
+  border-color: var(--bg-white);
   outline: none;
 }
 
@@ -163,7 +163,7 @@
 }
 
 .heroText {
-  color: white;
+  color: var(--text-white);
   max-width: 34rem;
   opacity: 0;
   animation: fadeInUp 0.85s var(--ease-out) 0.15s forwards;
@@ -182,7 +182,7 @@
 .description,
 .heroDescription {
   font-size: clamp(0.95rem, 1.8vw, 1.1rem);
-  line-height: 1.6;
+  line-height: var(--line-height-relaxed);
   margin: 0 0 26px;
   color: rgba(255, 255, 255, 0.9);
   max-width: 26rem;
@@ -207,7 +207,7 @@
 .secondaryButton {
   padding: 12px 22px;
   border-radius: var(--radius-panel, 8px);
-  font-size: var(--type-scale-md);
+  font-size: var(--type-page-lede);
   font-weight: 600;
   text-decoration: none;
   display: inline-flex;
@@ -224,9 +224,9 @@
 
 .heroSection .primaryButton,
 .primaryButton {
-  background: #fff !important;
-  color: #023047 !important;
-  border: 2px solid #fff;
+  background: var(--bg-white) !important;
+  color: var(--color-ink) !important;
+  border: 2px solid var(--bg-white);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
   text-decoration: none !important;
 }
@@ -235,8 +235,8 @@
 .heroSection .primaryButton:focus-visible,
 .primaryButton:hover,
 .primaryButton:focus-visible {
-  background: rgba(255, 255, 255, 0.94) !important;
-  color: #023047 !important;
+  background: var(--glass-bg) !important;
+  color: var(--color-ink) !important;
   text-decoration: none !important;
   transform: translateY(-1px);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
@@ -244,13 +244,13 @@
 
 .heroSection .primaryButton:visited,
 .primaryButton:visited {
-  color: #023047 !important;
+  color: var(--color-ink) !important;
 }
 
 .heroSection .secondaryButton,
 .secondaryButton {
   background: transparent;
-  color: #fff !important;
+  color: var(--text-white) !important;
   border: 2px solid rgba(255, 255, 255, 0.72);
   text-decoration: none !important;
 }
@@ -260,15 +260,15 @@
 .secondaryButton:hover,
 .secondaryButton:focus-visible {
   background: rgba(255, 255, 255, 0.12);
-  border-color: #fff;
-  color: #fff !important;
+  border-color: var(--bg-white);
+  color: var(--text-white) !important;
   text-decoration: none !important;
   transform: translateY(-1px);
 }
 
 .heroSection .secondaryButton:visited,
 .secondaryButton:visited {
-  color: #fff !important;
+  color: var(--text-white) !important;
 }
 
 /* 统计条：固定在首屏底部，数字+说明完整展示 */
@@ -290,9 +290,9 @@
   justify-content: space-around;
   gap: 12px;
   padding: 14px 28px 16px;
-  background-color: var(--surface-card, #fff);
+  background-color: var(--surface-card, var(--bg-white));
   background-image: var(--surface-card-image, none);
-  border: var(--surface-card-border, 1px solid rgba(2, 48, 71, 0.08));
+  border: var(--surface-card-border, 1px solid var(--border-subtle));
   border-radius: var(--radius-panel, 8px);
   box-shadow: var(--surface-elevated-shadow, none);
   text-decoration: none;
@@ -302,8 +302,8 @@
 
 a.statsStripInner:hover,
 a.statsStripInner:focus-visible {
-  border-color: rgba(33, 158, 188, 0.35);
-  box-shadow: 0 12px 32px rgba(2, 48, 71, 0.14);
+  border-color: var(--color-lake-mid);
+  box-shadow: 0 12px 32px var(--border-subtle);
   transform: translateY(-1px);
 }
 
@@ -324,32 +324,32 @@ a.statsStripInner:visited {
 .statsStripValue {
   font-size: clamp(1.35rem, 3vw, 1.75rem);
   font-weight: 700;
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
   line-height: 1.15;
   font-variant-numeric: tabular-nums;
 }
 
 .statsStripItemPrimary .statsStripValue {
   font-size: clamp(1.7rem, 3.8vw, 2.25rem);
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
 }
 
 .statsStripItemPrimary .statsStripLabel {
-  color: var(--text-muted, #5c6b7a);
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .statsStripLabel {
-  font-size: var(--type-scale-sm);
-  color: var(--text-secondary, #5f6c72);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   white-space: nowrap;
-  line-height: 1.3;
+  line-height: var(--line-height-snug);
 }
 
 .statsStripDivider {
   width: 1px;
   height: 40px;
-  background: rgba(2, 48, 71, 0.12);
+  background: var(--border-subtle);
   flex-shrink: 0;
   align-self: center;
 }
@@ -379,7 +379,7 @@ a.statsStripInner:visited {
   justify-content: center;
   align-items: center;
   gap: var(--spacing-2);
-  color: white;
+  color: var(--text-white);
   transition: all var(--transition-base);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -416,13 +416,13 @@ a.statsStripInner:visited {
   font-size: var(--type-body);
   font-weight: 600;
   margin: 0;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--glass-bg);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 .statNumber {
   font-size: var(--type-stat);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--color-reed);
   margin: 0;
   text-shadow: 0 0 12px rgba(255, 183, 3, 0.35);
@@ -440,7 +440,7 @@ a.statsStripInner:visited {
 }
 
 .featuredSection {
-  background: var(--bg-clean, #f7fafb);
+  background: var(--bg-clean, var(--bg-clean));
   position: relative;
   padding: 64px 20px 56px;
   overflow: hidden;
@@ -474,19 +474,19 @@ a.statsStripInner:visited {
 }
 
 .sectionTitle {
-  font-size: var(--type-section, 1.5rem);
+  font-size: var(--type-section);
   font-weight: 700;
   margin: 0;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   letter-spacing: -0.01em;
 }
 
 .sectionDescription {
-  font-size: var(--type-scale-sm);
-  color: var(--text-medium);
+  font-size: var(--type-secondary);
+  color: var(--text-secondary);
   max-width: 36rem;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: var(--line-height-relaxed);
   font-weight: 400;
 }
 
@@ -505,9 +505,9 @@ a.statsStripInner:visited {
   padding: 0;
   margin: 0;
   font: inherit;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -515,7 +515,7 @@ a.statsStripInner:visited {
 
 .refreshButton:hover:not(:disabled),
 .refreshButton:focus-visible:not(:disabled) {
-  color: var(--color-lake-hover, #1a86a0);
+  color: var(--color-lake-hover);
 }
 
 .refreshButton:disabled {
@@ -525,9 +525,9 @@ a.statsStripInner:visited {
 }
 
 .viewAllButton {
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  color: var(--color-lake, #219ebc) !important;
+  color: var(--color-lake, var(--color-lake)) !important;
   text-decoration: none !important;
 }
 
@@ -544,7 +544,7 @@ a.statsStripInner:visited {
 
 .featuredSection .viewAllButton:hover {
   background: transparent;
-  color: var(--color-lake-hover, #1a86a0) !important;
+  color: var(--color-lake-hover, var(--color-lake)) !important;
 }
 
 /* 精选鸟种：固定 3 列（6 张 → 2×3），避免宽屏 5+1 落单 */
@@ -604,7 +604,7 @@ a.statsStripInner:visited {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(160deg, var(--color-sky) 0%, var(--color-lake) 50%, var(--color-deep-teal) 100%);
+  background: linear-gradient(160deg, var(--color-sky) 0%, var(--color-lake) 50%, var(--color-ink) 100%);
 }
 .birdCard3D .cardImage {
   position: absolute;
@@ -623,7 +623,7 @@ a.statsStripInner:visited {
   display: none;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(160deg, var(--color-sky) 0%, var(--color-lake) 50%, var(--color-deep-teal) 100%);
+  background: linear-gradient(160deg, var(--color-sky) 0%, var(--color-lake) 50%, var(--color-ink) 100%);
 }
 .birdCard3D .cardPlaceholder.placeholderVisible {
   display: flex;
@@ -642,25 +642,25 @@ a.statsStripInner:visited {
   bottom: 0;
   z-index: 1;
   padding: 1.5rem 1.25rem 1.25rem;
-  background: linear-gradient(to top, rgba(2, 48, 71, 0.88) 0%, rgba(2, 48, 71, 0.4) 60%, transparent);
-  color: #fff;
+  background: linear-gradient(to top, var(--border-subtle) 0%, var(--border-subtle) 60%, transparent);
+  color: var(--text-white);
 }
 .birdCard3D .cardOverlay .cardTitle {
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
-  line-height: 1.3;
+  color: var(--text-white);
+  line-height: var(--line-height-snug);
   letter-spacing: 0.02em;
 }
 .birdCard3D .cardOverlay .cardScientific {
   font-family: var(--font-scientific, Georgia, serif);
-  font-size: 1.05rem;
+  font-size: var(--type-body);
   font-style: italic;
   font-weight: 500;
   margin: 0.15rem 0 0;
   color: rgba(255, 236, 200, 0.95);
-  line-height: 1.35;
+  line-height: var(--line-height-snug);
   letter-spacing: 0.01em;
 }
 .birdCard3D .cardBadges {
@@ -676,7 +676,7 @@ a.statsStripInner:visited {
 .birdCard3D .cardBadges .statusBadge {
   padding: 0.25rem 0.5rem;
   border-radius: 999px;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -684,11 +684,11 @@ a.statsStripInner:visited {
 }
 .birdCard3D .cardBadges .statusBadge.iucn {
   background: var(--color-lake);
-  color: #fff;
+  color: var(--text-white);
 }
 .birdCard3D .cardBadges .statusBadge.china {
   background: var(--color-reed);
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
 }
 
 .birdCard:hover .cardFront,
@@ -721,7 +721,7 @@ a.statsStripInner:visited {
 
 .cardBack {
   background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
-  color: white;
+  color: var(--text-white);
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
@@ -754,7 +754,7 @@ a.statsStripInner:visited {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--text-white);
 }
 
 .placeholderText {
@@ -772,27 +772,27 @@ a.statsStripInner:visited {
   font-size: var(--type-section);
   font-weight: 700;
   margin-bottom: 8px;
-  color: #2c3e50;
+  color: var(--color-ink);
 }
 
 .cardScientific {
   font-family: var(--font-scientific, Georgia, serif);
-  font-size: 1.05rem;
-  color: #6c757d;
+  font-size: var(--type-body);
+  color: var(--text-muted);
   margin-bottom: 15px;
   font-style: italic;
   font-weight: 500;
 }
 
 .cardBackContent h4 {
-  font-size: 1.5rem;
+  font-size: var(--type-section);
   margin-bottom: 20px;
   font-weight: 700;
 }
 
 .cardDescription {
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: var(--type-body);
+  line-height: var(--line-height-relaxed);
   margin-bottom: 20px;
   opacity: 0.9;
 }
@@ -808,7 +808,7 @@ a.statsStripInner:visited {
   background: rgba(255, 255, 255, 0.2);
   padding: 6px 12px;
   border-radius: 15px;
-  font-size: 0.8rem;
+  font-size: var(--type-caption);
   font-weight: 500;
 }
 
@@ -822,18 +822,18 @@ a.statsStripInner:visited {
 .statusBadge {
   padding: 4px 12px;
   border-radius: 12px;
-  font-size: 0.8rem;
+  font-size: var(--type-caption);
   font-weight: 600;
 }
 
 .statusBadge.iucn {
   background: linear-gradient(135deg, var(--color-lake) 0%, var(--color-lake-hover) 100%);
-  color: white;
+  color: var(--text-white);
 }
 
 .statusBadge.china {
   background: linear-gradient(135deg, var(--china-badge-from) 0%, var(--china-badge-to) 100%);
-  color: white;
+  color: var(--text-white);
 }
 
 /* 保护状态颜色（IUCN tokens） */
@@ -854,20 +854,20 @@ a.statsStripInner:visited {
 
 .濒危 {
   background-color: var(--iucn-en);
-  color: var(--iucn-en-ink, #fff) !important;
+  color: var(--iucn-en-ink, var(--bg-white)) !important;
 }
 
 .极危 {
   background-color: var(--iucn-cr);
-  color: var(--iucn-cr-ink, #fff) !important;
+  color: var(--iucn-cr-ink, var(--bg-white)) !important;
 }
 
 
 /* 常用入口：浅色简洁卡 */
 .featuresSection {
   padding: 56px 20px 72px;
-  background: var(--page-bg, #eef3f5);
-  color: var(--text-dark);
+  background: var(--page-bg, var(--gray-100));
+  color: var(--text-primary);
   position: relative;
   overflow: hidden;
 }
@@ -883,8 +883,8 @@ a.statsStripInner:visited {
 }
 
 .featuresSection .sectionTitle {
-  color: var(--color-deep-teal, #023047) !important;
-  -webkit-text-fill-color: var(--color-deep-teal, #023047) !important;
+  color: var(--color-ink) !important;
+  -webkit-text-fill-color: var(--color-ink) !important;
   background: none !important;
   font-size: clamp(1.5rem, 3.2vw, 2rem);
   font-weight: 700;
@@ -894,9 +894,9 @@ a.statsStripInner:visited {
 }
 
 .featuresSection .sectionDescription {
-  color: var(--text-medium) !important;
+  color: var(--text-secondary) !important;
   text-shadow: none;
-  font-size: var(--type-scale-sm);
+  font-size: var(--type-secondary);
   font-weight: 400;
 }
 
@@ -928,9 +928,9 @@ a.statsStripInner:visited {
   justify-content: center;
   gap: 6px;
   min-height: 112px;
-  background-color: var(--surface-card, #fff);
+  background-color: var(--surface-card, var(--bg-white));
   background-image: var(--surface-card-image, none);
-  border: var(--surface-card-border, 1px solid rgba(2, 48, 71, 0.1));
+  border: var(--surface-card-border, 1px solid var(--border-subtle));
   border-radius: var(--radius-panel, 8px);
   padding: 22px 20px 20px;
   text-align: left;
@@ -955,14 +955,14 @@ a.statsStripInner:visited {
   font-size: clamp(1.45rem, 2.5vw, 1.85rem);
   font-weight: 700;
   line-height: 1.15;
-  color: var(--color-lake, #219ebc);
+  color: var(--color-lake);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0;
 }
 
 .featureCard:hover,
 .featureCard:focus-visible {
-  border-color: rgba(33, 158, 188, 0.4);
+  border-color: var(--color-lake-mid);
   box-shadow: var(--surface-elevated-shadow, var(--shadow-xs));
   transform: translateY(-2px);
 }
@@ -980,10 +980,10 @@ a.statsStripInner:visited {
 }
 
 .featureCard h3 {
-  font-size: 1rem;
+  font-size: var(--type-body);
   font-weight: 700;
   margin: 0;
-  color: var(--color-deep-teal, #023047);
+  color: var(--color-ink);
   text-shadow: none;
   letter-spacing: 0.01em;
 }
@@ -991,9 +991,9 @@ a.statsStripInner:visited {
 .featureCard p {
   display: block;
   margin: 0;
-  font-size: 0.82rem;
-  line-height: 1.4;
-  color: #5a6a72;
+  font-size: var(--type-caption);
+  line-height: var(--line-height-snug);
+  color: var(--text-muted);
 }
 
 .featuresSection .featureCard .featureLink,
@@ -1010,12 +1010,12 @@ a.statsStripInner:visited {
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  border: 1px solid rgba(33, 158, 188, 0.28);
-  background: rgba(33, 158, 188, 0.08);
-  color: var(--color-lake, #219ebc) !important;
+  border: 1px solid var(--color-lake-mid);
+  background: var(--color-lake-light);
+  color: var(--color-lake, var(--color-lake)) !important;
   text-decoration: none !important;
   font-weight: 600 !important;
-  font-size: 1rem !important;
+  font-size: var(--type-body) !important;
   line-height: 1;
   transition:
     color 0.15s ease,
@@ -1027,9 +1027,9 @@ a.statsStripInner:visited {
 
 .featuresSection .featureCard:hover .featureLink,
 .featureCard:hover .featureLink {
-  color: #fff !important;
-  background: var(--color-lake, #219ebc) !important;
-  border-color: var(--color-lake, #219ebc) !important;
+  color: var(--text-white) !important;
+  background: var(--color-lake, var(--color-lake)) !important;
+  border-color: var(--color-lake, var(--color-lake)) !important;
   transform: translateX(2px);
 }
 
@@ -1043,12 +1043,12 @@ a.statsStripInner:visited {
 
 .comingSoon {
   display: inline-block;
-  background: rgba(2, 48, 71, 0.08);
-  color: var(--text-medium) !important;
+  background: var(--border-subtle);
+  color: var(--text-secondary) !important;
   padding: 6px 12px;
   border-radius: 8px;
   font-weight: 500;
-  font-size: 0.85rem;
+  font-size: var(--type-secondary);
   box-shadow: none;
 }
 
@@ -1088,7 +1088,7 @@ a.statsStripInner:visited {
 }
 
 .previewIcon {
-  font-size: 3.5rem;
+  font-size: var(--type-display);
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
@@ -1103,14 +1103,14 @@ a.statsStripInner:visited {
 .previewCard h3 {
   margin-top: 0;
   margin-bottom: 15px;
-  color: #2c3e50;
+  color: var(--color-ink);
   font-size: var(--type-section);
   font-weight: 600;
 }
 
 .previewCard p {
-  color: #6c757d;
-  line-height: 1.6;
+  color: var(--text-muted);
+  line-height: var(--line-height-relaxed);
   margin-bottom: 25px;
 }
 
@@ -1126,13 +1126,13 @@ a.statsStripInner:visited {
 }
 
 .previewStats .statNumber {
-  font-size: 2rem;
+  font-size: var(--type-page-title);
   font-weight: 700;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .previewStats .statLabel {
-  font-size: 0.9rem;
+  font-size: var(--type-secondary);
   opacity: 0.9;
   font-weight: 500;
 }
@@ -1143,7 +1143,7 @@ a.statsStripInner:visited {
   background:
     radial-gradient(ellipse 100% 80% at 50% 0%, rgba(14, 105, 125, 0.08) 0%, transparent 55%),
     var(--color-sky);
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
   border-top: 1px solid var(--gray-200);
   position: relative;
   overflow: hidden;
@@ -1182,10 +1182,10 @@ a.statsStripInner:visited {
 }
 
 .ctaTitle {
-  font-size: 3rem;
-  font-weight: 800;
+  font-size: var(--type-display);
+  font-weight: 700;
   margin-bottom: 20px;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
 }
 
 .ctaHighlight {
@@ -1195,7 +1195,7 @@ a.statsStripInner:visited {
 
 .ctaDescription {
   font-size: var(--type-section);
-  line-height: 1.6;
+  line-height: var(--line-height-relaxed);
   margin-bottom: 40px;
   opacity: 0.9;
 }
@@ -1209,7 +1209,7 @@ a.statsStripInner:visited {
 .ctaSecondaryButton {
   padding: var(--spacing-3) var(--spacing-6);
   border-radius: var(--radius-full);
-  font-size: var(--type-scale-md);
+  font-size: var(--type-page-lede);
   font-weight: 600;
   text-decoration: none;
   display: inline-flex;
@@ -1220,13 +1220,13 @@ a.statsStripInner:visited {
 
 .ctaPrimaryButton {
   background: var(--color-reed);
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
   border: 2px solid var(--color-reed);
 }
 
 .ctaPrimaryButton:hover {
   background: var(--color-reed-hover) !important;
-  color: var(--color-deep-teal) !important;
+  color: var(--color-ink) !important;
   border-color: var(--color-reed-hover) !important;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
@@ -1234,7 +1234,7 @@ a.statsStripInner:visited {
 
 .ctaSecondaryButton {
   background: transparent;
-  color: var(--color-deep-teal);
+  color: var(--color-ink);
   border: 2px solid var(--color-lake);
 }
 
@@ -1247,7 +1247,7 @@ a.statsStripInner:visited {
 }
 
 .buttonIcon {
-  font-size: 1.2rem;
+  font-size: var(--type-subsection);
 }
 
 /* 加载动画 */
@@ -1282,13 +1282,13 @@ a.statsStripInner:visited {
 }
 
 .loadingContainer p {
-  color: #6c757d;
-  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-size: var(--type-page-lede);
   margin: 0;
 }
 
 .footer {
-  background-color: #2c3e50;
+  background-color: var(--color-ink);
   color: white !important;
   padding: 20px;
   text-align: center;
@@ -1405,7 +1405,7 @@ a.statsStripInner:visited {
   }
   
   .heroDescription {
-    font-size: 0.98rem;
+    font-size: var(--type-body);
   }
   
   .heroButtons {
@@ -1430,7 +1430,7 @@ a.statsStripInner:visited {
   }
 
   .statsStripLabel {
-    font-size: 0.7rem;
+    font-size: var(--type-caption);
   }
 
   .statsStripDivider {
@@ -1525,7 +1525,7 @@ a.statsStripInner:visited {
   }
 
   .sectionTitle {
-    font-size: 2rem;
+    font-size: var(--type-page-title);
     flex-direction: column;
     gap: 10px;
   }
@@ -1551,7 +1551,7 @@ a.statsStripInner:visited {
   }
 
   .ctaTitle {
-    font-size: 2rem;
+    font-size: var(--type-page-title);
   }
 
   .ctaButtons {
@@ -1561,13 +1561,13 @@ a.statsStripInner:visited {
 
 @media (max-width: 480px) {
   .title {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
 
   .primaryButton,
   .secondaryButton {
     padding: 12px 24px;
-    font-size: 1rem;
+    font-size: var(--type-body);
   }
 
   .featureCard {
@@ -1576,7 +1576,7 @@ a.statsStripInner:visited {
   }
   
   .ctaTitle {
-    font-size: var(--page-title-size);
+    font-size: var(--type-page-title);
   }
 }
 
@@ -1587,10 +1587,10 @@ a.statsStripInner:visited {
 }
 
 .featuresSection .featureCard .featureLink {
-  color: var(--color-lake, #219ebc) !important;
+  color: var(--color-lake, var(--color-lake)) !important;
   text-shadow: none !important;
 }
 
 .featuresSection .featureCard:hover .featureLink {
-  color: #fff !important;
+  color: var(--text-white) !important;
 }

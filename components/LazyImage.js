@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import styles from '../styles/LazyImage.module.css';
+import styles from '@/styles/LazyImage.module.css';
 
 const LazyImage = ({ 
   src, 

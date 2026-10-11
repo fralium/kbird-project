@@ -3,39 +3,22 @@ import { useState, useEffect } from 'react';
 /* eslint-disable react-hooks/exhaustive-deps */
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import { provinces, getCitiesByProvince } from '../../data/chinaRegions';
-import { getLocationTypeIcon } from '../../components/Icons';
-import PageState from '../../components/PageState';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { provinces, getCitiesByProvince } from '@/data/chinaRegions';
+import { getLocationTypeIcon } from '@/components/Icons';
+import PageState from '@/components/PageState';
 import SimplePageHeader, {
   HeaderPrimaryButton,
-} from '../../components/SimplePageHeader';
-import { api } from '../../utils/api';
-import { formatAddressRegion } from '../../utils/formatAddressRegion';
-import { HABITAT_COVER_SETS, resolveLocationCover, useHabitatCoverSet } from '../../utils/habitatCover';
-import LocationMapPicker from '../../components/LocationMapPicker';
-import styles from '../../styles/Locations.module.css';
+} from '@/components/SimplePageHeader';
+import { api } from '@/utils/api';
+import { formatAddressRegion } from '@/utils/formatAddressRegion';
+import { HABITAT_COVER_SETS, resolveLocationCover, useHabitatCoverSet } from '@/utils/habitatCover';
+import LocationMapPicker from '@/components/LocationMapPicker';
+import FoldFilterPanel from '@/components/FoldFilterPanel';
+import styles from '@/styles/Locations.module.css';
 
 const SYNC_COOLDOWN_MS = 10 * 1000;
-const FILTER_PANEL_STORAGE_KEY = 'kbird.locations.filterPanel';
-
-function readLocationsFilterPanelOpen() {
-  if (typeof window === 'undefined') return false;
-  try {
-    return localStorage.getItem(FILTER_PANEL_STORAGE_KEY) === '1';
-  } catch {
-    return false;
-  }
-}
-
-function writeLocationsFilterPanelOpen(open) {
-  try {
-    localStorage.setItem(FILTER_PANEL_STORAGE_KEY, open ? '1' : '0');
-  } catch {
-    /* ignore */
-  }
-}
 
 function locationCardAddress(location) {
   const name = String(location?.name || '').trim();
@@ -71,7 +54,6 @@ export default function LocationsPage() {
   const [syncCooldownUntil, setSyncCooldownUntil] = useState(0);
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
   const [summary, setSummary] = useState(null);
-  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
   const [newLocation, setNewLocation] = useState({
     name: '',
     description: '',
@@ -107,10 +89,6 @@ export default function LocationsPage() {
     },
     tags: [],
   });
-
-  useEffect(() => {
-    setFilterPanelOpen(readLocationsFilterPanelOpen());
-  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -414,14 +392,6 @@ export default function LocationsPage() {
     return parts.join(' · ');
   })();
 
-  const toggleFilterPanel = () => {
-    setFilterPanelOpen((prev) => {
-      const next = !prev;
-      writeLocationsFilterPanelOpen(next);
-      return next;
-    });
-  };
-
   return (
     <div className={styles.container}>
       <Navbar />
@@ -438,21 +408,12 @@ export default function LocationsPage() {
           }
         />
 
-        <div className={styles.foldPanel} aria-label="地点筛选">
-          <button
-            type="button"
-            className={styles.foldToggle}
-            onClick={toggleFilterPanel}
-            aria-expanded={filterPanelOpen}
-          >
-            <span className={styles.foldToggleTitle}>筛选</span>
-            <span className={styles.foldToggleSummary}>{filterPanelSummary}</span>
-            <span className={styles.foldToggleChevron} aria-hidden="true">
-              {filterPanelOpen ? '▴' : '▾'}
-            </span>
-          </button>
-          {filterPanelOpen ? (
-            <div className={styles.foldBody}>
+        <FoldFilterPanel
+          storageKey="kbird.locations.filterPanel"
+          title="筛选"
+          summary={filterPanelSummary}
+          className={styles.foldPanel}
+        >
         {summary && (
           <div className={styles.summaryBar}>
             <span className={styles.summaryTotal}>共 {summary.total} 个地点</span>
@@ -568,9 +529,7 @@ export default function LocationsPage() {
             </button>
           </form>
         </div>
-            </div>
-          ) : null}
-        </div>
+        </FoldFilterPanel>
 
         {syncMessage && (
           <div className={syncMessage.type === 'success' ? styles.syncSuccess : styles.syncError}>

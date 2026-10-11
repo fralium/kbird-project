@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import styles from '../styles/BirdPDFExporter.module.css';
+import { formatDisplayDate } from '@/utils/localDate';
+import { showToast } from '@/utils/toast';
+import styles from '@/styles/BirdPDFExporter.module.css';
 
 const BirdPDFExporter = ({ birds, selectedBirds = null }) => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -59,7 +61,7 @@ const BirdPDFExporter = ({ birds, selectedBirds = null }) => {
       sightingCount: bird.sightings ? bird.sightings.length : 0,
       
       // 创建时间
-      createdAt: bird.createdAt ? new Date(bird.createdAt).toLocaleDateString('zh-CN') : '未知'
+      createdAt: bird.createdAt ? formatDisplayDate(bird.createdAt, 'short') : '未知'
     };
   };
 
@@ -221,7 +223,7 @@ const BirdPDFExporter = ({ birds, selectedBirds = null }) => {
       pdf.save(fileName);
     } catch (error) {
       console.error('生成PDF失败:', error);
-      alert('生成PDF失败，请重试');
+      showToast('生成PDF失败，请重试', 'error');
     } finally {
       setIsGenerating(false);
     }
@@ -230,7 +232,7 @@ const BirdPDFExporter = ({ birds, selectedBirds = null }) => {
   // 导出多个鸟类PDF
   const exportMultipleBirds = async () => {
     if (!birds || birds.length === 0) {
-      alert('没有可导出的鸟类数据');
+      showToast('没有可导出的鸟类数据', 'error');
       return;
     }
 
@@ -253,10 +255,10 @@ const BirdPDFExporter = ({ birds, selectedBirds = null }) => {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      alert(`成功导出 ${birdsToExport.length} 个鸟类PDF文件`);
+      showToast(`成功导出 ${birdsToExport.length} 个鸟类PDF文件`, 'success');
     } catch (error) {
       console.error('批量生成PDF失败:', error);
-      alert('批量生成PDF失败，请重试');
+      showToast('批量生成PDF失败，请重试', 'error');
     } finally {
       setIsGenerating(false);
       setProgress(0);

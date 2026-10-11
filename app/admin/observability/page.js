@@ -1,14 +1,15 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader, { HeaderPrimaryButton } from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import { useAuth } from '../../../components/AuthProvider';
-import { api } from '../../../utils/api';
-import { devError } from '../../../utils/devLogger';
-import styles from '../../../styles/AdminObservability.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader, { HeaderPrimaryButton } from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import AuthGate from '@/components/AuthGate';
+import { api } from '@/utils/api';
+import { devError } from '@/utils/devLogger';
+import { formatDisplayDateTime } from '@/utils/localDate';
+import styles from '@/styles/AdminObservability.module.css';
 
 const WINDOW_OPTIONS = [15, 30, 60, 120, 240];
 
@@ -32,14 +33,11 @@ function TinyBar({ value }) {
   );
 }
 
-export default function AdminObservabilityPage() {
-  const { user, loading: authLoading } = useAuth();
+function AdminObservabilityContent() {
   const [windowMinutes, setWindowMinutes] = useState(60);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [metrics, setMetrics] = useState(null);
-
-  const isAdmin = user?.role === 'admin';
 
   const loadMetrics = async (selectedWindowMinutes = windowMinutes) => {
     setLoading(true);
@@ -59,38 +57,21 @@ export default function AdminObservabilityPage() {
   };
 
   useEffect(() => {
-    if (authLoading) return;
-    if (!isAdmin) {
-      setLoading(false);
-      return;
-    }
     loadMetrics(windowMinutes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authLoading, isAdmin]);
+  }, []);
 
   const top5xxGroups = useMemo(
     () => (metrics?.groups || []).filter((item) => item.errors5xx > 0).slice(0, 5),
     [metrics]
   );
 
-  if (authLoading || loading) {
+  if (loading) {
     return (
       <div className={styles.container}>
         <Navbar />
         <main className={styles.main}>
           <PageState type="loading" title="错误率指标加载中..." />
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (!isAdmin) {
-    return (
-      <div className={styles.container}>
-        <Navbar />
-        <main className={styles.main}>
-          <PageState type="error" title="无访问权限" message="该页面仅管理员可访问" />
         </main>
         <Footer />
       </div>
@@ -153,7 +134,7 @@ export default function AdminObservabilityPage() {
           <MetricCard
             title="窗口期请求总数"
             value={metrics.overall.total}
-            hint={`生成时间：${new Date(metrics.generatedAt).toLocaleString()}`}
+            hint={`生成时间：${formatDisplayDateTime(metrics.generatedAt)}`}
           />
           <MetricCard title="4xx 错误数" value={metrics.overall.errors4xx} hint="客户端错误" />
           <MetricCard title="5xx 错误数" value={metrics.overall.errors5xx} hint="服务端错误" />
@@ -215,5 +196,13 @@ export default function AdminObservabilityPage() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+export default function AdminObservabilityPage() {
+  return (
+    <AuthGate requireAdmin loadingTitle="正在检查登录状态...">
+      <AdminObservabilityContent />
+    </AuthGate>
   );
 }

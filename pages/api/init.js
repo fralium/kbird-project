@@ -2,8 +2,8 @@
  * 初始化代理：转发到 Express /api/init（含 x-setup-token）。
  * 不再在 Next 进程内写 .env / 生成脚本，避免误配置下的代码注入面。
  */
-import { resolveBackendApiBase } from '../../utils/backendApiBase';
-import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '../../utils/proxyApi';
+import { resolveBackendApiBase } from '@/utils/backendApiBase';
+import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

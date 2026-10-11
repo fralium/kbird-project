@@ -127,7 +127,7 @@ function getHeatLevel(score) {
       score,
       label: '🔥 较低',
       description: '很少被观察',
-      color: '#6B7280'
+      color: 'var(--text-muted)'
     };
   } else {
     return {
@@ -135,7 +135,7 @@ function getHeatLevel(score) {
       score,
       label: '📝 新记录',
       description: '刚刚开始记录',
-      color: '#6B7280'
+      color: 'var(--text-muted)'
     };
   }
 }

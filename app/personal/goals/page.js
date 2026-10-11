@@ -2,14 +2,14 @@
 
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SimplePageHeader from '../../../components/SimplePageHeader';
-import PageState from '../../../components/PageState';
-import PersonalGoalsPanel from '../../../components/PersonalGoalsPanel';
-import TripPredictPanel from '../../../components/TripPredictPanel';
-import { useAuth } from '../../../components/AuthProvider';
-import styles from '../../../styles/PersonalGoals.module.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SimplePageHeader from '@/components/SimplePageHeader';
+import PageState from '@/components/PageState';
+import PersonalGoalsPanel from '@/components/PersonalGoalsPanel';
+import TripPredictPanel from '@/components/TripPredictPanel';
+import { useAuth } from '@/components/AuthProvider';
+import styles from '@/styles/PersonalGoals.module.css';
 
 const TABS = [
   { id: 'predict', label: '加新预测', hint: '上传名录表，预测还能加哪些新种。' },
