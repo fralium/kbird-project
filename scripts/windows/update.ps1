@@ -5,8 +5,7 @@
 param(
     [switch]$SkipStop = $false,
     [switch]$SkipNpm = $false,
-    [switch]$Force = $false,
-    [switch]$Pause = $false
+    [switch]$Force = $false
 )
 
 $ErrorActionPreference = "Stop"
@@ -29,7 +28,6 @@ if (-not (Test-Path "package.json")) {
 
 if (-not (Test-Path "package.json")) {
     Write-Host "[FAIL] package.json not found. Run from the KBird repo root." -ForegroundColor Red
-    if ($Pause) { Read-Host "Press Enter to exit" }
     exit 1
 }
 
@@ -60,12 +58,10 @@ Write-Host ""
 Write-Host "[2/5] Checking git..." -ForegroundColor Yellow
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
     Write-Host "[FAIL] git not found. Install Git, then re-run." -ForegroundColor Red
-    if ($Pause) { Read-Host "Press Enter to exit" }
     exit 1
 }
 if (-not (Test-Path ".git")) {
     Write-Host "[FAIL] Not a git clone (.git missing). Update only works for git-cloned installs." -ForegroundColor Red
-    if ($Pause) { Read-Host "Press Enter to exit" }
     exit 1
 }
 
@@ -113,7 +109,6 @@ if ($statusLines.Count -gt 0) {
             $ans = Read-Host "Continue pull anyway? Local edits may conflict (y/N)"
             if ($ans -notin @("y", "Y", "yes", "YES")) {
                 Write-Host "Aborted. Commit/stash local changes, or re-run with -Force." -ForegroundColor Yellow
-                if ($Pause) { Read-Host "Press Enter to exit" }
                 exit 1
             }
         } else {
@@ -129,7 +124,6 @@ $before = (git rev-parse HEAD 2>$null)
 git fetch origin
 if ($LASTEXITCODE -ne 0) {
     Write-Host "[FAIL] git fetch failed (network / auth?)" -ForegroundColor Red
-    if ($Pause) { Read-Host "Press Enter to exit" }
     exit 1
 }
 
@@ -139,7 +133,6 @@ if ($LASTEXITCODE -ne 0) {
     git pull origin $branch
     if ($LASTEXITCODE -ne 0) {
         Write-Host "[FAIL] git pull failed. Resolve conflicts manually, then re-run." -ForegroundColor Red
-        if ($Pause) { Read-Host "Press Enter to exit" }
         exit 1
     }
 }
@@ -159,7 +152,6 @@ if (-not $SkipNpm) {
     npm install
     if ($LASTEXITCODE -ne 0) {
         Write-Host "[FAIL] npm install failed" -ForegroundColor Red
-        if ($Pause) { Read-Host "Press Enter to exit" }
         exit 1
     }
     Write-Host "[OK] Dependencies ready" -ForegroundColor Green
@@ -198,4 +190,3 @@ Write-Host "  2. Do NOT re-run /init (unless you switched to a new empty DB)" -F
 Write-Host "  3. Optional new map/AI keys: Settings -> Services & keys" -ForegroundColor White
 Write-Host "  4. Optional bird seed refresh: .\scripts\windows\init-database.ps1" -ForegroundColor White
 Write-Host ""
-if ($Pause) { Read-Host "Press Enter to exit" }
