@@ -158,16 +158,15 @@ export default function EditBirdPage() {
       name: formData.name,
       scientificName: formData.scientificName,
     });
-    setParserText(prompt);
-    setShowParser(true);
     try {
       await navigator.clipboard.writeText(prompt);
-      setCopyHint('提问模板已复制，并显示在下方文本框');
+      setCopyHint('提问模板已复制，去外部模型填写后贴回来');
       setError(null);
     } catch {
-      setCopyHint('无法写入剪贴板，请在下方文本框中全选复制');
+      setParserText(prompt);
+      setCopyHint('无法写入剪贴板，模板已放入下方文本框，请全选复制');
     }
-    window.setTimeout(() => setCopyHint(''), 5000);
+    window.setTimeout(() => setCopyHint(''), 4000);
   };
 
   const handleParseText = async () => {
@@ -354,19 +353,7 @@ export default function EditBirdPage() {
           description="改本机物种资料"
           descriptionVariant="caption"
           actions={
-            <HeaderPrimaryButton
-              onClick={() => {
-                if (!showParser && !parserText.trim()) {
-                  setParserText(
-                    birdTextParser.buildFillPrompt({
-                      name: formData.name,
-                      scientificName: formData.scientificName,
-                    })
-                  );
-                }
-                setShowParser(!showParser);
-              }}
-            >
+            <HeaderPrimaryButton onClick={() => setShowParser(!showParser)}>
               {showParser ? '关闭识别' : '智能识别'}
             </HeaderPrimaryButton>
           }
@@ -397,8 +384,8 @@ export default function EditBirdPage() {
                 <button
                   type="button"
                   onClick={() => setParserText('')}
-                  className={styles.cancelButton}
-                  disabled={isParsing || !parserText}
+                  className={styles.parseActionButton}
+                  disabled={isParsing || !parserText.trim()}
                 >
                   清空
                 </button>

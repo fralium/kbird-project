@@ -333,8 +333,10 @@
 
 .parserActions {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .parseActionButton {
@@ -415,8 +417,7 @@
     flex-direction: column;
   }
   
-  .parseActionButton,
-  .clearButton {
+  .parseActionButton {
     width: 100%;
   }
   
