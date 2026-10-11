@@ -5,6 +5,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\windows\update
 if errorlevel 1 (
   echo.
   echo Update failed. See messages above.
-  pause
+  timeout /t 8
   exit /b 1
 )
+exit /b 0
