@@ -126,15 +126,21 @@ export default function AddBirdPage() {
       name: formData.name,
       scientificName: formData.scientificName,
     });
+    // Always show template in the box (same as edit); clipboard is optional.
+    setParserText(prompt);
+    setShowParser(true);
     try {
       await navigator.clipboard.writeText(prompt);
-      setCopyHint('提问模板已复制，去外部模型填写后贴回来');
+      setCopyHint(
+        formData.name?.trim()
+          ? '提问模板已复制，并显示在下方文本框'
+          : '提问模板已放入下方；建议先填中文名再复制，便于模型对准鸟种'
+      );
       setError(null);
     } catch {
-      setParserText(prompt);
-      setCopyHint('无法写入剪贴板，模板已放入下方文本框，请全选复制');
+      setCopyHint('无法写入剪贴板，请在下方文本框中全选复制');
     }
-    window.setTimeout(() => setCopyHint(''), 4000);
+    window.setTimeout(() => setCopyHint(''), 5000);
   };
 
   const handleParseText = async () => {
@@ -350,7 +356,19 @@ export default function AddBirdPage() {
           description="补本机鸟种库"
           descriptionVariant="caption"
           actions={
-            <HeaderPrimaryButton onClick={() => setShowParser(!showParser)}>
+            <HeaderPrimaryButton
+              onClick={() => {
+                if (!showParser && !parserText.trim()) {
+                  setParserText(
+                    birdTextParser.buildFillPrompt({
+                      name: formData.name,
+                      scientificName: formData.scientificName,
+                    })
+                  );
+                }
+                setShowParser(!showParser);
+              }}
+            >
               {showParser ? '关闭识别' : '智能识别'}
             </HeaderPrimaryButton>
           }
@@ -386,7 +404,7 @@ export default function AddBirdPage() {
                 <textarea
                   value={parserText}
                   onChange={(e) => setParserText(e.target.value)}
-                  placeholder="在此粘贴外部大模型返回的「字段名：内容」全文…"
+                  placeholder="打开「智能识别」会先放入提问模板；也可点「复制提问模板」。把大模型填好的「字段名：内容」贴回这里再识别。"
                   className={styles.parserTextarea}
                   rows="12"
                 />
@@ -400,6 +418,15 @@ export default function AddBirdPage() {
                   <li key={tip}>{tip}</li>
                 ))}
               </ul>
+              <h4>字段一览</h4>
+              <div className={styles.suggestionsList}>
+                {birdTextParser.getParsingSuggestions().map((suggestion) => (
+                  <div key={suggestion.field} className={styles.suggestionItem}>
+                    <strong>{suggestion.field}</strong>
+                    {suggestion.example ? `：${suggestion.example}` : ''}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
