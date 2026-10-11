@@ -31,7 +31,7 @@ netstat -ano | findstr :13082
 npm run server
 
 # 方法2：使用启动脚本
-.\scripts\windows\KBird-Desktop.bat
+.\scripts\windows\KBird-Start.bat
 
 # 方法3：同时启动前后端
 npm run dev:all
@@ -300,7 +300,7 @@ Get-Service MongoDB -ErrorAction SilentlyContinue
 timeout /t 3
 
 # 启动所有服务
-.\scripts\windows\KBird-Desktop.bat
+.\scripts\windows\KBird-Start.bat
 ```
 
 ## 📞 获取更多帮助

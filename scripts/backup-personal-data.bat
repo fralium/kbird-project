@@ -1,4 +1,4 @@
 @echo off
 cd /d "%~dp0.."
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0backup-personal-data.ps1" %*
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0backup-personal-data.ps1" -NoPause %*
 if errorlevel 1 exit /b 1

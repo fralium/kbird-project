@@ -44,11 +44,17 @@ cd kbird
 
 `install.ps1` 会自动在仓库**同级**创建 `KBird-Data`（含 `uploads` 等），并写入 `.env`，一般不用手改路径。
 
-之后每次启动只需双击（或在项目根目录运行）：
+之后日常启动请用（预编译，页面更快；给 pull 使用的用户也推荐这个）：
 
 ```batch
-KBird-Desktop.bat
+KBird-Start-Prod.bat
 ```
+
+首次会自动 `npm run build`，之后一般只做 `next start`。改过前端代码后再跑一次 Prod（或手动 `npm run build`）才会带上新界面。
+
+自己改代码、调试可用 `KBird-Start.bat`（`npm run dev`，热更新但偏慢）。旧名 `KBird-Desktop.bat` 仍可用。
+
+首次运行 `KBird-Start.bat` / `KBird-Start-Prod.bat` 会尝试在桌面生成 `Kbird.exe`；需要重做时运行 `Create-Desktop-Shortcut.bat`。
 
 浏览器打开 http://localhost:13080 即可使用。后端会按默认自动就绪本机数据与管理员（单机自动登录）；密码可在 **个人设置** 里修改。地图/AI Key 可在 **设置 → 服务与密钥** 补。`/init` 仅为特殊重配页，会提示覆盖原有设置，日常不必打开。
 
@@ -69,7 +75,7 @@ KBird-Update.bat
 ```
 
 脚本会：停止 Node → `git pull` → `npm install` → 检查 `KBird-Data` 路径。  
-**不会**覆盖 `.env`、个人数据、MongoDB 记录；一般**不必**再走 `/init`。完成后重新运行 `KBird-Desktop.bat`。
+**不会**覆盖 `.env`、个人数据、MongoDB 记录；一般**不必**再走 `/init`。完成后重新运行 `KBird-Start.bat`。
 
 更细的步骤：[docs/WINDOWS_QUICK_START.md](docs/WINDOWS_QUICK_START.md)  
 数据与备份：[docs/DATA_ISOLATION.md](docs/DATA_ISOLATION.md)  
@@ -80,7 +86,7 @@ KBird-Update.bat
 `install.ps1` 会生成 `.env` 并自动设好与仓库同级的 `KBird-Data`。日常不必手改 `.env`：
 
 - 管理员在本机打开 **个人设置 → 服务与密钥** 更新地图/AI（仅 127.0.0.1）
-- 保存后重启 `KBird-Desktop.bat`，`NEXT_PUBLIC_*` 与多数服务端配置才会生效
+- 保存后重启 `KBird-Start.bat`，`NEXT_PUBLIC_*` 与多数服务端配置才会生效
 - 手改说明仍见 `env.example` 与 [docs/MAP_SETUP.md](docs/MAP_SETUP.md)
 
 备份个人数据（照片 uploads + MongoDB，打成 zip）：
@@ -104,7 +110,7 @@ zip 在同级 `KBird-Data\backups\`。若未装 MongoDB / Database Tools（`mong
 
 ### 手动分进程启动
 
-`KBird-Desktop.bat` 内部等价于同时开：
+`KBird-Start.bat` 内部等价于同时开：
 
 ```powershell
 npm run server   # 后端 API，端口 13082
@@ -123,7 +129,7 @@ npm run build
 npm run start          # 生产模式前端（配合已构建产物）
 ```
 
-生产向一键启动（若使用）：`KBird-Desktop-Prod.bat`。
+生产向一键启动（若使用）：`KBird-Start-Prod.bat`。
 
 ### 环境变量（开发）
 

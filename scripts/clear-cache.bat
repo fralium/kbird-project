@@ -1,35 +1,31 @@
 @echo off
-chcp 65001 >nul
-title 清除 Next.js 缓存
+title Clear Next.js cache
 
 echo ========================================
-echo    清除 Next.js 缓存
+echo    Clear Next.js cache
 echo ========================================
 echo.
 
-REM 清除 .next 目录
 if exist .next (
-    echo [1/2] 删除 .next 目录...
+    echo [1/2] Removing .next ...
     rmdir /s /q .next
-    echo ✓ .next 目录已删除
+    echo OK: .next removed
 ) else (
-    echo ✓ .next 目录不存在
+    echo OK: .next not found
 )
 
-REM 清除 node_modules/.cache 目录
 if exist node_modules\.cache (
-    echo [2/2] 删除 node_modules/.cache 目录...
+    echo [2/2] Removing node_modules\.cache ...
     rmdir /s /q node_modules\.cache
-    echo ✓ node_modules/.cache 目录已删除
+    echo OK: node_modules\.cache removed
 ) else (
-    echo ✓ node_modules/.cache 目录不存在
+    echo OK: node_modules\.cache not found
 )
 
 echo.
 echo ========================================
-echo ✓ 缓存清除完成！
+echo Cache cleared
 echo ========================================
 echo.
-echo 请重启开发服务器: npm run dev
+echo Restart the dev server: npm run dev
 echo.
-pause

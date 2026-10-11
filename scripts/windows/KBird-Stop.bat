@@ -1,33 +1,31 @@
 @echo off
-chcp 65001 >nul
-title KBird 停止服务
+title KBird Stop
 setlocal EnableDelayedExpansion
 
 echo ========================================
-echo    KBird 停止服务
+echo    KBird Stop
 echo ========================================
 echo.
-echo 只停止本程序前后端（端口 13080 / 13082）。
+echo Stops KBird frontend/backend only (ports 13080 / 13082).
 echo.
 
-echo [1/2] 关闭 KBird 窗口...
+echo [1/2] Closing KBird windows...
 taskkill /F /FI "WINDOWTITLE eq KBird Backend*" >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq KBird Frontend*" >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq KBird Backend (Prod)*" >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq KBird Frontend (Prod)*" >nul 2>&1
-echo OK: 已尝试关闭 KBird 相关窗口
+echo OK: closed KBird windows (if any)
 
 echo.
-echo [2/2] 释放端口 13080 / 13082...
+echo [2/2] Freeing ports 13080 / 13082...
 call :free_port 13080
 call :free_port 13082
 
 echo.
 echo ========================================
-echo KBird 已停止
+echo KBird stopped
 echo ========================================
 echo.
-pause
 goto :eof
 
 :free_port
@@ -35,15 +33,15 @@ set "PORT=%~1"
 set "FOUND=0"
 for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":%PORT% " ^| findstr LISTENING') do (
   set "FOUND=1"
-  echo 端口 %PORT% 占用 PID: %%a
+  echo Port %PORT% in use by PID: %%a
   taskkill /F /PID %%a >nul 2>&1
   if errorlevel 1 (
-    echo WARN: 无法终止 PID %%a
+    echo WARN: could not kill PID %%a
   ) else (
-    echo OK: 已释放端口 %PORT%
+    echo OK: freed port %PORT%
   )
 )
 if "%FOUND%"=="0" (
-  echo OK: 端口 %PORT% 空闲
+  echo OK: port %PORT% is free
 )
 exit /b 0

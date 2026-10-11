@@ -4,17 +4,22 @@
 
 param(
   [string]$Name = 'Kbird',
-  [ValidateSet('Desktop', 'Prod')]
-  [string]$Target = 'Desktop'
+  [ValidateSet('Start', 'Desktop', 'Prod')]
+  [string]$Target = 'Prod',
+  [switch]$Quiet
 )
 
 $ErrorActionPreference = 'Stop'
+
+function Write-Info([string]$Message) {
+  if (-not $Quiet) { Write-Host $Message }
+}
 
 $ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $LogoPng = Join-Path $ProjectRoot 'public\logo-wetland.png'
 $IconIco = Join-Path $ProjectRoot 'assets\kbird-launcher.ico'
 $TemplateCs = Join-Path $PSScriptRoot 'KBirdLauncher.cs'
-$BatName = if ($Target -eq 'Prod') { 'KBird-Desktop-Prod.bat' } else { 'KBird-Desktop.bat' }
+$BatName = if ($Target -eq 'Prod') { 'KBird-Start-Prod.bat' } else { 'KBird-Start.bat' }
 $TargetBat = Join-Path $ProjectRoot $BatName
 $Csc = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 if (-not (Test-Path -LiteralPath $Csc)) {
@@ -112,7 +117,7 @@ function New-MultiSizeIcon {
   }
 }
 
-Write-Host 'Generating launcher icon ...'
+Write-Info 'Generating launcher icon ...'
 New-MultiSizeIcon -PngPath $LogoPng -IcoPath $IconIco
 
 $Desktop = [Environment]::GetFolderPath('Desktop')
@@ -138,7 +143,7 @@ try {
   [System.IO.File]::WriteAllText($csPath, $csText, $utf8Bom)
 
   $outBuild = Join-Path $BuildDir 'KBirdLauncher.exe'
-  Write-Host 'Compiling launcher exe ...'
+  Write-Info 'Compiling launcher exe ...'
   & $Csc /nologo /target:winexe /optimize+ `
     /win32icon:"$IconIco" `
     /r:System.Windows.Forms.dll `
@@ -156,9 +161,9 @@ try {
       $existing = $shell.CreateShortcut($_.FullName)
       $existingTarget = [string]$existing.TargetPath
       [void][System.Runtime.InteropServices.Marshal]::ReleaseComObject($existing)
-      if ($existingTarget -and ($existingTarget -ieq $TargetBat -or $existingTarget -like '*\KBird-Desktop*.bat')) {
+      if ($existingTarget -and ($existingTarget -ieq $TargetBat -or $existingTarget -like '*\KBird-Start*.bat' -or $existingTarget -like '*\KBird-Desktop*.bat')) {
         Remove-Item -LiteralPath $_.FullName -Force
-        Write-Host ("Removed old shortcut: " + $_.Name)
+        Write-Info ("Removed old shortcut: " + $_.Name)
       }
     } catch {}
   }
@@ -169,7 +174,7 @@ try {
     Where-Object { $_.BaseName -match '^[Kk][Bb]ird' } |
     ForEach-Object {
       Remove-Item -LiteralPath $_.FullName -Force
-      Write-Host ("Removed old shortcut: " + $_.Name)
+      Write-Info ("Removed old shortcut: " + $_.Name)
     }
 
   Copy-Item -LiteralPath $outBuild -Destination $DesktopExe -Force
@@ -178,11 +183,12 @@ try {
   Remove-Item -LiteralPath $BuildDir -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-Write-Host ''
-Write-Host 'OK: Launcher program created (real .exe, not a .lnk)'
-Write-Host ("  Desktop : " + $DesktopExe)
-Write-Host ("  Project : " + $RootExe)
-Write-Host ("  Runs    : " + $TargetBat)
-Write-Host ("  Icon    : " + $IconIco)
-Write-Host ''
-Write-Host 'Double-click the desktop program to start KBird.'
+Write-Info ''
+Write-Host ('OK: Desktop launcher created: ' + $DesktopExe)
+if (-not $Quiet) {
+  Write-Host ("  Project : " + $RootExe)
+  Write-Host ("  Runs    : " + $TargetBat)
+  Write-Host ("  Icon    : " + $IconIco)
+  Write-Host ''
+  Write-Host 'Double-click the desktop program to start KBird.'
+}

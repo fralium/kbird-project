@@ -157,6 +157,7 @@ Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Cyan
 Write-Host "  1. Import bird seed: .\scripts\windows\init-database.ps1" -ForegroundColor White
-Write-Host "  2. Start: KBird-Desktop.bat" -ForegroundColor White
+Write-Host "  2. Daily start (fast): KBird-Start-Prod.bat" -ForegroundColor White
+Write-Host "     Dev/debug:         KBird-Start.bat" -ForegroundColor DarkGray
 Write-Host ""
 Read-Host "Press Enter to exit"

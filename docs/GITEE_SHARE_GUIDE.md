@@ -99,7 +99,7 @@ cp env.example .env
 # 配置 MongoDB 等
 ```
 
-Windows 可用 `scripts/windows/install.ps1` 与 `KBird-Desktop.bat`。数据库初始化会优先导入 `seeds/birds-public.json`（无名录照片）。
+Windows 可用 `scripts/windows/install.ps1` 与 `KBird-Start.bat`。数据库初始化会优先导入 `seeds/birds-public.json`（无名录照片）。
 
 详见根目录 [README.md](../README.md)。
 

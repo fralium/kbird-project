@@ -191,7 +191,7 @@ function PersonalSettingsPageClient() {
         if (data.restartRequired) {
           setRestartNotice(
             data.message ||
-              '已写入本机 .env。请关闭并重新运行 KBird-Desktop.bat 后配置才会生效。'
+              '已写入本机 .env。请关闭并重新运行 KBird-Start.bat 后配置才会生效。'
           );
         }
         showMessage(data.message || '已保存', 5000);
@@ -957,7 +957,7 @@ function PersonalSettingsPageClient() {
                     {restartNotice}
                     <ol style={{ margin: '0.75rem 0 0', paddingLeft: '1.25rem', lineHeight: 1.7 }}>
                       <li>关闭前后端窗口，或运行 KBird-Stop.bat</li>
-                      <li>重新运行 KBird-Desktop.bat</li>
+                      <li>重新运行 KBird-Start.bat</li>
                       <li>再打开本页确认掩码状态已更新</li>
                     </ol>
                   </div>

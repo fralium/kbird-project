@@ -15,7 +15,7 @@ KBird 支持用**百度地图 JavaScript API 3.0**展示观测点，以及地点
 3. **白名单**（本地开发建议）：
    - `localhost`
    - `127.0.0.1`
-   - 若填写带端口，可用 `127.0.0.1:13080`（与 `KBird-Desktop.bat` 前端端口一致）
+   - 若填写带端口，可用 `127.0.0.1:13080`（与 `KBird-Start.bat` 前端端口一致）
 4. 复制得到的 **AK**。
 
 个人非商业用途一般有免费配额；以控制台当前说明为准。
@@ -30,7 +30,7 @@ KBird 支持用**百度地图 JavaScript API 3.0**展示观测点，以及地点
 NEXT_PUBLIC_BAIDU_MAP_AK=你的浏览器端AK
 ```
 
-修改后**重启前端**（关掉再运行 `KBird-Desktop.bat`）。Next.js 只在启动时读入 `NEXT_PUBLIC_*`。
+修改后**重启前端**（关掉再运行 `KBird-Start.bat`）。Next.js 只在启动时读入 `NEXT_PUBLIC_*`。
 
 优先级：`NEXT_PUBLIC_BAIDU_MAP_AK` → `NEXT_PUBLIC_TIANDITU_TK` → Leaflet 开源底图。
 

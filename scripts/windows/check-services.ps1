@@ -75,7 +75,7 @@ Write-Host "检查完成" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "如果发现问题，请:" -ForegroundColor Cyan
-Write-Host "  1. 运行: .\scripts\windows\KBird-Desktop.bat" -ForegroundColor White
+Write-Host "  1. 运行: KBird-Start.bat" -ForegroundColor White
 Write-Host "  2. 查看故障排除指南: docs\TROUBLESHOOTING.md" -ForegroundColor White
 Write-Host ""
 Read-Host "Press Enter to exit"

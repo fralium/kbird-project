@@ -214,7 +214,7 @@ router.post('/init', async (req, res) => {
     return res.json({
       success: true,
       message: softRestart
-        ? `初始化完成，可以开始使用。${birdNote}若填写了地图/AI Key，建议稍后重启 KBird-Desktop.bat 后再用相关功能。`
+        ? `初始化完成，可以开始使用。${birdNote}若填写了地图/AI Key，建议稍后重启 KBird-Start.bat 后再用相关功能。`
         : `初始化完成，可以开始使用。${birdNote}`,
       initialized: true,
       adminCreated: true,

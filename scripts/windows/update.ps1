@@ -185,7 +185,8 @@ Write-Host "Update finished" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "Next:" -ForegroundColor Cyan
-Write-Host "  1. Start: KBird-Desktop.bat" -ForegroundColor White
+Write-Host "  1. Daily start: KBird-Start-Prod.bat" -ForegroundColor White
+Write-Host "     (rebuilds if needed after pull; use KBird-Start.bat only for dev)" -ForegroundColor DarkGray
 Write-Host "  2. Do NOT re-run /init (unless you switched to a new empty DB)" -ForegroundColor White
 Write-Host "  3. Optional new map/AI keys: Settings -> Services & keys" -ForegroundColor White
 Write-Host "  4. Optional bird seed refresh: .\scripts\windows\init-database.ps1" -ForegroundColor White

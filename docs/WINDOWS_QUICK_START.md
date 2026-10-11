@@ -21,10 +21,11 @@
    .\scripts\windows\init-database.ps1
    ```
 
-4. **启动应用**
+4. **启动应用**（日常推荐 Prod，更快）
    ```batch
-   KBird-Desktop.bat
+   KBird-Start-Prod.bat
    ```
+   改代码调试再用 `KBird-Start.bat`。
 
 ### 方法二：手动安装
 
@@ -71,7 +72,7 @@ copy env.example .env
 npm run dev
 
 # 或使用启动脚本
-.\scripts\windows\KBird-Desktop.bat
+.\scripts\windows\KBird-Start.bat
 ```
 
 ## 📋 使用说明
@@ -80,7 +81,7 @@ npm run dev
 
 **方式一：使用批处理脚本（推荐）**
 ```batch
-KBird-Desktop.bat
+KBird-Start.bat
 ```
 - 自动检查依赖
 - 自动启动 MongoDB 服务
@@ -89,7 +90,7 @@ KBird-Desktop.bat
 
 **方式二：使用 PowerShell 脚本**
 ```powershell
-.\scripts\windows\KBird-Desktop.bat
+.\scripts\windows\KBird-Start.bat
 ```
 
 **方式三：手动启动**
@@ -145,7 +146,7 @@ MONGODB_URI=mongodb://localhost:27017/kbird
 # MONGODB_URI=mongodb://username:password@host:port/database
 ```
 
-改完后重启 `KBird-Desktop.bat`。
+改完后重启 `KBird-Start.bat`。
 
 ### 端口配置
 
@@ -242,7 +243,7 @@ mongorestore --db kbird ./backups/backup-20250101/kbird
 .\scripts\windows\update.ps1
 ```
 
-3. 再开 `KBird-Desktop.bat`
+3. 再开 `KBird-Start.bat`
 
 说明：
 
@@ -253,10 +254,10 @@ mongorestore --db kbird ./backups/backup-20250101/kbird
 
 ## 下一步
 
-1. 运行 `install.ps1` 后直接 `KBird-Desktop.bat`；空库会自动导入鸟种文字种子并就绪默认管理员
+1. 运行 `install.ps1` 后直接 `KBird-Start.bat`；空库会自动导入鸟种文字种子并就绪默认管理员
 2. （可选）`init-database.ps1` 仍可用于手动补种子
 3. 更新密钥：管理员本机打开 **个人设置 → 服务与密钥**（仅 127.0.0.1）
-4. 改完 `.env`（GUI 或手改）后重启 `KBird-Desktop.bat` 才会生效
+4. 改完 `.env`（GUI 或手改）后重启 `KBird-Start.bat` 才会生效
 5. `/init` 仅特殊重配（会覆盖原配置），日常不必使用
 
 ## 相关文档
@@ -269,5 +270,5 @@ mongorestore --db kbird ./backups/backup-20250101/kbird
 ## 提示
 
 - 首次：先跑 `install.ps1`，再 `init-database.ps1`
-- 日常：双击根目录 `KBird-Desktop.bat`
-- 开发：后端 `npm run server`，前端 `npm run dev`
+- 日常：双击根目录 `KBird-Start-Prod.bat`（预编译，更快）
+- 开发：`KBird-Start.bat`，或后端 `npm run server` + 前端 `npm run dev`

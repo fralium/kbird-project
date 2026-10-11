@@ -72,8 +72,8 @@ exports.updateSetupEnv = async (req, res) => {
     return res.json({
       success: true,
       message: dbChanged
-        ? '已写入 .env。数据库连接已变更，请关闭并重新运行 KBird-Desktop.bat 后生效。'
-        : '已写入 .env。请重启 KBird-Desktop.bat 后地图/AI/端口等配置才会生效。',
+        ? '已写入 .env。数据库连接已变更，请关闭并重新运行 KBird-Start.bat 后生效。'
+        : '已写入 .env。请重启 KBird-Start.bat 后地图/AI/端口等配置才会生效。',
       restartRequired: true,
       dbChanged,
       envWritten: result.written || [],

@@ -6,7 +6,7 @@
 
 - **windows/install.ps1** - 首次安装（Node、依赖等）
 - **windows/setup-mongodb.ps1** - 配置/安装 MongoDB 服务
-- **windows/KBird-Desktop.bat** - 启动前后端并打开浏览器（推荐从项目根目录运行 `KBird-Desktop.bat`）
+- **windows/KBird-Start.bat** - 启动前后端并打开浏览器（推荐从项目根目录运行 `KBird-Start.bat`；旧名 Desktop 仍为兼容别名）
 - **windows/KBird-Stop.bat** - 停止前后端窗口
 - **windows/kill-port.ps1** / **kill-port.bat** - 按端口结束进程
 - **start-windows.ps1** / **start-windows.bat** / **stop-windows.ps1** 等 - 启动/停止的其它入口

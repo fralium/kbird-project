@@ -234,7 +234,7 @@ export default function InitPage() {
       <h2>地图与 AI（可选）</h2>
       <p className={styles.hint}>
         均可跳过，直接下一步。留空不写密钥；以后可在「个人设置 → 服务与密钥」填写，保存后重启
-        KBird-Desktop.bat。
+        KBird-Start.bat。
       </p>
       <details>
         <summary style={{ cursor: 'pointer', marginBottom: '0.75rem', fontWeight: 600 }}>
@@ -407,7 +407,7 @@ export default function InitPage() {
             {restartInfo.optional ? (
               <p className={styles.hint}>
                 数据库与管理员已就绪，无需再次初始化。地图 / AI 若暂不可用，关掉窗口后重新运行
-                KBird-Desktop.bat 即可。
+                KBird-Start.bat 即可。
               </p>
             ) : null}
             <div className={styles.actions} style={{ marginTop: '1.5rem' }}>

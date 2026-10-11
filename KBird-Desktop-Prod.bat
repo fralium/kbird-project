@@ -1,6 +1,4 @@
 @echo off
-REM KBird 生产模式桌面快捷启动脚本
-REM 将此文件放在项目根目录，可以创建桌面快捷方式
-
+REM Compatibility alias - prefer KBird-Start-Prod.bat
 cd /d "%~dp0"
-call scripts\windows\KBird-Desktop-Prod.bat
+call "%~dp0KBird-Start-Prod.bat"
