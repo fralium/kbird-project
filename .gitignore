@@ -47,6 +47,9 @@ coverage/
 .DS_Store
 Thumbs.db
 
+# Local first-run markers (e.g. desktop launcher)
+.kbird/
+
 # ---- Personal data (program repo must stay clean) ----
 # Media & data root (live under sibling ../KBird-Data)
 uploads/
@@ -93,6 +96,7 @@ temp_plant_table.png
 !package-lock.json
 !data/basic-info-maintained.json
 !seeds/birds-public.json
+!public/geo/china-provinces.json
 
 # Optional local explore overlay (restore from KBird-Data/personal/exploreDemo)
 data/exploreDemo.personal/
