@@ -966,8 +966,7 @@ function PersonalSettingsPageClient() {
                 <div className={styles.settingsSection}>
                   <h2 className={styles.sectionTitle}>数据库（高级）</h2>
                   <p className={styles.settingHint}>
-                    写入本机仓库根目录 <code>.env</code> 的 <code>MONGODB_URI</code>。默认库名{' '}
-                    <code>kbird</code>；修改后必须重启才会连上新库。
+                    写入本机仓库根目录 <code>.env</code> 的 <code>MONGODB_URI</code>。修改后必须重启才会连上新库。新克隆的项目首次启动会自动绑定独立库，避免和本机其它安装共用。
                   </p>
                   <div className={`${styles.settingItem} ${styles.settingItemBlock}`}>
                     <label className={styles.settingLabel} htmlFor="setup-db-name">

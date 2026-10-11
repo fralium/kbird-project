@@ -30,6 +30,7 @@ const WRITABLE_KEYS = new Set([
   'HHO_API_KEY',
   'HHO_API_URL',
   'JWT_SECRET',
+  'KBIRD_INSTANCE_READY',
 ]);
 
 const SECRET_KEYS = new Set([
