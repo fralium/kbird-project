@@ -11,7 +11,7 @@
     "test": "node --test \"tests/**/*.test.js\"",
     "lint:fix": "eslint . --fix",
     "build": "cross-env NODE_ENV=production next build --webpack",
-    "start": "cross-env NODE_ENV=production next start --webpack -p 13080",
+    "start": "cross-env NODE_ENV=production next start -p 13080",
     "server": "nodemon server/index.js",
     "start:all": "npm run prod:all",
     "stop:all": "npm run stop:windows",
