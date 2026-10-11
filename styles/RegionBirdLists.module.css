@@ -479,7 +479,7 @@
 }
 
 .coverCard_hero .coverMedia {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
 }
 
 .coverCard_spot .coverMedia {
@@ -579,7 +579,8 @@
 
 .heroGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  /* auto-fill：只有 1 份时也不拉满整行，保持正常预览尺寸 */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   gap: 12px;
 }
 
@@ -610,8 +611,8 @@
 
 .cardGrid {
   display: grid;
-  /* auto-fit：少卡片时拉满整行，避免右侧大片空白 */
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  /* auto-fill：少省时也不撑满整行，预览保持卡片大小 */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   gap: 14px;
 }
 
