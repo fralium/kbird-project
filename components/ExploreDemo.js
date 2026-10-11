@@ -7,10 +7,14 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import SimplePageHeader, { HeaderTextLink } from './SimplePageHeader';
 import PageState from './PageState';
-import data from '@/data/exploreDemo/leping';
-import speciesOrders from '@/data/exploreDemo/speciesOrders';
-import { getExploreProject } from '@/data/exploreDemo/projects';
+import stubData from '@/data/exploreDemo/leping';
+import stubSpeciesOrders from '@/data/exploreDemo/speciesOrders';
 import { getOrderChineseName } from '@/data/taxonomyTranslation';
+import { api } from '@/utils/api';
+
+/** 运行时由 KBird-Data/personal/exploreDemo 填充；仓库内仅为 stub */
+let data = stubData;
+let speciesOrders = stubSpeciesOrders;
 import ExploreLedgerPanel, {
   ExploreLedgerSummaryCard,
   PlotHabitatGallery,
@@ -2320,7 +2324,10 @@ function PlanPanel({
 function ExploreDemoClient({ projectId = 'leping', listPath = '/personal/projects' }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const project = getExploreProject(projectId);
+  const [pack, setPack] = useState(null);
+  const [loadError, setLoadError] = useState('');
+  const [loadingDemo, setLoadingDemo] = useState(true);
+  const project = pack?.project || null;
   const basePath = `${listPath}/${projectId}`;
   const tab = TABS.some((t) => t.id === searchParams.get('tab'))
     ? searchParams.get('tab')
@@ -2329,6 +2336,36 @@ function ExploreDemoClient({ projectId = 'leping', listPath = '/personal/project
   const qParam = searchParams.get('q') || '';
   const ledgerSection = searchParams.get('section') || 'species';
 
+  useEffect(() => {
+    let cancelled = false;
+    setLoadingDemo(true);
+    setLoadError('');
+    api.personal
+      .getExploreDemoProject(projectId)
+      .then((res) => {
+        if (cancelled) return;
+        if (!res?.success || !res.data?.demo) {
+          throw new Error(res?.message || '读取调查项目失败');
+        }
+        data = res.data.demo;
+        speciesOrders = res.data.speciesOrders || {};
+        setPack(res.data);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        data = stubData;
+        speciesOrders = stubSpeciesOrders;
+        setPack(null);
+        setLoadError(err.message || '读取调查项目失败');
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingDemo(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId]);
+
   const { plot: linkedPlot } = useLinkedPlot(
     project?.linkedPlotId,
     project?.linkedPlotTitle,
@@ -2336,12 +2373,12 @@ function ExploreDemoClient({ projectId = 'leping', listPath = '/personal/project
 
   const live = useMemo(
     () => buildLiveSpecies(data.species, linkedPlot),
-    [linkedPlot],
+    [linkedPlot, pack],
   );
 
   const coveredMonths = useMemo(
     () => monthsWithReports(data.plots, linkedPlot?.reports || []),
-    [linkedPlot],
+    [linkedPlot, pack],
   );
 
   const coverage = useMemo(
@@ -2398,7 +2435,43 @@ function ExploreDemoClient({ projectId = 'leping', listPath = '/personal/project
     setNav({ tab: 'plots', plot: plotKey, q: '' });
   };
 
-  const title = project?.title || data.meta.title;
+  const title = project?.title || data.meta?.title || projectId;
+
+  if (loadingDemo) {
+    return (
+      <div className={styles.container}>
+        <Navbar />
+        <main className={styles.main}>
+          <PageState type="loading" title="正在读取本机调查数据..." />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (loadError || !pack) {
+    return (
+      <div className={styles.container}>
+        <Navbar />
+        <main className={styles.main}>
+          <Link href={listPath} className={styles.backToList}>
+            ← 我的调查
+          </Link>
+          <PageState
+            type="empty"
+            title="未读到本机调查数据"
+            message={
+              loadError ||
+              '请确认 KBird-Data/personal/exploreDemo 下已有对应 js（如 leping.js）。'
+            }
+            actionLabel="返回列表"
+            onAction={() => router.push(listPath)}
+          />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

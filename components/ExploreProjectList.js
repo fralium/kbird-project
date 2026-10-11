@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import SimplePageHeader from './SimplePageHeader';
-import { listExploreProjects } from '@/data/exploreDemo/projects';
+import PageState from './PageState';
 import { api } from '@/utils/api';
 import { resolvePlotCover, useHabitatCoverSet } from '@/utils/habitatCover';
 import styles from '@/styles/ExploreDemo.module.css';
@@ -23,10 +23,40 @@ function matchLinkedPlot(project, plots) {
 }
 
 export default function ExploreProjectList() {
-  const projects = listExploreProjects();
+  const [projects, setProjects] = useState([]);
+  const [listSource, setListSource] = useState('');
+  const [listLoading, setListLoading] = useState(true);
+  const [listError, setListError] = useState('');
   const primaryProject = projects[0];
   const [plots, setPlots] = useState([]);
   const [coverSet] = useHabitatCoverSet();
+
+  useEffect(() => {
+    let cancelled = false;
+    setListLoading(true);
+    setListError('');
+    api.personal
+      .listExploreDemoProjects()
+      .then((res) => {
+        if (cancelled) return;
+        if (!res?.success) {
+          throw new Error(res?.message || '读取调查项目失败');
+        }
+        setProjects(Array.isArray(res.data?.items) ? res.data.items : []);
+        setListSource(res.data?.source || '');
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setProjects([]);
+        setListError(err.message || '读取调查项目失败');
+      })
+      .finally(() => {
+        if (!cancelled) setListLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -57,13 +87,28 @@ export default function ExploreProjectList() {
         />
 
         <p className={styles.demoBanner} role="status">
-          <strong>演示数据</strong>
-          ：公开仓库不含个人调查内容；本机可自行放入探索数据。确认后可并进自留地。新建项目入口暂未开放。
+          <strong>本机数据</strong>
+          ：调查项目从{' '}
+          <code>KBird-Data/personal/exploreDemo</code> 读取
+          {listSource ? `（当前：${listSource === 'personal' ? '个人目录' : '仓库 stub'}）` : ''}
+          。确认后可并进自留地。新建项目入口暂未开放。
         </p>
 
         <section className={styles.panel} aria-label="调查项目列表">
           <h2 className={styles.panelTitle}>调查项目</h2>
           <p className={styles.panelHint}>点一个项目进工作台</p>
+
+          {listLoading ? <PageState type="loading" title="读取本机调查项目..." /> : null}
+          {!listLoading && listError ? (
+            <PageState type="error" title="读取失败" message={listError} />
+          ) : null}
+          {!listLoading && !listError && projects.length === 0 ? (
+            <PageState
+              type="empty"
+              title="还没有调查项目"
+              message="把 projects.js / leping.js 放进 KBird-Data/personal/exploreDemo 后刷新即可。"
+            />
+          ) : null}
 
           <div className={styles.projectGrid}>
             {projects.map((project) => {
@@ -115,12 +160,12 @@ export default function ExploreProjectList() {
                       <p className={styles.projectCardRegion}>{project.regionShort}</p>
                       <div className={styles.projectCardStats}>
                         <span>
-                          {project.stats.recorded}/{project.stats.total} 已记录
+                          {project.stats?.recorded ?? 0}/{project.stats?.total ?? 0} 已记录
                         </span>
                         <span>
-                          重点 {project.stats.keyConfirmed}/{project.stats.keyTargets}
+                          重点 {project.stats?.keyConfirmed ?? 0}/{project.stats?.keyTargets ?? 0}
                         </span>
-                        <span>样区 {project.stats.plotsFilled}</span>
+                        <span>样区 {project.stats?.plotsFilled || '—'}</span>
                       </div>
                       <span className={styles.projectCardCta}>进入调查 →</span>
                     </div>

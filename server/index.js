@@ -158,6 +158,7 @@ app.use('/api/personal/settings', require('./routes/userSettingsRoutes')); // �
 app.use('/api/personal/setup-env', require('./routes/setupEnvRoutes')); // 本机 .env 服务与密钥（admin+localhost）
 app.use('/api/personal/goals', require('./routes/personalGoalsRoutes')); // 观鸟目标路由
 app.use('/api/personal/trip-preview', require('./routes/personalTripPreviewRoutes')); // 名录对照（不写入记录）
+app.use('/api/personal/explore-demo', require('./routes/personalExploreDemoRoutes')); // 调查项目（读 KBird-Data）
 app.use('/api/personal/reports', require('./routes/personalReportRoutes')); // 个人报告路由
 app.use('/api/personal/projects', require('./routes/personalProjectRoutes')); // 个人项目路由
 app.use('/api/personal/plots', require('./routes/personalPlotRoutes')); // 自留地路由

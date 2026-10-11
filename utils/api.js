@@ -925,6 +925,9 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(payload),
       }),
+    listExploreDemoProjects: () => apiRequest('/api/personal/explore-demo/projects'),
+    getExploreDemoProject: (id) =>
+      apiRequest(`/api/personal/explore-demo/projects/${encodeURIComponent(id)}`),
     listTripPreviewHistory: (params = {}) => {
       const queryString = new URLSearchParams(params).toString();
       return apiRequest(`/api/personal/trip-preview/history${queryString ? `?${queryString}` : ''}`);

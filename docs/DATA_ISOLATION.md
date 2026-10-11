@@ -31,13 +31,13 @@ node scripts/export-public-bird-seed.js
 
 ### 探索 demo
 
-仓库内 [`data/exploreDemo/`](../data/exploreDemo/) 仅为空 stub。个人数据建议放在数据根：
+仓库内 [`data/exploreDemo/`](../data/exploreDemo/) 仅为空 stub。个人数据放在数据根：
 
 ```text
 <KBIRD_DATA_ROOT>/personal/exploreDemo/
 ```
 
-恢复方式见 [`data/exploreDemo/README.md`](../data/exploreDemo/README.md)。
+运行时由 `/api/personal/explore-demo` 直接读取该目录（无需再复制回仓库）。说明见 [`data/exploreDemo/README.md`](../data/exploreDemo/README.md)。
 
 ## 数据根布局
 
