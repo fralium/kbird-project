@@ -216,7 +216,7 @@ export const AuthProvider = ({ children }) => {
                 }
               } catch (error) {
                 if (Number(error?.status) === 401) {
-                  console.error('Token验证失败:', error);
+                  // 换库 / 新实例后旧 token 失效，清掉后走本机自动登录
                   clearAuthState();
                   if (!skipAutoLogin && nextMode.autoLogin && status.initialized) {
                     await tryLocalSession();
@@ -241,6 +241,8 @@ export const AuthProvider = ({ children }) => {
 
         const storedToken = localStorage.getItem('token');
         const storedUser = localStorage.getItem('user');
+        const skipAutoLogin = sessionStorage.getItem(SKIP_AUTO_LOGIN_KEY) === '1';
+        const cachedMode = readCachedAppMode();
 
         if (storedToken) {
           setToken(storedToken);
@@ -261,8 +263,10 @@ export const AuthProvider = ({ children }) => {
             }
           } catch (error) {
             if (Number(error?.status) === 401) {
-              console.error('Token验证失败:', error);
               clearAuthState();
+              if (!skipAutoLogin && cachedMode.autoLogin !== false) {
+                await tryLocalSession();
+              }
             } else {
               console.warn('个人资料刷新失败，保留本地登录状态:', error?.message || error);
             }
@@ -270,6 +274,9 @@ export const AuthProvider = ({ children }) => {
         } else {
           setUser(null);
           localStorage.removeItem('user');
+          if (!skipAutoLogin && cachedMode.autoLogin !== false) {
+            await tryLocalSession();
+          }
         }
       } catch (error) {
         console.error('认证初始化失败:', error);

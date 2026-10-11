@@ -9,7 +9,7 @@ import styles from '../styles/ImportData.module.css';
 
 export default function PersonalImportPanel() {
   const { user, token, loading: authLoading } = useAuth();
-  const [format, setFormat] = useState('json');
+  const [format, setFormat] = useState('cbrc');
   const [strategy, setStrategy] = useState('skip');
   const [content, setContent] = useState('');
   const [loadingPreview, setLoadingPreview] = useState(false);
@@ -41,10 +41,56 @@ export default function PersonalImportPanel() {
   };
 
   const statusLabel = (status) => {
+    if (status === 'imported') return '已导入';
     if (status === 'ready') return '可导入';
     if (status === 'warning') return '需注意';
     if (status === 'invalid') return '无效';
+    if (status === 'failed') return '失败';
+    if (status === 'skipped') return '已跳过';
     return status || '—';
+  };
+
+  const markPreviewAfterApply = (result) => {
+    setPreview((prev) => {
+      if (!prev?.rows?.length) return prev;
+      const details = Array.isArray(result?.details) ? result.details : [];
+      const byRow = new Map(
+        details
+          .filter((item) => item && item.rowIndex != null)
+          .map((item) => [Number(item.rowIndex), item])
+      );
+      const importedOk =
+        Number(result?.created || 0) +
+          Number(result?.merged || 0) +
+          Number(result?.overwritten || 0) >
+        0;
+
+      return {
+        ...prev,
+        rows: prev.rows.map((row) => {
+          const detail = byRow.get(Number(row.rowIndex));
+          if (detail?.status === 'failed' || detail?.status === 'error') {
+            return { ...row, status: 'failed' };
+          }
+          if (detail?.status === 'skipped' || detail?.status === 'skip') {
+            return { ...row, status: 'skipped' };
+          }
+          if (
+            detail?.status === 'created' ||
+            detail?.status === 'merged' ||
+            detail?.status === 'overwritten' ||
+            detail?.status === 'success'
+          ) {
+            return { ...row, status: 'imported' };
+          }
+          // CBRC 等无逐行明细：整批成功时把可导入行标成已导入
+          if (!byRow.size && importedOk && (row.status === 'ready' || row.status === 'warning')) {
+            return { ...row, status: 'imported' };
+          }
+          return row;
+        }),
+      };
+    });
   };
 
   const [resolvedUnmatchedNames, setResolvedUnmatchedNames] = useState(() => new Set());
@@ -344,6 +390,7 @@ export default function PersonalImportPanel() {
         };
         setApplyResult(normalizedResult);
         setApplyFeedback(formatApplyFeedback(normalizedResult));
+        markPreviewAfterApply(normalizedResult);
         setMessage('');
       } catch (error) {
         setMessage('');
@@ -379,6 +426,7 @@ export default function PersonalImportPanel() {
       };
       setApplyResult(normalizedResult);
       setApplyFeedback(formatApplyFeedback(normalizedResult));
+      markPreviewAfterApply(normalizedResult);
       setMessage('');
     } catch (error) {
       setMessage('');
@@ -435,9 +483,9 @@ export default function PersonalImportPanel() {
                 }}
                 className={styles.select}
               >
+                <option value="cbrc">中国鸟类记录中心（XLS/XLSX）</option>
                 <option value="json">JSON</option>
                 <option value="csv">CSV</option>
-                <option value="cbrc">中国鸟类记录中心（XLS/XLSX）</option>
               </select>
             </div>
             {!isCbrcFormat && !cbrcMode ? (
@@ -555,11 +603,15 @@ export default function PersonalImportPanel() {
                       <td>
                         <span
                           className={`${styles.statusBadge} ${
-                            row.status === 'ready'
-                              ? styles.statusReady
-                              : row.status === 'warning'
-                                ? styles.statusWarning
-                                : styles.statusInvalid
+                            row.status === 'imported'
+                              ? styles.statusImported
+                              : row.status === 'ready'
+                                ? styles.statusReady
+                                : row.status === 'warning'
+                                  ? styles.statusWarning
+                                  : row.status === 'skipped'
+                                    ? styles.statusSkipped
+                                    : styles.statusInvalid
                           }`}
                         >
                           {statusLabel(row.status)}
@@ -608,18 +660,66 @@ export default function PersonalImportPanel() {
         )}
 
         {applyResult && (
-          <section className={styles.card}>
-            <h3>导入执行结果</h3>
-            <div className={styles.summary}>
-              <span>创建：{applyResult.created}</span>
-              <span>合并：{applyResult.merged}</span>
-              <span>覆盖：{applyResult.overwritten}</span>
-              <span>跳过：{applyResult.skipped}</span>
-              <span>失败：{applyResult.failed}</span>
+          <section
+            className={`${styles.resultCard} ${
+              applyFeedback?.level === 'error'
+                ? styles.resultCardError
+                : applyFeedback?.level === 'warning'
+                  ? styles.resultCardWarning
+                  : styles.resultCardSuccess
+            }`}
+          >
+            <div className={styles.resultHeader}>
+              <span
+                className={`${styles.statusBadge} ${
+                  applyFeedback?.level === 'error'
+                    ? styles.statusInvalid
+                    : applyFeedback?.level === 'warning'
+                      ? styles.statusWarning
+                      : styles.statusImported
+                }`}
+              >
+                {applyFeedback?.level === 'error'
+                  ? '导入失败'
+                  : applyFeedback?.level === 'warning'
+                    ? '部分完成'
+                    : '导入成功'}
+              </span>
+              <h3 className={styles.resultTitle}>导入执行结果</h3>
+            </div>
+            <p className={styles.resultLead}>
+              {applyFeedback?.text ||
+                `创建 ${applyResult.created || 0} 条，可在观察记录中查看。`}
+            </p>
+            <div className={styles.resultStats}>
+              <div className={styles.resultStat}>
+                <span className={styles.resultStatValue}>{Number(applyResult.created || 0)}</span>
+                <span className={styles.resultStatLabel}>创建</span>
+              </div>
+              <div className={styles.resultStat}>
+                <span className={styles.resultStatValue}>{Number(applyResult.merged || 0)}</span>
+                <span className={styles.resultStatLabel}>合并</span>
+              </div>
+              <div className={styles.resultStat}>
+                <span className={styles.resultStatValue}>{Number(applyResult.overwritten || 0)}</span>
+                <span className={styles.resultStatLabel}>覆盖</span>
+              </div>
+              <div className={styles.resultStat}>
+                <span className={styles.resultStatValue}>{Number(applyResult.skipped || 0)}</span>
+                <span className={styles.resultStatLabel}>跳过</span>
+              </div>
+              <div
+                className={`${styles.resultStat} ${
+                  Number(applyResult.failed || 0) > 0 ? styles.resultStatDanger : ''
+                }`}
+              >
+                <span className={styles.resultStatValue}>{Number(applyResult.failed || 0)}</span>
+                <span className={styles.resultStatLabel}>失败</span>
+              </div>
             </div>
             {Array.isArray(applyResult.errorSamples) && applyResult.errorSamples.length > 0 && (
-              <div className={styles.field}>
-                <label>失败样例（最多 5 条）</label>
+              <div className={styles.resultErrors}>
+                <p className={styles.resultErrorsTitle}>失败样例（最多 5 条）</p>
                 <ul>
                   {applyResult.errorSamples.map((item, idx) => (
                     <li key={`${idx}-${item}`}>{item}</li>
