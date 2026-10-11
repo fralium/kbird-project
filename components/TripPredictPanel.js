@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { formatDisplayDate } from '@/utils/localDate';
 import { showToast } from '@/utils/toast';
-import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import PageState from './PageState';
 import { useConfirmDialog } from './ConfirmDialog';
@@ -27,11 +26,22 @@ const RESULT_TABS = [
   { id: 'new', label: '可加新', hint: '表里有、预测时你还没记过的种。' },
   { id: 'seen', label: '已见', hint: '预测时判定你已经观察过。' },
   { id: 'unmatched', label: '未对上', hint: '表格有名，本机名录对不上。' },
-  { id: 'added', label: '加新回看', hint: '当时算新种，之后写进名录或记录里的。' },
+  { id: 'added', label: '加新回看', hint: '' },
 ];
 
 const toast = (message, type = 'success') => showToast(message, type, 2500);
 const formatDate = (value) => (value ? formatDisplayDate(value, 'short') : '');
+
+/** 同步 ?tab=predict&id=…，不走 Next router，避免 Suspense/searchParams 重挂载闪屏 */
+function replacePredictQuery(id) {
+  if (typeof window === 'undefined') return;
+  const params = new URLSearchParams(window.location.search);
+  params.set('tab', 'predict');
+  if (id) params.set('id', String(id));
+  else params.delete('id');
+  const qs = params.toString();
+  window.history.replaceState(window.history.state, '', `${window.location.pathname}?${qs}`);
+}
 
 function chanceClass(chance) {
   if (chance === 'likely') return `${styles.badge} ${styles.badgeLikely}`;
@@ -116,7 +126,7 @@ function ResultDetails({
             </button>
           ))}
         </div>
-        <p className="kb-view-hint">{activeHint}</p>
+        {activeHint ? <p className="kb-view-hint">{activeHint}</p> : null}
       </div>
 
       {tab === 'new' ? (
@@ -184,7 +194,7 @@ function ResultDetails({
                     {item.catalogName && item.name && item.catalogName !== item.name
                       ? ` · 表内作 ${item.name}`
                       : ''}
-                    {(tab === 'added' || item.recordedAfter) && item.firstRecordedAt
+                    {tab === 'added' && item.firstRecordedAt
                       ? ` · ${formatDate(item.firstRecordedAt)} 记到${
                           item.firstRecordedLocation ? ` · ${item.firstRecordedLocation}` : ''
                         }`
@@ -220,8 +230,6 @@ function ResultDetails({
 }
 
 export default function TripPredictPanel({ onConfirmedList } = {}) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const { user, loading: authLoading } = useAuth();
   const { ask, dialog: confirmDialog } = useConfirmDialog();
   const [locationLabel, setLocationLabel] = useState('');
@@ -241,10 +249,13 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
   const [historyLoading, setHistoryLoading] = useState(false);
   const [fileInputKey, setFileInputKey] = useState(0);
   const [openingId, setOpeningId] = useState('');
-  const skipOpenIdRef = useRef('');
-  const historyId = searchParams.get('id') || result?.historyId || '';
+  const loadedHistoryIdRef = useRef('');
+  const hydratedFromUrlRef = useRef(false);
+  const openSeqRef = useRef(0);
+  const loadedHistoryId = String(result?.historyId || '');
+  const historyId = loadedHistoryId || openingId;
 
-    const loadHistoryList = useCallback(async (q = '') => {
+  const loadHistoryList = useCallback(async (q = '') => {
     setHistoryLoading(true);
     try {
       const data = await api.personal.listTripPreviewHistory(q ? { q } : {});
@@ -286,56 +297,71 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
     };
   }, [locationLabel, locationId]);
 
-  const openHistory = useCallback(
-    async (id) => {
-      if (!id) return;
-      setError('');
-      try {
-        const data = await api.personal.getTripPreviewHistory(id);
-        if (!data?.success) throw new Error(data?.message || '读取历史失败');
-        setResult(data.data);
-        setPageTab('history');
-        setTab('new');
-        setSelected(new Set());
-        router.replace(`/personal/goals?tab=predict&id=${encodeURIComponent(id)}`, { scroll: false });
-      } catch (err) {
-        setError(err.message || '读取历史失败');
+  const openHistory = useCallback(async (id) => {
+    const sid = String(id || '').trim();
+    if (!sid) return;
+    if (loadedHistoryIdRef.current === sid) {
+      setPageTab('history');
+      return;
+    }
+    // 新一次打开会使旧请求失效，避免 A/B 两条历史互相覆盖造成闪屏与连环请求
+    const seq = ++openSeqRef.current;
+    setOpeningId(sid);
+    setError('');
+    setPageTab('history');
+    try {
+      const data = await api.personal.getTripPreviewHistory(sid);
+      if (seq !== openSeqRef.current) return;
+      if (!data?.success) throw new Error(data?.message || '读取历史失败');
+      const payload = data.data || {};
+      const resolvedId = String(payload.historyId || sid);
+      loadedHistoryIdRef.current = resolvedId;
+      setResult({ ...payload, historyId: resolvedId });
+      setTab('new');
+      setSelected(new Set());
+      replacePredictQuery(resolvedId);
+    } catch (err) {
+      if (seq !== openSeqRef.current) return;
+      loadedHistoryIdRef.current = '';
+      setResult(null);
+      setError(err.message || '读取历史失败');
+    } finally {
+      if (seq === openSeqRef.current) {
+        setOpeningId((prev) => (prev === sid ? '' : prev));
       }
-    },
-    [router]
-  );
+    }
+  }, []);
 
   const collapseHistory = useCallback(() => {
-    const closedId = result?.historyId || searchParams.get('id') || '';
-    if (closedId) skipOpenIdRef.current = closedId;
+    openSeqRef.current += 1;
+    loadedHistoryIdRef.current = '';
     setResult(null);
     setSelected(new Set());
     setOpeningId('');
     setPageTab('history');
-    router.replace('/personal/goals?tab=predict', { scroll: false });
-  }, [result?.historyId, searchParams, router]);
+    replacePredictQuery('');
+  }, []);
 
-  const toggleHistory = async (id) => {
-    if (!id) return;
-    if (result?.historyId === id || (searchParams.get('id') === id && result)) {
+  const toggleHistory = (id) => {
+    const sid = String(id || '').trim();
+    if (!sid) return;
+    if (openingId === sid) return;
+    if (loadedHistoryId === sid && !openingId) {
       collapseHistory();
       return;
     }
-    setOpeningId(id);
-    await openHistory(id);
-    setOpeningId('');
+    openHistory(sid);
   };
 
+  // 仅首次从地址栏 ?id= 打开；之后不再用 searchParams/effect 回拉，杜绝双 id 互顶
   useEffect(() => {
-    const id = searchParams.get('id');
-    if (!id || authLoading) return;
-    if (skipOpenIdRef.current === id) {
-      skipOpenIdRef.current = '';
-      return;
-    }
-    if (result?.historyId === id) return;
-    openHistory(id);
-  }, [searchParams, authLoading, openHistory, result?.historyId]);
+    if (authLoading || hydratedFromUrlRef.current) return;
+    hydratedFromUrlRef.current = true;
+    if (typeof window === 'undefined') return;
+    const id = String(new URLSearchParams(window.location.search).get('id') || '').trim();
+    if (id) openHistory(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- 故意只在鉴权就绪时跑一次
+  }, [authLoading]);
 
   const handleCompare = async () => {
     if (!files.length) {
@@ -356,28 +382,28 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
       if (!data?.success) {
         throw new Error(data?.message || '预测失败');
       }
+      const savedId = data.data?.historyId ? String(data.data.historyId) : '';
+      if (savedId) loadedHistoryIdRef.current = savedId;
       setResult(data.data);
       setPageTab('compare');
       setTab('new');
       setSelected(new Set());
       await loadHistoryList(historyQuery);
-      if (data.data?.historyId) {
-        router.replace(`/personal/goals?tab=predict&id=${encodeURIComponent(data.data.historyId)}`, {
-          scroll: false,
-        });
-      }
+      if (savedId) replacePredictQuery(savedId);
       toast('预测完成，已记入历史');
     } catch (err) {
       setError(err.message || '预测失败');
       setResult(null);
+      loadedHistoryIdRef.current = '';
     } finally {
       setComparing(false);
     }
   };
 
   const closeCurrent = () => {
-    const closedId = result?.historyId || searchParams.get('id') || '';
-    if (closedId) skipOpenIdRef.current = closedId;
+    openSeqRef.current += 1;
+    loadedHistoryIdRef.current = '';
+    setOpeningId('');
     setResult(null);
     setSelected(new Set());
     setTab('new');
@@ -385,7 +411,7 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
     setFiles([]);
     setFileInputKey((key) => key + 1);
     setPageTab('compare');
-    router.replace('/personal/goals?tab=predict', { scroll: false });
+    replacePredictQuery('');
     loadHistoryList(historyQuery);
     toast('已收入历史，可以开始下一次预测');
   };
@@ -468,10 +494,12 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
       if (!data?.success) throw new Error(data?.message || '删除失败');
       setHistoryItems((prev) => prev.filter((item) => item.id !== id));
       if (result?.historyId === id) {
-        skipOpenIdRef.current = id;
+        openSeqRef.current += 1;
+        loadedHistoryIdRef.current = '';
+        setOpeningId('');
         setResult(null);
         setPageTab('history');
-        router.replace('/personal/goals?tab=predict', { scroll: false });
+        replacePredictQuery('');
       }
       toast('已删除预测历史');
     } catch (err) {
