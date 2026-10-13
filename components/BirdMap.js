@@ -14,20 +14,16 @@ const Polyline = dynamic(() => import('react-leaflet').then(mod => mod.Polyline)
 // 导入Leaflet CSS
 import 'leaflet/dist/leaflet.css';
 
-// 修复默认图标路径问题
 import L from 'leaflet';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { splitPathIntoProgressSegments } from '@/utils/mapPathSegments';
 
-// 修复默认图标
+const PIN_MARKER_URL = '/map-marker-bird.png';
+
 const DefaultIcon = L.icon({
-  iconUrl: icon.src || icon,
-  shadowUrl: iconShadow.src || iconShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
+  iconUrl: PIN_MARKER_URL,
+  iconSize: [22, 27],
+  iconAnchor: [11, 26],
+  popupAnchor: [0, -22],
 });
 
 function makeMarkerIcon(markerSize) {
@@ -35,13 +31,10 @@ function makeMarkerIcon(markerSize) {
   const w = Number(markerSize.width) || 16;
   const h = Number(markerSize.height) || 20;
   return L.icon({
-    iconUrl: icon.src || icon,
-    shadowUrl: iconShadow.src || iconShadow,
+    iconUrl: PIN_MARKER_URL,
     iconSize: [w, h],
-    iconAnchor: [Math.round(w / 2), h],
+    iconAnchor: [Math.round(w / 2), h - 1],
     popupAnchor: [0, -Math.round(h * 0.8)],
-    shadowSize: [Math.round(w * 1.2), Math.round(h * 0.9)],
-    shadowAnchor: [Math.round(w * 0.35), Math.round(h * 0.9)],
   });
 }
 
@@ -126,14 +119,21 @@ export default function BirdMap({
 
   const validLocations = locations.filter(loc => getLocationCoords(loc) !== null);
   const mapCenter =
-    fitMode === 'china' || validLocations.length === 0
+    fitMode === 'china' || fitMode === 'center' || validLocations.length === 0
       ? [center.lat, center.lng]
       : getLocationCoords(validLocations[0]);
 
   // 计算合适的缩放级别
-  const mapZoom = fitMode === 'china' ? zoom : locations.length > 1 ? zoom : (zoom > 12 ? 12 : zoom);
+  const mapZoom =
+    fitMode === 'china' || fitMode === 'center'
+      ? zoom
+      : locations.length > 1
+        ? zoom
+        : zoom > 12
+          ? 12
+          : zoom;
   const fitPositions =
-    fitMode === 'china'
+    fitMode === 'china' || fitMode === 'center'
       ? []
       : Array.isArray(path) && path.length >= 2
         ? path.map((c) => (Array.isArray(c) ? c : [c.lat, c.lng]))

@@ -696,31 +696,73 @@
 }
 
 .mapToolbox {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
   margin-bottom: 14px;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--border-subtle);
 }
 
+.mapToolboxRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.9fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
 .mapToolbox .mapPanelBody {
-  flex: 0 0 auto;
-  height: 240px;
-  min-height: 240px;
+  flex: none;
+  height: clamp(380px, 48vh, 520px);
+  min-height: 380px;
   border-radius: var(--radius-panel, 8px);
   overflow: hidden;
   border: 1px solid var(--border-subtle);
 }
 
+.mapToolboxSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+  height: clamp(380px, 48vh, 520px);
+  overflow: hidden;
+}
+
 .mapToolbox .regionBrowser {
-  max-height: 120px;
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 62%;
   margin-bottom: 0;
+  overflow: auto;
+}
+
+.mapToolbox .regionChipGrid {
+  justify-content: center;
+}
+
+.mapToolboxSpots {
+  flex: 0 1 auto;
+  max-height: 34%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.mapToolboxSpots .filterSectionLabel {
+  margin: 0;
+  flex-shrink: 0;
+  text-align: center;
 }
 
 .spotChipGrid {
-  max-height: 112px;
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: none;
   overflow: auto;
+  justify-content: center;
+  align-content: flex-start;
 }
 
 .mapToolboxEmpty {
@@ -1719,6 +1761,27 @@
     grid-template-columns: 1fr;
   }
 
+  .mapToolboxRow {
+    grid-template-columns: 1fr;
+  }
+
+  .mapToolboxSide {
+    height: auto;
+    max-height: none;
+  }
+
+  .mapToolbox .regionBrowser {
+    max-height: 180px;
+  }
+
+  .mapToolboxSpots {
+    flex: none;
+  }
+
+  .spotChipGrid {
+    max-height: 120px;
+  }
+
   .mapFilterSection {
     min-height: 0;
   }
@@ -1726,6 +1789,11 @@
   .mapPanelBody {
     min-height: 280px;
     height: 320px;
+  }
+
+  .mapToolbox .mapPanelBody {
+    height: 280px;
+    min-height: 280px;
   }
 
   .mapPanelBody > * {

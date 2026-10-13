@@ -2,7 +2,7 @@
 
 本机观鸟笔记本：名录、观察记录与照片归档。
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.1-blue)](./CHANGELOG.md)
 [![CI](https://img.shields.io/badge/CI-GitHub%20Actions-blue)](.github/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Non--Commercial-orange)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.9-brightgreen)](./package.json)
@@ -14,7 +14,7 @@
 - Gitee：https://gitee.com/fralium/kbird.git
 - GitHub：https://github.com/fralium/kbird-project
 
-当前正式版 **v1.1.0**，更新说明见 [CHANGELOG.md](./CHANGELOG.md)。
+当前正式版 **v1.1.1**，更新说明见 [CHANGELOG.md](./CHANGELOG.md)。
 
 ## 项目简介
 

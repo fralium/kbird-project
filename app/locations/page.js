@@ -1,24 +1,30 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 /* eslint-disable react-hooks/exhaustive-deps */
 import Image from 'next/image';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { provinces, getCitiesByProvince } from '@/data/chinaRegions';
+import { provinces, getCitiesByProvince, normalizeRegionLabel } from '@/data/chinaRegions';
 import { getLocationTypeIcon } from '@/components/Icons';
 import PageState from '@/components/PageState';
 import SimplePageHeader, {
   HeaderPrimaryButton,
+  HeaderSecondaryButton,
 } from '@/components/SimplePageHeader';
 import { api } from '@/utils/api';
 import { formatAddressRegion } from '@/utils/formatAddressRegion';
+import { getRegionViewCenter } from '@/utils/regionViewCenters';
 import { HABITAT_COVER_SETS, resolveLocationCover, useHabitatCoverSet } from '@/utils/habitatCover';
 import LocationMapPicker from '@/components/LocationMapPicker';
 import FoldFilterPanel from '@/components/FoldFilterPanel';
 import styles from '@/styles/Locations.module.css';
 
 const SYNC_COOLDOWN_MS = 10 * 1000;
+
+const BirdMapProvider = dynamic(() => import('@/components/BirdMapProvider'), { ssr: false });
 
 function locationCardAddress(location) {
   const name = String(location?.name || '').trim();
@@ -29,9 +35,29 @@ function locationCardAddress(location) {
   return parts.length ? parts.join(' · ') : '地址未完善';
 }
 
+function toMapLocation(location) {
+  const coords = location?.coordinates?.coordinates;
+  const lng = Number(Array.isArray(coords) ? coords[0] : location?.lng);
+  const lat = Number(Array.isArray(coords) ? coords[1] : location?.lat);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  if (lat === 0 && lng === 0) return null;
+  return {
+    _id: location._id,
+    name: location.name,
+    lat,
+    lng,
+    records: Number(location.stats?.totalRecords) || 0,
+    birds: Number(location.stats?.uniqueSpecies) || 0,
+    province: location.address?.province || '',
+    city: location.address?.city || '',
+  };
+}
+
 export default function LocationsPage() {
+  const router = useRouter();
   const [coverSet, updateCoverSet] = useHabitatCoverSet();
   const [locations, setLocations] = useState([]);
+  const [mapLocations, setMapLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('');
@@ -198,6 +224,44 @@ export default function LocationsPage() {
     }
   };
 
+  const fetchMapLocations = async () => {
+    try {
+      const params = {
+        page: '1',
+        limit: '100',
+        sortBy: 'name',
+        sortOrder: 'asc',
+      };
+      if (searchTerm.trim()) params.search = searchTerm.trim();
+      if (filterType) params.type = filterType;
+      if (filterCity.trim()) params.city = filterCity.trim();
+      if (filterProvince) params.province = filterProvince;
+
+      const data = await api.locations.getAll(params);
+      if (!data?.success || !Array.isArray(data.data)) {
+        setMapLocations([]);
+        return;
+      }
+      setMapLocations(data.data.map(toMapLocation).filter(Boolean));
+    } catch {
+      setMapLocations([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchMapLocations();
+  }, [searchTerm, filterType, filterCity, filterProvince]);
+
+  const mapView = useMemo(
+    () => getRegionViewCenter(filterProvince === '未标注' ? '' : filterProvince, filterCity),
+    [filterProvince, filterCity]
+  );
+
+  const mapPins = useMemo(() => {
+    if (mapLocations.length > 0) return mapLocations;
+    return locations.map(toMapLocation).filter(Boolean);
+  }, [mapLocations, locations]);
+
   const handleSearch = (e) => {
     e.preventDefault();
     setShowSuggestions(false);
@@ -318,6 +382,7 @@ export default function LocationsPage() {
           createdNames: Array.isArray(data.data?.createdNames) ? data.data.createdNames : [],
         });
         fetchLocations();
+        fetchMapLocations();
       } else {
         setSyncMessage({ type: 'error', text: data.message || '地点同步失败' });
       }
@@ -371,6 +436,7 @@ export default function LocationsPage() {
         setSelectedCity('');
         setAvailableCities([]);
         fetchLocations();
+        fetchMapLocations();
       } else {
         setError(data.message || '创建失败');
       }
@@ -402,9 +468,26 @@ export default function LocationsPage() {
           description="常用点、坐标和生境"
           descriptionVariant="caption"
           actions={
-            <HeaderPrimaryButton onClick={() => setShowCreateForm(!showCreateForm)}>
-              {showCreateForm ? '收起表单' : '添加地点'}
-            </HeaderPrimaryButton>
+            <>
+              <HeaderSecondaryButton
+                onClick={handleSyncLocations}
+                disabled={syncLoading || cooldownRemaining > 0}
+                title={
+                  cooldownRemaining > 0
+                    ? `请 ${cooldownRemaining} 秒后重试`
+                    : '将观察记录中出现的地点自动添加到地点词典'
+                }
+              >
+                {syncLoading
+                  ? '同步中...'
+                  : cooldownRemaining > 0
+                    ? `冷却中(${cooldownRemaining}s)`
+                    : '地点同步'}
+              </HeaderSecondaryButton>
+              <HeaderPrimaryButton onClick={() => setShowCreateForm(!showCreateForm)}>
+                {showCreateForm ? '收起表单' : '添加地点'}
+              </HeaderPrimaryButton>
+            </>
           }
         />
 
@@ -414,34 +497,6 @@ export default function LocationsPage() {
           summary={filterPanelSummary}
           className={styles.foldPanel}
         >
-        {summary && (
-          <div className={styles.summaryBar}>
-            <span className={styles.summaryTotal}>共 {summary.total} 个地点</span>
-            {Array.isArray(summary.list) && summary.list.length > 0 && (
-              <span className={styles.summaryByProvince}>
-                {summary.list.map((item) => (
-                  <button
-                    key={item._id}
-                    type="button"
-                    className={`${styles.summaryItem} ${filterProvince === item._id ? styles.summaryItemActive : ''}`}
-                    onClick={() => {
-                      setFilterProvince(filterProvince === item._id ? '' : item._id);
-                      setCurrentPage(1);
-                    }}
-                    title={
-                      item._id === '未标注'
-                        ? `查看省份为空的 ${item.count} 个地点，可进入后补全省份`
-                        : `查看${item._id}的${item.count}个地点`
-                    }
-                  >
-                    {item._id} {item.count}个
-                  </button>
-                ))}
-              </span>
-            )}
-          </div>
-        )}
-
         <div className={styles.filtersSection}>
           <form onSubmit={handleSearch} className={styles.searchForm}>
             <div className={`${styles.searchContainer} search-container`}>
@@ -517,15 +572,6 @@ export default function LocationsPage() {
             </select>
             <button type="submit" className={styles.searchButton}>
               搜索
-            </button>
-            <button
-              type="button"
-              onClick={handleSyncLocations}
-              disabled={syncLoading || cooldownRemaining > 0}
-              className={styles.syncButton}
-              title={cooldownRemaining > 0 ? `请 ${cooldownRemaining} 秒后重试` : '将观察记录中出现的地点自动添加到地点词典'}
-            >
-              {syncLoading ? '同步中...' : cooldownRemaining > 0 ? `冷却中(${cooldownRemaining}s)` : '地点同步'}
             </button>
           </form>
         </div>
@@ -725,136 +771,201 @@ export default function LocationsPage() {
           </div>
         )}
 
-        {!loading && !error ? (
-          <div className={styles.listMeta}>
-            <div className={styles.listMetaLead}>
-              <span className={styles.listMetaCount}>
-                {pagination.totalItems ?? locations.length} 个
-              </span>
-              {pagination.totalPages > 1 ? (
-                <div className="kb-view-seg kb-meta-seg" aria-label="翻页">
-                  <button
-                    type="button"
-                    className="kb-view-tab kb-meta-tab"
-                    aria-label="上一页"
-                    disabled={!pagination.hasPrevPage}
-                    onClick={() => setCurrentPage(currentPage - 1)}
-                  >
-                    ←
-                  </button>
-                  <span className="kb-meta-index">
-                    {pagination.currentPage}/{pagination.totalPages}
-                  </span>
-                  <button
-                    type="button"
-                    className="kb-view-tab kb-meta-tab"
-                    aria-label="下一页"
-                    disabled={!pagination.hasNextPage}
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                  >
-                    →
-                  </button>
-                </div>
-              ) : null}
-            </div>
-            <div className={styles.listMetaTools}>
-              <div className="kb-view-seg kb-meta-seg" role="group" aria-label="封面风格">
-                <span className="kb-meta-label">封面</span>
-                {HABITAT_COVER_SETS.map((set) => (
-                  <button
-                    key={set.id}
-                    type="button"
-                    className={`kb-view-tab kb-meta-tab${coverSet === set.id ? ' is-active' : ''}`}
-                    aria-pressed={coverSet === set.id}
-                    onClick={() => updateCoverSet(set.id)}
-                  >
-                    {set.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        <div className={styles.locationsList}>
-          {loading ? (
-            <PageState type="loading" title="地点加载中..." />
-          ) : error ? (
-            <PageState
-              type="error"
-              title="地点列表加载失败"
-              message={error}
-              actionLabel="重试"
-              onAction={() => {
-                setError(null);
-                fetchLocations();
+        <section className={styles.mapBrowse} aria-label="地点地图与列表">
+          <div className={styles.mapBrowseMap}>
+            <BirdMapProvider
+              key={`locations-map-${filterProvince || 'all'}-${filterCity || 'all'}`}
+              locations={mapPins}
+              center={{ lat: mapView.lat, lng: mapView.lng }}
+              zoom={mapView.zoom}
+              fitMode={filterProvince && filterProvince !== '未标注' ? 'center' : 'auto'}
+              height="100%"
+              onMarkerClick={(loc) => {
+                if (loc?._id) router.push(`/locations/${loc._id}`);
               }}
             />
-          ) : locations.length > 0 ? (
-            <>
-              <div className={styles.locationsGrid}>
-                {(() => {
-                  const usedCoverUrls = new Set();
-                  return locations.map((location) => {
-                    const addressText = locationCardAddress(location);
-                    const cover = resolveLocationCover(location, usedCoverUrls, coverSet);
+          </div>
 
-                    return (
-                      <article key={location._id} className={styles.locationCard}>
-                        <div className={styles.locationCover} aria-hidden="true">
-                          <Image
-                            src={cover.url}
-                            alt=""
-                            fill
-                            sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 25vw"
-                            unoptimized
-                            className={styles.locationCoverImage}
-                          />
-                          <div className={styles.locationCoverShade} />
-                        </div>
-                        <Link href={`/locations/${location._id}`} className={styles.locationMain}>
-                          <div className={styles.locationTitleRow}>
-                            <h3 className={styles.locationName}>{location.name}</h3>
-                            {location.type ? (
-                              <span className={styles.locationType}>
-                                {getLocationTypeIcon(location.type, 12, 'currentColor')}
-                                <span className={styles.typeText}>{location.type}</span>
-                              </span>
-                            ) : null}
-                          </div>
-                          <p className={styles.locationAddress}>{addressText}</p>
-                        </Link>
-
-                        <div className={styles.locationFooter}>
-                          <p className={styles.locationMeta}>
-                            <span>
-                              <strong>{location.stats?.totalRecords || 0}</strong> 观察
-                            </span>
-                            <span className={styles.metaSep} aria-hidden>
-                              ·
-                            </span>
-                            <span>
-                              <strong>{location.stats?.uniqueSpecies || 0}</strong> 鸟种
-                            </span>
-                          </p>
-                        </div>
-                      </article>
-                    );
-                  });
-                })()}
+          <aside className={styles.mapBrowseSide} aria-label="地点词典">
+            {summary ? (
+              <div className={styles.summaryBar}>
+                <div className={styles.summaryHeader}>
+                  <span className={styles.summaryTotal}>共 {summary.total} 个地点</span>
+                  {filterProvince ? (
+                    <button
+                      type="button"
+                      className={styles.summaryClear}
+                      onClick={() => {
+                        setFilterProvince('');
+                        setCurrentPage(1);
+                      }}
+                    >
+                      清除筛选
+                    </button>
+                  ) : null}
+                </div>
+                {Array.isArray(summary.list) && summary.list.length > 0 ? (
+                  <div className={styles.summaryByProvince}>
+                    {summary.list.map((item) => {
+                      const label =
+                        item._id === '未标注'
+                          ? '未标注'
+                          : normalizeRegionLabel(item._id) || item._id;
+                      const active = filterProvince === item._id;
+                      return (
+                        <button
+                          key={item._id}
+                          type="button"
+                          className={`${styles.summaryItem}${active ? ` ${styles.summaryItemActive}` : ''}`}
+                          onClick={() => {
+                            setFilterProvince(active ? '' : item._id);
+                            setCurrentPage(1);
+                          }}
+                          title={
+                            item._id === '未标注'
+                              ? `查看省份为空的 ${item.count} 个地点，可进入后补全省份`
+                              : `查看${item._id}的${item.count}个地点`
+                          }
+                        >
+                          <span className={styles.summaryItemName}>{label}</span>
+                          <span className={styles.summaryItemCount}>{item.count}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : null}
               </div>
+            ) : null}
 
-            </>
-          ) : (
-            <PageState
-              type="empty"
-              title="暂无地点数据"
-              message="还没有地点。先添加一个，记录就能挂上坐标。"
-              actionLabel="添加地点"
-              onAction={() => setShowCreateForm(true)}
-            />
-          )}
-        </div>
+            {!loading && !error ? (
+              <div className={styles.listMeta}>
+                <div className={styles.listMetaLead}>
+                  <span className={styles.listMetaCount}>
+                    {pagination.totalItems ?? locations.length} 个
+                  </span>
+                  {pagination.totalPages > 1 ? (
+                    <div className="kb-view-seg kb-meta-seg" aria-label="翻页">
+                      <button
+                        type="button"
+                        className="kb-view-tab kb-meta-tab"
+                        aria-label="上一页"
+                        disabled={!pagination.hasPrevPage}
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                      >
+                        ←
+                      </button>
+                      <span className="kb-meta-index">
+                        {pagination.currentPage}/{pagination.totalPages}
+                      </span>
+                      <button
+                        type="button"
+                        className="kb-view-tab kb-meta-tab"
+                        aria-label="下一页"
+                        disabled={!pagination.hasNextPage}
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                      >
+                        →
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+                <div className={styles.listMetaTools}>
+                  <div className="kb-view-seg kb-meta-seg" role="group" aria-label="封面风格">
+                    <span className="kb-meta-label">封面</span>
+                    {HABITAT_COVER_SETS.map((set) => (
+                      <button
+                        key={set.id}
+                        type="button"
+                        className={`kb-view-tab kb-meta-tab${coverSet === set.id ? ' is-active' : ''}`}
+                        aria-pressed={coverSet === set.id}
+                        onClick={() => updateCoverSet(set.id)}
+                      >
+                        {set.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            <div className={styles.locationsList}>
+              {loading ? (
+                <PageState type="loading" title="地点加载中..." />
+              ) : error ? (
+                <PageState
+                  type="error"
+                  title="地点列表加载失败"
+                  message={error}
+                  actionLabel="重试"
+                  onAction={() => {
+                    setError(null);
+                    fetchLocations();
+                  }}
+                />
+              ) : locations.length > 0 ? (
+                <div className={styles.locationsGrid}>
+                  {(() => {
+                    const usedCoverUrls = new Set();
+                    return locations.map((location) => {
+                      const addressText = locationCardAddress(location);
+                      const cover = resolveLocationCover(location, usedCoverUrls, coverSet);
+
+                      return (
+                        <article key={location._id} className={styles.locationCard}>
+                          <div className={styles.locationCover} aria-hidden="true">
+                            <Image
+                              src={cover.url}
+                              alt=""
+                              fill
+                              sizes="(max-width: 900px) 100vw, 320px"
+                              unoptimized
+                              className={styles.locationCoverImage}
+                            />
+                            <div className={styles.locationCoverShade} />
+                          </div>
+                          <Link href={`/locations/${location._id}`} className={styles.locationMain}>
+                            <div className={styles.locationTitleRow}>
+                              <h3 className={styles.locationName}>{location.name}</h3>
+                              {location.type ? (
+                                <span className={styles.locationType}>
+                                  {getLocationTypeIcon(location.type, 12, 'currentColor')}
+                                  <span className={styles.typeText}>{location.type}</span>
+                                </span>
+                              ) : null}
+                            </div>
+                            <p className={styles.locationAddress}>{addressText}</p>
+                          </Link>
+
+                          <div className={styles.locationFooter}>
+                            <p className={styles.locationMeta}>
+                              <span>
+                                <strong>{location.stats?.totalRecords || 0}</strong> 观察
+                              </span>
+                              <span className={styles.metaSep} aria-hidden>
+                                ·
+                              </span>
+                              <span>
+                                <strong>{location.stats?.uniqueSpecies || 0}</strong> 鸟种
+                              </span>
+                            </p>
+                          </div>
+                        </article>
+                      );
+                    });
+                  })()}
+                </div>
+              ) : (
+                <PageState
+                  type="empty"
+                  title="暂无地点数据"
+                  message="还没有地点。先添加一个，记录就能挂上坐标。"
+                  actionLabel="添加地点"
+                  onAction={() => setShowCreateForm(true)}
+                />
+              )}
+            </div>
+          </aside>
+        </section>
       </main>
 
       <Footer />

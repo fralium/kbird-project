@@ -29,7 +29,10 @@ import styles from '@/styles/RegionBirdLists.module.css';
 const ChinaProvinceMap = dynamic(() => import('@/components/ChinaProvinceMap'), {
   ssr: false,
   loading: () => (
-    <div className={styles.mapCanvas} style={{ display: 'grid', placeItems: 'center', color: 'var(--text-muted)'}}>
+    <div
+      className={styles.mapCanvas}
+      style={{ display: 'grid', placeItems: 'center', color: 'var(--text-muted)' }}
+    >
       地图加载中…
     </div>
   ),
@@ -317,6 +320,49 @@ export default function RegionBirdListsPage() {
     });
     return map;
   }, [lists]);
+
+  const provinceOverview = useMemo(() => {
+    const rows = Object.entries(statsByProvince)
+      .map(([name, stat]) => ({
+        name,
+        listCount: Number(stat?.listCount || 0),
+        speciesCount: Number(stat?.speciesCount || 0),
+        seenCount: Number(stat?.seenCount || 0),
+      }))
+      .filter((row) => row.name);
+    const ranked = [...rows].sort((a, b) => {
+      if (b.speciesCount !== a.speciesCount) return b.speciesCount - a.speciesCount;
+      if (b.listCount !== a.listCount) return b.listCount - a.listCount;
+      return a.name.localeCompare(b.name, 'zh-CN');
+    });
+
+    const placeKeys = new Set();
+    const speciesKeys = new Set();
+    lists.forEach((item) => {
+      const province = String(item.province || '').trim();
+      const city = String(item.city || '').trim();
+      const district = String(item.district || '').trim();
+      const spot = String(item.spot || '').trim();
+      if (spot) placeKeys.add(`${province}|spot|${spot}`);
+      else if (district) placeKeys.add(`${province}|district|${district}`);
+      else if (city) placeKeys.add(`${province}|city|${city}`);
+
+      const species = Array.isArray(item.species) ? item.species : [];
+      species.forEach((bird) => {
+        const birdId = bird?.birdId ? String(bird.birdId) : '';
+        const name = String(bird?.name || bird?.catalogName || '').trim();
+        if (birdId) speciesKeys.add(`id:${birdId}`);
+        else if (name) speciesKeys.add(`name:${name}`);
+      });
+    });
+
+    return {
+      provinceCount: rows.length,
+      placeCount: placeKeys.size,
+      speciesTotal: speciesKeys.size,
+      ranked,
+    };
+  }, [statsByProvince, lists]);
 
   const visibleProvinceGroups = useMemo(() => {
     if (!selectedProvince) return provinceGroups;
@@ -823,26 +869,87 @@ export default function RegionBirdListsPage() {
                 <section className={styles.mapCard} aria-label="省级鸟种概览地图">
                   <div className={styles.mapCardHeader}>
                     <h2 className={styles.mapCardTitle}>省级概览</h2>
-                    <p className={styles.mapCardHint}>悬浮查看数量，点击省份筛选下方清单</p>
+                    <p className={styles.mapCardHint}>
+                      滚轮缩放 · 点省筛选 · 右侧看排名
+                    </p>
                   </div>
-                  <ChinaProvinceMap
-                    className={styles.mapCanvas}
-                    statsByProvince={statsByProvince}
-                    selectedProvince={selectedProvince}
-                    onSelectProvince={handleSelectProvince}
-                  />
-                  {selectedProvince ? (
-                    <div className={styles.mapFilterBar}>
-                      <span className={styles.mapFilterChip}>当前：{selectedProvince}</span>
-                      <button
-                        type="button"
-                        className={styles.mapFilterClear}
-                        onClick={() => setSelectedProvince('')}
-                      >
-                        清除筛选
-                      </button>
-                    </div>
-                  ) : null}
+                  <div className={styles.mapBody}>
+                    <ChinaProvinceMap
+                      className={styles.mapCanvas}
+                      statsByProvince={statsByProvince}
+                      selectedProvince={selectedProvince}
+                      onSelectProvince={handleSelectProvince}
+                    />
+                    <aside className={styles.mapSummary} aria-label="省级鸟种总结">
+                      <div className={styles.mapSummaryStats}>
+                        <div className={styles.mapSummaryStat}>
+                          <span className={styles.mapSummaryStatValue}>
+                            {provinceOverview.provinceCount}
+                          </span>
+                          <span className={styles.mapSummaryStatLabel}>省份</span>
+                        </div>
+                        <div className={styles.mapSummaryStat}>
+                          <span className={styles.mapSummaryStatValue}>
+                            {provinceOverview.placeCount}
+                          </span>
+                          <span className={styles.mapSummaryStatLabel}>市 / 地点</span>
+                        </div>
+                        <div className={styles.mapSummaryStat}>
+                          <span className={styles.mapSummaryStatValue}>
+                            {provinceOverview.speciesTotal}
+                          </span>
+                          <span className={styles.mapSummaryStatLabel}>鸟种</span>
+                        </div>
+                      </div>
+                      <p className={styles.mapSummaryNote}>鸟种已按全部清单去重统计</p>
+                      <div className={styles.mapSummaryTop}>
+                        <h3 className={styles.mapSummaryTopTitle}>
+                          全部省份
+                          <span className={styles.mapSummaryTopCount}>
+                            {provinceOverview.ranked.length}
+                          </span>
+                        </h3>
+                        <ol className={styles.mapSummaryTopList}>
+                          {provinceOverview.ranked.map((row, index) => {
+                            const active = selectedProvince === row.name;
+                            return (
+                              <li key={row.name}>
+                                <button
+                                  type="button"
+                                  className={`${styles.mapSummaryTopRow}${
+                                    active ? ` ${styles.mapSummaryTopRowActive}` : ''
+                                  }`}
+                                  onClick={() => handleSelectProvince(row.name)}
+                                  aria-pressed={active}
+                                >
+                                  <span className={styles.mapSummaryTopRank}>{index + 1}</span>
+                                  <span className={styles.mapSummaryTopName}>{row.name}</span>
+                                  <span className={styles.mapSummaryTopMeta}>
+                                    {row.speciesCount} 种
+                                    <span className={styles.mapSummaryTopLists}>
+                                      · {row.listCount} 份
+                                    </span>
+                                  </span>
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ol>
+                      </div>
+                      {selectedProvince ? (
+                        <div className={styles.mapFilterBar}>
+                          <span className={styles.mapFilterChip}>当前：{selectedProvince}</span>
+                          <button
+                            type="button"
+                            className={styles.mapFilterClear}
+                            onClick={() => setSelectedProvince('')}
+                          >
+                            清除筛选
+                          </button>
+                        </div>
+                      ) : null}
+                    </aside>
+                  </div>
                 </section>
               ) : null}
         </FoldFilterPanel>

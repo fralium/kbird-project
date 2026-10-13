@@ -9,7 +9,7 @@ export function getBaiduBirdIconUrl() {
   return '/map-marker-bird.png';
 }
 
-/** 默认略瘦；密集足迹可传 { width: 16, height: 20 } */
+/** 默认针形标记；密集足迹可传 { width: 16, height: 20 } */
 export function createBaiduBirdIcon(BMap, { width = 22, height = 27 } = {}) {
   if (!BMap?.Icon || !BMap?.Size) return null;
   const size = new BMap.Size(width, height);

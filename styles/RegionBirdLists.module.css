@@ -101,8 +101,9 @@
   border: 1px solid var(--border-subtle);
   border-radius: 14px;
   box-shadow: 0 2px 10px var(--border-subtle);
-  padding: 14px 16px 12px;
+  padding: 12px 14px 12px;
   margin-bottom: 18px;
+  overflow: hidden;
 }
 
 .mapCardHeader {
@@ -110,7 +111,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .mapCardTitle {
@@ -126,10 +127,175 @@
   color: var(--text-muted);
 }
 
+.mapBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.85fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
 .mapCanvas {
   width: 100%;
-  height: clamp(460px, 58vh, 680px);
-  min-height: 460px;
+  height: clamp(380px, 46vh, 520px);
+  min-height: 380px;
+  border-radius: 10px;
+  background: var(--bg-page, #f7f8fa);
+  overflow: hidden;
+}
+
+.mapSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  max-height: clamp(380px, 46vh, 520px);
+  padding: 4px 2px 0;
+  overflow: hidden;
+}
+
+.mapSummaryStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.mapSummaryStat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 8px;
+  border-radius: 10px;
+  background: var(--bg-page, #f7f8fa);
+  text-align: center;
+}
+
+.mapSummaryStatValue {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.mapSummaryStatLabel {
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+}
+
+.mapSummaryNote {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.mapSummaryTop {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mapSummaryTopTitle {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: var(--type-secondary);
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.mapSummaryTopCount {
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.mapSummaryTopList {
+  list-style: none;
+  margin: 0;
+  padding: 0 2px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.mapSummaryTopRow {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.mapSummaryTopRow:hover {
+  background: var(--bg-page, #f7f8fa);
+}
+
+.mapSummaryTopRowActive {
+  background: var(--color-lake-light);
+  border-color: color-mix(in srgb, var(--color-lake) 35%, transparent);
+}
+
+.mapSummaryTopRank {
+  width: 22px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--bg-page, #f0f2f5);
+  font-variant-numeric: tabular-nums;
+}
+
+.mapSummaryTopRow:nth-child(-n + 3) .mapSummaryTopRank {
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-lake-light) 80%, #fff);
+}
+
+.mapSummaryTopName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--type-secondary);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.mapSummaryTopMeta {
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--color-lake);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.mapSummaryTopLists {
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .mapFilterBar {
@@ -137,7 +303,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  margin: 8px 0 0;
+  margin-top: auto;
   padding-top: 8px;
   border-top: 1px solid var(--border-subtle);
 }
@@ -168,16 +334,39 @@
   text-decoration: underline;
 }
 
+@media (max-width: 900px) {
+  .mapBody {
+    grid-template-columns: 1fr;
+  }
+
+  .mapCanvas {
+    height: clamp(360px, 48vh, 480px);
+    min-height: 360px;
+  }
+
+  .mapSummary {
+    max-height: 420px;
+  }
+
+  .mapSummaryTopList {
+    max-height: 280px;
+  }
+}
+
 @media (max-width: 640px) {
   .mapCanvas {
-    height: 380px;
-    min-height: 340px;
+    height: 340px;
+    min-height: 320px;
   }
 
   .mapCardHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
+  }
+
+  .mapSummaryStats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

@@ -77,7 +77,7 @@ export default function BirdMapTianditu({
 
   const centerPoint = useMemo(() => {
     const first = validLocations[0];
-    if (fitMode === 'china' || !first) {
+    if (fitMode === 'china' || fitMode === 'center' || !first) {
       return { lng: center.lng ?? 103.8, lat: center.lat ?? 36.2 };
     }
     return getLngLat(first);
@@ -241,14 +241,14 @@ export default function BirdMapTianditu({
           map.addOverLay(line);
           overlaysRef.current.push(line);
         });
-        if (pathLngLats.length >= 2 && fitMode !== 'china') {
+        if (pathLngLats.length >= 2 && fitMode !== 'china' && fitMode !== 'center') {
           map.setViewport(pathLngLats);
         }
       } catch {
         // ignore
       }
     }
-    if (fitMode === 'china') {
+    if (fitMode === 'china' || fitMode === 'center') {
       try {
         map.centerAndZoom(new T.LngLat(centerPoint.lng, centerPoint.lat), zoom);
       } catch {

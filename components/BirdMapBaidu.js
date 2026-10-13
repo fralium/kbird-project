@@ -16,7 +16,7 @@ export default function BirdMapBaidu({
   zoom = 10,
   /** 自适应视野时不要再缩小到比这更小 */
   minFitZoom = null,
-  /** china = 固定中国幅面；path = 跟轨迹；auto = 跟点/线 */
+  /** china = 固定中国幅面；center = 强制用 center/zoom；path = 跟轨迹；auto = 跟点/线 */
   fitMode = 'auto',
   height = '400px',
   onMarkerClick,
@@ -79,7 +79,7 @@ export default function BirdMapBaidu({
   const centerPoint = useMemo(() => {
     const first = validLocations[0];
     const raw =
-      fitMode === 'china' || !first
+      fitMode === 'china' || fitMode === 'center' || !first
         ? { lng: center.lng ?? 103.8, lat: center.lat ?? 36.2 }
         : getLngLat(first);
     return wgs84ToBd09(raw.lng, raw.lat);
@@ -292,7 +292,7 @@ export default function BirdMapBaidu({
       }
     }
 
-    if (fitMode === 'china') {
+    if (fitMode === 'china' || fitMode === 'center') {
       map.centerAndZoom(new BMap.Point(centerPoint.lng, centerPoint.lat), zoom);
     } else if (pathPoints.length > 1) {
       try {

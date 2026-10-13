@@ -98,6 +98,10 @@ const attachRegionListCovers = async (rows) => {
 
     return {
       ...rest,
+      species: (species || []).map((s) => ({
+        birdId: s?.birdId ? String(s.birdId) : undefined,
+        name: s?.name || '',
+      })),
       coverBirds: coverBirds.slice(0, 8),
       habitatImageUrl,
     };

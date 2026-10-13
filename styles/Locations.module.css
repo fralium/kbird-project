@@ -117,52 +117,166 @@
   margin: 0;
 }
 
-/* 地点小结：总数 + 按省份 */
+/* 左地图 + 右地点列表 */
+.mapBrowse {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.95fr);
+  gap: 14px;
+  align-items: stretch;
+  margin-bottom: 8px;
+}
+
+.mapBrowseMap {
+  height: clamp(420px, 56vh, 640px);
+  min-height: 420px;
+  border-radius: var(--radius-panel, 10px);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle, var(--gray-100));
+  background: var(--bg-page, #f7f8fa);
+}
+
+.mapBrowseMap > * {
+  height: 100% !important;
+  min-height: 0;
+}
+
+.mapBrowseSide {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  min-height: 0;
+  height: clamp(420px, 56vh, 640px);
+  overflow: hidden;
+}
+
+.mapBrowseSide .summaryBar {
+  flex: 0 1 auto;
+  max-height: none;
+  margin-bottom: 0;
+  padding: 12px;
+  overflow: visible;
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg, 10px);
+  background: var(--bg-clean, #f5f7f9);
+}
+
+.mapBrowseSide .listMeta {
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
+
+.mapBrowseSide .locationsList {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+.mapBrowseSide .locationsGrid {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+/* 地点小结：总数 + 按省份芯片 */
 .summaryBar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 14px;
+  flex-direction: column;
+  gap: 10px;
   padding: 0 0 12px;
   margin-bottom: 12px;
   background: transparent;
   border-radius: 0;
-  font-size: var(--type-page-lede);
-  line-height: var(--line-height-snug);
   color: var(--text-secondary);
 }
+
+.summaryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .summaryTotal {
   font-weight: 700;
-  font-size: var(--type-subsection);
+  font-size: var(--type-body);
+  line-height: var(--line-height-tight);
   color: var(--color-ink);
 }
+
+.summaryClear {
+  border: none;
+  background: transparent;
+  color: var(--color-lake);
+  font-size: var(--type-caption, 12px);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.summaryClear:hover {
+  color: var(--color-lake-hover);
+  text-decoration: underline;
+}
+
 .summaryByProvince {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 10px;
+  gap: 8px;
 }
+
 .summaryItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   white-space: nowrap;
-  background: none;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
+  background: var(--bg-white);
+  border: 1px solid var(--color-sky);
+  padding: 6px 10px 6px 12px;
+  border-radius: var(--radius-full, 999px);
   cursor: pointer;
-  color: inherit;
-  font-size: var(--type-body);
+  color: var(--color-ink);
+  font-size: var(--type-secondary);
   font-weight: 600;
-  transition: background 0.2s, color 0.2s;
+  line-height: 1.2;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
+
 .summaryItem:hover {
-  background: var(--color-lake-light, var(--color-lake-light));
+  border-color: var(--color-lake);
   color: var(--color-lake);
+  background: var(--gray-100, #eef2f5);
 }
+
+.summaryItemName {
+  min-width: 0;
+}
+
+.summaryItemCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4em;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--color-lake-light, #d9eef2);
+  color: var(--color-ink);
+  font-size: 0.92em;
+  font-weight: 700;
+}
+
 .summaryItemActive {
-  background: var(--color-lake, var(--color-lake));
+  border-color: var(--color-lake);
+  background: var(--color-lake);
   color: var(--text-white);
 }
+
 .summaryItemActive:hover {
-  background: var(--color-lake-hover, var(--color-lake-hover));
+  background: var(--color-lake);
+  color: var(--text-white);
+}
+
+.summaryItemActive .summaryItemCount {
+  background: rgba(255, 255, 255, 0.24);
   color: var(--text-white);
 }
 
@@ -886,6 +1000,30 @@
 @media (max-width: 1024px) {
   .locationStats {
     gap: 10px 14px;
+  }
+}
+
+@media (max-width: 900px) {
+  .mapBrowse {
+    grid-template-columns: 1fr;
+  }
+
+  .mapBrowseMap {
+    height: 300px;
+    min-height: 280px;
+  }
+
+  .mapBrowseSide {
+    height: auto;
+    max-height: none;
+  }
+
+  .mapBrowseSide .summaryBar {
+    max-height: none;
+  }
+
+  .mapBrowseSide .locationsList {
+    max-height: 520px;
   }
 }
 

@@ -141,14 +141,14 @@ export default function ChinaProvinceMap({
               type: 'continuous',
               min: 0,
               max: Math.max(max, 1),
-              right: 8,
-              bottom: 12,
-              text: ['多', '少'],
-              textStyle: { color: 'var(--text-muted)', fontSize: 11},
-              inRange: { color: HEAT_COLORS},
+              left: 10,
+              bottom: 14,
+              text: ['高', '低'],
+              textStyle: { color: 'var(--text-muted)', fontSize: 11 },
+              inRange: { color: HEAT_COLORS },
               calculable: false,
               itemWidth: 12,
-              itemHeight: 88,
+              itemHeight: 96,
               show: data.some((d) => d.value > 0),
             },
             series: [
@@ -157,15 +157,17 @@ export default function ChinaProvinceMap({
                 name: '各地鸟种',
                 type: 'map',
                 map: 'china',
-                roam: false,
+                // 滚轮缩放 + 拖拽平移；不必用浏览器缩放网页
+                roam: true,
+                scaleLimit: { min: 0.7, max: 8 },
                 selectedMode: 'single',
                 boundingCoords: [
-                  [73, 17.5],
-                  [135.5, 53.8],
+                  [73.2, 18.0],
+                  [135.2, 53.6],
                 ],
                 layoutCenter: ['50%', '50%'],
-                layoutSize: '100%',
-                aspectScale: 0.88,
+                layoutSize: '104%',
+                aspectScale: 0.9,
                 label: {
                   show: false,
                   fontSize: 10,
@@ -178,7 +180,7 @@ export default function ChinaProvinceMap({
                   borderWidth: 1,
                 },
                 emphasis: {
-                  label: { show: true, color: 'var(--color-ink)', fontWeight: 700, fontSize: 12},
+                  label: { show: true, color: 'var(--color-ink)', fontWeight: 700, fontSize: 12 },
                   itemStyle: {
                     areaColor: '#f472b6',
                     shadowBlur: 8,
@@ -186,7 +188,7 @@ export default function ChinaProvinceMap({
                   },
                 },
                 select: {
-                  label: { show: true, color: 'var(--color-ink)', fontWeight: 700},
+                  label: { show: true, color: 'var(--color-ink)', fontWeight: 700 },
                   itemStyle: {
                     areaColor: '#a855f7',
                     borderColor: '#6b21a8',
@@ -214,6 +216,12 @@ export default function ChinaProvinceMap({
         if (!cancelled) setLoadError(err.message || '地图加载失败');
       });
 
+    // 地图上滚轮只缩放地图，不带动整页滚动
+    const onWheel = (event) => {
+      event.preventDefault();
+    };
+    host.addEventListener('wheel', onWheel, { passive: false });
+
     window.addEventListener('resize', safeResize);
     if (typeof ResizeObserver !== 'undefined') {
       ro = new ResizeObserver(safeResize);
@@ -223,6 +231,7 @@ export default function ChinaProvinceMap({
     return () => {
       cancelled = true;
       setMapReady(false);
+      host.removeEventListener('wheel', onWheel);
       window.removeEventListener('resize', safeResize);
       if (ro) ro.disconnect();
       chart.dispose();
@@ -241,8 +250,8 @@ export default function ChinaProvinceMap({
         min: 0,
         max: Math.max(max, 1),
         show: seriesData.some((d) => d.value > 0),
-        inRange: { color: HEAT_COLORS},
-        text: ['多', '少'],
+        inRange: { color: HEAT_COLORS },
+        text: ['高', '低'],
       },
       series: [
         {
@@ -278,8 +287,22 @@ export default function ChinaProvinceMap({
   }
 
   return (
-    <div className={className} style={{ width: '100%', height: '100%', minHeight: 0 }}>
-      <div ref={hostRef} style={{ width: '100%', height: '100%', minHeight: 280 }} />
+    <div
+      className={className}
+      style={{
+        width: '100%',
+        height: '100%',
+        minHeight: 0,
+        overflow: 'hidden',
+        overscrollBehavior: 'contain',
+        touchAction: 'none',
+      }}
+    >
+      <div
+        ref={hostRef}
+        style={{ width: '100%', height: '100%', minHeight: 280 }}
+        aria-label="中国省级鸟种地图，可滚轮缩放、拖拽平移"
+      />
     </div>
   );
 }
