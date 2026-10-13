@@ -239,7 +239,7 @@ KBird-Update.bat
 ```
 
 或：`.\scripts\windows\update.ps1`  
-会停止 Node → `git pull` → `npm install` → 检查 `KBird-Data`；**不**覆盖 `.env` 与个人数据。
+会停止 Node → `git pull` → `npm install` → **`npm run build`（重建生产前端）** → 检查 `KBird-Data`；**不**覆盖 `.env` 与个人数据。更新完成后直接点桌面 EXE 即可，无需再手动 rebuild。
 
 ## 备份
 

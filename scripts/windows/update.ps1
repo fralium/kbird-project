@@ -5,6 +5,7 @@
 param(
     [switch]$SkipStop = $false,
     [switch]$SkipNpm = $false,
+    [switch]$SkipBuild = $false,
     [switch]$Force = $false
 )
 
@@ -32,7 +33,7 @@ if (-not (Test-Path "package.json")) {
 }
 
 # 1) Stop running app (Node only; leave MongoDB running)
-Write-Host "[1/5] Stopping KBird processes..." -ForegroundColor Yellow
+Write-Host "[1/6] Stopping KBird processes..." -ForegroundColor Yellow
 if (-not $SkipStop) {
     Get-Process -Name "node" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
     Get-Process -Name "next" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
@@ -55,7 +56,7 @@ if (-not $SkipStop) {
 
 # 2) Git check
 Write-Host ""
-Write-Host "[2/5] Checking git..." -ForegroundColor Yellow
+Write-Host "[2/6] Checking git..." -ForegroundColor Yellow
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
     Write-Host "[FAIL] git not found. Install Git, then re-run." -ForegroundColor Red
     exit 1
@@ -119,7 +120,7 @@ if ($statusLines.Count -gt 0) {
 
 # 3) Pull
 Write-Host ""
-Write-Host "[3/5] Pulling latest code..." -ForegroundColor Yellow
+Write-Host "[3/6] Pulling latest code..." -ForegroundColor Yellow
 $before = (git rev-parse HEAD 2>$null)
 git fetch origin
 if ($LASTEXITCODE -ne 0) {
@@ -147,7 +148,7 @@ if ($before -and $after -and ($before -eq $after)) {
 
 # 4) npm install
 Write-Host ""
-Write-Host "[4/5] Installing npm dependencies..." -ForegroundColor Yellow
+Write-Host "[4/6] Installing npm dependencies..." -ForegroundColor Yellow
 if (-not $SkipNpm) {
     npm install
     if ($LASTEXITCODE -ne 0) {
@@ -159,9 +160,25 @@ if (-not $SkipNpm) {
     Write-Host "[SKIP] npm install" -ForegroundColor Cyan
 }
 
-# 5) Ensure data folder paths (does not wipe personal data)
+# 5) Production build (desktop EXE / KBird-Start-Prod uses .next)
 Write-Host ""
-Write-Host "[5/5] Checking personal data folder..." -ForegroundColor Yellow
+Write-Host "[5/6] Building production frontend..." -ForegroundColor Yellow
+if (-not $SkipBuild) {
+    Write-Host "This may take 1–3 minutes..." -ForegroundColor DarkGray
+    npm run build
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "[FAIL] npm run build failed" -ForegroundColor Red
+        Write-Host "You can retry later: npm run build" -ForegroundColor Yellow
+        exit 1
+    }
+    Write-Host "[OK] Production build ready (.next). Desktop EXE will use this." -ForegroundColor Green
+} else {
+    Write-Host "[SKIP] npm run build (-SkipBuild)" -ForegroundColor Cyan
+}
+
+# 6) Ensure data folder paths (does not wipe personal data)
+Write-Host ""
+Write-Host "[6/6] Checking personal data folder..." -ForegroundColor Yellow
 if (Test-Path "scripts\ensure-kbird-data.js") {
     node scripts/ensure-kbird-data.js
     if ($LASTEXITCODE -ne 0) {
@@ -185,8 +202,7 @@ Write-Host "Update finished" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "Next:" -ForegroundColor Cyan
-Write-Host "  1. Daily start: KBird-Start-Prod.bat" -ForegroundColor White
-Write-Host "     (rebuilds if needed after pull; use KBird-Start.bat only for dev)" -ForegroundColor DarkGray
+Write-Host "  1. Start with desktop EXE or KBird-Start-Prod.bat (no rebuild needed)" -ForegroundColor White
 Write-Host "  2. Do NOT re-run /init (unless you switched to a new empty DB)" -ForegroundColor White
 Write-Host "  3. Optional new map/AI keys: Settings -> Services & keys" -ForegroundColor White
 Write-Host "  4. Optional bird seed refresh: .\scripts\windows\init-database.ps1" -ForegroundColor White

@@ -113,22 +113,43 @@ if not exist ".kbird\desktop-launcher.done" (
 
 echo.
 echo [4/5] Checking production build...
-if not exist ".next\\BUILD_ID" (
+set "NEED_BUILD=0"
+if not exist ".next\BUILD_ID" (
+    set "NEED_BUILD=1"
     echo No production build found. Building now...
+) else (
+    REM Rebuild when app source is newer than last production build
+    powershell -NoProfile -Command ^
+      "$b=(Get-Item -LiteralPath '.next\BUILD_ID').LastWriteTimeUtc; " ^
+      "$newer=@(Get-ChildItem -Path 'app','components','styles','utils','public' -Recurse -File -ErrorAction SilentlyContinue | " ^
+      "  Where-Object { $_.LastWriteTimeUtc -gt $b } | Select-Object -First 1); " ^
+      "if($newer){ exit 2 } else { exit 0 }"
+    if errorlevel 2 (
+        set "NEED_BUILD=1"
+        echo Source newer than .next build. Rebuilding...
+    ) else (
+        echo OK: production build is up to date.
+    )
+)
+if "%NEED_BUILD%"=="1" (
     call npm run build
     if errorlevel 1 (
         echo ERROR: production build failed.
         timeout /t 5 /nobreak >nul
         exit /b 1
     )
-) else (
-    echo OK: existing production build found.
-    echo NOTE: Run "npm run build" manually after code changes.
 )
 
 echo.
 echo [5/5] Starting production services...
 echo.
+echo Freeing ports 13080 / 13082 if a previous instance is still running...
+taskkill /F /FI "WINDOWTITLE eq KBird Backend*" >nul 2>&1
+taskkill /F /FI "WINDOWTITLE eq KBird Frontend*" >nul 2>&1
+call :free_port 13080
+call :free_port 13082
+timeout /t 1 /nobreak >nul
+
 echo Starting backend on port 13082 (production mode)...
 start "KBird Backend (Prod)" cmd /k "cd /d ""%CD%"" && set NODE_ENV=production && node server/index.js"
 timeout /t 3 /nobreak >nul
@@ -202,4 +223,26 @@ if errorlevel 1 (
     exit /b 1
 )
 exit /b 0
-goto :eof
+
+:free_port
+set "PORT=%~1"
+set "FOUND=0"
+set "SEEN="
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":%PORT% " ^| findstr LISTENING') do (
+  echo ;!SEEN!; | findstr /C:";%%a;" >nul 2>&1
+  if errorlevel 1 (
+    set "SEEN=!SEEN!;%%a"
+    set "FOUND=1"
+    echo Port %PORT% in use by PID: %%a — stopping...
+    taskkill /F /PID %%a >nul 2>&1
+    if errorlevel 1 (
+      echo WARN: could not kill PID %%a
+    ) else (
+      echo OK: freed port %PORT%
+    )
+  )
+)
+if "%FOUND%"=="0" (
+  echo OK: port %PORT% is free
+)
+exit /b 0

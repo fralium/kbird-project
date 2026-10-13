@@ -1,5 +1,5 @@
 @echo off
-REM KBird update: git pull + npm install (keeps .env and personal data)
+REM KBird update: git pull + npm install + npm run build (keeps .env and personal data)
 cd /d "%~dp0"
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\windows\update.ps1"
 if errorlevel 1 (
