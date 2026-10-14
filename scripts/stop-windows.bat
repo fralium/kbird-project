@@ -1,29 +1,9 @@
 @echo off
-
+REM Deprecated: do not kill all node.exe. Delegate to port-scoped PowerShell stopper.
 echo ========================================
 echo           KBird Stop Services
 echo ========================================
 echo.
-
-echo [1/2] Stopping services...
-taskkill /f /im node.exe >nul 2>&1
-taskkill /f /im "next dev" >nul 2>&1
-taskkill /f /im "nodemon server/index.js" >nul 2>&1
-echo OK: services stopped
-
-echo [2/2] Cleaning ports...
-for /f "tokens=5" %%a in ('netstat -ano ^| findstr :13080') do (
-    taskkill /f /pid %%a >nul 2>&1
-)
-
-for /f "tokens=5" %%a in ('netstat -ano ^| findstr :13082') do (
-    taskkill /f /pid %%a >nul 2>&1
-)
-
-echo OK: ports cleaned
-
-echo.
-echo ========================================
-echo KBird fully stopped
-echo ========================================
-echo.
+echo Using port-scoped stop (13080 / 13082). Legacy global node kill removed.
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0stop-windows.ps1"
+exit /b %ERRORLEVEL%

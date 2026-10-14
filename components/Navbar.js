@@ -240,6 +240,7 @@ const Navbar = () => {
 
   return (
     <nav
+      aria-label="主导航"
       className={`${styles.navbar}${
         isHome && homeNavReady && !homeScrolled ? ` ${styles.homeBlend}` : ''
       }${isHome && homeNavReady && homeScrolled ? ` ${styles.homeSolid}` : ''}`}

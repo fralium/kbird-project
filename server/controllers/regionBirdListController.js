@@ -239,7 +239,10 @@ const linkSpeciesToBirds = async (species) => {
     if (!hasAnyName && !hasAnySci) return species;
 
     // 名录可能很大：按中文名/学名精确匹配，未命中再回退 binomial；并吃全局异名表与鸟种 nameAliases
-    const birds = await Bird.find({}).select('_id name scientificName nameAliases').lean();
+    const birds = await Bird.find({})
+      .select('_id name scientificName nameAliases')
+      .limit(5000)
+      .lean();
     const byName = new Map();
     const bySci = new Map();
     const byBinomial = new Map();

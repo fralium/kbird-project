@@ -334,7 +334,7 @@ function EditLocationPageContent() {
     <div className={styles.container}>
       <Navbar />
 
-      <div className={styles.content}>
+      <main className={styles.content}>
         <SimplePageHeader
           title="编辑地点"
           description="更新地点资料"
@@ -741,7 +741,7 @@ function EditLocationPageContent() {
             </button>
           </div>
         </form>
-      </div>
+      </main>
 
       <Footer />
       {confirmDialog}

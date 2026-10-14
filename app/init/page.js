@@ -436,6 +436,7 @@ export default function InitPage() {
 
   return (
     <div className={styles.container}>
+      <main>
       <div className={styles.header}>
         <h1>KBird 高级重配</h1>
         <p>日常请直接使用首页。本页仅用于特殊情况重配，可能覆盖原有设置。</p>
@@ -495,6 +496,7 @@ export default function InitPage() {
           </button>
         )}
       </div>
+      </main>
     </div>
   );
 }

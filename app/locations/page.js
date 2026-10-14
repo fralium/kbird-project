@@ -70,6 +70,7 @@ export default function LocationsPage() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
   const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState(null);
   const [selectedProvince, setSelectedProvince] = useState('');
@@ -273,6 +274,7 @@ export default function LocationsPage() {
   const handleClearSearch = () => {
     setSearchTerm('');
     setShowSuggestions(false);
+    setActiveSuggestionIndex(-1);
     setCurrentPage(1);
     syncSearchToUrl('');
     fetchLocations({ page: 1, search: '' });
@@ -281,6 +283,7 @@ export default function LocationsPage() {
   const handleSuggestionClick = (suggestion) => {
     setSearchTerm(suggestion);
     setShowSuggestions(false);
+    setActiveSuggestionIndex(-1);
     setCurrentPage(1);
     syncSearchToUrl(suggestion);
     fetchLocations({ page: 1, search: suggestion });
@@ -289,12 +292,34 @@ export default function LocationsPage() {
   const handleSearchInputChange = (e) => {
     const next = e.target.value;
     setSearchTerm(next);
+    setActiveSuggestionIndex(-1);
     if (next.length < 2) {
       setShowSuggestions(false);
     }
     // 清空输入时同步去掉 URL 参数，避免刷新后又回来
     if (!String(next).trim()) {
       syncSearchToUrl('');
+    }
+  };
+
+  const handleSearchKeyDown = (e) => {
+    if (!showSuggestions || searchSuggestions.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveSuggestionIndex((prev) =>
+        prev < searchSuggestions.length - 1 ? prev + 1 : 0
+      );
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveSuggestionIndex((prev) =>
+        prev > 0 ? prev - 1 : searchSuggestions.length - 1
+      );
+    } else if (e.key === 'Enter' && activeSuggestionIndex >= 0) {
+      e.preventDefault();
+      handleSuggestionClick(searchSuggestions[activeSuggestionIndex]);
+    } else if (e.key === 'Escape') {
+      setShowSuggestions(false);
+      setActiveSuggestionIndex(-1);
     }
   };
 
@@ -504,9 +529,19 @@ export default function LocationsPage() {
                 type="text"
                 value={searchTerm}
                 onChange={handleSearchInputChange}
+                onKeyDown={handleSearchKeyDown}
                 placeholder="搜索地点名称，如：五常、湿地、公园..."
                 className={styles.searchInput}
                 autoComplete="off"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded={showSuggestions && searchSuggestions.length > 0}
+                aria-controls="location-search-suggestions"
+                aria-activedescendant={
+                  activeSuggestionIndex >= 0
+                    ? `location-suggestion-${activeSuggestionIndex}`
+                    : undefined
+                }
               />
               {searchTerm ? (
                 <button
@@ -525,15 +560,26 @@ export default function LocationsPage() {
                 </div>
               )}
               {showSuggestions && searchSuggestions.length > 0 && (
-                <div className={styles.searchSuggestions}>
+                <div
+                  id="location-search-suggestions"
+                  className={styles.searchSuggestions}
+                  role="listbox"
+                  aria-label="地点搜索建议"
+                >
                   {searchSuggestions.map((suggestion, index) => (
-                    <div
+                    <button
                       key={index}
-                      className={styles.suggestionItem}
+                      id={`location-suggestion-${index}`}
+                      type="button"
+                      role="option"
+                      aria-selected={index === activeSuggestionIndex}
+                      className={`${styles.suggestionItem}${
+                        index === activeSuggestionIndex ? ` ${styles.suggestionItemActive}` : ''
+                      }`}
                       onClick={() => handleSuggestionClick(suggestion)}
                     >
                       <span className={styles.suggestionText}>{suggestion}</span>
-                    </div>
+                    </button>
                   ))}
                 </div>
               )}

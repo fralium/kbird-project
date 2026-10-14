@@ -18,6 +18,7 @@ const multer = require('multer');
 const {
   validateUserRegistration,
   validateUserLogin,
+  validateObjectIdParam,
 } = require('../middleware/validation');
 const { isRegistrationEnabled } = require('../config/appMode');
 
@@ -92,10 +93,10 @@ router.get('/favorites', protect, getUserFavorites);
 router.get('/sightings', protect, getUserSightings);
 
 // 添加鸟类到收藏 (需要登录)
-router.post('/favorites/:id', protect, addToFavorites);
+router.post('/favorites/:id', protect, validateObjectIdParam('id'), addToFavorites);
 
 // 从收藏中移除鸟类 (需要登录)
-router.delete('/favorites/:id', protect, removeFromFavorites);
+router.delete('/favorites/:id', protect, validateObjectIdParam('id'), removeFromFavorites);
 
 // 上传用户头像 (需要登录)
 router.post('/avatar', protect, upload.single('avatar'), uploadAvatar);

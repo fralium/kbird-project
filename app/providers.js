@@ -9,6 +9,8 @@ import PerformanceMonitor from '@/components/PerformanceMonitor';
 import AppClientBootstrap from '@/components/AppClientBootstrap';
 import ToastManager from '@/components/ToastManager';
 import FloatingTips from '@/components/FloatingTips';
+import MustChangePasswordBanner from '@/components/MustChangePasswordBanner';
+import SkipMainTarget from '@/components/SkipMainTarget';
 
 export default function AppProviders({ children }) {
   const pathname = usePathname() || '';
@@ -23,6 +25,8 @@ export default function AppProviders({ children }) {
         <AuthProvider>
           <PerformanceMonitor>
             <AppClientBootstrap />
+            <SkipMainTarget />
+            <MustChangePasswordBanner />
             {children}
             <ToastManager />
             {showFloatingTips ? <FloatingTips /> : null}

@@ -182,7 +182,7 @@
   --shadow-light: var(--shadow-sm);
   --shadow-medium: var(--shadow-md);
   --shadow-heavy: var(--shadow-lg);
-  --glass-bg: var(--glass-bg);
+  --glass-bg: rgba(255, 255, 255, 0.72);
   --glass-border: rgba(0, 49, 83, 0.1);
   --glass-shadow: var(--shadow-md);
   --glass-backdrop: blur(8px);

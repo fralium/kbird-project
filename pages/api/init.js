@@ -1,13 +1,18 @@
 /**
  * 初始化代理：转发到 Express /api/init（含 x-setup-token）。
- * 不再在 Next 进程内写 .env / 生成脚本，避免误配置下的代码注入面。
+ * 仅本机客户端可调用，避免局域网经 Next 代理绕过 Express loopback 门闸。
  */
 import { resolveBackendApiBase } from '@/utils/backendApiBase';
 import { buildJsonHeaders, parseProxyJsonResponse, sendMethodNotAllowed, sendProxyError } from '@/utils/proxyApi';
+import { isLocalLoopbackClient, rejectUnlessLocalLoopback } from '@/utils/requestLoopback';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return sendMethodNotAllowed(res, ['POST']);
+  }
+
+  if (!isLocalLoopbackClient(req)) {
+    return rejectUnlessLocalLoopback(res, '初始化仅允许本机访问');
   }
 
   const baseUrl = resolveBackendApiBase();

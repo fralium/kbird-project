@@ -13,7 +13,7 @@ module.exports = {
     get secret() {
       return getJwtSecret();
     },
-    expiresIn: '30d'
+    expiresIn: process.env.JWT_EXPIRES_IN || '7d'
   },
   
   // 服务器配置

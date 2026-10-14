@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 import styles from '@/styles/ConfirmDialog.module.css';
 
 export default function ConfirmDialog({
@@ -16,18 +17,18 @@ export default function ConfirmDialog({
   const titleId = useId();
   const descId = useId();
   const cancelRef = useRef(null);
+  const dialogRef = useRef(null);
+
+  useFocusTrap(dialogRef, open, { initialFocusRef: cancelRef });
 
   useEffect(() => {
     if (!open) return undefined;
-    const prev = document.activeElement;
-    cancelRef.current?.focus();
     const onKey = (event) => {
       if (event.key === 'Escape' && !busy) onCancel?.();
     };
     document.addEventListener('keydown', onKey);
     return () => {
       document.removeEventListener('keydown', onKey);
-      if (prev && typeof prev.focus === 'function') prev.focus();
     };
   }, [open, busy, onCancel]);
 
@@ -42,6 +43,7 @@ export default function ConfirmDialog({
       role="presentation"
     >
       <div
+        ref={dialogRef}
         className={styles.dialog}
         role="dialog"
         aria-modal="true"

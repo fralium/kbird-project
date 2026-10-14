@@ -60,10 +60,11 @@ async function ensureAdminAndSeed() {
         email: DEFAULT_ADMIN_EMAIL,
         password: hashedPassword,
         role: 'admin',
+        mustChangePassword: true,
       });
       adminCreated = true;
       console.info(
-        `[bootstrap] Default admin ready (user=${adminName}). Change password in Settings if needed.`
+        `[bootstrap] Default admin ready (user=${adminName}). mustChangePassword=true — change password in Settings.`
       );
     }
   }

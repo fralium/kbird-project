@@ -80,6 +80,12 @@ router.get('/check-init', async (req, res) => {
     const initialized = Boolean(existingAdmin);
     const fromEnv = parseMongoUri(process.env.MONGODB_URI || '');
 
+    const { isLocalLoopbackRequest } = require('../config/appMode');
+    // 非本机只返回是否已初始化，避免暴露 autoLogin / 库主机信息
+    if (!isLocalLoopbackRequest(req)) {
+      return res.json({ success: true, initialized });
+    }
+
     res.json({
       success: true,
       initialized,
@@ -109,14 +115,12 @@ router.post('/init', async (req, res) => {
   try {
     const setupToken = String(process.env.INIT_SETUP_TOKEN || '').trim();
     const providedToken = req.headers['x-setup-token'];
-    const isProduction = process.env.NODE_ENV === 'production';
-    if (isProduction || setupToken) {
-      if (!setupToken || !timingSafeEqualString(providedToken, setupToken)) {
-        return res.status(403).json({
-          success: false,
-          message: setupToken ? '初始化令牌无效' : '生产环境缺少 INIT_SETUP_TOKEN',
-        });
-      }
+    // 始终要求令牌（开发也需配置 INIT_SETUP_TOKEN），避免未设 NODE_ENV 时误开初始化
+    if (!setupToken || !timingSafeEqualString(providedToken, setupToken)) {
+      return res.status(403).json({
+        success: false,
+        message: setupToken ? '初始化令牌无效' : '缺少 INIT_SETUP_TOKEN，请先在 .env 中配置',
+      });
     }
 
     const User = require('../models/userModel');

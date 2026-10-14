@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef, useId, useCallback } from 'react';
 import { api } from '@/utils/api';
 import { extractLngLatPair } from '@/utils/locationCoords';
 import styles from '@/styles/LocationAutocomplete.module.css';
@@ -11,93 +11,58 @@ const LocationAutocomplete = ({
   className = '',
   showHint = true,
 }) => {
-  const [locations, setLocations] = useState([]);
-  const [filteredLocations, setFilteredLocations] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const hasFetchedRef = useRef(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [searching, setSearching] = useState(false);
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
+  const debounceRef = useRef(null);
+  const listboxId = useId();
 
-  useEffect(() => {
-    const fetchAllLocations = async () => {
-      const pageSize = 100;
-      let page = 1;
-      let totalPages = 1;
-      const allLocations = [];
+  const inputText = typeof value === 'string' ? value : value?.name || '';
 
-      while (page <= totalPages && page <= 200) {
-        const data = await api.locations.getAll({
-          page: String(page),
-          limit: String(pageSize),
-          sortBy: 'name',
-          sortOrder: 'asc',
-        });
-
-        if (!data.success) {
-          throw new Error(data.message || '获取地点列表失败');
-        }
-
-        const pageLocations = Array.isArray(data.data) ? data.data : [];
-        allLocations.push(...pageLocations);
-
-        const parsedPages = Number(data.pagination?.totalPages || data.pages || 1);
-        totalPages = Number.isFinite(parsedPages) && parsedPages > 0 ? parsedPages : totalPages;
-
-        if (pageLocations.length === 0) break;
-        page += 1;
-      }
-
-      return allLocations;
-    };
-
-    const fetchLocations = async () => {
-      if (hasFetchedRef.current) return;
-      hasFetchedRef.current = true;
-
-      try {
-        const allLocations = await fetchAllLocations();
-        setLocations(allLocations);
-      } catch (error) {
-        console.error('获取地点列表失败:', error);
-      }
-    };
-
-    fetchLocations();
-  }, []);
-
-  const filterLocations = (searchTerm) => {
-    if (!searchTerm || !searchTerm.trim()) {
-      setFilteredLocations([]);
+  const fetchSuggestions = useCallback(async (term) => {
+    const q = String(term || '').trim();
+    if (q.length < 1) {
+      setSuggestions([]);
       return;
     }
+    setSearching(true);
+    try {
+      const data = await api.locations.getAll({
+        page: '1',
+        limit: '12',
+        sortBy: 'name',
+        sortOrder: 'asc',
+        search: q,
+      });
+      if (data?.success && Array.isArray(data.data)) {
+        setSuggestions(data.data);
+      } else {
+        setSuggestions([]);
+      }
+    } catch {
+      setSuggestions([]);
+    } finally {
+      setSearching(false);
+    }
+  }, []);
 
-    const keyword = searchTerm.toLowerCase();
-    const filtered = locations.filter((location) => {
-      const locationName = location.name || '';
-      const cityName = location.address?.city || '';
-      const districtName = location.address?.district || '';
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
 
-      return (
-        locationName.toLowerCase().includes(keyword) ||
-        cityName.toLowerCase().includes(keyword) ||
-        districtName.toLowerCase().includes(keyword)
-      );
-    });
-
-    setFilteredLocations(filtered.slice(0, 10));
-  };
-
-  const handleInputChange = (e) => {
-    const inputValue = e.target.value || '';
+  const emitFreeText = (name) => {
     if (onChange && typeof onChange === 'function') {
       onChange({
         _id: null,
-        name: inputValue,
+        name,
         coordinates: [0, 0],
       });
     }
-    filterLocations(inputValue);
-    setShowDropdown(inputValue.trim().length > 0);
   };
 
   const handleLocationSelect = (location) => {
@@ -111,13 +76,46 @@ const LocationAutocomplete = ({
       });
     }
     setShowDropdown(false);
-    setFilteredLocations([]);
+    setSuggestions([]);
+    setActiveIndex(-1);
+  };
+
+  const handleInputChange = (e) => {
+    const next = e.target.value || '';
+    emitFreeText(next);
+    setActiveIndex(-1);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (!next.trim()) {
+      setShowDropdown(false);
+      setSuggestions([]);
+      return;
+    }
+    setShowDropdown(true);
+    debounceRef.current = setTimeout(() => {
+      fetchSuggestions(next);
+    }, 220);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Escape') {
+    if (!showDropdown || suggestions.length === 0) {
+      if (e.key === 'Escape') {
+        setShowDropdown(false);
+        setActiveIndex(-1);
+      }
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev > 0 ? prev - 1 : suggestions.length - 1));
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault();
+      handleLocationSelect(suggestions[activeIndex]);
+    } else if (e.key === 'Escape') {
       setShowDropdown(false);
-      setFilteredLocations([]);
+      setActiveIndex(-1);
     }
   };
 
@@ -130,7 +128,7 @@ const LocationAutocomplete = ({
         !inputRef.current.contains(event.target)
       ) {
         setShowDropdown(false);
-        setFilteredLocations([]);
+        setActiveIndex(-1);
       }
     };
 
@@ -140,7 +138,7 @@ const LocationAutocomplete = ({
     };
   }, []);
 
-  const inputText = typeof value === 'string' ? value : value?.name || '';
+  const listOpen = showDropdown && (suggestions.length > 0 || searching || inputText.trim().length > 0);
 
   return (
     <div className={`${styles.autocompleteContainer} ${className}`}>
@@ -150,23 +148,64 @@ const LocationAutocomplete = ({
         value={inputText}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
+        onFocus={() => {
+          if (inputText.trim()) {
+            setShowDropdown(true);
+            fetchSuggestions(inputText);
+          }
+        }}
         placeholder={placeholder}
         required={required}
         className={styles.input}
         autoComplete="off"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded={listOpen}
+        aria-controls={listboxId}
+        aria-activedescendant={
+          activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined
+        }
       />
       {showHint ? (
-        <p style={{ margin: '4px 0 0 0', fontSize: 'var(--type-caption)', color: 'var(--text-muted)'}}>
+        <p
+          style={{
+            margin: '4px 0 0 0',
+            fontSize: 'var(--type-caption)',
+            color: 'var(--text-muted)',
+          }}
+        >
           建议从下拉列表选择已有地点，仅输入名称不会保存准确坐标。
         </p>
       ) : null}
 
-      {showDropdown && filteredLocations.length > 0 && (
-        <div ref={dropdownRef} className={styles.dropdown}>
-          {filteredLocations.map((location) => (
-            <div
-              key={location._id}
-              className={styles.dropdownItem}
+      {listOpen ? (
+        <div
+          ref={dropdownRef}
+          id={listboxId}
+          className={styles.dropdown}
+          role="listbox"
+          aria-label="地点建议"
+        >
+          {searching && suggestions.length === 0 ? (
+            <div className={styles.noResults} role="option" aria-selected="false">
+              搜索中…
+            </div>
+          ) : null}
+          {!searching && suggestions.length === 0 && inputText.trim().length > 0 ? (
+            <div className={styles.noResults} role="option" aria-selected="false">
+              未找到匹配的地点
+            </div>
+          ) : null}
+          {suggestions.map((location, index) => (
+            <button
+              key={location._id || `${location.name}-${index}`}
+              id={`${listboxId}-option-${index}`}
+              type="button"
+              role="option"
+              aria-selected={index === activeIndex}
+              className={`${styles.dropdownItem}${
+                index === activeIndex ? ` ${styles.dropdownItemActive || ''}` : ''
+              }`}
               onClick={() => handleLocationSelect(location)}
             >
               <div className={styles.locationName}>{location.name}</div>
@@ -175,19 +214,12 @@ const LocationAutocomplete = ({
                 {location.address?.district ? ` • ${location.address.district}` : ''}
               </div>
               <div className={styles.locationType}>{location.type}</div>
-            </div>
+            </button>
           ))}
         </div>
-      )}
-
-      {showDropdown && filteredLocations.length === 0 && inputText.trim().length > 0 && (
-        <div ref={dropdownRef} className={styles.dropdown}>
-          <div className={styles.noResults}>未找到匹配的地点</div>
-        </div>
-      )}
+      ) : null}
     </div>
   );
 };
 
 export default LocationAutocomplete;
-

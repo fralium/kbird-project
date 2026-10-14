@@ -7,6 +7,8 @@ const {
   validateHotSearchQuery,
 } = require('../middleware/validation');
 const { buildBirdSmartSearchOr } = require('../utils/birdSearch');
+const { publicNonDraftRecordFilter } = require('../utils/publicRecordFilter');
+const { sendControllerError } = require('../middleware/controllerError');
 
 const router = express.Router();
 
@@ -148,7 +150,7 @@ router.get('/hot', validateHotSearchQuery, async (req, res) => {
 
     const [hotBirdAgg, hotLocationAgg] = await Promise.all([
       Record.aggregate([
-        { $match: { status: { $ne: 'draft' } } },
+        { $match: publicNonDraftRecordFilter() },
         { $unwind: '$birds' },
         { $group: { _id: '$birds.birdId', count: { $sum: '$birds.count' } } },
         { $sort: { count: -1 } },
@@ -156,10 +158,9 @@ router.get('/hot', validateHotSearchQuery, async (req, res) => {
       ]),
       Record.aggregate([
         {
-          $match: {
-            status: { $ne: 'draft' },
+          $match: publicNonDraftRecordFilter({
             'location.name': { $exists: true, $ne: '', $type: 'string' },
-          },
+          }),
         },
         { $group: { _id: '$location.name', count: { $sum: 1 } } },
         { $sort: { count: -1 } },
@@ -209,10 +210,9 @@ router.get('/hot', validateHotSearchQuery, async (req, res) => {
     });
   } catch (error) {
     console.error('获取热门搜索词失败:', error);
-    res.status(500).json({
-      success: false,
-      message: '获取热门搜索词失败',
-      error: error.message,
+    return sendControllerError(res, error, {
+      defaultMessage: '获取热门搜索词失败',
+      defaultCode: 'SEARCH_HOT_FAILED',
     });
   }
 });
@@ -269,10 +269,9 @@ router.get('/', validateSearchQuery, async (req, res) => {
     if (birdsMissingImage.length) {
       const shotRows = await Record.aggregate([
         {
-          $match: {
-            status: { $ne: 'draft' },
+          $match: publicNonDraftRecordFilter({
             'birds.birdId': { $in: birdsMissingImage.map((bird) => bird._id) },
-          },
+          }),
         },
         { $unwind: '$birds' },
         {
@@ -295,10 +294,9 @@ router.get('/', validateSearchQuery, async (req, res) => {
     const sightingRows = birdIds.length
       ? await Record.aggregate([
           {
-            $match: {
-              status: { $ne: 'draft' },
+            $match: publicNonDraftRecordFilter({
               'birds.birdId': { $in: birdIds },
-            },
+            }),
           },
           { $unwind: '$birds' },
           { $match: { 'birds.birdId': { $in: birdIds } } },
@@ -376,10 +374,9 @@ router.get('/', validateSearchQuery, async (req, res) => {
     });
   } catch (error) {
     console.error('搜索失败:', error);
-    res.status(500).json({
-      success: false,
-      message: '搜索失败',
-      error: error.message,
+    return sendControllerError(res, error, {
+      defaultMessage: '搜索失败',
+      defaultCode: 'SEARCH_FAILED',
     });
   }
 });

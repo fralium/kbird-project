@@ -59,8 +59,11 @@ const getPersonalStats = async (req, res) => {
     }
     
     const records = await Record.find(recordQuery)
+      .select('date location.name birds.birdId birds.count')
       .populate('birds.birdId', 'name scientificName category order family')
-      .sort({ date: -1 });
+      .sort({ date: -1 })
+      .limit(5000)
+      .lean();
     
     // 基础统计
     const totalRecords = records.length;
@@ -420,6 +423,7 @@ const getPersonalStatsDashboard = async (req, res) => {
         'name scientificName chinaProtectionLevel iucnProtectionLevel category'
       )
       .sort({ date: -1 })
+      .limit(5000)
       .lean();
 
     const allPublishedRecords = await Record.find({
@@ -427,6 +431,7 @@ const getPersonalStatsDashboard = async (req, res) => {
       status: { $ne: 'draft' },
     })
       .select('date birds.birdId')
+      .limit(5000)
       .lean();
 
     const totalRecords = records.length;
@@ -735,7 +740,9 @@ const getPersonalAnalytics = async (req, res) => {
       status: { $ne: 'draft' },
     })
       .populate('birds.birdId', 'name scientificName category')
-      .sort({ date: -1 });
+      .sort({ date: -1 })
+      .limit(5000)
+      .lean();
     
     // 计算观察频率
     const observationFrequency = {};
@@ -887,9 +894,11 @@ const getPersonalFootprint = async (req, res) => {
         .select('date location.name location.coordinates location.address birds.birdId')
         .populate('birds.birdId', 'name')
         .sort({ date: 1 })
+        .limit(5000)
         .lean(),
       Location.find({ createdBy: userId, status: { $ne: 'archived' } })
         .select('name coordinates address type createdAt')
+        .limit(2000)
         .lean(),
     ]);
 
@@ -1137,6 +1146,7 @@ const getPersonalBirdFirsts = async (req, res) => {
       status: { $ne: 'draft' },
     })
       .sort({ date: 1 })
+      .limit(5000)
       .lean();
 
     const birdFirstMap = new Map();
@@ -1216,6 +1226,7 @@ const getPersonalLocationFirsts = async (req, res) => {
       status: { $ne: 'draft' },
     })
       .sort({ date: 1 })
+      .limit(5000)
       .lean();
 
     const locationMap = new Map();

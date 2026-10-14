@@ -352,6 +352,7 @@ const getChecklistTaxonomy = async (req, res) => {
 
     const birds = await Bird.find({})
       .select('name scientificName order family')
+      .limit(5000)
       .lean();
 
     const species = birds

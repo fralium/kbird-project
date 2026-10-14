@@ -41,12 +41,18 @@ const getPersonalPhotos = async (req, res) => {
     }
     
     if (location) {
-      recordQuery['location.name'] = { $regex: location, $options: 'i' };
+      const escaped = String(location).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      recordQuery['location.name'] = { $regex: escaped, $options: 'i' };
     }
     
+    // 仅取拼照片库所需字段，避免全文档进内存；单次扫描上限防止 OOM
+    const RECORD_SCAN_CAP = 2500;
     const records = await Record.find(recordQuery)
-      .populate('birds.birdId', 'name scientificName images')
-      .sort({ date: -1 });
+      .select('date title location.name images birds.birdId birds.images createdAt')
+      .populate('birds.birdId', 'name scientificName')
+      .sort({ date: -1 })
+      .limit(RECORD_SCAN_CAP)
+      .lean();
     
     // 收集所有照片：观鸟记录中的照片 + 鸟类图鉴中当前用户上传的照片（主图等）
     let allPhotos = [];
@@ -111,6 +117,7 @@ const getPersonalPhotos = async (req, res) => {
     // 鸟类图鉴中当前用户上传的照片（图片栏/主图，不在观鸟记录里的也纳入照片库）
     const birdsWithMyPhotos = await Bird.find({ 'images.photographer': userId })
       .select('name scientificName images')
+      .limit(500)
       .lean();
     birdsWithMyPhotos.forEach(bird => {
       if (!bird.images || !bird.images.length) return;
@@ -235,7 +242,10 @@ const getPhotoStats = async (req, res) => {
       observer: userId,
       status: { $ne: 'draft' },
     })
-      .populate('birds.birdId', 'name');
+      .select('date location.name images birds.birdId birds.images createdAt')
+      .populate('birds.birdId', 'name')
+      .limit(2500)
+      .lean();
     
     let totalPhotos = 0;
     let needsSpeciesCount = 0;
@@ -305,6 +315,7 @@ const getPhotoStats = async (req, res) => {
     let unlinkedCount = 0;
     const birdsWithMyPhotos = await Bird.find({ 'images.photographer': userId })
       .select('name images')
+      .limit(500)
       .lean();
     birdsWithMyPhotos.forEach((bird) => {
       const userImages = (bird.images || []).filter(
@@ -385,7 +396,10 @@ const getPhotoBirds = async (req, res) => {
       observer: userId,
       status: { $ne: 'draft' },
     })
-      .populate('birds.birdId', 'name scientificName');
+      .select('birds.birdId birds.images')
+      .populate('birds.birdId', 'name scientificName')
+      .limit(2500)
+      .lean();
     records.forEach(record => {
       record.birds.forEach(birdRecord => {
         if (birdRecord.birdId && birdRecord.images && birdRecord.images.length > 0) {
@@ -401,6 +415,7 @@ const getPhotoBirds = async (req, res) => {
     // 鸟类图鉴中当前用户上传过照片的鸟类（主图/图片栏）
     const birdsWithMyPhotos = await Bird.find({ 'images.photographer': userId })
       .select('name scientificName')
+      .limit(500)
       .lean();
     birdsWithMyPhotos.forEach((bird) => {
       birdSet.add(JSON.stringify({

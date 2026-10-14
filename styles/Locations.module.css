@@ -375,14 +375,24 @@
 }
 
 .suggestionItem {
+  display: block;
+  width: 100%;
   padding: 12px 16px;
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid var(--gray-100);
+  background: transparent;
+  text-align: left;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid var(--gray-100);
+  font: inherit;
 }
 
-.suggestionItem:hover {
+.suggestionItem:hover,
+.suggestionItemActive,
+.suggestionItem:focus-visible {
   background-color: var(--color-lake-light, var(--color-lake-light));
+  outline: none;
 }
 
 .suggestionItem:last-child {

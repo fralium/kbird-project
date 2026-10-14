@@ -66,7 +66,8 @@ const corsExtra = (process.env.CORS_ORIGINS || '')
 const corsOrigins = [
   'http://localhost:13080',
   'http://127.0.0.1:13080',
-  ...(isProduction ? [] : [/^http:\/\/.*:13080$/]),
+  // 开发也只放本机前端，避免 LAN 上任意 :13080 源调 API
+  ...(isProduction ? [] : [/^http:\/\/(localhost|127\.0\.0\.1):13080$/]),
   ...corsExtra,
 ];
 
@@ -178,11 +179,12 @@ app.use('*', handleNotFound);
 // 全局错误处理中间件
 app.use(globalErrorHandler);
 
-// 服务器端口
+// 服务器端口；默认仅本机，避免局域网直连 API（设 BIND_HOST=0.0.0.0 可开 LAN）
 const PORT = process.env.PORT || 13082;
+const BIND_HOST = String(process.env.BIND_HOST || '127.0.0.1').trim() || '127.0.0.1';
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 KBird API服务器运行在端口 ${PORT}`);
+app.listen(PORT, BIND_HOST, () => {
+  console.log(`🚀 KBird API服务器运行在 http://${BIND_HOST}:${PORT}`);
   console.log(`📊 性能优化已启用:`);
   console.log(`   - 响应压缩: ✅`);
   console.log(`   - API缓存: ✅`);
@@ -194,4 +196,5 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`   - 文件上传安全检查: ✅`);
   console.log(`   - 错误处理: ✅`);
   console.log(`   - 生产环境日志保护: ✅`);
+  console.log(`   - 监听地址: ${BIND_HOST}`);
 });

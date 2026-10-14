@@ -12,9 +12,19 @@ const {
 } = require('../utils/locationName');
 const { extractValidLngLat } = require('../utils/dateCoords');
 const Location = require('../models/locationModel');
+const { clearCache, clearLeaderboardCache } = require('../middleware/cache');
+const { sendControllerError } = require('../middleware/controllerError');
 
 const DEFAULT_COORDINATES = [0, 0];
 const MAX_IMPORT_ROWS = 1000;
+
+function bustCachesAfterImport() {
+  clearCache('/api/records');
+  clearCache('/api/records\\?');
+  clearCache('/api/locations');
+  clearCache('/api/birds');
+  clearLeaderboardCache();
+}
 
 /** 导入时尽量从地点名录补全坐标与正式名；hasValidCoords=false 时坐标为占位 [0,0] */
 async function enrichLocationPayload(name, address = {}) {
@@ -208,7 +218,10 @@ const normalizeRow = (row, index) => {
 };
 
 const buildBirdLookup = async () => {
-  const birds = await Bird.find({}).select('_id name scientificName nameAliases').lean();
+  const birds = await Bird.find({})
+    .select('_id name scientificName nameAliases')
+    .limit(5000)
+    .lean();
   const byName = new Map();
   birds.forEach((bird) => {
     const keys = [bird.name, bird.scientificName, ...(bird.nameAliases || []), ...aliasKeysForCanonical(bird.name)]
@@ -383,9 +396,11 @@ const previewImport = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: error.message || '导入预览失败',
+    console.error('导入预览失败:', error);
+    return sendControllerError(res, error, {
+      defaultMessage: '导入预览失败',
+      defaultCode: 'PERSONAL_IMPORT_PREVIEW_FAILED',
+      status: 400,
     });
   }
 };
@@ -521,6 +536,10 @@ const applyImport = async (req, res) => {
       }
     }
 
+    if ((result.created || 0) + (result.merged || 0) + (result.overwritten || 0) > 0) {
+      bustCachesAfterImport();
+    }
+
     res.status(200).json({
       success: true,
       message: '导入执行完成',
@@ -530,15 +549,16 @@ const applyImport = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: error.message || '导入执行失败',
+    console.error('导入执行失败:', error);
+    return sendControllerError(res, error, {
+      defaultMessage: '导入执行失败',
+      defaultCode: 'PERSONAL_IMPORT_APPLY_FAILED',
+      status: 400,
     });
   }
 };
 
 const mongoose = require('mongoose');
-const { sendControllerError } = require('../middleware/controllerError');
 
 const MAX_BATCH = 200;
 /** 中国鸟类记录中心「报告」导出：原始行数上限（含表头） */
@@ -1510,6 +1530,10 @@ const importFromJson = async (req, res) => {
       }
     }
 
+    if (created > 0) {
+      bustCachesAfterImport();
+    }
+
     res.json({
       success: true,
       data: {
@@ -1683,6 +1707,10 @@ const importFromCbrcTable = async (req, res) => {
       } catch (e) {
         errors.push({ index: i, message: e.message || '写入失败' });
       }
+    }
+
+    if (created > 0) {
+      bustCachesAfterImport();
     }
 
     res.json({

@@ -42,9 +42,13 @@ const ErrorMessage = ({
   };
 
   return (
-    <div className={`${styles.errorMessage} ${getTypeClass()}`}>
+    <div
+      className={`${styles.errorMessage} ${getTypeClass()}`}
+      role={type === 'error' || type === 'warning' ? 'alert' : 'status'}
+      aria-live={type === 'error' ? 'assertive' : 'polite'}
+    >
       <div className={styles.errorContent}>
-        <span className={styles.errorIcon}>{getIcon()}</span>
+        <span className={styles.errorIcon} aria-hidden="true">{getIcon()}</span>
         <span className={styles.errorText}>
           {typeof error === 'string' ? error : error.message || '发生未知错误'}
         </span>

@@ -10,6 +10,7 @@ import ImageViewer from '@/components/ImageViewer';
 import LocationAutocomplete from '@/components/LocationAutocomplete';
 import LazyImage from '@/components/LazyImage';
 import PageState from '@/components/PageState';
+import FormModal from '@/components/FormModal';
 import { useConfirmDialog } from '@/components/ConfirmDialog';
 import SimplePageHeader, {
   HeaderPrimaryButton,
@@ -1235,137 +1236,143 @@ export default function BirdDetailClassic() {
         </div>
       </main>
 
-      {editingImage && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h3>编辑图片信息</h3>
-            <form onSubmit={(e) => handleSaveImageEdit(e)}>
-              <div className={styles.formGroup}>
-                <label>图片标题</label>
-                <input
-                  type="text"
-                  value={editFormData.caption}
-                  onChange={(e) => setEditFormData((prev) => ({ ...prev, caption: e.target.value }))}
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label>拍摄地点</label>
-                <LocationAutocomplete
-                  value={editFormData.location}
-                  onChange={(value) => setEditFormData((prev) => ({ ...prev, location: value }))}
-                  placeholder="搜索或选择观鸟地点..."
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label>拍摄日期</label>
-                <input
-                  type="date"
-                  value={editFormData.date || ''}
-                  onChange={(e) => setEditFormData((prev) => ({ ...prev, date: e.target.value }))}
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label>图片标签</label>
-                <div className={styles.tagEditor}>
-                  {BIRD_IMAGE_TAG_GROUPS.map((group) => (
-                    <div key={group.id} className={styles.tagEditorGroup}>
-                      <div className={styles.tagEditorGroupLabel}>{group.label}</div>
-                      <div className={styles.tagEditorOptions}>
-                        {group.options.map((option) => {
-                          const selected = normalizeBirdImageTags(editFormData.tags).includes(option.value);
-                          return (
-                            <button
-                              key={option.value}
-                              type="button"
-                              className={`${styles.tagChip} ${selected ? styles.tagChipSelected : ''}`}
-                              onClick={() => toggleEditImageTag(option.value)}
-                              aria-pressed={selected}
-                            >
-                              {option.label}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className={styles.modalActions}>
-                <button type="button" onClick={() => setEditingImage(null)}>
-                  取消
-                </button>
-                <button type="submit">保存</button>
-              </div>
-            </form>
+      <FormModal
+        open={Boolean(editingImage)}
+        title="编辑图片信息"
+        onClose={() => setEditingImage(null)}
+        actions={
+          <>
+            <button type="button" onClick={() => setEditingImage(null)}>
+              取消
+            </button>
+            <button type="submit" form="bird-edit-image-form">
+              保存
+            </button>
+          </>
+        }
+      >
+        <form id="bird-edit-image-form" onSubmit={(e) => handleSaveImageEdit(e)}>
+          <div className={styles.formGroup}>
+            <label>图片标题</label>
+            <input
+              type="text"
+              value={editFormData.caption}
+              onChange={(e) => setEditFormData((prev) => ({ ...prev, caption: e.target.value }))}
+            />
           </div>
-        </div>
-      )}
+          <div className={styles.formGroup}>
+            <label>拍摄地点</label>
+            <LocationAutocomplete
+              value={editFormData.location}
+              onChange={(value) => setEditFormData((prev) => ({ ...prev, location: value }))}
+              placeholder="搜索或选择观鸟地点..."
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label>拍摄日期</label>
+            <input
+              type="date"
+              value={editFormData.date || ''}
+              onChange={(e) => setEditFormData((prev) => ({ ...prev, date: e.target.value }))}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label>图片标签</label>
+            <div className={styles.tagEditor}>
+              {BIRD_IMAGE_TAG_GROUPS.map((group) => (
+                <div key={group.id} className={styles.tagEditorGroup}>
+                  <div className={styles.tagEditorGroupLabel}>{group.label}</div>
+                  <div className={styles.tagEditorOptions}>
+                    {group.options.map((option) => {
+                      const selected = normalizeBirdImageTags(editFormData.tags).includes(option.value);
+                      return (
+                        <button
+                          key={option.value}
+                          type="button"
+                          className={`${styles.tagChip} ${selected ? styles.tagChipSelected : ''}`}
+                          onClick={() => toggleEditImageTag(option.value)}
+                          aria-pressed={selected}
+                        >
+                          {option.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </form>
+      </FormModal>
 
-      {editingCall && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h3>编辑鸣叫信息</h3>
-            <form onSubmit={handleSaveCallEdit}>
-              <div className={styles.formGroup}>
-                <label>标题</label>
-                <input
-                  type="text"
-                  value={editCallFormData.caption}
-                  onChange={(e) => setEditCallFormData((prev) => ({ ...prev, caption: e.target.value }))}
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label>录制地点</label>
-                <LocationAutocomplete
-                  value={editCallFormData.location}
-                  onChange={(value) => setEditCallFormData((prev) => ({ ...prev, location: value }))}
-                  placeholder="搜索或选择观鸟地点..."
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label>录制日期</label>
-                <input
-                  type="date"
-                  value={editCallFormData.date || ''}
-                  onChange={(e) => setEditCallFormData((prev) => ({ ...prev, date: e.target.value }))}
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label>鸣叫标签</label>
-                <div className={styles.tagEditor}>
-                  {BIRD_CALL_TAG_GROUPS.map((group) => (
-                    <div key={group.id} className={styles.tagEditorGroup}>
-                      <div className={styles.tagEditorGroupLabel}>{group.label}</div>
-                      <div className={styles.tagEditorOptions}>
-                        {group.options.map((option) => {
-                          const selected = normalizeBirdCallTags(editCallFormData.tags).includes(option.value);
-                          return (
-                            <button
-                              key={option.value}
-                              type="button"
-                              className={`${styles.tagChip} ${selected ? styles.tagChipSelected : ''}`}
-                              onClick={() => toggleEditCallTag(option.value)}
-                              aria-pressed={selected}
-                            >
-                              {option.label}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className={styles.modalActions}>
-                <button type="button" onClick={() => setEditingCall(null)}>
-                  取消
-                </button>
-                <button type="submit">保存</button>
-              </div>
-            </form>
+      <FormModal
+        open={Boolean(editingCall)}
+        title="编辑鸣叫信息"
+        onClose={() => setEditingCall(null)}
+        actions={
+          <>
+            <button type="button" onClick={() => setEditingCall(null)}>
+              取消
+            </button>
+            <button type="submit" form="bird-edit-call-form">
+              保存
+            </button>
+          </>
+        }
+      >
+        <form id="bird-edit-call-form" onSubmit={handleSaveCallEdit}>
+          <div className={styles.formGroup}>
+            <label>标题</label>
+            <input
+              type="text"
+              value={editCallFormData.caption}
+              onChange={(e) => setEditCallFormData((prev) => ({ ...prev, caption: e.target.value }))}
+            />
           </div>
-        </div>
-      )}
+          <div className={styles.formGroup}>
+            <label>录制地点</label>
+            <LocationAutocomplete
+              value={editCallFormData.location}
+              onChange={(value) => setEditCallFormData((prev) => ({ ...prev, location: value }))}
+              placeholder="搜索或选择观鸟地点..."
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label>录制日期</label>
+            <input
+              type="date"
+              value={editCallFormData.date || ''}
+              onChange={(e) => setEditCallFormData((prev) => ({ ...prev, date: e.target.value }))}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label>鸣叫标签</label>
+            <div className={styles.tagEditor}>
+              {BIRD_CALL_TAG_GROUPS.map((group) => (
+                <div key={group.id} className={styles.tagEditorGroup}>
+                  <div className={styles.tagEditorGroupLabel}>{group.label}</div>
+                  <div className={styles.tagEditorOptions}>
+                    {group.options.map((option) => {
+                      const selected = normalizeBirdCallTags(editCallFormData.tags).includes(option.value);
+                      return (
+                        <button
+                          key={option.value}
+                          type="button"
+                          className={`${styles.tagChip} ${selected ? styles.tagChipSelected : ''}`}
+                          onClick={() => toggleEditCallTag(option.value)}
+                          aria-pressed={selected}
+                        >
+                          {option.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </form>
+      </FormModal>
 
       {showImageViewer && bird.images && (
         <ImageViewer images={bird.images} currentIndex={currentImageIndex} onClose={handleCloseImageViewer} />

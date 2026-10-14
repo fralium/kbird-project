@@ -26,6 +26,11 @@ function isRegistrationEnabled() {
 
 function isAutoLoginEnabled() {
   if (!isSingleUserMode()) return false;
+  // 非本机绑定时强制关闭自动登录，避免 LAN 暴露免密
+  const bind = String(process.env.BIND_HOST || '127.0.0.1').trim().toLowerCase();
+  if (bind && bind !== '127.0.0.1' && bind !== '::1' && bind !== 'localhost') {
+    return false;
+  }
   return envFlag('AUTO_LOGIN', true);
 }
 
@@ -42,13 +47,9 @@ function getAppModePublic() {
   };
 }
 
-/** 仅本机回环，忽略 X-Forwarded-For，避免误暴露时被伪造 */
+/** 仅本机回环；只用 socket 地址，忽略 req.ip / X-Forwarded-For（TRUST_PROXY 下可伪造） */
 function isLocalLoopbackRequest(req) {
-  const candidates = [
-    req.socket?.remoteAddress,
-    req.connection?.remoteAddress,
-    req.ip,
-  ]
+  const candidates = [req.socket?.remoteAddress, req.connection?.remoteAddress]
     .filter(Boolean)
     .map((v) => String(v).replace(/^::ffff:/i, '').toLowerCase());
 

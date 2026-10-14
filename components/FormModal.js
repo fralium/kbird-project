@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 import styles from '@/styles/FormModal.module.css';
 
 /**
@@ -16,6 +17,10 @@ export default function FormModal({
   className = '',
   closeOnOverlay = true,
 }) {
+  const dialogRef = useRef(null);
+  const closeRef = useRef(null);
+  useFocusTrap(dialogRef, open, { initialFocusRef: closeRef });
+
   useEffect(() => {
     if (!open) return undefined;
     const onKey = (event) => {
@@ -41,6 +46,7 @@ export default function FormModal({
       }}
     >
       <div
+        ref={dialogRef}
         className={[styles.modal, wide ? styles.wide : '', className].filter(Boolean).join(' ')}
         role="dialog"
         aria-modal="true"
@@ -49,7 +55,13 @@ export default function FormModal({
       >
         <div className={styles.header}>
           {title ? <h2 className={styles.title}>{title}</h2> : <span />}
-          <button type="button" className={styles.close} onClick={onClose} aria-label="关闭">
+          <button
+            ref={closeRef}
+            type="button"
+            className={styles.close}
+            onClick={onClose}
+            aria-label="关闭"
+          >
             ×
           </button>
         </div>

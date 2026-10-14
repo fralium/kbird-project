@@ -47,6 +47,7 @@ export default function KnowledgeDetailPage() {
     <div className={styles.container}>
       <Navbar />
 
+      <main>
       <div className={styles.backSection}>
         <Link href="/knowledge" className={styles.backButton}>
           ← 返回知识列表
@@ -125,6 +126,7 @@ export default function KnowledgeDetailPage() {
           </div>
         </div>
       </article>
+      </main>
 
       <Footer />
     </div>

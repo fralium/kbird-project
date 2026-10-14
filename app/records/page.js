@@ -94,7 +94,7 @@ export default function RecordsPage() {
   const [cardStyle, setCardStyle] = useState('field');
   const [coverSet, updateCoverSet] = useRecordCoverSet();
   const [filterPanelOpen, setFilterPanelOpen] = useFoldOpen(RECORDS_FILTER_PANEL_KEY, false);
-  const [mapToolboxOpen, setMapToolboxOpen] = useFoldOpen(RECORDS_MAP_TOOLBOX_KEY, false);
+  const [mapToolboxOpen, setMapToolboxOpen] = useFoldOpen(RECORDS_MAP_TOOLBOX_KEY, true);
   const [habitatPageLimit, setHabitatPageLimit] = useState(getInitialHabitatPageLimit);
   const [urlReady, setUrlReady] = useState(false);
   const [regionOptions, setRegionOptions] = useState([]);
@@ -496,25 +496,27 @@ export default function RecordsPage() {
         setErrors([data.message || '获取记录失败']);
       }
 
-      try {
-        const mapRes = await api.records.getMapPoints(mapParams);
-        if (mapRes?.success && Array.isArray(mapRes.data)) {
-          setMapLocations(
-            mapRes.data.map((p) => ({
-              name: p.name,
-              lat: Number(p.lat),
-              lng: Number(p.lng),
-              records: Number(p.records) || 0,
-              birds: Number(p.birds) || 0,
-              province: p.province || '',
-              city: p.city || '',
-            }))
-          );
-        } else {
+      if (viewMode === 'map') {
+        try {
+          const mapRes = await api.records.getMapPoints(mapParams);
+          if (mapRes?.success && Array.isArray(mapRes.data)) {
+            setMapLocations(
+              mapRes.data.map((p) => ({
+                name: p.name,
+                lat: Number(p.lat),
+                lng: Number(p.lng),
+                records: Number(p.records) || 0,
+                birds: Number(p.birds) || 0,
+                province: p.province || '',
+                city: p.city || '',
+              }))
+            );
+          } else {
+            setMapLocations([]);
+          }
+        } catch {
           setMapLocations([]);
         }
-      } catch {
-        setMapLocations([]);
       }
     } catch (error) {
       console.error('获取记录失败:', error);
@@ -541,6 +543,10 @@ export default function RecordsPage() {
     setViewMode(next);
     writeRecordsViewMode(next);
     setCurrentPage(1);
+    if (next === 'map') {
+      writeFoldOpen(RECORDS_MAP_TOOLBOX_KEY, true);
+      setMapToolboxOpen(true);
+    }
   };
 
   const handleCardStyleChange = (style) => {
@@ -898,7 +904,7 @@ export default function RecordsPage() {
           title="观察记录"
           description={
             viewMode === 'map'
-              ? '点落在地图上；筛选和常用地点收在下面。'
+              ? '左侧地图，右侧省市与常用点；筛选在上方折叠面板。'
               : coverSet === 'photo'
                 ? '有照片用照片；没有则用代表性鸟类画风图。'
                 : '封面用代表性鸟类画风：猛禽、飞禽、鸣禽、水鸟、涉鸟、林鸟。'
@@ -934,146 +940,9 @@ export default function RecordsPage() {
             storageKey={viewMode === 'map' ? RECORDS_MAP_TOOLBOX_KEY : RECORDS_FILTER_PANEL_KEY}
             open={viewMode === 'map' ? mapToolboxOpen : filterPanelOpen}
             onOpenChange={viewMode === 'map' ? setMapToolboxOpen : setFilterPanelOpen}
-            title={viewMode === 'map' ? '地图与筛选' : '筛选'}
+            title="筛选"
             summary={viewMode === 'map' ? mapFoldSummary : filterPanelSummary}
           >
-                {viewMode === 'map' ? (
-                  <div className={styles.mapToolbox}>
-                    <div className={styles.mapToolboxRow}>
-                      <div className={styles.mapPanelBody}>
-                        <BirdMapProvider
-                          key={`records-map-${provinceFilter || 'all'}-${cityFilter || 'all'}`}
-                          locations={mapLocations}
-                          center={{ lat: mapView.lat, lng: mapView.lng }}
-                          zoom={mapView.zoom}
-                          fitMode={provinceFilter || cityFilter ? 'center' : 'auto'}
-                          height="100%"
-                          maxBounds={[
-                            [17.5, 73.0],
-                            [54.5, 136.0],
-                          ]}
-                          onMarkerClick={handleMapLocationPick}
-                        />
-                      </div>
-                      <aside className={styles.mapToolboxSide} aria-label="行政区与常用点">
-                        <div className={styles.regionBrowser}>
-                          {provinceFilter ? (
-                            <>
-                              <div className={styles.regionBrowserToolbar}>
-                                <button
-                                  type="button"
-                                  className={styles.regionBackButton}
-                                  onClick={clearRegionDrilldown}
-                                >
-                                  ← 全部省市
-                                </button>
-                                <span className={styles.regionBrowserTitle}>
-                                  {selectedProvinceMeta?.name || provinceFilter}
-                                  <em>
-                                    {cityOptions.length} 个地级区域
-                                    {provinceCountByName.get(normalizeRegionLabel(provinceFilter))
-                                      ? ` · ${provinceCountByName.get(normalizeRegionLabel(provinceFilter))} 条记录`
-                                      : ''}
-                                  </em>
-                                </span>
-                              </div>
-                              <div className={styles.regionChipGrid}>
-                                <button
-                                  type="button"
-                                  className={`${styles.regionChip} ${!cityFilter ? styles.regionChipActive : ''}`}
-                                  onClick={() => {
-                                    setCityFilter('');
-                                    setLocationInput('');
-                                    setLocationFilter('');
-                                    setCurrentPage(1);
-                                  }}
-                                >
-                                  全省
-                                </button>
-                                {cityOptions.map((city, index) => (
-                                  <button
-                                    key={`${provinceFilter}-${city.code || city.name}-${index}`}
-                                    type="button"
-                                    className={`${styles.regionChip} ${
-                                      cityFilter === city.name ? styles.regionChipActive : ''
-                                    } ${city.count > 0 ? styles.regionChipHasData : ''}`}
-                                    onClick={() => handleCityPick(city.name)}
-                                    title={city.count > 0 ? `${city.count} 条记录` : '暂无记录'}
-                                  >
-                                    <span>{city.name.replace(/市$/, '')}</span>
-                                    {city.count > 0 ? (
-                                      <span className={styles.regionChipCount}>{city.count}</span>
-                                    ) : null}
-                                  </button>
-                                ))}
-                              </div>
-                            </>
-                          ) : (
-                            <div className={styles.regionChipGrid}>
-                              {provinceBrowserItems.map((province) => (
-                                <button
-                                  key={province.code}
-                                  type="button"
-                                  className={`${styles.regionChip} ${
-                                    province.count > 0 ? styles.regionChipHasData : ''
-                                  }`}
-                                  onClick={() => handleProvincePick(province.name)}
-                                  title={province.count > 0 ? `${province.count} 条记录` : '暂无记录'}
-                                >
-                                  <span>{normalizeRegionLabel(province.name) || province.name}</span>
-                                  {province.count > 0 ? (
-                                    <span className={styles.regionChipCount}>{province.count}</span>
-                                  ) : null}
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                        <div className={styles.mapToolboxSpots}>
-                          <p className={styles.filterSectionLabel}>常用观鸟点</p>
-                          {popularLocations.length > 0 ? (
-                            <div
-                              className={`${styles.regionChipGrid} ${styles.spotChipGrid}`}
-                              aria-label="常用观鸟点"
-                            >
-                              {popularLocations.map((location, index) => {
-                                const name = String(location.name || '').trim();
-                                const key = location._id ? location._id : `popular-${index}-${name}`;
-                                const active = locationFilter.trim() === name;
-                                const records =
-                                  location.stats?.totalRecords ?? location.recordCount ?? 0;
-                                return (
-                                  <button
-                                    key={key}
-                                    type="button"
-                                    className={`${styles.regionChip} ${
-                                      active ? styles.regionChipActive : ''
-                                    } ${records > 0 ? styles.regionChipHasData : ''}`}
-                                    onClick={() =>
-                                      handleMapLocationPick({
-                                        name,
-                                        province:
-                                          location.address?.province || location.province || '',
-                                        city: location.address?.city || location.city || '',
-                                      })
-                                    }
-                                  >
-                                    <span>{name}</span>
-                                    {records > 0 ? (
-                                      <span className={styles.regionChipCount}>{records}</span>
-                                    ) : null}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          ) : (
-                            <p className={styles.mapToolboxEmpty}>暂无常用地点</p>
-                          )}
-                        </div>
-                      </aside>
-                    </div>
-                  </div>
-                ) : null}
                 <div className={styles.searchBox}>
                   <input
                     type="text"
@@ -1316,6 +1185,142 @@ export default function RecordsPage() {
                 ) : null}
           </FoldFilterPanel>
         </div>
+
+        {viewMode === 'map' ? (
+          <section className={styles.mapBrowse} aria-label="记录地图与区域">
+            <div className={styles.mapBrowseMap}>
+              <BirdMapProvider
+                key={`records-map-${provinceFilter || 'all'}-${cityFilter || 'all'}`}
+                locations={mapLocations}
+                center={{ lat: mapView.lat, lng: mapView.lng }}
+                zoom={mapView.zoom}
+                fitMode={provinceFilter || cityFilter ? 'center' : 'auto'}
+                height="100%"
+                maxBounds={[
+                  [17.5, 73.0],
+                  [54.5, 136.0],
+                ]}
+                onMarkerClick={handleMapLocationPick}
+              />
+            </div>
+            <aside className={styles.mapBrowseSide} aria-label="行政区与常用点">
+              <div className={styles.regionBrowser}>
+                {provinceFilter ? (
+                  <>
+                    <div className={styles.regionBrowserToolbar}>
+                      <button
+                        type="button"
+                        className={styles.regionBackButton}
+                        onClick={clearRegionDrilldown}
+                      >
+                        ← 全部省市
+                      </button>
+                      <span className={styles.regionBrowserTitle}>
+                        {selectedProvinceMeta?.name || provinceFilter}
+                        <em>
+                          {cityOptions.length} 个地级区域
+                          {provinceCountByName.get(normalizeRegionLabel(provinceFilter))
+                            ? ` · ${provinceCountByName.get(normalizeRegionLabel(provinceFilter))} 条记录`
+                            : ''}
+                        </em>
+                      </span>
+                    </div>
+                    <div className={styles.regionChipGrid}>
+                      <button
+                        type="button"
+                        className={`${styles.regionChip} ${!cityFilter ? styles.regionChipActive : ''}`}
+                        onClick={() => {
+                          setCityFilter('');
+                          setLocationInput('');
+                          setLocationFilter('');
+                          setCurrentPage(1);
+                        }}
+                      >
+                        全省
+                      </button>
+                      {cityOptions.map((city, index) => (
+                        <button
+                          key={`${provinceFilter}-${city.code || city.name}-${index}`}
+                          type="button"
+                          className={`${styles.regionChip} ${
+                            cityFilter === city.name ? styles.regionChipActive : ''
+                          } ${city.count > 0 ? styles.regionChipHasData : ''}`}
+                          onClick={() => handleCityPick(city.name)}
+                          title={city.count > 0 ? `${city.count} 条记录` : '暂无记录'}
+                        >
+                          <span>{city.name.replace(/市$/, '')}</span>
+                          {city.count > 0 ? (
+                            <span className={styles.regionChipCount}>{city.count}</span>
+                          ) : null}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className={styles.regionChipGrid}>
+                    {provinceBrowserItems.map((province) => (
+                      <button
+                        key={province.code}
+                        type="button"
+                        className={`${styles.regionChip} ${
+                          province.count > 0 ? styles.regionChipHasData : ''
+                        }`}
+                        onClick={() => handleProvincePick(province.name)}
+                        title={province.count > 0 ? `${province.count} 条记录` : '暂无记录'}
+                      >
+                        <span>{normalizeRegionLabel(province.name) || province.name}</span>
+                        {province.count > 0 ? (
+                          <span className={styles.regionChipCount}>{province.count}</span>
+                        ) : null}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className={styles.mapBrowseSpots}>
+                <p className={styles.filterSectionLabel}>常用观鸟点</p>
+                {popularLocations.length > 0 ? (
+                  <div
+                    className={`${styles.regionChipGrid} ${styles.spotChipGrid}`}
+                    aria-label="常用观鸟点"
+                  >
+                    {popularLocations.map((location, index) => {
+                      const name = String(location.name || '').trim();
+                      const key = location._id ? location._id : `popular-${index}-${name}`;
+                      const active = locationFilter.trim() === name;
+                      const records =
+                        location.stats?.totalRecords ?? location.recordCount ?? 0;
+                      return (
+                        <button
+                          key={key}
+                          type="button"
+                          className={`${styles.regionChip} ${
+                            active ? styles.regionChipActive : ''
+                          } ${records > 0 ? styles.regionChipHasData : ''}`}
+                          onClick={() =>
+                            handleMapLocationPick({
+                              name,
+                              province:
+                                location.address?.province || location.province || '',
+                              city: location.address?.city || location.city || '',
+                            })
+                          }
+                        >
+                          <span>{name}</span>
+                          {records > 0 ? (
+                            <span className={styles.regionChipCount}>{records}</span>
+                          ) : null}
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className={styles.mapToolboxEmpty}>暂无常用地点</p>
+                )}
+              </div>
+            </aside>
+          </section>
+        ) : null}
 
         {errors.length > 0 ? (
           <PageState

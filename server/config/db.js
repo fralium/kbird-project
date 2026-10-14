@@ -17,8 +17,10 @@ const connectDB = async () => {
   } catch (error) {
     console.error(`MongoDB 连接错误: ${error.message}`);
     console.error('请确保MongoDB已安装并运行，或者使用MongoDB Atlas云数据库');
-    // 不退出进程，让服务器继续运行以便调试
-    // process.exit(1);
+    if (process.env.NODE_ENV === 'production') {
+      console.error('生产环境无法连接数据库，进程退出');
+      process.exit(1);
+    }
   }
 };
 

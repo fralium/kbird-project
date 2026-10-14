@@ -14,6 +14,7 @@ const {
 } = require('../utils/locationName');
 const { extractValidLngLat } = require('../utils/dateCoords');
 const { buildBirdSmartSearchOr } = require('../utils/birdSearch');
+const { publicPublishedRecordFilter } = require('../utils/publicRecordFilter');
 
 const normalizeRecordImage = (img = {}) => {
   const url = sanitizeActiveUploadImageUrl(img.url);
@@ -290,6 +291,8 @@ const getRecords = async (req, res) => {
       // 默认仅显示已发布记录
       query.status = 'published';
     }
+    // 尊重 isPublic：显式 false 的记录不进公开列表（缺省视为公开）
+    query.isPublic = { $ne: false };
     
     // 搜索条件（含鸟名）
     await applyRecordSearchFilter(query, search);
@@ -470,6 +473,7 @@ const getRecordMapPoints = async (req, res) => {
     } else {
       query.status = 'published';
     }
+    query.isPublic = { $ne: false };
 
     await applyRecordSearchFilter(query, search);
 
@@ -542,7 +546,11 @@ const getRecordMapPoints = async (req, res) => {
       }
     }
 
-    const docs = await Record.find(query).select('location birds').lean();
+    const MAP_POINTS_MAX = Math.min(
+      Math.max(parseInt(String(req.query.limit || '1000'), 10) || 1000, 1),
+      2000
+    );
+    const docs = await Record.find(query).select('location birds').limit(MAP_POINTS_MAX).lean();
 
     const namesNeedingLookup = [];
     docs.forEach((doc) => {
@@ -551,42 +559,15 @@ const getRecordMapPoints = async (req, res) => {
       if (!extractLngLat(doc?.location?.coordinates)) namesNeedingLookup.push(name);
     });
 
-    const { findActiveLocationByFlexibleName, resolveCanonicalLocationName, normalizeLocationName } = require('../utils/locationName');
+    const { findActiveLocationByFlexibleName } = require('../utils/locationName');
     const locationFallbackMap = new Map();
     if (namesNeedingLookup.length > 0) {
       const uniqueNames = [...new Set(namesNeedingLookup)];
-      const allLocDocs = await Location.find({ status: 'active' })
-        .select('name coordinates address')
-        .lean();
-      const canonicalSet = new Set(
-        allLocDocs.map((loc) => normalizeLocationName(loc.name)).filter(Boolean)
-      );
-      const byCanonical = new Map(
-        allLocDocs.map((loc) => [normalizeLocationName(loc.name), loc])
-      );
-
-      uniqueNames.forEach((rawName) => {
-        const canonical = resolveCanonicalLocationName(rawName, '', canonicalSet);
-        const loc =
-          byCanonical.get(canonical) ||
-          byCanonical.get(normalizeLocationName(rawName)) ||
-          null;
-        const coords = extractLngLat(loc?.coordinates);
-        if (coords) {
-          locationFallbackMap.set(String(rawName || '').trim(), {
-            ...coords,
-            address: loc.address || {},
-          });
-        }
-      });
-
-      // 仍可能漏掉：逐个灵活查找（名录较大时兜底）
       for (const rawName of uniqueNames) {
-        if (locationFallbackMap.has(rawName)) continue;
         const loc = await findActiveLocationByFlexibleName(Location, rawName);
         const coords = extractLngLat(loc?.coordinates);
         if (coords) {
-          locationFallbackMap.set(rawName, {
+          locationFallbackMap.set(String(rawName || '').trim(), {
             ...coords,
             address: loc.address || {},
           });
@@ -654,7 +635,7 @@ const getRecordMapPoints = async (req, res) => {
 const getRecordLocationOptions = async (req, res) => {
   try {
     const pipeline = [
-      { $match: { status: 'published' } },
+      { $match: publicPublishedRecordFilter() },
       {
         $project: {
           provinceRaw: { $ifNull: ['$location.address.province', ''] },
@@ -761,10 +742,9 @@ const getMonthlyObservationRecommendations = async (req, res) => {
     const province = String(req.query.province || '').trim();
     const city = String(req.query.city || '').trim();
 
-    const match = {
-      status: 'published',
+    const match = publicPublishedRecordFilter({
       $expr: { $eq: [{ $month: '$date' }, month] },
-    };
+    });
 
     if (province) {
       const provinceRegex = new RegExp(escapeRegex(province), 'i');
@@ -862,15 +842,18 @@ const getRecord = async (req, res) => {
       return sendRecordClientError(res, 404, '观鸟记录不存在', 'RECORD_NOT_FOUND');
     }
 
+    const requester = await getOptionalUserFromAuthHeader(req);
+    const isAdmin = requester?.role === 'admin';
+    const isOwner = getComparableId(record.observer) === getComparableId(requester?._id);
+
     // 草稿记录仅允许创建者本人或管理员查看
     if (record.status === 'draft') {
-      const requester = await getOptionalUserFromAuthHeader(req);
-      const isAdmin = requester?.role === 'admin';
-      const isOwner = getComparableId(record.observer) === getComparableId(requester?._id);
-
       if (!isAdmin && !isOwner) {
         return sendRecordClientError(res, 404, '观鸟记录不存在', 'RECORD_NOT_FOUND');
       }
+    } else if (record.isPublic === false && !isAdmin && !isOwner) {
+      // 显式私密：非本人/管理员不可读（缺省 isPublic 视为公开）
+      return sendRecordClientError(res, 404, '观鸟记录不存在', 'RECORD_NOT_FOUND');
     }
 
     // 兼容旧数据：location.coordinates 可能是数组 [lng,lat]，统一为 { type, coordinates }
@@ -1435,8 +1418,8 @@ const getUserRecords = async (req, res) => {
       );
     }
     
-    const pageNum = parseInt(page);
-    const limitNum = parseInt(limit);
+    const pageNum = Math.max(1, parseInt(page, 10) || 1);
+    const limitNum = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 100);
 
     // 构建查询条件
     const query = { observer: userId };
@@ -1496,11 +1479,12 @@ const getRecordsByBird = async (req, res) => {
     
     const pageNum = Math.max(1, parseInt(page, 10) || 1);
     const parsedLimit = parseInt(limit, 10);
-    const limitNum = Math.min(Math.max(Number.isFinite(parsedLimit) ? parsedLimit : 100, 1), 500);
+    const limitNum = Math.min(Math.max(Number.isFinite(parsedLimit) ? parsedLimit : 100, 1), 100);
     
     // 构建查询条件
     const query = {
-      'birds.birdId': birdId
+      'birds.birdId': birdId,
+      isPublic: { $ne: false },
     };
     
     // 公开接口仅允许已发布记录

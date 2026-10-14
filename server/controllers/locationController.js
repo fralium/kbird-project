@@ -11,6 +11,10 @@ const {
   buildLocationRecordMatchers,
   findActiveLocationByFlexibleName,
 } = require('../utils/locationName');
+const {
+  publicPublishedRecordFilter,
+  publicNonDraftRecordFilter,
+} = require('../utils/publicRecordFilter');
 
 // 统一：仅统计已发布的观鸟记录
 const RECORD_STATUS_PUBLISHED = 'published';
@@ -44,11 +48,13 @@ async function buildLocationStatsMap(locationNames) {
   const canonicalSet = new Set(normalizedNames);
   const nameMatchers = normalizedNames.flatMap((name) => buildLocationRecordMatchers(name));
 
-  const records = await Record.find({
-    status: RECORD_STATUS_PUBLISHED,
-    $or: nameMatchers,
-  })
+  const records = await Record.find(
+    publicPublishedRecordFilter({
+      $or: nameMatchers,
+    })
+  )
     .select('location.name location.address birds.birdId')
+    .limit(5000)
     .lean();
 
   const statsMap = new Map(
@@ -253,17 +259,19 @@ const getLocations = async (req, res) => {
 
     const sortByStats = sortBy === 'stats.totalRecords' || sortBy === 'stats.uniqueSpecies';
     const isDesc = sortOrder === 'desc';
+    /** 按统计排序需在内存完成；桌面场景地点量有限，硬顶防止无界加载 */
+    const LOCATION_STATS_SORT_CAP = 3000;
 
     let locations;
     let total;
 
     if (sortByStats) {
-      // 按观察次数/鸟类数量排序：先取全部地点，算统计后再排序并分页
+      total = await Location.countDocuments(query);
       locations = await Location.find(query)
         .populate('createdBy', 'name avatar')
         .select('-images.photographer')
+        .limit(LOCATION_STATS_SORT_CAP)
         .lean();
-      total = locations.length;
 
       const statsMap = await buildLocationStatsMap(locations.map((loc) => loc.name));
       const locationsWithStats = attachLocationStats(locations, statsMap);
@@ -275,6 +283,7 @@ const getLocations = async (req, res) => {
         return isDesc ? vb - va : va - vb;
       });
 
+      const effectiveTotal = Math.min(total, LOCATION_STATS_SORT_CAP);
       const paginated = locationsWithStats.slice(skip, skip + limitNum);
 
       return res.status(200).json({
@@ -282,11 +291,12 @@ const getLocations = async (req, res) => {
         data: paginated,
         pagination: {
           currentPage: pageNum,
-          totalPages: Math.ceil(total / limitNum) || 1,
-          totalItems: total,
+          totalPages: Math.ceil(effectiveTotal / limitNum) || 1,
+          totalItems: effectiveTotal,
           itemsPerPage: limitNum,
-          hasNextPage: pageNum < Math.ceil(total / limitNum),
-          hasPrevPage: pageNum > 1
+          hasNextPage: pageNum < Math.ceil(effectiveTotal / limitNum),
+          hasPrevPage: pageNum > 1,
+          capped: total > LOCATION_STATS_SORT_CAP,
         }
       });
     }
@@ -410,11 +420,17 @@ const getLocation = async (req, res) => {
     // 使用Record数据计算实际的观察记录统计数据（与列表统计同一套模糊匹配）
     const Record = require('../models/recordModel');
     const nameMatchers = buildLocationRecordMatchers(location.name);
+    const LOCATION_DETAIL_RECORD_CAP = 2000;
     const recordsAtLocation = nameMatchers.length
-      ? await Record.find({
-          status: RECORD_STATUS_PUBLISHED,
-          $or: nameMatchers,
-        }).populate('birds.birdId', 'name scientificName')
+      ? await Record.find(
+          publicPublishedRecordFilter({
+            $or: nameMatchers,
+          })
+        )
+          .select('birds.birdId date')
+          .populate('birds.birdId', 'name scientificName')
+          .limit(LOCATION_DETAIL_RECORD_CAP)
+          .lean()
       : [];
 
     // 统计该地点观察到的鸟类种类数
@@ -1090,10 +1106,9 @@ const getPopularLocations = async (req, res) => {
     const limitNum = Math.min(parseInt(limit, 10) || 8, 50);
     const daysNum = days !== undefined && days !== '' ? parseInt(days, 10) : null;
 
-    const matchStage = {
-      status: { $ne: 'draft' },
-      'location.name': { $exists: true, $ne: '', $type: 'string' }
-    };
+    const matchStage = publicNonDraftRecordFilter({
+      'location.name': { $exists: true, $ne: '', $type: 'string' },
+    });
     if (daysNum != null && daysNum > 0) {
       const endDate = new Date();
       const startDate = new Date();
@@ -1134,25 +1149,10 @@ const getPopularLocations = async (req, res) => {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const locationDocs = await Location.find({ status: 'active' })
-      .select('_id name coordinates address')
-      .lean();
-    const canonicalSet = new Set(
-      locationDocs.map((doc) => normalizeLocationName(doc.name)).filter(Boolean)
-    );
-    const locationDocMap = new Map(
-      locationDocs.map((doc) => [normalizeLocationName(doc.name), doc])
-    );
-
-    const locationsWithFlags = popularLocations.map((loc) => {
-      const rawName = normalizeLocationName(loc.name);
-      const canonical = resolveCanonicalLocationName(rawName, '', canonicalSet);
-      const matchedDoc =
-        locationDocMap.get(canonical) ||
-        locationDocMap.get(rawName) ||
-        locationDocMap.get(stripLocationRegionPrefix(rawName)) ||
-        null;
-      return {
+    const locationsWithFlags = [];
+    for (const loc of popularLocations) {
+      const matchedDoc = await findActiveLocationByFlexibleName(Location, loc.name);
+      locationsWithFlags.push({
         ...loc,
         _id: matchedDoc?._id || null,
         coordinates: matchedDoc?.coordinates || null,
@@ -1162,8 +1162,8 @@ const getPopularLocations = async (req, res) => {
           uniqueSpecies: loc.uniqueSpecies,
         },
         isNew: new Date(loc.lastRecordDate) > sevenDaysAgo,
-      };
-    });
+      });
+    }
 
     res.status(200).json({
       success: true,
@@ -1193,9 +1193,17 @@ const syncLocationsFromRecords = async (req, res) => {
     const sourceIp = req.ip || req.connection?.remoteAddress || 'unknown';
     const userAgent = req.headers['user-agent'] || 'unknown';
 
-    // 从观鸟记录中聚合不同地点（排除 draft，location.name 非空）
+    // 非管理员仅同步本人记录中的地点，避免任意登录用户扫全库写名录
+    const syncMatch = {
+      status: { $ne: 'draft' },
+      'location.name': { $exists: true, $regex: /\S/ },
+    };
+    if (userRole !== 'admin') {
+      syncMatch.observer = userId;
+    }
+
     const distinctLocations = await Record.aggregate([
-      { $match: { status: { $ne: 'draft' }, 'location.name': { $exists: true, $regex: /\S/ } } },
+      { $match: syncMatch },
       { $addFields: { locNameNorm: { $trim: { input: { $ifNull: ['$location.name', ''] } } } } },
       { $match: { locNameNorm: { $regex: /\S/ } } },
       { $sort: { date: -1 } },
@@ -1398,7 +1406,8 @@ const canManageLocation = (reqUser, location) => {
   if (!userId) return false;
   if (reqUser.role === 'admin') return true;
   const createdBy = location.createdBy?._id || location.createdBy;
-  if (!createdBy) return true;
+  // 无创建者的历史地点仅管理员可改（避免任意登录用户接管）
+  if (!createdBy) return false;
   return String(createdBy) === userId;
 };
 

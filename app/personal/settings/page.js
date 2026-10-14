@@ -287,7 +287,16 @@ function PersonalSettingsPageClient() {
         setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
-        showMessage('密码已更新，请使用新密码登录', 4000);
+        if (user && setUserData) {
+          setUserData({
+            ...user,
+            ...(data.data || {}),
+            mustChangePassword: false,
+          });
+        } else if (refreshUser) {
+          refreshUser().catch(() => null);
+        }
+        showMessage('密码已更新', 4000);
       } else {
         showMessage(data.message || '修改失败', 4000);
       }

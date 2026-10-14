@@ -3,6 +3,9 @@ const Record = require('../models/recordModel');
 const Location = require('../models/locationModel');
 const { sendControllerError } = require('../middleware/controllerError');
 const { devError } = require('../utils/devLogger');
+const { publicNonDraftRecordFilter } = require('../utils/publicRecordFilter');
+
+const LEADERBOARD_SCAN_CAP = 8000;
 
 const sendLeaderboardError = (res, error, message = '获取成就榜失败') =>
   sendControllerError(res, error, {
@@ -16,9 +19,12 @@ const sendLeaderboardError = (res, error, message = '获取成就榜失败') =>
 // @access  Public
 const getBirdFirsts = async (req, res) => {
   try {
-    const records = await Record.find({ status: { $ne: 'draft' } })
+    const records = await Record.find(publicNonDraftRecordFilter())
+      .select('date location.name birds.birdId observer')
       .populate('observer', 'name avatar')
-      .sort({ date: 1 });
+      .sort({ date: 1 })
+      .limit(LEADERBOARD_SCAN_CAP)
+      .lean();
 
     const birdFirstMap = new Map();
 
@@ -90,9 +96,12 @@ const getBirdFirsts = async (req, res) => {
 // @access  Public
 const getLocationFirsts = async (req, res) => {
   try {
-    const records = await Record.find({ status: { $ne: 'draft' } })
+    const records = await Record.find(publicNonDraftRecordFilter())
+      .select('date location.name birds.birdId observer')
       .populate('observer', 'name avatar')
-      .sort({ date: 1 });
+      .sort({ date: 1 })
+      .limit(LEADERBOARD_SCAN_CAP)
+      .lean();
 
     const locationMap = new Map();
 

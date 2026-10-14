@@ -26,6 +26,11 @@ const userSchema = mongoose.Schema(
       enum: ['user', 'contributor', 'admin'],
       default: 'user',
     },
+    /** 使用默认密码创建时为 true，前端应提示改密 */
+    mustChangePassword: {
+      type: Boolean,
+      default: false,
+    },
     avatar: {
       type: String,
       default: 'default-avatar.jpg',

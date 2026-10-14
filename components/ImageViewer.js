@@ -1,10 +1,15 @@
-import { useState, useEffect, useCallback } from 'react';
-import { formatDisplayDate, formatDisplayDateTime } from '@/utils/localDate';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { formatDisplayDate } from '@/utils/localDate';
 import Image from 'next/image';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 import styles from '@/styles/ImageViewer.module.css';
 
 const ImageViewer = ({ images, currentIndex, onClose }) => {
   const [activeIndex, setActiveIndex] = useState(currentIndex);
+  const closeButtonRef = useRef(null);
+  const dialogRef = useRef(null);
+
+  useFocusTrap(dialogRef, Boolean(images?.length), { initialFocusRef: closeButtonRef });
 
   useEffect(() => {
     if (!images || images.length === 0) return;
@@ -14,20 +19,17 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
   }, [currentIndex, images]);
 
   const goToPrevious = useCallback(() => {
-    setActiveIndex(prev => 
-      prev > 0 ? prev - 1 : images.length - 1
-    );
+    setActiveIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
   }, [images.length]);
 
   const goToNext = useCallback(() => {
-    setActiveIndex(prev => 
-      prev < images.length - 1 ? prev + 1 : 0
-    );
+    setActiveIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
   }, [images.length]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
+        e.preventDefault();
         onClose();
       } else if (e.key === 'ArrowLeft') {
         goToPrevious();
@@ -37,7 +39,7 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    document.body.style.overflow = 'hidden'; // 防止背景滚动
+    document.body.style.overflow = 'hidden';
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
@@ -55,8 +57,7 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
 
   const safeActiveIndex = Math.min(Math.max(activeIndex, 0), images.length - 1);
   const currentImage = images[safeActiveIndex] || images[0];
-  
-  // 处理图片数据格式：可能是字符串URL或包含url属性的对象
+
   const getImageUrl = (image) => {
     if (!image) return '';
     if (typeof image === 'string') {
@@ -64,7 +65,7 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
     }
     return image.url || '';
   };
-  
+
   const getImageCaption = (image) => {
     if (!image) return '鸟类图片';
     if (typeof image === 'string') {
@@ -82,31 +83,45 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
 
   const currentImageUrl = toAbsoluteImageUrl(currentImage);
   const currentImageUnoptimized = !currentImageUrl.startsWith('/');
+  const dialogLabel = getImageCaption(currentImage);
 
   return (
-    <div className={styles.overlay} onClick={handleOverlayClick}>
-      <div className={styles.container}>
-        {/* 关闭按钮 */}
-        <button className={styles.closeButton} onClick={onClose}>
+    <div className={styles.overlay} onClick={handleOverlayClick} role="presentation">
+      <div
+        ref={dialogRef}
+        className={styles.container}
+        role="dialog"
+        aria-modal="true"
+        aria-label={dialogLabel}
+      >
+        <button
+          ref={closeButtonRef}
+          type="button"
+          className={styles.closeButton}
+          onClick={onClose}
+          aria-label="关闭图片查看器"
+        >
           ×
         </button>
 
-        {/* 图片信息 */}
         <div className={styles.imageInfo}>
-          <h3 className={styles.imageTitle}>
-            {getImageCaption(currentImage)}
-          </h3>
+          <h3 className={styles.imageTitle}>{dialogLabel}</h3>
           <p className={styles.imageMeta}>
-            {currentImage && typeof currentImage === 'object' && currentImage.location && `📍 ${currentImage.location}`}
-            {currentImage && typeof currentImage === 'object' && currentImage.date && ` • ${formatDisplayDate(currentImage.date, 'short')}`}
+            {currentImage &&
+              typeof currentImage === 'object' &&
+              currentImage.location &&
+              `📍 ${currentImage.location}`}
+            {currentImage &&
+              typeof currentImage === 'object' &&
+              currentImage.date &&
+              ` • ${formatDisplayDate(currentImage.date, 'short')}`}
           </p>
         </div>
 
-        {/* 主图片 */}
         <div className={styles.imageContainer}>
           <Image
             src={currentImageUrl}
-            alt={getImageCaption(currentImage)}
+            alt={dialogLabel}
             width={1600}
             height={1000}
             unoptimized={currentImageUnoptimized}
@@ -124,17 +139,18 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
           </div>
         </div>
 
-        {/* 导航按钮 */}
         {images.length > 1 && (
           <>
-            <button 
+            <button
+              type="button"
               className={`${styles.navButton} ${styles.prevButton}`}
               onClick={goToPrevious}
               aria-label="上一张图片"
             >
               ‹
             </button>
-            <button 
+            <button
+              type="button"
               className={`${styles.navButton} ${styles.nextButton}`}
               onClick={goToNext}
               aria-label="下一张图片"
@@ -144,37 +160,37 @@ const ImageViewer = ({ images, currentIndex, onClose }) => {
           </>
         )}
 
-        {/* 缩略图导航 */}
         {images.length > 1 && (
-          <div className={styles.thumbnailContainer}>
-            {images.map((image, index) => (
-              (() => {
-                const thumbnailUrl = toAbsoluteImageUrl(image);
-                const thumbnailUnoptimized = !thumbnailUrl.startsWith('/');
-                return (
-                  <button
-                    key={index}
-                    className={`${styles.thumbnail} ${index === activeIndex ? styles.active : ''}`}
-                    onClick={() => setActiveIndex(index)}
-                  >
-                    <Image
-                      src={thumbnailUrl}
-                      alt={`缩略图 ${index + 1}`}
-                      width={200}
-                      height={140}
-                      unoptimized={thumbnailUnoptimized}
-                      className={styles.thumbnailImage}
-                    />
-                  </button>
-                );
-              })()
-            ))}
+          <div className={styles.thumbnailContainer} role="list" aria-label="缩略图">
+            {images.map((image, index) => {
+              const thumbnailUrl = toAbsoluteImageUrl(image);
+              const thumbnailUnoptimized = !thumbnailUrl.startsWith('/');
+              return (
+                <button
+                  key={index}
+                  type="button"
+                  role="listitem"
+                  className={`${styles.thumbnail} ${index === activeIndex ? styles.active : ''}`}
+                  onClick={() => setActiveIndex(index)}
+                  aria-label={`查看第 ${index + 1} 张`}
+                  aria-current={index === activeIndex ? 'true' : undefined}
+                >
+                  <Image
+                    src={thumbnailUrl}
+                    alt={`缩略图 ${index + 1}`}
+                    width={200}
+                    height={140}
+                    unoptimized={thumbnailUnoptimized}
+                    className={styles.thumbnailImage}
+                  />
+                </button>
+              );
+            })}
           </div>
         )}
 
-        {/* 图片计数器 */}
         {images.length > 1 && (
-          <div className={styles.counter}>
+          <div className={styles.counter} aria-live="polite">
             {activeIndex + 1} / {images.length}
           </div>
         )}

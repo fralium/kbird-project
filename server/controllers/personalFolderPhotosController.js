@@ -223,7 +223,10 @@ const walkSpeciesFolders = async (dir, rel, depth, maps, acc) => {
 };
 
 const scanRoot = async (rootPath) => {
-  const birds = await Bird.find({}).select('_id name scientificName nameAliases images').lean();
+  const birds = await Bird.find({})
+    .select('_id name scientificName nameAliases images')
+    .limit(5000)
+    .lean();
   const maps = buildBirdMaps(birds);
   const acc = { species: [], unmatched: [] };
   await walkSpeciesFolders(rootPath, '', 0, maps, acc);
@@ -321,8 +324,8 @@ const pickFolderPhotos = async (req, res) => {
     });
   } catch (error) {
     return sendControllerError(res, error, {
-      message: error.message || '选择文件夹失败',
-      code: error.code || 'FOLDER_PHOTOS_PICK_FAILED',
+      defaultMessage: '选择文件夹失败',
+      defaultCode: error.code || 'FOLDER_PHOTOS_PICK_FAILED',
     });
   }
 };
@@ -343,8 +346,8 @@ const previewFolderPhotos = async (req, res) => {
     });
   } catch (error) {
     return sendControllerError(res, error, {
-      message: error.message || '扫描分类照片失败',
-      code: error.code || 'FOLDER_PHOTOS_PREVIEW_FAILED',
+      defaultMessage: '扫描分类照片失败',
+      defaultCode: error.code || 'FOLDER_PHOTOS_PREVIEW_FAILED',
     });
   }
 };
@@ -456,8 +459,8 @@ const applyFolderPhotos = async (req, res) => {
     });
   } catch (error) {
     return sendControllerError(res, error, {
-      message: error.message || '上传分类照片失败',
-      code: error.code || 'FOLDER_PHOTOS_APPLY_FAILED',
+      defaultMessage: '上传分类照片失败',
+      defaultCode: error.code || 'FOLDER_PHOTOS_APPLY_FAILED',
     });
   }
 };

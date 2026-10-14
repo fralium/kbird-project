@@ -79,7 +79,7 @@ const registerUser = async (req, res) => {
     });
     
     const token = jwt.sign({ id: user._id }, getJwtSecret(), {
-      expiresIn: '30d'
+      expiresIn: process.env.JWT_EXPIRES_IN || '7d'
     });
     
     res.set('Content-Type', 'application/json');
@@ -148,7 +148,7 @@ const loginUser = async (req, res) => {
     }
     
     const token = jwt.sign({ id: user._id }, getJwtSecret(), {
-      expiresIn: '30d'
+      expiresIn: process.env.JWT_EXPIRES_IN || '7d'
     });
     
     res.status(200).json({
@@ -159,7 +159,8 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        avatar: user.avatar
+        avatar: user.avatar,
+        mustChangePassword: Boolean(user.mustChangePassword),
       }
     });
   } catch (error) {
@@ -254,7 +255,7 @@ const createLocalSession = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id }, getJwtSecret(), {
-      expiresIn: '30d',
+      expiresIn: process.env.JWT_EXPIRES_IN || '7d',
     });
 
     res.status(200).json({
@@ -266,6 +267,7 @@ const createLocalSession = async (req, res) => {
         email: user.email,
         role: user.role,
         avatar: user.avatar,
+        mustChangePassword: Boolean(user.mustChangePassword),
       },
       message: '本机自动登录成功',
     });
@@ -300,6 +302,7 @@ const getUserProfile = async (req, res) => {
         location: user.location,
         website: user.website,
         createdAt: user.createdAt,
+        mustChangePassword: Boolean(user.mustChangePassword),
       },
     });
   } catch (error) {
@@ -349,6 +352,7 @@ const updateUserProfile = async (req, res) => {
       }
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(req.body.password, salt);
+      user.mustChangePassword = false;
     }
     
     const updatedUser = await user.save();
@@ -365,6 +369,7 @@ const updateUserProfile = async (req, res) => {
         bio: updatedUser.bio,
         location: updatedUser.location,
         website: updatedUser.website,
+        mustChangePassword: Boolean(updatedUser.mustChangePassword),
       },
     });
   } catch (error) {
@@ -432,20 +437,20 @@ const addToFavorites = async (req, res) => {
     const userId = req.user._id;
     const birdId = req.params.id;
     
-    const user = await User.findById(userId);
-    
-    if (!user) {
+    const before = await User.findById(userId).select('favorites');
+    if (!before) {
       return sendUserClientError(res, 404, '未找到用户', 'USER_NOT_FOUND');
     }
-    
-    // 检查是否已经收藏
-    if (user.favorites.includes(birdId)) {
+    if (before.favorites.some((id) => String(id) === String(birdId))) {
       return sendUserClientError(res, 400, '已经收藏过该鸟类', 'BIRD_ALREADY_FAVORITED');
     }
-    
-    user.favorites.push(birdId);
-    await user.save();
-    
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { favorites: birdId } },
+      { new: true }
+    ).select('favorites');
+
     res.status(200).json({
       success: true,
       message: '成功添加到收藏',
@@ -464,11 +469,13 @@ const getUserSightings = async (req, res) => {
   try {
     const userId = req.user._id;
     
-    // 查询所有包含该用户观察记录的鸟类（包括所有状态）
+    // 查询包含该用户观察记录的鸟类（含历史 sightings；上限防 OOM）
     const birds = await Bird.find({ 'sightings.observer': userId })
       .populate('sightings.observer', 'name avatar')
       .populate('sightings.reviewedBy', 'name email')
-      .select('name scientificName images sightings');
+      .select('name scientificName images sightings')
+      .limit(500)
+      .lean();
 
     const userSightings = [];
     birds.forEach(bird => {

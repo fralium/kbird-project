@@ -32,11 +32,12 @@ if (-not (Test-Path "package.json")) {
     exit 1
 }
 
-# 1) Stop running app (Node only; leave MongoDB running)
+# 1) Stop running app (ports + KBird windows only; leave MongoDB / other Node alone)
 Write-Host "[1/6] Stopping KBird processes..." -ForegroundColor Yellow
 if (-not $SkipStop) {
-    Get-Process -Name "node" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-    Get-Process -Name "next" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    Get-Process |
+        Where-Object { $_.MainWindowTitle -like "KBird *" } |
+        Stop-Process -Force -ErrorAction SilentlyContinue
     foreach ($port in 13080, 13082) {
         try {
             $conns = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
@@ -49,7 +50,7 @@ if (-not $SkipStop) {
             # ignore port cleanup errors
         }
     }
-    Write-Host "[OK] Node processes stopped (MongoDB left running)" -ForegroundColor Green
+    Write-Host "[OK] KBird ports/windows stopped (MongoDB left running)" -ForegroundColor Green
 } else {
     Write-Host "[SKIP] Stop processes" -ForegroundColor Cyan
 }

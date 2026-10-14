@@ -46,7 +46,7 @@ const parseObservationYear = (year) => {
 };
 
 const buildPublishedRecordDateMatch = (year) => {
-  const match = { status: 'published' };
+  const match = { status: 'published', isPublic: { $ne: false } };
   const yearNum = parseObservationYear(year);
   if (yearNum != null) {
     match.date = {
@@ -454,58 +454,60 @@ const getBirds = async (req, res) => {
       });
       pipeline.push({ $sort: { relevanceScore: -1, createdAt: -1 } });
     } else {
-      // 没有搜索条件时，先获取所有鸟类，然后按最近观察记录时间排序
-      const birds = await Bird.aggregate(pipeline);
-      
-      // 获取每个鸟类的最近观察记录时间
-      const birdIds = birds.map(bird => bird._id);
+      // 无搜索：先取轻量字段排序分页，再仅对当前页 hydrate 完整文档
+      const limitNum = Math.min(Math.max(parseInt(limit, 10) || 20, 1), 100);
+      const pageNum = Math.max(parseInt(page, 10) || 1, 1);
+      const skipNum = (pageNum - 1) * limitNum;
+
+      let birds = await Bird.find(query)
+        .select(
+          '_id name images chinaProtectionLevel iucnProtectionLevel updatedAt createdAt'
+        )
+        .lean();
+
+      const birdIds = birds.map((bird) => bird._id);
       const birdIdSet = new Set(birdIds.map((birdId) => birdId.toString()));
       const recentRecords = filterByPublishedRecords
         ? publishedRecordStats.filter((record) => birdIdSet.has(record._id.toString()))
-        : await Record.aggregate([
-            {
-              $match: {
-                'birds.birdId': { $in: birdIds },
-                status: 'published'  // 与 Record 模型一致：只统计已发布记录，排除 draft
-              }
-            },
-            {
-              $unwind: '$birds'
-            },
-            {
-              $match: {
-                'birds.birdId': { $in: birdIds }
-              }
-            },
-            { $sort: { date: 1 } },
-            {
-              $group: {
-                _id: '$birds.birdId',
-                firstObserved: { $first: '$date' },
-                firstSeenLocation: {
-                  $first: {
-                    $trim: { input: { $ifNull: ['$location.name', ''] } },
-                  },
+        : birdIds.length === 0
+          ? []
+          : await Record.aggregate([
+              {
+                $match: {
+                  'birds.birdId': { $in: birdIds },
+                  status: 'published',
+                  isPublic: { $ne: false },
                 },
-                lastObserved: { $last: '$date' },
-                recordCount: { $sum: 1 }
-              }
-            }
-          ]);
-      
-      // 创建最近观察时间的映射
+              },
+              { $unwind: '$birds' },
+              { $match: { 'birds.birdId': { $in: birdIds } } },
+              { $sort: { date: 1 } },
+              {
+                $group: {
+                  _id: '$birds.birdId',
+                  firstObserved: { $first: '$date' },
+                  firstSeenLocation: {
+                    $first: {
+                      $trim: { input: { $ifNull: ['$location.name', ''] } },
+                    },
+                  },
+                  lastObserved: { $last: '$date' },
+                  recordCount: { $sum: 1 },
+                },
+              },
+            ]);
+
       const lastObservedMap = new Map();
-      recentRecords.forEach(record => {
+      recentRecords.forEach((record) => {
         lastObservedMap.set(record._id.toString(), {
           firstObserved: record.firstObserved,
           firstSeenLocation: record.firstSeenLocation || '',
           lastObserved: record.lastObserved,
-          recordCount: record.recordCount
+          recordCount: record.recordCount,
         });
       });
-      
-      // 为每个鸟类添加首次/最近观察时间信息
-      birds.forEach(bird => {
+
+      birds.forEach((bird) => {
         const birdId = bird._id.toString();
         const recordInfo = lastObservedMap.get(birdId);
         if (recordInfo) {
@@ -520,14 +522,13 @@ const getBirds = async (req, res) => {
           bird.recordCount = 0;
         }
       });
-      
+
       const normalizedSortOrder = sortOrder === 'asc' ? 1 : -1;
       const getProtectionRank = (bird) => {
         const chinaLevel = bird.chinaProtectionLevel;
         if (chinaLevel === '国家一级') return 6;
         if (chinaLevel === '国家二级') return 5;
         if (chinaLevel === '三有') return 4;
-
         const iucnLevel = String(bird.iucnProtectionLevel || '').toUpperCase();
         if (['CR', '极危'].includes(iucnLevel)) return 3;
         if (['EN', '濒危'].includes(iucnLevel)) return 2;
@@ -535,126 +536,108 @@ const getBirds = async (req, res) => {
         return 0;
       };
 
-      // 排序逻辑：支持保护等级、观测次数、最近观察日期、名称、综合推荐
       birds.sort((a, b) => {
         const getPriorityScore = (bird) => {
           let score = 0;
           const images = Array.isArray(bird?.images) ? bird.images : [];
-          
-          // 有照片加分（爱鸟网照片额外加分）
           if (images.length > 0) {
             score += 100;
-            
-            // 爱鸟网照片额外加分
             const hasBirdfansImage = images.some((img) => {
               const url = typeof img === 'string' ? img : img?.url;
               return typeof url === 'string' && url.includes('_birdfans_');
             });
-            if (hasBirdfansImage) {
-              score += 50;
-            }
+            if (hasBirdfansImage) score += 50;
           }
-          
-          // 有观察记录加分
           if (bird.lastObserved) {
             score += 80;
-            
-            // 记录数量越多加分越多（最多加20分）
-            const recordBonus = Math.min(bird.recordCount * 2, 20);
-            score += recordBonus;
+            score += Math.min(bird.recordCount * 2, 20);
           }
-          
-          // 保护等级加分（国家一级最高，国家二级次之）
-          if (bird.chinaProtectionLevel === '国家一级') {
-            score += 30;
-          } else if (bird.chinaProtectionLevel === '国家二级') {
-            score += 20;
-          } else if (bird.chinaProtectionLevel === '三有') {
-            score += 10;
-          }
-          
+          if (bird.chinaProtectionLevel === '国家一级') score += 30;
+          else if (bird.chinaProtectionLevel === '国家二级') score += 20;
+          else if (bird.chinaProtectionLevel === '三有') score += 10;
           return score;
         };
 
         if (sortBy === 'protection') {
           const rankA = getProtectionRank(a);
           const rankB = getProtectionRank(b);
-          if (rankA !== rankB) {
-            return normalizedSortOrder * (rankA - rankB);
-          }
+          if (rankA !== rankB) return normalizedSortOrder * (rankA - rankB);
         } else if (sortBy === 'recordCount') {
           const countA = Number(a.recordCount || 0);
           const countB = Number(b.recordCount || 0);
-          if (countA !== countB) {
-            return normalizedSortOrder * (countA - countB);
-          }
+          if (countA !== countB) return normalizedSortOrder * (countA - countB);
         } else if (sortBy === 'lastObserved') {
           const dateA = a.lastObserved ? new Date(a.lastObserved).getTime() : 0;
           const dateB = b.lastObserved ? new Date(b.lastObserved).getTime() : 0;
-          if (dateA !== dateB) {
-            return normalizedSortOrder * (dateA - dateB);
-          }
+          if (dateA !== dateB) return normalizedSortOrder * (dateA - dateB);
         } else if (sortBy === 'firstObserved') {
           const dateA = a.firstObserved ? new Date(a.firstObserved).getTime() : 0;
           const dateB = b.firstObserved ? new Date(b.firstObserved).getTime() : 0;
-          if (dateA !== dateB) {
-            return normalizedSortOrder * (dateA - dateB);
-          }
+          if (dateA !== dateB) return normalizedSortOrder * (dateA - dateB);
         } else if (sortBy === 'updatedAt') {
           const updatedA = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
           const updatedB = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
-          if (updatedA !== updatedB) {
-            return normalizedSortOrder * (updatedA - updatedB);
-          }
+          if (updatedA !== updatedB) return normalizedSortOrder * (updatedA - updatedB);
         } else if (sortBy === 'name') {
           const nameCmp = String(a.name || '').localeCompare(String(b.name || ''), 'zh-CN');
-          if (nameCmp !== 0) {
-            return normalizedSortOrder * nameCmp;
-          }
+          if (nameCmp !== 0) return normalizedSortOrder * nameCmp;
         } else if (sortBy === 'priority') {
           const scoreA = getPriorityScore(a);
           const scoreB = getPriorityScore(b);
-          if (scoreA !== scoreB) {
-            return normalizedSortOrder * (scoreA - scoreB);
-          }
+          if (scoreA !== scoreB) return normalizedSortOrder * (scoreA - scoreB);
         }
 
-        // 默认并列时：最近观察 → 名称
         const dateA = a.lastObserved ? new Date(a.lastObserved).getTime() : 0;
         const dateB = b.lastObserved ? new Date(b.lastObserved).getTime() : 0;
-        if (dateA !== dateB) {
-          return dateB - dateA;
-        }
+        if (dateA !== dateB) return dateB - dateA;
         return String(a.name || '').localeCompare(String(b.name || ''), 'zh-CN');
       });
-      
-      // 应用分页
-      const paginatedBirds = birds.slice(skip, skip + parseInt(limit));
+
       const totalBirds = birds.length;
+      const pageSlice = birds.slice(skipNum, skipNum + limitNum);
+      const pageIds = pageSlice.map((bird) => bird._id);
+      const hydrated =
+        pageIds.length === 0
+          ? []
+          : await Bird.find({ _id: { $in: pageIds } })
+              .populate('createdBy', 'name')
+              .lean();
+      const hydratedMap = new Map(hydrated.map((bird) => [String(bird._id), bird]));
+      const paginatedBirds = pageSlice.map((light) => {
+        const full = hydratedMap.get(String(light._id)) || light;
+        return {
+          ...full,
+          firstObserved: light.firstObserved,
+          firstSeenLocation: light.firstSeenLocation,
+          lastObserved: light.lastObserved,
+          recordCount: light.recordCount,
+        };
+      });
+
       const locationCount = await countUniqueLocationsForBirds(
         birds.map((bird) => bird._id),
         year
       );
-      
+
       res.status(200).json({
         success: true,
         data: paginatedBirds,
         total: totalBirds,
-        page: parseInt(page),
-        pages: Math.ceil(totalBirds / parseInt(limit)) || 0,
+        page: pageNum,
+        pages: Math.ceil(totalBirds / limitNum) || 0,
         summary: {
           speciesCount: totalBirds,
           locationCount,
           year: parseObservationYear(year),
         },
         pagination: {
-          currentPage: parseInt(page),
-          totalPages: Math.ceil(totalBirds / parseInt(limit)) || 0,
+          currentPage: pageNum,
+          totalPages: Math.ceil(totalBirds / limitNum) || 0,
           totalItems: totalBirds,
-          itemsPerPage: parseInt(limit)
-        }
+          itemsPerPage: limitNum,
+        },
       });
-      
+
       return;
     }
     
@@ -790,16 +773,17 @@ const getBirdFilterOptions = async (req, res) => {
 // @access  Public
 const getBirdById = async (req, res) => {
   try {
+    // 公开详情不返回 community sightings（可能含观察者与私密关联信息）
     const bird = await Bird.findById(req.params.id)
+      .select('-sightings')
       .populate('images.photographer', 'name avatar')
-      .populate('sightings.observer', 'name avatar');
+      .lean();
     
     if (!bird) {
       return sendBirdClientError(res, 404, '未找到该鸟类记录', 'BIRD_NOT_FOUND');
     }
     
-    // 对图片进行排序（按order字段）
-    if (bird.images && bird.images.length > 0) {
+    if (Array.isArray(bird.images) && bird.images.length > 0) {
       bird.images.sort((a, b) => (a.order || 0) - (b.order || 0));
     }
     
@@ -1327,6 +1311,19 @@ const setMainBirdImage = async (req, res) => {
       return sendBirdClientError(res, 400, '无效的图片索引', 'INVALID_IMAGE_INDEX');
     }
 
+    const targetImage = bird.images[imageIndex];
+    const userId = String(req.user?._id || req.user?.id || '');
+    const isAdmin = req.user?.role === 'admin';
+    const photographerId = targetImage?.photographer
+      ? String(targetImage.photographer._id || targetImage.photographer)
+      : '';
+    if (!isAdmin && photographerId && photographerId !== userId) {
+      return sendBirdClientError(res, 403, '只能设置自己上传的图片为主图', 'BIRD_IMAGE_SET_MAIN_FORBIDDEN');
+    }
+    if (!isAdmin && !photographerId) {
+      return sendBirdClientError(res, 403, '无归属的图鉴图片仅管理员可设主图', 'BIRD_IMAGE_SET_MAIN_FORBIDDEN');
+    }
+
     if (imageIndex === 0) {
       return res.status(200).json({
         success: true,
@@ -1380,14 +1377,24 @@ const updateBirdImage = async (req, res) => {
     }
 
     const targetImage = bird.images[imageIndex];
-    // 已登录用户均可维护鸟种图库（与上传权限一致）
     if (!req.user) {
       return sendBirdClientError(res, 401, '请先登录', 'UNAUTHORIZED');
     }
-    
+
+    const userId = String(req.user._id || req.user.id || '');
+    const isAdmin = req.user.role === 'admin';
+    const photographerId = targetImage?.photographer
+      ? String(targetImage.photographer._id || targetImage.photographer)
+      : '';
+    if (!isAdmin && photographerId && photographerId !== userId) {
+      return sendBirdClientError(res, 403, '只能编辑自己上传的图片', 'BIRD_IMAGE_UPDATE_FORBIDDEN');
+    }
+    if (!isAdmin && !photographerId) {
+      return sendBirdClientError(res, 403, '无归属的图鉴图片仅管理员可编辑', 'BIRD_IMAGE_UPDATE_FORBIDDEN');
+    }
+
     // 更新图片信息
     let nextUrl = targetImage.url;
-    const isAdmin = req.user.role === 'admin';
     if (isAdmin && req.body.url) {
       const resolved = resolveActiveUploadUrl(req.body.url);
       if (!resolved) {
@@ -1457,6 +1464,18 @@ const deleteBirdImage = async (req, res) => {
     if (!req.user) {
       return sendBirdClientError(res, 401, '请先登录', 'UNAUTHORIZED');
     }
+
+    const userId = String(req.user.id || req.user._id || '');
+    const isAdmin = req.user.role === 'admin';
+    const photographerId = imageToDelete.photographer
+      ? String(imageToDelete.photographer._id || imageToDelete.photographer)
+      : '';
+    if (!isAdmin && photographerId && photographerId !== userId) {
+      return sendBirdClientError(res, 403, '只能删除自己上传的图片', 'BIRD_IMAGE_DELETE_FORBIDDEN');
+    }
+    if (!isAdmin && !photographerId) {
+      return sendBirdClientError(res, 403, '无归属的图鉴图片仅管理员可删', 'BIRD_IMAGE_DELETE_FORBIDDEN');
+    }
     
     // 移动图片文件到temp目录（而不是直接删除）
     const fs = require('fs');
@@ -1507,7 +1526,12 @@ const deleteBirdImage = async (req, res) => {
       try {
         const normalizeUrl = (u) => (u && String(u).replace(/^\/+/, '')) || '';
         const targetUrl = normalizeUrl(deletedUrl);
-        const records = await Record.find({ 'birds.birdId': req.params.id });
+        // 仅同步本人记录（管理员可扫该鸟种全部相关记录，仍设扫描上限）
+        const syncQuery = { 'birds.birdId': req.params.id };
+        if (!isAdmin) {
+          syncQuery.observer = userId;
+        }
+        const records = await Record.find(syncQuery).limit(500);
         for (const record of records) {
           let modified = false;
           for (let i = 0; i < record.birds.length; i++) {
@@ -1948,6 +1972,20 @@ const deleteBirdCall = async (req, res) => {
     }
 
     const callToDelete = bird.calls[callIndex];
+    const userId = String(req.user.id || req.user._id || '');
+    const isAdmin = req.user.role === 'admin';
+    const uploaderId = callToDelete.uploadedBy
+      ? String(callToDelete.uploadedBy._id || callToDelete.uploadedBy)
+      : callToDelete.photographer
+        ? String(callToDelete.photographer._id || callToDelete.photographer)
+        : '';
+    if (!isAdmin && uploaderId && uploaderId !== userId) {
+      return sendBirdClientError(res, 403, '只能删除自己上传的鸣叫', 'BIRD_CALL_DELETE_FORBIDDEN');
+    }
+    if (!isAdmin && !uploaderId) {
+      return sendBirdClientError(res, 403, '无归属的鸣叫仅管理员可删', 'BIRD_CALL_DELETE_FORBIDDEN');
+    }
+
     const fs = require('fs');
     const path = require('path');
 

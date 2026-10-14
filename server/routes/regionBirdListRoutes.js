@@ -10,29 +10,32 @@ const {
   publishRegionBirdListVersion,
   linkRegionSpeciesToCatalog,
 } = require('../controllers/regionBirdListController');
-const { protect, optionalAuth } = require('../middleware/auth');
+const { protect, optionalAuth, authorize } = require('../middleware/auth');
 const { validateObjectIdParam, validatePagination } = require('../middleware/validation');
 
 router.get('/', optionalAuth, validatePagination, listRegionBirdLists);
 router.get('/:id', validateObjectIdParam('id'), getRegionBirdList);
-router.post('/', protect, createRegionBirdList);
-router.put('/:id', protect, validateObjectIdParam('id'), updateRegionBirdList);
-router.delete('/:id', protect, validateObjectIdParam('id'), deleteRegionBirdList);
+router.post('/', protect, authorize('admin'), createRegionBirdList);
+router.put('/:id', protect, authorize('admin'), validateObjectIdParam('id'), updateRegionBirdList);
+router.delete('/:id', protect, authorize('admin'), validateObjectIdParam('id'), deleteRegionBirdList);
 router.post(
   '/:id/versions/preview',
   protect,
+  authorize('admin'),
   validateObjectIdParam('id'),
   previewRegionBirdListVersion
 );
 router.post(
   '/:id/versions',
   protect,
+  authorize('admin'),
   validateObjectIdParam('id'),
   publishRegionBirdListVersion
 );
 router.post(
   '/:id/species/link',
   protect,
+  authorize('admin'),
   validateObjectIdParam('id'),
   linkRegionSpeciesToCatalog
 );

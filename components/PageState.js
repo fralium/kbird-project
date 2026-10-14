@@ -20,11 +20,16 @@ export default function PageState({
   const hasPrimary = Boolean(onAction && actionLabel);
   const hasSecondary = Boolean(onSecondaryAction && secondaryActionLabel);
 
+  const liveRole = type === 'loading' ? 'status' : type === 'error' ? 'alert' : 'status';
+
   return (
     <div
       className={`${styles.container} ${
         type === 'error' ? styles.error : type === 'empty' ? styles.empty : styles.loading
       }`}
+      role={liveRole}
+      aria-live={type === 'loading' ? 'polite' : type === 'error' ? 'assertive' : 'polite'}
+      aria-busy={type === 'loading' ? 'true' : undefined}
     >
       <h3 className={styles.title}>{resolvedTitle}</h3>
       {message ? <p className={styles.message}>{message}</p> : null}

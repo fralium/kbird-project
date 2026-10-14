@@ -5,11 +5,13 @@ const PersonalChecklist = require('../models/personalChecklistModel');
 const UserSettings = require('../models/userSettingsModel');
 const Project = require('../models/projectModel');
 const { sendControllerError } = require('../middleware/controllerError');
+const { clearCache, clearLeaderboardCache } = require('../middleware/cache');
 const { devError } = require('../utils/devLogger');
 const {
   resolveActiveUploadUrl,
   getActiveUploadsRoot,
 } = require('../utils/safeUploadPath');
+const { getProjectsUploadsRoot } = require('../config/dataPaths');
 
 const ARCHIVE_VERSION = 2;
 const MAX_MEDIA_BYTES = 40 * 1024 * 1024; // 单次导出媒体上限约 40MB
@@ -110,7 +112,7 @@ function buildMediaEntries(recordUrls, projectFiles, { includeContent }) {
     entries.push(entry);
   });
 
-  const projectsRoot = path.resolve(process.cwd(), 'uploads', 'projects');
+  const projectsRoot = getProjectsUploadsRoot();
   projectFiles.forEach((file) => {
     const absPath = path.resolve(projectsRoot, file.relativePath);
     if (!absPath.startsWith(projectsRoot + path.sep) && absPath !== projectsRoot) {
@@ -266,7 +268,7 @@ function writeMediaEntry(entry, userId) {
   }
 
   if (entry.kind === 'project' && entry.relativePath) {
-    const projectsRoot = path.resolve(process.cwd(), 'uploads', 'projects');
+    const projectsRoot = getProjectsUploadsRoot();
     const rel = String(entry.relativePath).replace(/^uploads\/projects\//, '').replace(/^[/\\]+/, '');
     const userRoot = path.resolve(projectsRoot, String(userId));
     const absPath = path.resolve(userRoot, path.basename(rel));
@@ -277,7 +279,10 @@ function writeMediaEntry(entry, userId) {
     if (!fs.existsSync(absPath)) {
       fs.writeFileSync(absPath, buf);
     }
-    return { ok: true, relativePath: path.relative(process.cwd(), absPath).replace(/\\/g, '/') };
+    return {
+      ok: true,
+      relativePath: path.relative(projectsRoot, absPath).replace(/\\/g, '/'),
+    };
   }
 
   return { ok: false, reason: 'unknown-kind' };
@@ -479,6 +484,14 @@ const applyRestore = async (req, res) => {
       } catch (err) {
         devError('合并项目失败:', err);
       }
+    }
+
+    if (result.recordsAdded > 0) {
+      clearCache('/api/records');
+      clearCache('/api/records\\?');
+      clearCache('/api/locations');
+      clearCache('/api/birds');
+      clearLeaderboardCache();
     }
 
     return res.json({

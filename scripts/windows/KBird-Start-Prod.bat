@@ -121,7 +121,12 @@ if not exist ".next\BUILD_ID" (
     REM Rebuild when app source is newer than last production build
     powershell -NoProfile -Command ^
       "$b=(Get-Item -LiteralPath '.next\BUILD_ID').LastWriteTimeUtc; " ^
-      "$newer=@(Get-ChildItem -Path 'app','components','styles','utils','public' -Recurse -File -ErrorAction SilentlyContinue | " ^
+      "$paths=@('app','components','styles','utils','public','pages','server','hooks','data'); " ^
+      "if(Test-Path 'next.config.js'){ $paths += 'next.config.js' }; " ^
+      "if(Test-Path 'next.config.mjs'){ $paths += 'next.config.mjs' }; " ^
+      "if(Test-Path 'package.json'){ $paths += 'package.json' }; " ^
+      "if(Test-Path 'package-lock.json'){ $paths += 'package-lock.json' }; " ^
+      "$newer=@(Get-ChildItem -Path $paths -Recurse -File -ErrorAction SilentlyContinue | " ^
       "  Where-Object { $_.LastWriteTimeUtc -gt $b } | Select-Object -First 1); " ^
       "if($newer){ exit 2 } else { exit 0 }"
     if errorlevel 2 (
@@ -141,7 +146,18 @@ if "%NEED_BUILD%"=="1" (
 )
 
 echo.
-echo [5/5] Starting production services...
+echo [5/6] Ensuring data paths and secrets...
+if exist "scripts\ensure-kbird-data.js" (
+    node scripts\ensure-kbird-data.js
+    if errorlevel 1 (
+        echo WARNING: ensure-kbird-data.js failed; check .env manually.
+    )
+) else (
+    echo WARNING: scripts\ensure-kbird-data.js missing.
+)
+
+echo.
+echo [6/6] Starting production services...
 echo.
 echo Freeing ports 13080 / 13082 if a previous instance is still running...
 taskkill /F /FI "WINDOWTITLE eq KBird Backend*" >nul 2>&1
@@ -155,7 +171,7 @@ start "KBird Backend (Prod)" cmd /k "cd /d ""%CD%"" && set NODE_ENV=production &
 timeout /t 3 /nobreak >nul
 
 echo Starting frontend on port 13080 (production mode)...
-start "KBird Frontend (Prod)" cmd /k "cd /d ""%CD%"" && npx cross-env NODE_ENV=production next start -p 13080"
+start "KBird Frontend (Prod)" cmd /k "cd /d ""%CD%"" && npx cross-env NODE_ENV=production next start -H 127.0.0.1 -p 13080"
 
 echo.
 echo Waiting for services...

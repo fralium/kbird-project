@@ -1,30 +1,69 @@
 ﻿/* 无障碍访问样式 */
 
-/* 高对比度模式 */
+/* 高对比度模式：只强化文字/控件/边框，不覆盖地图与媒体 */
 .high-contrast {
   --primary-green: var(--color-ink);
   --secondary-green: var(--color-ink);
   --text-dark: var(--color-ink);
   --text-medium: var(--color-ink);
-  --text-light: var(--text-secondary)333;
+  --text-light: var(--text-secondary);
   --text-white: var(--bg-white);
   --background-light: var(--bg-white);
   --background-white: var(--bg-white);
+  --color-ink: #001a2e;
+  --text-primary: #001a2e;
+  --text-secondary: #1a3344;
+  --border-subtle: #001a2e;
 }
 
-.high-contrast * {
-  border-color: var(--color-ink) !important;
-  background-color: var(--bg-white) !important;
-  color: var(--color-ink) !important;
+.high-contrast body,
+.high-contrast .container,
+.high-contrast main,
+.high-contrast header,
+.high-contrast aside,
+.high-contrast section,
+.high-contrast article,
+.high-contrast nav,
+.high-contrast footer,
+.high-contrast [class*='Card'],
+.high-contrast [class*='Panel'],
+.high-contrast [class*='header'],
+.high-contrast [class*='Toolbar'] {
+  color: var(--color-ink);
+}
+
+.high-contrast button,
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea,
+.high-contrast a {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
 }
 
 .high-contrast button,
 .high-contrast input,
 .high-contrast select,
 .high-contrast textarea {
-  border: 2px solid var(--color-ink) !important;
-  background-color: var(--bg-white) !important;
-  color: var(--color-ink) !important;
+  border-width: 2px;
+  border-style: solid;
+  background-color: var(--bg-white);
+}
+
+/* 地图瓦片、照片、图表不受高对比全局刷色影响 */
+.high-contrast img,
+.high-contrast picture,
+.high-contrast video,
+.high-contrast canvas,
+.high-contrast svg,
+.high-contrast iframe,
+.high-contrast [class*='map'],
+.high-contrast [class*='Map'],
+.high-contrast [class*='chart'],
+.high-contrast [class*='Chart'] {
+  background-color: transparent !important;
+  color: inherit !important;
+  border-color: inherit !important;
 }
 
 /* 大字体模式 */
@@ -59,10 +98,10 @@
   transition-duration: 0.01ms !important;
 }
 
-/* 焦点指示器增强 */
-*:focus {
-  outline: 3px solid var(--color-lake) !important;
-  outline-offset: 2px !important;
+/* 焦点指示器：仅键盘焦点，避免鼠标点击噪声 */
+:focus-visible {
+  outline: 3px solid var(--color-lake);
+  outline-offset: 2px;
 }
 
 /* 跳过链接 */

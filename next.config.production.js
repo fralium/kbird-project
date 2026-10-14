@@ -78,7 +78,22 @@ const nextConfig = {
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.map.baidu.com https://api.tianditu.gov.cn",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: http: https:",
+              "font-src 'self' data:",
+              "connect-src 'self' http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* https://api.map.baidu.com https://*.baidu.com https://api.tianditu.gov.cn https://*.tianditu.gov.cn https://*.basemaps.cartocdn.com",
+              "media-src 'self' blob: data:",
+              "frame-ancestors 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join('; '),
           },
         ],
       },

@@ -5,11 +5,16 @@ import {
   sendMethodNotAllowed,
   sendProxyError,
 } from '@/utils/proxyApi';
+import { isLocalLoopbackClient, rejectUnlessLocalLoopback } from '@/utils/requestLoopback';
 
 export default async function handler(req, res) {
   const { method, body } = req;
   if (!['GET', 'PUT'].includes(method)) {
     return sendMethodNotAllowed(res, ['GET', 'PUT']);
+  }
+
+  if (!isLocalLoopbackClient(req)) {
+    return rejectUnlessLocalLoopback(res, '服务与密钥配置仅允许本机访问');
   }
 
   const baseUrl = resolveBackendApiBase();

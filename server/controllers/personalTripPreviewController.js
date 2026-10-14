@@ -323,7 +323,7 @@ const compareTripPreview = async (req, res) => {
 
     const userId = req.user._id || req.user.id;
     const [birds, seenPack] = await Promise.all([
-      Bird.find({}).select('_id name scientificName nameAliases').lean(),
+      Bird.find({}).select('_id name scientificName nameAliases').limit(5000).lean(),
       loadSeenBirdIds(userId),
     ]);
     const maps = buildCatalogMaps(birds);

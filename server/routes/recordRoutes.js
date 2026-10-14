@@ -31,13 +31,13 @@ router.get('/bird/:birdId', validateObjectIdParam('birdId'), getRecordsByBird);
 router.get('/location-options', getRecordLocationOptions);
 
 // 获取地图聚合点（必须在 /:id 之前）
-router.get('/map-points', getRecordMapPoints);
+router.get('/map-points', validatePagination, getRecordMapPoints);
 
 // 获取本月推荐观察鸟类
 router.get('/monthly-observation', getMonthlyObservationRecommendations);
 
 // 获取用户的观鸟记录（必须在 /:id 之前）
-router.get('/user/:userId', protect, validateObjectIdParam('userId'), getUserRecords);
+router.get('/user/:userId', protect, validateObjectIdParam('userId'), validatePagination, getUserRecords);
 
 // 获取单个观鸟记录
 router.get('/:id', validateObjectIdParam('id'), getRecord);

@@ -30,7 +30,9 @@ export default async function RootLayout({ children }) {
       <body>
         <a href="#main-content" className="skip-link">跳转到主要内容</a>
         <AppProviders>
-          <div id="main-content">{children}</div>
+          <div id="main-content" tabIndex={-1}>
+            {children}
+          </div>
         </AppProviders>
       </body>
     </html>

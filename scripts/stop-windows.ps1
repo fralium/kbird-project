@@ -28,7 +28,7 @@ function Stop-ListenersOnPort([int]$Port) {
 
 Write-Host "[1/2] Closing KBird console windows (if any)..." -ForegroundColor Yellow
 Get-Process -Name "cmd" -ErrorAction SilentlyContinue | Where-Object {
-  $_.MainWindowTitle -like "KBird Backend*" -or $_.MainWindowTitle -like "KBird Frontend*"
+  $_.MainWindowTitle -like "KBird *"
 } | ForEach-Object {
   Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
 }
