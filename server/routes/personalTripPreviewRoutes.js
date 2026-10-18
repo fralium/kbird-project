@@ -3,6 +3,7 @@ const router = express.Router();
 const { protect } = require('../middleware/auth');
 const {
   compareTripPreview,
+  previewBirdreportLink,
   listTripPreviewHistory,
   getTripPreviewHistory,
   deleteTripPreviewHistory,
@@ -11,6 +12,7 @@ const {
 
 router.use(protect);
 router.post('/', compareTripPreview);
+router.post('/from-url', previewBirdreportLink);
 router.get('/location-past', getTripPreviewLocationPast);
 router.get('/history', listTripPreviewHistory);
 router.get('/history/:id', getTripPreviewHistory);

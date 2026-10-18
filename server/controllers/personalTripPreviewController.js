@@ -10,6 +10,7 @@ const {
   buildLocationRecordMatchers,
   findActiveLocationByFlexibleName,
 } = require('../utils/locationName');
+const { loadBirdreportRecord } = require('../utils/birdreportRecordPage');
 
 const MAX_SPECIES = 5000;
 const MAX_HISTORY = 40;
@@ -612,10 +613,26 @@ const getTripPreviewLocationPast = async (req, res) => {
   }
 };
 
+const previewBirdreportLink = async (req, res) => {
+  try {
+    const page = await loadBirdreportRecord(req.body?.url);
+    return res.status(200).json({
+      success: true,
+      data: page,
+    });
+  } catch (error) {
+    return sendControllerError(res, error, {
+      defaultMessage: '读取观鸟记录链接失败',
+      defaultCode: 'BIRDREPORT_PAGE_FAILED',
+    });
+  }
+};
+
 module.exports = {
   compareTripPreview,
   listTripPreviewHistory,
   getTripPreviewHistory,
   deleteTripPreviewHistory,
   getTripPreviewLocationPast,
+  previewBirdreportLink,
 };

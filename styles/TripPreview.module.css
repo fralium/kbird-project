@@ -59,6 +59,10 @@
   color: var(--color-ink);
 }
 
+.urlInput {
+  margin-bottom: 8px;
+}
+
 .input,
 .fileInput {
   width: 100%;

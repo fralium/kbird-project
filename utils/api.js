@@ -910,6 +910,12 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(payload),
       }),
+    previewTripFromLink: (payload) =>
+      apiRequest('/api/personal/trip-preview/from-url', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        skipRetry: true,
+      }),
     pickFolderPhotos: (payload = {}) =>
       apiRequest('/api/personal/folder-photos/pick', {
         method: 'POST',

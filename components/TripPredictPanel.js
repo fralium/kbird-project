@@ -10,14 +10,18 @@ import LocationAutocomplete from './LocationAutocomplete';
 import SpeciesHoverChip from './SpeciesHoverChip';
 import { useAuth } from './AuthProvider';
 import { api } from '@/utils/api';
-import { parseTripPreviewWorkbooks } from '@/utils/tripPreviewWorkbook';
+import {
+  formatTripPreviewFileLabel,
+  mergeTripPreviewSpecies,
+  parseTripPreviewWorkbooks,
+} from '@/utils/tripPreviewWorkbook';
 import styles from '@/styles/TripPreview.module.css';
 
 const PAGE_TABS = [
   {
     id: 'compare',
     label: '本次预测',
-    hint: '上传一份或多份鸟种表（多表会合并同种次数），预测还能加哪些新种；地点备注可选，不会写入观察记录。',
+    hint: '上传鸟种表，或粘贴一条观鸟记录链接。预测还能加哪些新种；地点备注可选，不会写入观察记录。',
   },
   { id: 'history', label: '预测历史', hint: '回看以前的加新预测，以及后来真正记进名录的种。' },
 ];
@@ -237,6 +241,7 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
   const [locationPast, setLocationPast] = useState(null);
   const [tripDate, setTripDate] = useState('');
   const [files, setFiles] = useState([]);
+  const [reportUrl, setReportUrl] = useState('');
   const [comparing, setComparing] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
@@ -364,20 +369,50 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
   }, [authLoading]);
 
   const handleCompare = async () => {
-    if (!files.length) {
-      setError('请先选择中国观鸟记录中心导出的 Excel（可多选，会合并后预测）');
+    const link = reportUrl.trim();
+    if (!files.length && !link) {
+      setError('请选择 Excel，或粘贴中国观鸟记录中心的观鸟记录链接');
       return;
     }
     setComparing(true);
     setError('');
     try {
-      const parsed = await parseTripPreviewWorkbooks(files);
+      const chunks = [];
+      let label = locationLabel;
+      let date = tripDate;
+      if (link) {
+        const pageData = await api.personal.previewTripFromLink({ url: link });
+        if (!pageData?.success) {
+          throw new Error(pageData?.message || '读取链接失败');
+        }
+        const page = pageData.data || {};
+        if (!label.trim() && page.locationLabel) {
+          label = page.locationLabel;
+          setLocationLabel(label);
+          setLocationId('');
+        }
+        if (!date && page.tripDate) {
+          date = page.tripDate;
+          setTripDate(date);
+        }
+        chunks.push({
+          fileName: page.fileName || '观鸟记录链接',
+          species: page.species || [],
+        });
+      }
+      if (files.length) {
+        chunks.push(await parseTripPreviewWorkbooks(files));
+      }
+      const species = mergeTripPreviewSpecies(chunks);
+      if (!species.length) {
+        throw new Error('没有读到鸟种行');
+      }
       const data = await api.personal.compareTripPreview({
-        fileName: parsed.fileName,
-        locationLabel,
-        locationId,
-        tripDate,
-        species: parsed.species,
+        fileName: formatTripPreviewFileLabel(chunks.map((item) => item.fileName)),
+        locationLabel: label,
+        locationId: label === locationLabel ? locationId : '',
+        tripDate: date,
+        species,
       });
       if (!data?.success) {
         throw new Error(data?.message || '预测失败');
@@ -409,6 +444,7 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
     setTab('new');
     setError('');
     setFiles([]);
+    setReportUrl('');
     setFileInputKey((key) => key + 1);
     setPageTab('compare');
     replacePredictQuery('');
@@ -553,7 +589,7 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
           <section className={styles.panel}>
             <h2 className={styles.panelTitle}>上传鸟种表</h2>
             <p className={styles.panelNote}>
-              用中国观鸟记录中心导出的 Excel。可以是具体点位，也可以是「杭州地区」这类范围备注，不必出现在地点词典里。只做加新预测，不会导入成观察记录；结果会自动存进历史。
+              用中国观鸟记录中心导出的 Excel，或粘贴一条观鸟记录页链接。可以是具体点位，也可以是「杭州地区」这类范围备注，不必出现在地点词典里。只做加新预测，不会导入成观察记录；结果会自动存进历史。
             </p>
             <div className={styles.formRow}>
               <div>
@@ -619,6 +655,23 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
               </div>
             ) : null}
             <label>
+              <span className={styles.fieldLabel}>观鸟记录链接</span>
+              <input
+                className={`${styles.input} ${styles.urlInput}`}
+                type="url"
+                inputMode="url"
+                value={reportUrl}
+                placeholder="https://www.birdreport.cn/home/record/page.html?…"
+                onChange={(event) => {
+                  setReportUrl(event.target.value);
+                  setError('');
+                }}
+              />
+            </label>
+            <p className={styles.panelNote}>
+              链接会等页面里的鸟种表加载完再读取。地点和日期留空时，会用记录页上的地点和开始日期。
+            </p>
+            <label>
               <span className={styles.fieldLabel}>Excel 文件（可多选，同种次数会相加）</span>
               <input
                 key={fileInputKey}
@@ -642,13 +695,17 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
                 type="button"
                 className="btn btn-primary"
                 onClick={handleCompare}
-                disabled={comparing || !files.length}
+                disabled={comparing || (!files.length && !reportUrl.trim())}
               >
                 {comparing
-                  ? '预测中…'
-                  : files.length > 1
-                    ? `合并 ${files.length} 个文件并预测`
-                    : '开始预测'}
+                  ? reportUrl.trim()
+                    ? '打开链接并预测…'
+                    : '预测中…'
+                  : files.length && reportUrl.trim()
+                    ? '合并链接和文件并预测'
+                    : files.length > 1
+                      ? `合并 ${files.length} 个文件并预测`
+                      : '开始预测'}
               </button>
             </div>
             {error && pageTab === 'compare' ? (
