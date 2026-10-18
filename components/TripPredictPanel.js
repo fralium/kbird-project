@@ -21,7 +21,7 @@ const PAGE_TABS = [
   {
     id: 'compare',
     label: '本次预测',
-    hint: '上传鸟种表，或粘贴一条观鸟记录链接。预测还能加哪些新种；地点备注可选，不会写入观察记录。',
+    hint: '先粘贴观鸟记录链接，或上传鸟种表。地点和日期可以留空。',
   },
   { id: 'history', label: '预测历史', hint: '回看以前的加新预测，以及后来真正记进名录的种。' },
 ];
@@ -589,11 +589,47 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
           <section className={styles.panel}>
             <h2 className={styles.panelTitle}>上传鸟种表</h2>
             <p className={styles.panelNote}>
-              用中国观鸟记录中心导出的 Excel，或粘贴一条观鸟记录页链接。可以是具体点位，也可以是「杭州地区」这类范围备注，不必出现在地点词典里。只做加新预测，不会导入成观察记录；结果会自动存进历史。
+              粘贴一条观鸟记录链接，或上传中国观鸟记录中心导出的 Excel。只做加新预测，不会导入成观察记录。
             </p>
+            <label>
+              <span className={styles.fieldLabel}>观鸟记录链接</span>
+              <input
+                className={`${styles.input} ${styles.urlInput}`}
+                type="url"
+                inputMode="url"
+                value={reportUrl}
+                placeholder="https://www.birdreport.cn/home/record/page.html?…"
+                onChange={(event) => {
+                  setReportUrl(event.target.value);
+                  setError('');
+                }}
+              />
+            </label>
+            <p className={styles.panelNote}>
+              用链接时，下面的地点和日期可以留空，会自动带上记录页里的地点和开始日期。
+            </p>
+            <label>
+              <span className={styles.fieldLabel}>Excel 文件（可多选，同种次数会相加）</span>
+              <input
+                key={fileInputKey}
+                className={styles.fileInput}
+                type="file"
+                accept=".xls,.xlsx,.xlsm,.csv"
+                multiple
+                onChange={(event) => {
+                  setFiles(Array.from(event.target.files || []));
+                  setError('');
+                }}
+              />
+            </label>
+            {files.length ? (
+              <p className={styles.panelNote}>
+                已选 {files.length} 个：{files.map((item) => item.name).join('、')}
+              </p>
+            ) : null}
             <div className={styles.formRow}>
               <div>
-                <span className={styles.fieldLabel}>范围备注</span>
+                <span className={styles.fieldLabel}>范围备注（可选）</span>
                 <div className={styles.locationWrap}>
                   <LocationAutocomplete
                     value={{ name: locationLabel, _id: locationId || null }}
@@ -601,7 +637,7 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
                       setLocationLabel(location?.name || '');
                       setLocationId(location?._id ? String(location._id) : '');
                     }}
-                    placeholder="如：西溪湿地，或杭州地区"
+                    placeholder={reportUrl.trim() ? '留空则用记录页上的地点' : '如：西溪湿地，或杭州地区'}
                     showHint={false}
                   />
                 </div>
@@ -654,42 +690,6 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
                 ) : null}
               </div>
             ) : null}
-            <label>
-              <span className={styles.fieldLabel}>观鸟记录链接</span>
-              <input
-                className={`${styles.input} ${styles.urlInput}`}
-                type="url"
-                inputMode="url"
-                value={reportUrl}
-                placeholder="https://www.birdreport.cn/home/record/page.html?…"
-                onChange={(event) => {
-                  setReportUrl(event.target.value);
-                  setError('');
-                }}
-              />
-            </label>
-            <p className={styles.panelNote}>
-              链接会等页面里的鸟种表加载完再读取。地点和日期留空时，会用记录页上的地点和开始日期。
-            </p>
-            <label>
-              <span className={styles.fieldLabel}>Excel 文件（可多选，同种次数会相加）</span>
-              <input
-                key={fileInputKey}
-                className={styles.fileInput}
-                type="file"
-                accept=".xls,.xlsx,.xlsm,.csv"
-                multiple
-                onChange={(event) => {
-                  setFiles(Array.from(event.target.files || []));
-                  setError('');
-                }}
-              />
-            </label>
-            {files.length ? (
-              <p className={styles.panelNote}>
-                已选 {files.length} 个：{files.map((item) => item.name).join('、')}
-              </p>
-            ) : null}
             <div className={styles.submitRow}>
               <button
                 type="button"
@@ -703,9 +703,11 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
                     : '预测中…'
                   : files.length && reportUrl.trim()
                     ? '合并链接和文件并预测'
-                    : files.length > 1
-                      ? `合并 ${files.length} 个文件并预测`
-                      : '开始预测'}
+                    : reportUrl.trim()
+                      ? '读取链接并预测'
+                      : files.length > 1
+                        ? `合并 ${files.length} 个文件并预测`
+                        : '开始预测'}
               </button>
             </div>
             {error && pageTab === 'compare' ? (
