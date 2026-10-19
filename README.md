@@ -1,333 +1,259 @@
-# KBird
+<div align="center">
 
-本机观鸟笔记本：名录、观察记录与照片归档。
+# KBird · 个人本地观鸟笔记本
 
-[![Version](https://img.shields.io/badge/version-1.2.0-blue)](./CHANGELOG.md)
-[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-blue)](.github/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-Non--Commercial-orange)](./LICENSE)
-[![Node](https://img.shields.io/badge/node-%3E%3D20.9-brightgreen)](./package.json)
-[![Next.js](https://img.shields.io/badge/Next.js-16.2-black)](./package.json)
-[![Express](https://img.shields.io/badge/Express-4.18-black)](./package.json)
-[![React](https://img.shields.io/badge/React-19.2-61dafb)](./package.json)
+**本机优先（Local-First）的观鸟记录、影像归档、物种辨识对比与驻地物候分析系统**
 
-仓库：
-- Gitee：https://gitee.com/fralium/kbird.git
-- GitHub：https://github.com/fralium/kbird-project
+[![Version](https://img.shields.io/badge/version-1.2.0-0284c7)](./CHANGELOG.md)
+[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2563eb)](.github/workflows/ci.yml)
+[![Node](https://img.shields.io/badge/Node.js-%3E%3D20.9-16a34a)](./package.json)
+[![Next.js](https://img.shields.io/badge/Next.js-16.2-000000)](./package.json)
+[![Express](https://img.shields.io/badge/Express-4.18-334155)](./package.json)
+[![MongoDB](https://img.shields.io/badge/MongoDB-4.4%2B-10b981)](./package.json)
+[![License](https://img.shields.io/badge/License-Non--Commercial-ea580c)](./LICENSE)
 
-当前正式版 **v1.2.0**，更新说明见 [CHANGELOG.md](./CHANGELOG.md)。
+[Gitee 主仓库](https://gitee.com/fralium/kbird.git) · [GitHub 镜像仓库](https://github.com/fralium/kbird-project) · [版本更新日志 (CHANGELOG)](./CHANGELOG.md) · [Windows 快速上手](./docs/WINDOWS_QUICK_START.md) · [常见问题排障](./docs/TROUBLESHOOTING.md)
 
-## 项目简介
+</div>
 
-KBird 是面向个人观鸟者的**本机优先** Web 应用：管理鸟种文字名录、记录观察、保存照片与鸣声，并汇总地点与个人统计。  
-Clone 后自带公开**文字**种子名录；地点、观察记录、照片等个人数据落在仓库外的 `KBird-Data`，默认不进 Git。  
-默认 `SINGLE_USER_MODE`，支持本机回环自动登录；地图与 AI 为可选项，需自备服务商 Key。  
-前端 Next.js，后端 Express + MongoDB；Windows 提供 bat / PowerShell 一键安装与启停。
+---
 
-| 进仓库 | 不进仓库（本机私有） |
-|--------|----------------------|
-| 程序、文字名录、AI 封面 / 首页背景 | 地点、各地鸟种、自留地、探索数据、记录、照片、MongoDB |
+## 为什么做 KBird？
 
-## 界面预览
+许多观鸟者在几年间积累了成百上千份野外记录和数万张按鸟种分类的实拍照片，却常常面临三个痛点：
+1. **照片与记录割裂**：硬盘文件夹里的鸟照只有文件名，没法和当天的观鸟记录、地点与物候关联起来；
+2. **长期驻地（自留地）缺乏纵深统计**：常去的公园或湿地，很难直观看出今年候鸟比往年早到了几天、历年常客留存率是多少；
+3. **云端平台的隐私与离线顾虑**：珍贵的私人鸟点坐标、未公开观察记录以及海量原图，更希望 100% 掌握在自己本机硬盘中。
 
-![KBird 首页](docs/screenshots/screen1.png)
+**KBird** 为此而生——它是一套运行在你个人电脑上的**本地观鸟工作站與私人博物志**。仓库内置中国鸟类公开文字种子名录，而你的所有观察记录、地点坐标、实拍照片与数据库备份全部独立存放在仓库外的 `KBird-Data` 目录中，代码升级与个人数据互不干扰。
 
-## 功能特性
+![KBird 首页预览](docs/screenshots/screen1.png)
 
-### 前端
+---
 
-- 鸟种名录浏览 / 搜索 / 详情（Classic / Notebook 等视图）
-- 观察记录列表、快速录入、草稿与表格视图
-- 地点名录、地图展示（百度 / 天地图 / Leaflet 兜底，可选 Key）
-- 个人中心：清单、目标、统计、照片、备份恢复、导入导出、记事本
-- AI 助手页（对话 / 识鸟，需配置 Key）
+## 核心功能全景
 
-### 后端
+### 1. 野外记录与本地照片智能归档
+- **三种录入工作流**：
+  - **快速记录 (`/records/quick`)**：选定地点与日期，1 分钟内极速录入鸟种与数量；
+  - **详细记录 (`/records/add`)**：完整支持天气、温湿度、风力、eBird 标准观察努力量（起止时间、时长、距离、人数、完整清单）、生境照片与单鸟种多图上传；
+  - **文字草稿识别 (`/records/draft`)**：粘贴手机备忘录或微信群里的野外观鸟流水账，自动分词匹配鸟名并转为结构化草稿。
+- **鸟种行为与状态微标签**：支持为每笔记录中的鸟种勾选 `目击`、`听音`、`飞过`、`求偶`、`筑巢/携巢材`、`育雏/喂食`、`取食`、`集群` 微标签，全链路贯穿录入、详情与足迹列表。
+- **本地文件夹照片 EXIF 智能导入 (`/personal/manage?tab=photos`)**：
+  - 直接扫描硬盘上按「鸟种名」或「目/科/鸟种名」整理的文件夹，同步至对应鸟种图鉴；
+  - **零依赖 EXIF 解析**：自动读取 JPEG/WebP 快门时间（`DateTimeOriginal`）与 GPS 经纬度；无 EXIF 时自动从文件名/目录名兜底提取拍摄日期；
+  - **文件名语义识别**：自动提取文件名中的 `雄性`、`雌性`、`亚成鸟`、`幼鸟`、`繁殖羽`、`飞翔`、`取食` 等标签，并自动匹配「地点词典」中的观鸟点或 6km 内最近坐标；
+  - **按日聚类生成记录草稿**：扫描后按拍摄日汇总当日全部拍到的鸟种与地点，一键预填生成当日观察记录草稿。
 
-- REST API：鸟种、记录、地点、地区名录、用户与个人模块
-- JWT 鉴权；管理员角色控制写名录等操作
-- 上传（图片 / 鸣声）、限流、校验与统一错误处理
-- 可选 OpenAI 兼容聊天 / 识鸟，以及 HHO 识鸟接口
+### 2. 个人鸟类图鉴、物候热力条与相似种对比台
+- **中国鸟类全名录与多维筛选 (`/birds/catalog` & `/birds`)**：支持中文、拉丁学名、英文名及拼音检索；按目/科、国家保护级别、IUCN 等级、居留型、翼型与体色折叠筛选；支持 xeno-canto 鸣声试听。
+- **1–12 月个人物候频次热力条**：在鸟种详情页（支持「手账双页」与「经典页签」双视图切换）自动汇总你历年 1–12 月的观察与拍摄频次，推导本地居留型，点击任意月份可下钻查看该月跨年分布、高频地点与行为统计。
+- **相似种同屏对比台 (Taxon Compare Workbench)**：
+  - 支持在图鉴卡片勾选 2～3 个物种，或在鸟种详情页顶部一键点击 **「相似种对比」**（自动关联 `similarSpecies` 中提及的易混种）；
+  - 同屏并排比对完整未裁切鸟照（支持多图翻页切换）、1–12 月物候条、分类阶元、保护级别、识别要点、羽色、体型/喙/脚、典型生境、迁徙习性与鸣声录音。
+- **各地鸟种与 PDF 图鉴导出**：支持按省市查阅分布名录、点亮全国省级版图，并将个人已见鸟种一键排版导出为带目录与封面的 PDF 图鉴。
 
-### 通用
+### 3. 自留地 (Patch) 监测与地点词典
+- **地点词典 (`/locations`)**：管理常去湿地、公园、林场与高校的经纬度坐标、行政区划与四季生境实拍墙（Habitat Gallery），支持地图交互选点与历史记录坐标同步。
+- **自留地月度鸟历与跨年物候分析 (`/locations/[id]`)**：
+  - **1–12 月地点鸟历**：按月统计该地点的历史观察天数、鸟种数与高频优势种；
+  - **跨年物候与常客留存率**：按年度展示该地点的**场地首见加新种 (`+N 种`)** 与**常客留存率 (`%`)**；针对跨多年出现的驻地常客，自动计算最近一年首见日 (`MM-DD`) 较往年均值的早晚偏差（如 `早到 8 天` / `晚到 5 天`）及 1–12 月本场活跃点阵。
 
-- 个人数据与程序分离（`KBird-Data`）
-- 备份脚本：`uploads` + `mongodump` → zip
-- 公开鸟种文字种子导出与分享卫生检查脚本
-- Docker Compose / PM2 / GitHub Actions CI（lint、test、build）
+### 4. 博物手账卡导出、加新之旅与 3D 统计
+- **野外博物手账卡导出**：在任意观察记录详情页点击 **「生成手账卡」**，支持「宣纸米白 / 深林墨绿」双主题，自动排版日期、天气、努力量、重点保护鸟种徽章、代表实拍图、完整物种名录与野外手记，一键导出 **2x 超清 PNG 长图**或**复制微信群文字战报**。
+- **加新之旅 (`/personal/goals`)**：追踪生涯首见（Lifer）时间轴、年度加新曲线、目标心愿单，以及通过中国观鸟记录中心公开记录链接对比预测目标鸟点潜在加新种。
+- **个人统计与 3D 探索实验场 (`/personal/stats` & `/personal/projects`)**：多维可视化图表、中国省份点亮热力图，以及 3D 照片星系（PhotoGalaxy3D）与 3D 地球足迹轨道（FootprintOrbit3D）。
 
-## 技术栈
+### 5. 标准数据互通、整库备份与 AI 观鸟助手
+- **标准导入导出 (`/personal/manage`)**：支持中国观鸟记录中心（CBRC）Excel/CSV、eBird CSV 与 JSON 格式导入导出，以及生成年度/月度个人观鸟摘要报告。
+- **程序与数据彻底分离 (`KBird-Data`)**：一键打包备份 MongoDB 数据库与全部上传照片为 ZIP，换机或重装系统可完整还原。
+- **AI 观鸟助手 (`/ai`) 与内置功能指南 (`/personal/guide`)**：支持接入 OpenAI 兼容接口或识鸟服务；顶部菜单内置「我的 → 功能指南」交互式说明书。
 
-| 分层 | 技术 | 版本 | 用途 |
-|------|------|------|------|
-| 前端框架 | Next.js | ^16.2.4 | App Router 页面 + `pages/api` 反向代理 |
-| UI | React / antd | ^19.2.0 / ^5.8.4 | 界面与组件 |
-| 后端 | Express | ^4.18.2 | HTTP API（默认端口 13082） |
-| ODM | Mongoose | ^7.4.3 | MongoDB 访问 |
-| 数据库 | MongoDB | 本机 4.4+；Compose 镜像 6.0 | 持久化 |
-| 鉴权 | jsonwebtoken / bcryptjs | ^9.0.2 / ^3.0.2 | JWT + 密码哈希 |
-| 地图 | Leaflet 等 | ^1.9.4 | 地图展示；百度/天地图为可选 SDK |
-| 包管理 | npm | lockfile 已提交 | 依赖安装 |
-| 进程（可选） | PM2 | 见 `ecosystem.config.js` | 生产双进程 |
-| 运行时 | Node.js | >=20.9.0 | `engines` 要求 |
+---
 
-## 系统架构
+## 系统架构与数据隔离
 
 ```mermaid
 flowchart LR
-  Browser["浏览器<br/>localhost:13080"]
-  Next["Next.js<br/>UI + pages/api 代理"]
-  API["Express API<br/>:13082"]
-  Mongo[(MongoDB<br/>kbird)]
-  Data["KBird-Data<br/>uploads / backups"]
-  Ext["可选外部服务<br/>地图 / OpenAI 兼容 / HHO"]
+  Browser["桌面浏览器<br/>127.0.0.1:13080"]
+  Next["Next.js 16 前端<br/>App Router + /api 代理"]
+  API["Express 后端服务<br/>127.0.0.1:13082"]
+  Mongo[("MongoDB<br/>kbird 数据库")]
+  Data["KBird-Data (仓库外)<br/>uploads 照片 / backups 备份"]
+  Ext["可选外部服务<br/>百度·天地图 / OpenAI 兼容 API"]
 
   Browser --> Next
-  Next -->|"HTTP /api 代理或直连"| API
+  Next -->|"同源 /api 代理"| API
   API --> Mongo
   API --> Data
-  API -.-> Ext
-  Browser -.->|"NEXT_PUBLIC_* 地图 Key"| Ext
+  API -.->|"按需可选"| Ext
+  Browser -.->|"可选地图瓦片"| Ext
 ```
 
-## 目录结构
+| 存储位置 | 包含内容 | Git 追踪状态 |
+|----------|----------|--------------|
+| **代码仓库 (`kbird/`)** | 前后端源码、中国鸟类公开文字种子名录 (`seeds/`)、脚本与文档 | 进 Git 仓库（可随时 `git pull` 更新） |
+| **数据目录 (`../KBird-Data/`)** | 个人上传的鸟照与生境图 (`uploads/`)、整库备份包 (`backups/`)、探索项目资产 | **不进 Git**（100% 本机私有，更新代码不丢失） |
+| **本地数据库 (`MongoDB`)** | 个人观察记录、地点词典、自定义图鉴图片关联、便签与设置 | **不进 Git**（随备份脚本打包进 `KBird-Data/backups`） |
 
-```bash
-kbird/
-├── app/                 # Next.js App Router 页面
-├── pages/               # 兼容层与 pages/api（转发到 Express）
-├── components/          # React 组件
-├── styles/              # CSS Modules / globals
-├── server/              # Express 入口、路由、模型、中间件
-├── utils/               # 前后端共用工具
-├── data/                # 静态分类/别名等数据
-├── seeds/               # 公开鸟种文字种子等
-├── scripts/             # 安装、备份、Windows 启停、维护脚本
-│   └── windows/         # install / setup-mongodb / Start|Stop 等
-├── docs/                # 使用与排障文档
-├── tests/               # node:test 冒烟测试
-├── public/              # 静态资源
-├── env.example          # 环境变量模板（复制为 .env）
-├── docker-compose.yml   # Mongo + 应用（可选）
-├── Dockerfile
-├── ecosystem.config.js  # PM2
-├── LICENSE              # 非商业许可
-├── KBird-Start*.bat     # Windows 日常入口（转调 scripts/windows）
-└── package.json
-```
+---
+
+## 技术栈
+
+| 分层 | 技术选型 | 版本要求 | 说明 |
+|------|----------|----------|------|
+| **前端框架** | Next.js + React | `^16.2.4` / `^19.2.0` | App Router 页面渲染 + `pages/api/[...path].js` 同源反向代理 |
+| **UI 与可视化** | CSS Modules / Ant Design / ECharts | `^5.8.4` / `^6.0.0` | 响应式博物手账界面、省级热力图、统计图表与 `html2canvas` 海报渲染 |
+| **地图引擎** | Leaflet + 百度地图 / 天地图 | `^1.9.4` | 默认开源瓦片开箱即用；可选配置天地图或百度地图 Key |
+| **后端服务** | Node.js + Express | `>=20.9.0` / `^4.18.2` | RESTful API、零依赖 EXIF 解析、CBRC/eBird 解析器、回环安全防护 |
+| **数据持久化** | MongoDB + Mongoose | `4.4+` (推荐 `6.0+`) | 文档数据库与本地文件系统 (`KBird-Data`) 结合 |
+
+---
 
 ## 快速开始
 
-### 前置要求
+### 1. 环境准备
 
-- Windows 10 / 11（主路径；Linux/macOS 可用 npm 脚本）
-- Node.js **≥ 20.9**
-- MongoDB（本机服务 4.4+；或 Docker Compose 中的 `mongo:6.0`）
-- 完整备份另需 [MongoDB Database Tools](https://www.mongodb.com/try/download/database-tools)（`mongodump`）
+- **操作系统**：Windows 10 / 11（提供全套 `.bat` / PowerShell 自动化脚本）；macOS / Linux 可直接使用 `npm` 脚本。
+- **Node.js**：`>= 20.9.0`
+- **MongoDB**：本机安装 MongoDB Community Server `4.4+`（若未安装，Windows 安装脚本可辅助配置）。
+- **可选工具**：如需使用一键整库物理备份，建议安装 [MongoDB Database Tools (`mongodump`)](https://www.mongodb.com/try/download/database-tools)。
 
-### 克隆与安装
+### 2. 安装与初始化
 
-**推荐（Windows）** — 在**管理员** PowerShell 中：
+#### 方式 A：Windows 一键脚本（推荐）
+
+以**管理员身份**打开 PowerShell：
 
 ```powershell
 git clone https://gitee.com/fralium/kbird.git
 cd kbird
 
+# 1. 自动安装依赖、生成 .env 并创建同级 KBird-Data 目录
 .\scripts\windows\install.ps1
-# 若还没有 MongoDB：
+
+# 2. 若本机尚未安装或配置 MongoDB 服务，可运行：
 .\scripts\windows\setup-mongodb.ps1
-# 空库首次：导入公开鸟种文字种子
+
+# 3. 首次空库初始化：导入内置中国鸟类公开文字种子名录
 .\scripts\windows\init-database.ps1
 ```
 
-`install.ps1` 会安装依赖、准备 `.env`，并在仓库同级创建 `KBird-Data`。
-
-**手动（npm）**
+#### 方式 B：手动安装（跨平台通用）
 
 ```bash
 git clone https://gitee.com/fralium/kbird.git
 cd kbird
-copy env.example .env   # Windows；或 cp env.example .env
-npm ci                  # 或 npm install
+
+cp env.example .env
+npm ci
 ```
 
-本仓库为单体（前端 + 后端同 `package.json`），无独立 frontend/backend 包。
+### 3. 启动应用
 
-### 环境变量
+#### Windows 桌面快捷启停
 
-完整注释见 [`env.example`](./env.example)。常用项：
+| 脚本文件 | 用途说明 |
+|----------|----------|
+| **`KBird-Start-Prod.bat`** | **日常使用推荐（生产模式）**：首次运行自动执行 `npm run build`，之后极速启动前后端服务并打开浏览器 |
+| **`KBird-Start.bat`** | **开发调试模式**：带代码热更新（`next dev` + `nodemon`） |
+| **`KBird-Stop.bat`** | 停止本机正在运行的 KBird 前后端进程 |
+| **`KBird-Update.bat`** | **一键升级版本**：自动停止服务 → `git pull` → `npm install` → 重建生产前端（**绝不覆盖 `.env` 与个人数据**） |
+| **`KBird-Backup.bat`** | **一键备份个人数据**：将 `uploads` 照片与 MongoDB 数据库打包为 ZIP 存入 `KBird-Data\backups\` |
+| **`Create-Desktop-Shortcut.bat`** | 在 Windows 桌面创建 KBird 启动快捷方式 |
 
-| 变量名 | 说明 | 示例值 | 必填 |
-|--------|------|--------|------|
-| `MONGODB_URI` | MongoDB 连接串（含库名） | `mongodb://localhost:27017/kbird` | 是 |
-| `JWT_SECRET` | JWT 签名密钥 | `your-jwt-secret-here` | 是 |
-| `PORT` | Express 端口 | `13082` | 否（默认 13082） |
-| `NEXT_PUBLIC_API_URL` | 浏览器访问的 API 根 | `http://localhost:13082` | 是 |
-| `SITE_URL` | 站点 URL | `http://localhost:13080` | 否 |
-| `KBIRD_DATA_ROOT` | 个人数据根目录 | `your-path-to-KBird-Data` | 否（默认同级） |
-| `UPLOAD_PATH` | 上传目录 | `your-uploads-path` | 否 |
-| `SINGLE_USER_MODE` | 单机模式 | `true` | 否 |
-| `AUTO_LOGIN` | 回环自动登录 | `true` | 否 |
-| `DEFAULT_USER` | 自动登录用户名 | `admin` | 否 |
-| `ENABLE_REGISTRATION` | 是否开放注册 | `false` | 否 |
-| `NODE_ENV` | `development` / `production` | `development` | 否 |
-| `NEXT_PUBLIC_BAIDU_MAP_AK` | 百度地图浏览器 AK | `your-baidu-ak-here` | 否 |
-| `NEXT_PUBLIC_TIANDITU_TK` | 天地图浏览器 TK | `your-tianditu-tk-here` | 否 |
-| `TIANDITU_SERVER_TK` | 天地图服务端 TK | `your-tianditu-server-tk-here` | 否 |
-| `OPENAI_API_KEY` | OpenAI 兼容 API Key | `your-openai-api-key-here` | 否 |
-| `OPENAI_BASE_URL` | 兼容接口 Base URL | `your-openai-base-url-here` | 否 |
-| `OPENAI_MODEL` | 模型名 | `your-model-name-here` | 否 |
-| `HHO_API_KEY` | HHO 识鸟 Key | `your-hho-api-key-here` | 否 |
-| `CORS_ORIGINS` | 额外 CORS 源 | `your-origin-here` | 否 |
-| `INIT_SETUP_TOKEN` | `/init` 保护头（可选） | `your-setup-token-here` | 否 |
-
-**不要**将含真实密钥的 `.env` 提交到 Git。地图/AI 也可在本机「个人设置 → 服务与密钥」写入（仅 127.0.0.1），保存后需重启。
-
-### 启动
-
-**1）Windows 日常（推荐）**
-
-```batch
-KBird-Start-Prod.bat
-```
-
-首次会自动 `npm run build`，之后一般只做 `next start`。改过前端代码后需再构建一次。  
-开发热更新：`KBird-Start.bat`（旧名 `KBird-Desktop.bat` 仍可用）。  
-停止：`KBird-Stop.bat`。  
-桌面快捷方式：`Create-Desktop-Shortcut.bat`。
-
-**2）npm 分进程 / 一并启动**
+#### 标准 npm 命令
 
 ```bash
-npm run server          # 后端 API，端口 13082
-npm run dev             # 前端开发，端口 13080
-npm run dev:all         # 开发：前后端一并
+# 开发模式（前后端同时启动，带热重载）
+npm run dev:all
 
+# 生产模式（先构建，再启动前后端）
 npm run build
-npm run prod:all        # 生产：已构建前端 + 后端一并
+npm run prod:all
 ```
 
-**3）Docker Compose**
+启动成功后，在浏览器访问：**[http://localhost:13080](http://localhost:13080)**  
+（单机模式下默认开启回环自动登录 `SINGLE_USER_MODE=true`，直接进入个人工作台；首次进入可点击右上角 **「我的 → 功能指南」** 查看完整交互导览。）
+
+---
+
+## 环境变量说明
+
+复制 [`env.example`](./env.example) 为 `.env` 即可按需调整。核心配置项如下：
+
+| 变量名 | 默认值 / 示例 | 必填 | 说明 |
+|--------|---------------|------|------|
+| `MONGODB_URI` | `mongodb://localhost:27017/kbird` | 是 | MongoDB 数据库连接串 |
+| `JWT_SECRET` | *(安装脚本自动生成随机串)* | 是 | JWT 签名密钥 |
+| `PORT` | `13082` | 否 | Express 后端监听端口（仅绑定回环或指定网卡） |
+| `NEXT_PUBLIC_API_URL` | `http://localhost:13082` | 是 | 前端连接的后端 API 地址 |
+| `KBIRD_DATA_ROOT` | `../KBird-Data` | 否 | 个人照片、探索资产与备份文件的存放根目录 |
+| `SINGLE_USER_MODE` | `true` | 否 | 单机单用户模式 |
+| `AUTO_LOGIN` | `true` | 否 | 本机回环访问（`127.0.0.1` / `localhost`）时自动登录默认账号 |
+| `NEXT_PUBLIC_TIANDITU_TK` | *(选填)* | 否 | 天地图浏览器端密钥（可在「个人设置 → 服务配置」中界面化填写） |
+| `NEXT_PUBLIC_BAIDU_MAP_AK` | *(选填)* | 否 | 百度地图浏览器端 AK（选填） |
+| `OPENAI_API_KEY` | *(选填)* | 否 | AI 观鸟助手所需的 OpenAI 兼容接口密钥（选填） |
+
+> **安全提示**：切勿将包含私人密钥的 `.env` 提交到公开仓库。在单机模式下，你也可以直接在软件内 **「我的 → 个人设置 → 服务配置」** 中可视化配置地图与 AI 密钥。
+
+---
+
+## 目录结构
+
+```text
+kbird/
+├── app/                     # Next.js App Router 页面
+│   ├── birds/               # 已见鸟种图鉴、全鸟种名录 (/catalog)、各地鸟种 (/regions) 与详情页
+│   ├── records/             # 观察记录列表、快速记录 (/quick)、详细录入 (/add)、草稿 (/draft)、自留地 (/plots)
+│   ├── locations/           # 地点词典、地图选点、生境相册与自留地跨年物候监测
+│   ├── personal/            # 个人统计 (/stats)、加新之旅 (/goals)、照片库 (/photos)、数据管理 (/manage)、功能指南 (/guide)
+│   ├── ai/                  # AI 观鸟助手
+│   └── knowledge/           # 鸟类知识库
+├── components/              # 业务与通用组件（含物候热力条、相似种同屏对比台、博物手账卡导出、文件夹导图面板等）
+├── server/                  # Express 后端服务
+│   ├── controllers/         # 业务控制器（鸟种、记录、地点、个人导入导出、文件夹扫描等）
+│   ├── models/              # Mongoose 数据模型
+│   ├── routes/              # API 路由定义
+│   └── utils/               # 服务端工具（含零依赖 EXIF 解析器 exifParser、观鸟记录中心页面解析等）
+├── data/                    # 分类阶元中英文映射、保护级别、行为微标签词表、文件名语义解析规则
+├── utils/                   # 前端与同构工具函数（物候计算、对比台存储、日期与地理工具等）
+├── seeds/                   # 公开鸟种文字种子名录
+├── scripts/                 # Windows 安装/启停/升级/备份脚本与种子导出工具
+├── tests/                   # Node.js 自动化单元测试与冒烟测试 (node:test)
+└── docs/                    # 专题配置与排障文档
+```
+
+---
+
+## 开发与质量验证
 
 ```bash
-# 需本机提供 JWT_SECRET 等（compose 读取 ${JWT_SECRET}）
-docker compose up -d --build
-```
-
-说明：`Dockerfile` 基镜像为 `node:18-alpine`，与 `engines.node >=20.9` **不一致**；Compose 内 Mongo 为 **6.0**。日常更推荐本机 Node≥20.9 + 本机 Mongo。
-
-**4）PM2（可选）**
-
-```bash
-npm run build
-npm run pm2:start
-```
-
-### 访问地址
-
-| 服务 | 地址 |
-|------|------|
-| 前端 | http://localhost:13080 |
-| 后端 API | http://localhost:13082（根路径返回 JSON 简介；无 Swagger `/docs`） |
-| 初始化探测 | http://localhost:13082/api/check-init |
-
-单机模式下后端会按默认就绪本机数据与管理员；密码可在个人设置中修改。`/init` 仅为特殊重配页，日常不必打开。
-
-## 更新程序
-
-```batch
-KBird-Update.bat
-```
-
-或：`.\scripts\windows\update.ps1`  
-会停止 Node → `git pull` → `npm install` → **`npm run build`（重建生产前端）** → 检查 `KBird-Data`；**不**覆盖 `.env` 与个人数据。更新完成后直接点桌面 EXE 即可，无需再手动 rebuild。
-
-## 备份
-
-```batch
-KBird-Backup.bat
-```
-
-或：`.\scripts\backup-personal-data.ps1`  
-zip 输出在同级 `KBird-Data\backups\`。建议另拷一份到其他盘或外置介质。
-
-## API 概览
-
-前缀为 Express 上的 `/api/...`（也可经 Next `pages/api` 同源代理）。代表性路由：
-
-| 方法 | 路径 | 说明 | 鉴权 |
-|------|------|------|------|
-| GET | `/` | API 服务信息 | 否 |
-| GET | `/api/check-init` | 是否已初始化 | 否 |
-| POST | `/api/init` | 初始化/覆盖管理员（本机约束） | 条件 |
-| POST | `/api/users/login` | 登录，返回 JWT | 否 |
-| POST | `/api/users/local-session` | 单机回环自动登录 | 否（限回环） |
-| POST | `/api/users/register` | 注册 | 否（单机默认可关闭） |
-| GET | `/api/users/profile` | 当前用户资料 | 是 |
-| GET | `/api/birds` | 鸟种列表 | 否 |
-| GET | `/api/birds/:id` | 鸟种详情 | 否 |
-| POST/PUT/DELETE | `/api/birds...` | 名录维护 / 图片鸣声等 | 是（多为 admin） |
-| GET | `/api/records` | 已发布观察记录列表 | 否 |
-| GET | `/api/records/:id` | 记录详情 | 否 |
-| POST/PUT/DELETE | `/api/records...` | 创建/编辑/删除记录 | 是 |
-| GET | `/api/locations` | 地点列表 | 否 |
-| POST/PUT/DELETE | `/api/locations...` | 地点写操作 | 是 |
-| GET | `/api/search` | 全局搜索 | 否 |
-| GET | `/api/personal/stats/*` | 个人统计 | 是 |
-| GET/POST | `/api/personal/backup/*` | 备份导出 / 恢复 | 是 |
-| * | `/api/ai/*` | AI 状态、对话、识鸟 | 是 |
-| GET | `/api/tianditu/geocode` | 天地图地理编码 | 是 |
-| GET | `/api/admin/*` | 管理端指标等 | 是（admin） |
-
-鉴权：请求头 `Authorization: Bearer <token>`。
-
-## 部署
-
-- **本机 Windows（主推）**：上文 bat / `scripts/windows/*`，详见 [docs/WINDOWS_QUICK_START.md](docs/WINDOWS_QUICK_START.md)
-- **Docker Compose**：`docker compose up -d --build`（端口 13080 / 13082；Mongo 绑 `127.0.0.1:27017`）
-- **CI**：[`.github/workflows/ci.yml`](.github/workflows/ci.yml) — `npm ci` → lint → test → build（Node 20）
-- **PM2**：`ecosystem.config.js` — 先 `npm run build` 再 `npm run pm2:start`
-
-## 常见问题
-
-1. **前端能开、数据全失败（Failed to fetch）** — 多半未起 Express 或 MongoDB。检查 `:13082` 与 Mongo 服务；用 `KBird-Start.bat` / `npm run dev:all`。见 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)。
-2. **Prod 改代码界面不变** — 需重新 `npm run build` 或再跑 `KBird-Start-Prod.bat` 构建流程。
-3. **登录反复失效** — 检查 `.env` 的 `JWT_SECRET`；浏览器清除 `localStorage` 后重登。
-4. **端口占用** — `netstat -ano | findstr :13080` / `:13082`；或改 `PORT` 与 `NEXT_PUBLIC_API_URL` / `SITE_URL` 保持一致。
-5. **备份缺库** — 需安装 `mongodump`；或先 `-SkipMongo` 只备照片。
-
-## 文档
-
-- [docs/README.md](docs/README.md) — 文档索引
-- [docs/DATA_ISOLATION.md](docs/DATA_ISOLATION.md) — 数据隔离与备份
-- [docs/MAP_SETUP.md](docs/MAP_SETUP.md) — 地图配置
-- [docs/GITEE_SHARE_GUIDE.md](docs/GITEE_SHARE_GUIDE.md) — 公开分享前检查
-
-### 开发常用命令
-
-```powershell
-npm install
-npm run lint
+# 运行全部单元与冒烟测试
 npm test
+
+# 运行 ESLint 静态代码检查
+npm run lint
+
+# 构建生产包验证
 npm run build
-node scripts/export-public-bird-seed.js
+
+# 公开仓库分享前隐私与卫生检查
 node scripts/check-share-hygiene.js
 ```
 
-## 贡献
+更多专题文档请参阅 [`docs/README.md`](./docs/README.md)：
+- [Windows 完整安装与日常使用指南](./docs/WINDOWS_QUICK_START.md)
+- [个人数据隔离与备份机制说明](./docs/DATA_ISOLATION.md)
+- [天地图 / 百度地图密钥申请与配置](./docs/MAP_SETUP.md)
+- [常见问题与排障手册](./docs/TROUBLESHOOTING.md)
 
-1. 克隆仓库并创建分支  
-2. `npm ci` 后改动代码  
-3. `npm run lint` 与 `npm test` 通过  
-4. 提交变更并说明动机与验证步骤  
+---
 
-推送公开仓库前建议运行：`node scripts/check-share-hygiene.js`。
+## 版权与开源许可
 
-## 版权与许可
+本项目采用 **非商业开源许可（Non-Commercial License）**，完整条款见根目录 [`LICENSE`](./LICENSE)：
 
-本项目采用 **非商业许可**（见根目录 [LICENSE](./LICENSE)）：
-
-- 允许：个人、教学、科研与无偿分享下的使用、修改与分发  
-- 禁止：未授权商用（售卖、付费托管 / SaaS、捆绑收费产品等）  
-- 商业合作需另行书面授权  
-
-公开种子只含文字名录；照片与观察记录等个人数据归使用者所有。使用地图 / AI 时请遵守对应服务商条款。
+- **允许**：个人观鸟使用、学术研究、教学演示以及非商业性质的修改与无偿分享（须保留原始署名与许可声明）。
+- **禁止**：未经作者书面授权，禁止将本软件或其衍生版本用于任何商业售卖、付费托管（SaaS）、捆绑硬件/服务收费等商业用途。
+- **数据归属**：仓库内置的公开鸟种名录仅含基础分类文字；用户在使用过程中录入的观察记录、地点坐标与拍摄照片等全部个人数据，其版权与所有权 100% 归使用者本人所有。
