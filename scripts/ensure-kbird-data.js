@@ -118,7 +118,61 @@ function ensureEnvFile() {
   return { dataRootEnv, uploadsEnv };
 }
 
+function migrateLegacyRepoFiles(uploadsRoot) {
+  // 1. 迁移旧版遗留在仓库内的 uploads/active/* -> KBird-Data/uploads/active/
+  const legacyActive = path.join(ROOT, 'uploads', 'active');
+  const targetActive = path.join(uploadsRoot, 'active');
+  if (fs.existsSync(legacyActive) && path.resolve(legacyActive) !== path.resolve(targetActive)) {
+    try {
+      const files = fs.readdirSync(legacyActive);
+      let moved = 0;
+      files.forEach((file) => {
+        const src = path.join(legacyActive, file);
+        const dest = path.join(targetActive, file);
+        if (!fs.statSync(src).isFile()) return;
+        if (!fs.existsSync(dest)) {
+          fs.copyFileSync(src, dest);
+        }
+        fs.unlinkSync(src);
+        moved += 1;
+      });
+      if (moved > 0) {
+        console.log(`[OK] Migrated ${moved} legacy upload(s) from repo ./uploads/active to ${targetActive}`);
+      }
+    } catch (err) {
+      console.warn('[WARN] Legacy ./uploads/active migration skipped:', err.message);
+    }
+  }
+
+  // 2. 迁移旧版遗留在仓库内的 public/images/avatars/avatar-* -> KBird-Data/uploads/avatars/
+  const legacyAvatars = path.join(ROOT, 'public', 'images', 'avatars');
+  const targetAvatars = path.join(uploadsRoot, 'avatars');
+  if (fs.existsSync(legacyAvatars) && path.resolve(legacyAvatars) !== path.resolve(targetAvatars)) {
+    try {
+      const files = fs.readdirSync(legacyAvatars);
+      let moved = 0;
+      files.forEach((file) => {
+        if (!file.startsWith('avatar-')) return;
+        const src = path.join(legacyAvatars, file);
+        const dest = path.join(targetAvatars, file);
+        if (!fs.statSync(src).isFile()) return;
+        if (!fs.existsSync(dest)) {
+          fs.copyFileSync(src, dest);
+        }
+        fs.unlinkSync(src);
+        moved += 1;
+      });
+      if (moved > 0) {
+        console.log(`[OK] Migrated ${moved} custom avatar(s) from repo public/images/avatars to ${targetAvatars}`);
+      }
+    } catch (err) {
+      console.warn('[WARN] Legacy avatar migration skipped:', err.message);
+    }
+  }
+}
+
 const { dataRootEnv, uploadsEnv } = ensureEnvFile();
+migrateLegacyRepoFiles(uploadsEnv);
 console.log(`[OK] Data root: ${dataRootEnv}`);
 console.log(`[OK] Uploads:   ${uploadsEnv}`);
 console.log('[OK] Ensured KBIRD_DATA_ROOT / UPLOAD_PATH / secrets in .env');

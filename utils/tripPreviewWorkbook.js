@@ -134,6 +134,7 @@ export function mergeTripPreviewSpecies(parsedList) {
         if (!prev.englishName && item.englishName) prev.englishName = item.englishName;
         if (!prev.order && item.order) prev.order = item.order;
         if (!prev.family && item.family) prev.family = item.family;
+        if (item.outsideLocal) prev.outsideLocal = true;
         return;
       }
       merged.set(key, {
@@ -144,6 +145,7 @@ export function mergeTripPreviewSpecies(parsedList) {
         order: String(item?.order || '').trim(),
         family: String(item?.family || '').trim(),
         recordCount,
+        outsideLocal: Boolean(item?.outsideLocal),
       });
     });
   });

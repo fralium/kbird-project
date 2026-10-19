@@ -97,6 +97,14 @@ const locationSyncLimiter = createRateLimit(
   false
 );
 
+// 观鸟记录链接读取限流 - 每次会拉起无头浏览器，限制并发与频率
+const birdreportLinkLimiter = createRateLimit(
+  60 * 1000, // 1分钟
+  isDevelopment ? 12 : 4,
+  '链接读取过于频繁，请稍后再试',
+  false
+);
+
 // IP白名单功能
 const createIPWhitelist = (whitelist) => {
   return (req, res, next) => {
@@ -168,6 +176,7 @@ module.exports = {
   authLimiter,
   strictLimiter,
   locationSyncLimiter,
+  birdreportLinkLimiter,
   adminLimiter,
   createIPWhitelist,
   createDynamicLimiter,

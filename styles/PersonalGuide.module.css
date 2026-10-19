@@ -1,0 +1,440 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-clean, #f8fafc);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--page-content-max, 1160px);
+  margin: 0 auto;
+  padding: 28px 20px 64px;
+  box-sizing: border-box;
+}
+
+/* 顶部快速上手三步曲 */
+.quickStartBanner {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-lake, #219ebc) 10%, var(--bg-white, #ffffff)) 0%,
+    var(--bg-white, #ffffff) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--color-lake, #219ebc) 26%, var(--border-subtle, #e2e8f0));
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 6px 20px rgba(2, 48, 71, 0.05);
+}
+
+.quickStartHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.quickStartTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-ink, #023047);
+}
+
+.quickStartSub {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted, #64748b);
+}
+
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.stepCard {
+  background: var(--bg-white, #ffffff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stepBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--color-lake, #219ebc);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-ink, #023047);
+}
+
+.stepDesc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary, #475569);
+  flex: 1;
+}
+
+.stepLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.stepLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--color-lake, #219ebc) 12%, var(--bg-white, #fff));
+  color: var(--color-lake, #126782);
+  transition: all 0.15s ease;
+}
+
+.stepLink:hover {
+  background: var(--color-lake, #219ebc);
+  color: #fff;
+}
+
+/* 筛选与搜索栏 */
+.filterToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  background: var(--bg-white, #fff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.categoryTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.categoryTab {
+  appearance: none;
+  border: 1px solid transparent;
+  background: var(--bg-clean, #f1f5f9);
+  color: var(--text-secondary, #475569);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.categoryTab:hover {
+  border-color: var(--color-lake, #219ebc);
+  color: var(--color-ink, #023047);
+}
+
+.categoryTabActive {
+  background: var(--color-lake, #219ebc);
+  color: #fff;
+  border-color: var(--color-lake, #219ebc);
+}
+
+.searchWrap {
+  position: relative;
+  min-width: 220px;
+  flex: 0 1 280px;
+}
+
+.searchInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle, #cbd5e1);
+  background: var(--bg-white, #fff);
+  font-size: 13px;
+  color: var(--color-ink, #023047);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-lake, #219ebc);
+  box-shadow: 0 0 0 2px rgba(33, 158, 188, 0.15);
+}
+
+/* 功能模块分组与卡片 */
+.sectionBlock {
+  margin-bottom: 28px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle, #e2e8f0);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-ink, #023047);
+}
+
+.sectionHint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted, #64748b);
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.featureCard {
+  background: var(--bg-white, #ffffff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(2, 48, 71, 0.07);
+  border-color: color-mix(in srgb, var(--color-lake, #219ebc) 40%, var(--border-subtle, #e2e8f0));
+}
+
+.featureCardNew {
+  border-left: 4px solid var(--color-lake, #219ebc);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cardTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cardTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-ink, #023047);
+}
+
+.badgeNew {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.14);
+  color: #047857;
+}
+
+.badgeCore {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--bg-clean, #f1f5f9);
+  color: var(--text-muted, #64748b);
+}
+
+.cardPathHint {
+  font-size: 12px;
+  color: var(--text-muted, #64748b);
+}
+
+.cardSummary {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-primary, #1e293b);
+}
+
+.bulletList {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary, #475569);
+  flex: 1;
+}
+
+.bulletList li strong {
+  color: var(--color-ink, #023047);
+}
+
+.tipBox {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--color-sky, #8ecae6) 14%, var(--bg-white, #fff));
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-ink, #023047);
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border-subtle, #e2e8f0);
+}
+
+.primaryLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--color-lake, #219ebc);
+  color: #fff !important;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.primaryLink:hover {
+  background: var(--color-lake-hover, #126782);
+}
+
+.secondaryLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle, #cbd5e1);
+  background: var(--bg-white, #fff);
+  color: var(--color-ink, #023047);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.secondaryLink:hover {
+  border-color: var(--color-lake, #219ebc);
+  color: var(--color-lake, #126782);
+}
+
+/* 常见问题 FAQ */
+.faqSection {
+  margin-top: 32px;
+  background: var(--bg-white, #fff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  border-radius: 14px;
+  padding: 22px 24px;
+}
+
+.faqTitle {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-ink, #023047);
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.faqItem {
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--bg-clean, #f8fafc);
+  border: 1px solid var(--border-subtle, #e2e8f0);
+}
+
+.faqItem h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-ink, #023047);
+}
+
+.faqItem p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary, #475569);
+}
+
+.emptyResult {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--bg-white, #fff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  border-radius: 12px;
+  color: var(--text-muted, #64748b);
+}
+
+@media (max-width: 900px) {
+  .stepsGrid,
+  .featureGrid,
+  .faqGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -38,7 +38,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  background: var(--color-lake);
 }
 
 .loading {

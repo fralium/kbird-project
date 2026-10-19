@@ -11,9 +11,9 @@ const root = process.cwd();
 test('phase4 observability files exist', () => {
   const requiredFiles = [
     'server/middleware/apiMetrics.js',
-    'pages/admin/observability.js',
-    'pages/api/admin/error-metrics.js',
-    'docs/ROLLBACK_STABLE_TAG.md',
+    'app/admin/observability/page.js',
+    'pages/api/[...path].js',
+    'docs/README.md',
   ];
 
   requiredFiles.forEach((relativePath) => {

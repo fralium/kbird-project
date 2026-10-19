@@ -40,13 +40,22 @@ function formatSize(bytes) {
 
 function extractBackupSummary(parsed) {
   if (!parsed || typeof parsed !== 'object') {
-    return { recordsCount: null, checklistCount: null, projectsCount: null, mediaCount: null };
+    return {
+      recordsCount: null,
+      checklistCount: null,
+      projectsCount: null,
+      birdMediaCount: null,
+      locationsCount: null,
+      mediaCount: null,
+    };
   }
   if (parsed.counts) {
     return {
       recordsCount: parsed.counts.records ?? null,
       checklistCount: parsed.counts.checklistSpecies ?? null,
       projectsCount: parsed.counts.projects ?? null,
+      birdMediaCount: parsed.counts.birdMediaSpecies ?? null,
+      locationsCount: parsed.counts.locations ?? null,
       mediaCount: parsed.counts.mediaEmbedded ?? parsed.counts.mediaFiles ?? null,
     };
   }
@@ -56,6 +65,8 @@ function extractBackupSummary(parsed) {
       ? parsed.checklist.observedBirds.length
       : 0,
     projectsCount: Array.isArray(parsed.projects) ? parsed.projects.length : 0,
+    birdMediaCount: Array.isArray(parsed.birdMedia) ? parsed.birdMedia.length : 0,
+    locationsCount: Array.isArray(parsed.locations) ? parsed.locations.length : 0,
     mediaCount: Array.isArray(parsed.media) ? parsed.media.filter((m) => m?.base64).length : 0,
   };
 }
@@ -134,6 +145,8 @@ export default function PersonalBackupPanel() {
           recordsCount: summary.recordsCount,
           checklistCount: summary.checklistCount,
           projectsCount: summary.projectsCount,
+          birdMediaCount: summary.birdMediaCount,
+          locationsCount: summary.locationsCount,
           mediaCount: summary.mediaCount,
           includeMedia: withMedia,
         },
@@ -149,7 +162,7 @@ export default function PersonalBackupPanel() {
           ? `，媒体已嵌入 ${summary.mediaCount ?? 0} 个文件`
           : '（仅结构化数据）';
         setMessage(
-          `导出成功：记录 ${summary.recordsCount}，清单 ${summary.checklistCount}，项目 ${summary.projectsCount ?? 0}${mediaHint}。`
+          `导出成功：记录 ${summary.recordsCount}，清单 ${summary.checklistCount}，图鉴媒体 ${summary.birdMediaCount ?? 0} 种，地点 ${summary.locationsCount ?? 0} 个，项目 ${summary.projectsCount ?? 0}${mediaHint}。`
         );
       }
     } catch (error) {
@@ -226,7 +239,7 @@ export default function PersonalBackupPanel() {
       }
       const r = data.data?.result || {};
       setMessage(
-        `合并完成：新增记录 ${r.recordsAdded || 0}（跳过 ${r.recordsSkipped || 0}），清单补 ${r.checklistAdded || 0}，项目 ${r.projectsAdded || 0}，媒体 ${r.mediaRestored || 0}。`
+        `合并完成：新增记录 ${r.recordsAdded || 0}（跳过 ${r.recordsSkipped || 0}），清单补 ${r.checklistAdded || 0}，图鉴媒体合并 ${r.birdMediaMerged || 0} 种，地点新增 ${r.locationsAdded || 0}（合并 ${r.locationsMerged || 0}），项目 ${r.projectsAdded || 0}，媒体文件 ${r.mediaRestored || 0}。`
       );
       setPreview(data.data?.preview || preview);
     } catch (error) {
@@ -325,6 +338,12 @@ export default function PersonalBackupPanel() {
                 项目：新增 {preview.projects?.add ?? 0} / 同名跳过 {preview.projects?.skip ?? 0}
               </div>
               <div>
+                图鉴媒体：涉及 {preview.birdMedia?.species ?? 0} 个鸟种（照片/鸣声自动去重合并）
+              </div>
+              <div>
+                地点词典：新增 {preview.locations?.add ?? 0} / 已有合并 {preview.locations?.merge ?? 0}
+              </div>
+              <div>
                 媒体：可恢复 {preview.media?.restoreable ?? 0} / 清单 {preview.media?.listed ?? 0}
               </div>
               <div>设置：{preview.settings?.merge ? '将合并缺省字段' : '无'}</div>
@@ -374,9 +393,8 @@ export default function PersonalBackupPanel() {
         <section className={styles.block}>
           <h2>说明</h2>
           <ul className={styles.notes}>
-            <li>档案包含：观鸟记录、清单/目标、个人设置、项目资料；可选嵌入媒体文件。</li>
-            <li>恢复采用合并策略：重复记录（同日+同地点+同鸟种集合）会跳过；不会清空当前数据。</li>
-            <li>鸟种库与地点词典不在个人包内（本机共享词典）。</li>
+            <li>档案包含：观鸟记录、清单/目标、鸟种图鉴上传的照片与鸣声、观鸟地点词典与生境照片、个人设置、项目资料；可选嵌入媒体原文件。</li>
+            <li>恢复采用合并策略：重复记录（同日+同地点+同鸟种集合）与重复图鉴照片/鸣声会自动跳过；不会清空当前数据。</li>
             <li>“最近导出记录”只保存在当前浏览器本地。</li>
           </ul>
         </section>

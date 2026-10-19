@@ -601,10 +601,11 @@ const uploadAvatar = async (req, res) => {
         return sendUserClientError(res, 400, '仅支持 JPG/PNG/GIF/WebP 头像', 'INVALID_AVATAR_TYPE');
       }
 
-      // 禁止使用 originalname，避免路径穿越与编码污染
+      // 禁止使用 originalname，避免路径穿越与编码污染；统一写入 KBird-Data/uploads/avatars
+      const { getAvatarsRoot } = require('../config/dataPaths');
       const fileName = `user_${user._id}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}${ext}`;
       const filePath = `/images/avatars/${fileName}`;
-      const uploadRoot = path.resolve(process.cwd(), 'public', 'images', 'avatars');
+      const uploadRoot = path.resolve(getAvatarsRoot());
 
       if (!fs.existsSync(uploadRoot)) {
         fs.mkdirSync(uploadRoot, { recursive: true });
@@ -637,67 +638,6 @@ const uploadAvatar = async (req, res) => {
   }
 };
 
-// @desc    获取用户的所有观鸟记录（包含所有状态）
-// @route   GET /api/users/pending-sightings
-// @access  Private
-const getPendingSightings = async (req, res) => {
-  try {
-    // 查询该用户的所有观鸟记录（包括所有状态）
-    const birdsWithPendingSightings = await Bird.find({
-      'sightings.observer': req.user._id
-    })
-    .populate('sightings.observer', 'name email')
-    .populate('sightings.reviewedBy', 'name email')
-    .select('name scientificName sightings');
-
-    // 提取该用户的观鸟记录
-    const userSightings = [];
-    birdsWithPendingSightings.forEach(bird => {
-      bird.sightings.forEach((sighting) => {
-        if (sighting.observer._id.toString() === req.user._id.toString()) {
-          userSightings.push({
-            _id: sighting._id,
-            bird: {
-              _id: bird._id,
-              name: bird.name,
-              scientificName: bird.scientificName
-            },
-            location: sighting.location,
-            date: sighting.date,
-            notes: sighting.notes,
-            weather: sighting.weather,
-            behavior: sighting.behavior,
-            images: sighting.images,
-            status: sighting.status || 'approved', // 旧数据默认为已批准
-            submittedAt: sighting.submittedAt || sighting.date, // 如果没有提交时间，使用观察时间
-            reviewedBy: sighting.reviewedBy,
-            reviewedAt: sighting.reviewedAt,
-            reviewNotes: sighting.reviewNotes
-          });
-        }
-      });
-    });
-
-    // 按提交时间排序
-    userSightings.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
-
-    devLog('用户观鸟记录查询结果:');
-    devLog('- 总记录数:', userSightings.length);
-    devLog('- 已通过:', userSightings.filter(s => s.status === 'approved').length);
-    devLog('- 待审核:', userSightings.filter(s => s.status === 'pending').length);
-    devLog('- 已拒绝:', userSightings.filter(s => s.status === 'rejected').length);
-
-    res.status(200).json({
-      success: true,
-      data: userSightings
-    });
-
-  } catch (error) {
-    devLog('获取用户待审核观鸟记录失败:', error);
-    return sendUserError(res, error, '服务器错误');
-  }
-};
-
 module.exports = {
   registerUser,
   loginUser,
@@ -710,5 +650,4 @@ module.exports = {
   addToFavorites,
   removeFromFavorites,
   uploadAvatar,
-  getPendingSightings,
 };

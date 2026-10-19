@@ -349,7 +349,7 @@
   width: 16px;
   height: 16px;
   border: 2px solid var(--border-input);
-  border-top: 2px solid var(--primary-green);
+  border-top: 2px solid var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -365,7 +365,7 @@
   left: 0;
   right: 0;
   background: white;
-  border: 2px solid var(--primary-green);
+  border: 2px solid var(--color-lake);
   border-top: none;
   border-radius: 0 0 8px 8px;
   box-shadow: 0 4px 12px var(--color-lake-light);
@@ -419,7 +419,7 @@
 }
 
 .searchButton {
-  background: var(--primary-color);
+  background: var(--color-lake);
   color: var(--text-white);
   border: none;
   padding: 10px 16px;
@@ -575,7 +575,7 @@
 .select:focus,
 .textarea:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: var(--color-lake);
 }
 
 .textarea {
@@ -608,7 +608,7 @@
 }
 
 .formActions button[type="submit"] {
-  background: var(--primary-color);
+  background: var(--color-lake);
   color: var(--text-white);
   border: none;
 }
@@ -942,7 +942,7 @@
 }
 
 .retryButton {
-  background: var(--primary-color);
+  background: var(--color-lake);
   color: var(--text-white);
   border: none;
   padding: 12px 24px;
@@ -960,7 +960,7 @@
 }
 
 .createFirstButton {
-  background: var(--primary-color);
+  background: var(--color-lake);
   color: var(--text-white);
   border: none;
   padding: 12px 24px;
@@ -983,7 +983,7 @@
 }
 
 .pageButton {
-  background: var(--primary-color);
+  background: var(--color-lake);
   color: var(--text-white);
   border: none;
   padding: 10px 20px;

@@ -99,7 +99,16 @@ if not exist "node_modules" (
 )
 
 echo.
-echo [3/4] Desktop launcher (first run only)...
+echo [3/5] Ensuring data paths and secrets...
+if exist "scripts\ensure-kbird-data.js" (
+    node scripts\ensure-kbird-data.js
+    if errorlevel 1 (
+        echo WARNING: ensure-kbird-data.js failed; check .env manually.
+    )
+)
+
+echo.
+echo [4/5] Desktop launcher (first run only)...
 if not exist ".kbird\desktop-launcher.done" (
     if not exist ".kbird" mkdir ".kbird" >nul 2>&1
     powershell -NoProfile -ExecutionPolicy Bypass -File "%CD%\scripts\windows\create-desktop-shortcut.ps1" -Target Prod -Quiet
@@ -112,7 +121,7 @@ if not exist ".kbird\desktop-launcher.done" (
 )
 
 echo.
-echo [4/4] Starting services...
+echo [5/5] Starting services...
 echo.
 echo Freeing ports 13080 / 13082 if a previous instance is still running...
 taskkill /F /FI "WINDOWTITLE eq KBird Backend*" >nul 2>&1

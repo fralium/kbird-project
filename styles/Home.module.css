@@ -720,7 +720,7 @@ a.statsStripInner:visited {
 }
 
 .cardBack {
-  background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
+  background: var(--color-lake-cta-hover);
   color: var(--text-white);
   transform: rotateY(180deg);
   display: flex;
@@ -1120,7 +1120,7 @@ a.statsStripInner:visited {
   align-items: center;
   gap: 5px;
   padding: 20px;
-  background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
+  background: var(--color-lake-cta-hover);
   border-radius: 15px;
   color: white !important;
 }
@@ -1269,7 +1269,7 @@ a.statsStripInner:visited {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--secondary-green);
+  background: var(--color-lake-hover);
   animation: pulse 1.4s ease-in-out infinite both;
 }
 

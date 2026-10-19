@@ -283,7 +283,7 @@
 }
 
 .tabBtn {
-  border: 1px solid var(--medium-gray, var(--gray-200));
+  border: 1px solid var(--gray-200, ));
   background: var(--bg-white);
   color: var(--text-primary);
   border-radius: var(--radius-md);
@@ -400,7 +400,7 @@
 .field input,
 .field select,
 .field textarea {
-  border: 1px solid var(--medium-gray, var(--gray-200));
+  border: 1px solid var(--gray-200, ));
   border-radius: var(--radius-md);
   padding: 8px 10px;
   font-size: var(--type-secondary);
@@ -595,7 +595,7 @@
 .table td {
   text-align: left;
   padding: 10px 8px;
-  border-bottom: 1px solid var(--medium-gray, var(--gray-100));
+  border-bottom: 1px solid var(--gray-200, ));
   vertical-align: top;
 }
 

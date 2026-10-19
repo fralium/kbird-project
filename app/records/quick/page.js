@@ -13,6 +13,10 @@ import { useConfirmDialog } from '@/components/ConfirmDialog';
 import { api } from '@/utils/api';
 import { extractLngLatPair } from '@/utils/locationCoords';
 import { todayLocalDateKey } from '@/utils/localDate';
+import {
+  BIRD_OBSERVATION_TAG_OPTIONS,
+  normalizeBirdObservationTags,
+} from '@/data/birdObservationTags';
 import styles from '@/styles/QuickRecord.module.css';
 
 const QUICK_RECORD_DRAFT_KEY = 'kbird.quickRecord.draft';
@@ -249,10 +253,22 @@ export default function QuickRecordPage() {
     });
   };
 
+  const toggleBirdBehaviorTag = (index, tagValue) => {
+    setFormData((prev) => {
+      const newBirds = [...prev.birds];
+      const current = normalizeBirdObservationTags(newBirds[index]?.behaviorTags);
+      const next = current.includes(tagValue)
+        ? current.filter((item) => item !== tagValue)
+        : [...current, tagValue];
+      newBirds[index] = { ...newBirds[index], behaviorTags: next };
+      return { ...prev, birds: newBirds };
+    });
+  };
+
   const addBird = () => {
     setFormData((prev) => ({
       ...prev,
-      birds: [...prev.birds, { name: '', count: 1 }],
+      birds: [...prev.birds, { name: '', count: 1, behaviorTags: [] }],
     }));
   };
 
@@ -327,6 +343,7 @@ export default function QuickRecordPage() {
           processedBirds.push({
             birdId: bird.birdId,
             count: bird.count || 1,
+            behaviorTags: normalizeBirdObservationTags(bird.behaviorTags),
             notes: '',
           });
           continue;
@@ -342,6 +359,7 @@ export default function QuickRecordPage() {
             processedBirds.push({
               birdId: searchData.data[0]._id,
               count: bird.count || 1,
+              behaviorTags: normalizeBirdObservationTags(bird.behaviorTags),
               notes: '',
             });
           } else {
@@ -516,36 +534,59 @@ export default function QuickRecordPage() {
             </h2>
             <p className={styles.quickHint}>在鸟名框按回车可跳到下一行并自动新增。</p>
             {formData.birds.map((bird, index) => (
-              <div key={index} className={styles.birdRow}>
-                <BirdNameAutocomplete
-                  containerProps={{ 'data-quick-bird-input': index }}
-                  value={bird.name}
-                  onChange={(value) => handleBirdNameChange(index, value)}
-                  onSelect={(selectedBird) => handleBirdSelect(index, selectedBird)}
-                  onInputKeyDown={(event) => handleBirdEnter(index, event)}
-                  placeholder="鸟名，如：麻雀"
-                  className={styles.birdNameInput}
-                  required
-                />
-                <input
-                  type="number"
-                  min="1"
-                  value={bird.count}
-                  onChange={(e) => handleBirdCountChange(index, e.target.value)}
-                  className={styles.birdCountInput}
-                  aria-label={`第 ${index + 1} 种数量`}
-                />
-                <span className={styles.birdCountLabel}>只</span>
-                {formData.birds.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeBird(index)}
-                    className={styles.removeButton}
-                    aria-label={`移除第 ${index + 1} 种`}
-                  >
-                    ✕
-                  </button>
-                )}
+              <div key={index} className={styles.birdRowBlock}>
+                <div className={styles.birdRow}>
+                  <BirdNameAutocomplete
+                    containerProps={{ 'data-quick-bird-input': index }}
+                    value={bird.name}
+                    onChange={(value) => handleBirdNameChange(index, value)}
+                    onSelect={(selectedBird) => handleBirdSelect(index, selectedBird)}
+                    onInputKeyDown={(event) => handleBirdEnter(index, event)}
+                    placeholder="鸟名，如：麻雀"
+                    className={styles.birdNameInput}
+                    required
+                  />
+                  <input
+                    type="number"
+                    min="1"
+                    value={bird.count}
+                    onChange={(e) => handleBirdCountChange(index, e.target.value)}
+                    className={styles.birdCountInput}
+                    aria-label={`第 ${index + 1} 种数量`}
+                  />
+                  <span className={styles.birdCountLabel}>只</span>
+                  {formData.birds.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeBird(index)}
+                      className={styles.removeButton}
+                      aria-label={`移除第 ${index + 1} 种`}
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+                <div className={styles.quickBehaviorRow} role="group" aria-label={`第 ${index + 1} 种观察状态`}>
+                  {BIRD_OBSERVATION_TAG_OPTIONS.map((opt) => {
+                    const selected = normalizeBirdObservationTags(bird.behaviorTags).includes(
+                      opt.value
+                    );
+                    return (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        title={opt.hint}
+                        aria-pressed={selected}
+                        onClick={() => toggleBirdBehaviorTag(index, opt.value)}
+                        className={`${styles.quickBehaviorChip} ${
+                          selected ? styles.quickBehaviorChipActive : ''
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             ))}
             <button type="button" onClick={addBird} className={styles.addBirdButton}>

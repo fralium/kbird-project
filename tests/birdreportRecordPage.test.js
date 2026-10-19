@@ -2,6 +2,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
   assertBirdreportRecordUrl,
+  assertNoRedirectFromRecordPage,
+  buildBrowserArgs,
   parseBirdreportRecordHtml,
 } = require('../server/utils/birdreportRecordPage');
 
@@ -21,7 +23,7 @@ const SAMPLE = `
 <td data-field="taxon_count"><div class="layui-table-cell">2</div></td>
 </tr>
 <tr>
-<td data-field="taxon_name"><div class="layui-table-cell">黑鹳</div></td>
+<td data-field="taxon_name"><div class="layui-table-cell"><span style="color: #FF4040">短趾雕 </span></div></td>
 <td data-field="latinname"><div class="layui-table-cell">Ciconia nigra</div></td>
 <td data-field="taxon_count"><div class="layui-table-cell">1</div></td>
 </tr>
@@ -55,6 +57,26 @@ test('parses the loaded species table', () => {
     order: '雁形目',
     family: '鸭科',
     recordCount: 2,
+    outsideLocal: false,
   });
-  assert.equal(page.species[1].name, '黑鹳');
+  assert.equal(page.species[0].outsideLocal, false);
+  assert.equal(page.species[1].name, '短趾雕');
+  assert.equal(page.species[1].outsideLocal, true);
 });
+
+test('blocks redirects and non-birdreport hosts in browser args', async () => {
+  await assert.rejects(
+    () =>
+      assertNoRedirectFromRecordPage('https://www.birdreport.cn/home/record/page.html?param=abc', async () => ({
+        status: 302,
+      })),
+    /跳转/
+  );
+  const args = buildBrowserArgs('https://www.birdreport.cn/home/record/page.html?param=abc', 'C:\\tmp');
+  const rule = args.find((item) => item.startsWith('--host-resolver-rules='));
+  assert.ok(rule);
+  assert.match(rule, /MAP \* ~NOTFOUND/);
+  assert.match(rule, /EXCLUDE www\.birdreport\.cn/);
+  assert.match(rule, /EXCLUDE api\.birdreport\.cn/);
+});
+

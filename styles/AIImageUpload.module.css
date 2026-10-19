@@ -4,24 +4,24 @@
 }
 
 .uploadArea {
-  border: 3px dashed var(--medium-gray);
+  border: 3px dashed var(--gray-200);
   border-radius: var(--radius-large);
   padding: 40px;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: var(--background-light);
+  background: var(--bg-clean);
   position: relative;
 }
 
 .uploadArea:hover {
   border-color: var(--color-lake);
-  background: var(--background-white);
+  background: var(--bg-white);
 }
 
 .uploadArea.uploading {
   border-color: var(--color-lake);
-  background: var(--background-white);
+  background: var(--bg-white);
   cursor: wait;
 }
 
@@ -63,7 +63,7 @@
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid var(--background-light);
+  border: 4px solid var(--bg-clean);
   border-top-color: var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -116,9 +116,9 @@
 .actionPanel {
   margin-top: 16px;
   padding: 16px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-medium);
-  background: var(--background-white);
+  background: var(--bg-white);
 }
 
 .descriptionLabel {
@@ -132,7 +132,7 @@
 .descriptionInput {
   width: 100%;
   resize: vertical;
-  border: 1px solid var(--medium-gray);
+  border: 1px solid var(--gray-200);
   border-radius: 10px;
   padding: 10px 12px;
   font-size: var(--type-body);
@@ -164,7 +164,7 @@
 }
 
 .submitButton {
-  background: var(--primary-green);
+  background: var(--color-lake);
   color: var(--text-white);
 }
 
@@ -173,12 +173,12 @@
 }
 
 .resetButton {
-  background: var(--background-light);
+  background: var(--bg-clean);
   color: var(--text-primary);
 }
 
 .resetButton:hover:not(:disabled) {
-  background: var(--medium-gray);
+  background: var(--gray-200);
 }
 
 .submitButton:disabled,

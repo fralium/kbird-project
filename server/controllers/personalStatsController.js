@@ -4,6 +4,7 @@ const PersonalChecklist = require('../models/personalChecklistModel');
 const Location = require('../models/locationModel');
 const { sendControllerError } = require('../middleware/controllerError');
 const { devError } = require('../utils/devLogger');
+const { localYearRange, localMonthRange } = require('../utils/dateCoords');
 
 const getRecordDate = (record) => {
   if (!record?.date) return null;
@@ -46,15 +47,13 @@ const getPersonalStats = async (req, res) => {
     };
     
     if (year) {
-      const startDate = new Date(`${year}-01-01`);
-      const endDate = new Date(`${year}-12-31`);
+      const { startDate, endDate } = localYearRange(year);
       recordQuery.date = { $gte: startDate, $lte: endDate };
     }
     
     if (month) {
       const [yearStr, monthStr] = month.split('-');
-      const startDate = new Date(parseInt(yearStr), parseInt(monthStr) - 1, 1);
-      const endDate = new Date(parseInt(yearStr), parseInt(monthStr), 0);
+      const { startDate, endDate } = localMonthRange(yearStr, monthStr);
       recordQuery.date = { $gte: startDate, $lte: endDate };
     }
     
@@ -411,8 +410,7 @@ const getPersonalStatsDashboard = async (req, res) => {
     if (year) {
       const y = parseInt(year, 10);
       if (!Number.isNaN(y)) {
-        const startDate = new Date(`${y}-01-01`);
-        const endDate = new Date(`${y}-12-31`);
+        const { startDate, endDate } = localYearRange(y);
         recordQuery.date = { $gte: startDate, $lte: endDate };
       }
     }

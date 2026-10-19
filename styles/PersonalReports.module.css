@@ -155,8 +155,8 @@
 
 .exportButton {
   padding: 10px 20px;
-  background: var(--background-light);
-  border: 2px solid var(--medium-gray);
+  background: var(--bg-clean);
+  border: 2px solid var(--gray-200);
   border-radius: var(--radius-medium);
   font-size: var(--type-secondary);
   font-weight: 500;
@@ -313,7 +313,7 @@
 }
 
 .monthlyItem {
-  background: var(--background-light);
+  background: var(--bg-clean);
   padding: 15px;
   border-radius: var(--radius-medium);
   text-align: center;

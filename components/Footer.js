@@ -147,6 +147,11 @@ export default function Footer() {
                   个人设置
                 </Link>
               </li>
+              <li>
+                <Link href="/personal/guide" className={styles.link}>
+                  功能指南
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

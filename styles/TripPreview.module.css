@@ -76,8 +76,9 @@
 }
 
 .fileInput {
-  padding: 8px;
+  padding: 7px 10px;
   margin-bottom: 12px;
+  cursor: pointer;
 }
 
 .submitRow {
@@ -86,6 +87,12 @@
   align-items: center;
   gap: 10px;
   margin-top: 14px;
+}
+
+.waitNote {
+  color: var(--text-muted);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
 }
 
 .resultHead {
@@ -294,6 +301,32 @@
 .badgeLongshot {
   background: var(--border-subtle);
   color: var(--text-secondary);
+}
+
+.outsideNote {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-panel, 8px);
+  background: rgba(251, 191, 36, 0.18);
+  color: var(--color-ink);
+  font-size: var(--type-secondary);
+  line-height: var(--line-height-normal);
+}
+
+.outsideName,
+.outsideName:link,
+.outsideName:visited,
+.outsideName:hover,
+.outsideName:focus-visible {
+  color: #ff4040 !important;
+}
+
+.outsideMark {
+  margin-left: 8px;
+  color: #ff4040;
+  font-size: var(--type-caption);
+  font-weight: 700;
 }
 
 .check {

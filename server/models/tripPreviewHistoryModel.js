@@ -15,6 +15,7 @@ const speciesRowSchema = new mongoose.Schema(
     catalogName: { type: String, default: '' },
     catalogScientificName: { type: String, default: '' },
     personalCount: { type: Number, default: 0 },
+    outsideLocal: { type: Boolean, default: false },
   },
   { _id: false }
 );

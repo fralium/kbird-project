@@ -3,6 +3,7 @@ const PersonalChecklist = require('../models/personalChecklistModel');
 const Bird = require('../models/birdModel');
 const { sendControllerError } = require('../middleware/controllerError');
 const { devError } = require('../utils/devLogger');
+const { localYearRange, localMonthRange } = require('../utils/dateCoords');
 
 const getBirdIdString = (birdId) => {
   if (!birdId) return null;
@@ -20,8 +21,7 @@ const generateAnnualReport = async (req, res) => {
     const userId = req.user.id;
     const year = parseInt(req.params.year) || new Date().getFullYear();
     
-    const yearStart = new Date(`${year}-01-01`);
-    const yearEnd = new Date(`${year}-12-31`);
+    const { startDate: yearStart, endDate: yearEnd } = localYearRange(year);
     
     // 获取年度记录
     const records = await Record.find({
@@ -178,8 +178,7 @@ const generateMonthlyReport = async (req, res) => {
     const year = parseInt(req.params.year) || new Date().getFullYear();
     const month = parseInt(req.params.month) || new Date().getMonth() + 1;
     
-    const monthStart = new Date(year, month - 1, 1);
-    const monthEnd = new Date(year, month, 0);
+    const { startDate: monthStart, endDate: monthEnd } = localMonthRange(year, month);
     
     // 获取月度记录
     const records = await Record.find({

@@ -10,7 +10,7 @@
   border-radius: 8px;
   font-size: var(--type-body);
   transition: all var(--transition-base);
-  background: var(--white);
+  background: var(--bg-white);
   color: var(--text-primary);
   box-sizing: border-box;
 }
@@ -18,7 +18,7 @@
 .input:focus {
   outline: none;
   border-color: var(--color-lake);
-  box-shadow: 0 0 0 3px var(--emerald-100);
+  box-shadow: 0 0 0 3px var(--color-lake-light);
 }
 
 .input::placeholder {
@@ -105,9 +105,9 @@
 
 .requestButton {
   appearance: none;
-  border: 1px solid var(--primary-green, var(--color-success));
+  border: 1px solid var(--color-lake, ));
   background: var(--emerald-50, var(--color-success-soft));
-  color: var(--primary-green, var(--color-success-hover));
+  color: var(--color-lake, ));
   border-radius: 6px;
   padding: 6px 12px;
   font-size: var(--type-caption);

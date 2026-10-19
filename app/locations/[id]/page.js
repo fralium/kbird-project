@@ -12,7 +12,10 @@ import { api } from '@/utils/api';
 import { formatAddressRegion } from '@/utils/formatAddressRegion';
 import { getFullImageUrl, isValidImageUrl } from '@/utils/imageUtils';
 import { getOrderChineseName, getFamilyChineseName } from '@/data/taxonomyTranslation';
-import { buildLocationBirdCalendar } from '@/utils/locationBirdCalendar';
+import {
+  buildLocationBirdCalendar,
+  buildLocationPatchPhenology,
+} from '@/utils/locationBirdCalendar';
 import { formatDisplayDate } from '@/utils/localDate';
 import SimplePageHeader, {
   HeaderPrimaryLink,
@@ -58,6 +61,7 @@ export default function LocationDetailPage() {
   const [canManage, setCanManage] = useState(false);
   const [habitatBusy, setHabitatBusy] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(() => new Date().getMonth() + 1);
+  const [calendarTab, setCalendarTab] = useState('monthly');
 
   useEffect(() => {
     if (!id) return;
@@ -307,6 +311,10 @@ export default function LocationDetailPage() {
     () => buildLocationBirdCalendar(locationRecords),
     [locationRecords]
   );
+  const patchPhenology = useMemo(
+    () => buildLocationPatchPhenology(locationRecords),
+    [locationRecords]
+  );
   const selectedCalendarMonth =
     birdCalendar.months.find((m) => m.month === calendarMonth) || birdCalendar.months[0];
 
@@ -522,20 +530,49 @@ export default function LocationDetailPage() {
           />
         </div>
 
-        <section className={styles.calendarSection} aria-label="地点鸟历">
+        <section className={styles.calendarSection} aria-label="地点鸟历与跨年物候">
           <div className={styles.calendarHeader}>
-            <h2 className={styles.calendarTitle}>地点鸟历</h2>
-            <p className={styles.calendarHint}>
-              根据此地历史观鸟记录汇总（不依赖外部数据）。有记录的月份
-              {birdCalendar.activeMonthCount} 个
-              {birdCalendar.lastVisit
-                ? ` · 最近观察 ${formatDisplayDate(birdCalendar.lastVisit, 'short')}`
-                : ''}
-            </p>
+            <div className={styles.calendarTitleRow}>
+              <div>
+                <h2 className={styles.calendarTitle}>自留地鸟历与物候监测</h2>
+                <p className={styles.calendarHint}>
+                  根据此地历史观鸟记录汇总（不依赖外部数据）。有记录的月份{' '}
+                  {birdCalendar.activeMonthCount} 个
+                  {patchPhenology.years.length > 0
+                    ? ` · 跨 ${patchPhenology.years.length} 个年份 · 常驻重逢 ${patchPhenology.recurringSpeciesCount} 种`
+                    : ''}
+                  {birdCalendar.lastVisit
+                    ? ` · 最近观察 ${formatDisplayDate(birdCalendar.lastVisit, 'short')}`
+                    : ''}
+                </p>
+              </div>
+              {birdCalendar.activeMonthCount > 0 ? (
+                <div className="kb-view-seg kb-meta-seg" role="tablist" aria-label="自留地视图切换">
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={calendarTab === 'monthly'}
+                    className={`kb-view-tab kb-meta-tab${calendarTab === 'monthly' ? ' is-active' : ''}`}
+                    onClick={() => setCalendarTab('monthly')}
+                  >
+                    1–12月鸟历
+                  </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={calendarTab === 'phenology'}
+                    className={`kb-view-tab kb-meta-tab${calendarTab === 'phenology' ? ' is-active' : ''}`}
+                    onClick={() => setCalendarTab('phenology')}
+                  >
+                    跨年物候与留存
+                  </button>
+                </div>
+              ) : null}
+            </div>
           </div>
           {birdCalendar.activeMonthCount === 0 ? (
-            <p className={styles.calendarEmpty}>暂无记录，添加观鸟记录后将自动生成月度鸟历</p>
-          ) : (
+            <p className={styles.calendarEmpty}>暂无记录，添加观鸟记录后将自动生成月度鸟历与跨年物候对比</p>
+          ) : calendarTab === 'monthly' ? (
             <>
               <div className={styles.calendarGrid}>
                 {birdCalendar.months.map((month) => {
@@ -595,6 +632,121 @@ export default function LocationDetailPage() {
                 )}
               </div>
             </>
+          ) : (
+            <div className={styles.patchPhenologyWrap}>
+              <div className={styles.patchYearCards}>
+                {patchPhenology.years.map((y) => (
+                  <div key={y.year} className={styles.patchYearCard}>
+                    <div className={styles.patchYearHead}>
+                      <strong>{y.year} 年</strong>
+                      {y.retentionRate !== null ? (
+                        <span className={styles.patchRetentionBadge} title="上年鸟种在今年再次见到的比例">
+                          常客留存 {y.retentionRate}%
+                        </span>
+                      ) : (
+                        <span className={styles.patchRetentionMuted}>基准年份</span>
+                      )}
+                    </div>
+                    <div className={styles.patchYearStats}>
+                      <span>
+                        <b>{y.speciesCount}</b> 种
+                      </span>
+                      <span>
+                        <b>{y.visitDays}</b> 天 ({y.recordCount} 次)
+                      </span>
+                      <span>
+                        场地加新 <b>+{y.newPatchSpeciesCount}</b> 种
+                      </span>
+                    </div>
+                    {y.newPatchSpecies.length > 0 ? (
+                      <p className={styles.patchNewSpeciesLine}>
+                        首见代表：{y.newPatchSpecies.map((s) => s.name).join('、')}
+                        {y.newPatchSpeciesCount > y.newPatchSpecies.length ? ' 等' : ''}
+                      </p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+
+              <div className={styles.patchTableWrap}>
+                <table className={styles.patchTable}>
+                  <thead>
+                    <tr>
+                      <th>物种</th>
+                      <th>驻地属性</th>
+                      <th>最近首见 (MM-DD)</th>
+                      <th>历年最早到访</th>
+                      <th>较往年首见偏差</th>
+                      <th>1–12月本场活跃期</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {patchPhenology.speciesRows.map((row) => (
+                      <tr key={row.id}>
+                        <td>
+                          <SpeciesHoverChip
+                            name={row.name}
+                            href={`/birds/${row.id}`}
+                            className={styles.summaryBirdLink}
+                          />
+                        </td>
+                        <td>
+                          <span
+                            className={
+                              row.yearCount >= 2
+                                ? styles.patchRecurringTag
+                                : styles.patchSingleYearTag
+                            }
+                          >
+                            {row.yearCount >= 2 ? `跨 ${row.yearCount} 年常客` : '单年记录'}
+                          </span>
+                          <span className={styles.patchRecordCount}> · {row.totalRecords}次</span>
+                        </td>
+                        <td className={styles.patchMono}>
+                          {row.latestFirstMd}{' '}
+                          {row.latestYear ? (
+                            <span className={styles.patchYearHint}>({row.latestYear})</span>
+                          ) : null}
+                        </td>
+                        <td className={styles.patchMono}>{row.earliestEverMd}</td>
+                        <td>
+                          {row.arrivalShiftText ? (
+                            <span
+                              className={`${styles.patchShiftBadge} ${
+                                row.arrivalShiftDays < -2
+                                  ? styles.patchShiftEarly
+                                  : row.arrivalShiftDays > 2
+                                  ? styles.patchShiftLate
+                                  : ''
+                              }`}
+                            >
+                              {row.arrivalShiftText}
+                            </span>
+                          ) : (
+                            <span className={styles.patchYearHint}>需 ≥2 年数据</span>
+                          )}
+                        </td>
+                        <td>
+                          <div className={styles.patchMiniMonths} aria-label="1至12月活跃度">
+                            {row.monthsActive.map((cnt, idx) => (
+                              <span
+                                key={idx}
+                                title={`${idx + 1}月：${cnt} 次记录`}
+                                className={`${styles.patchMiniDot} ${
+                                  cnt > 0 ? styles.patchMiniDotOn : ''
+                                }`}
+                              >
+                                {idx + 1}
+                              </span>
+                            ))}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           )}
         </section>
 

@@ -57,7 +57,10 @@ export default function FootprintOrbit3D({
   const selectedRef = useRef(selectedKey);
 
   const positions = useMemo(() => layoutSphere(points.length), [points.length]);
-  positionsRef.current = positions;
+
+  useLayoutEffect(() => {
+    positionsRef.current = positions;
+  }, [positions]);
 
   const syncAuto = useCallback(() => {
     autoRef.current = !selectedRef.current;

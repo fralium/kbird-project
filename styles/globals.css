@@ -102,13 +102,19 @@
   --gray-100: #eef2f5;
   --gray-200: #dde5ea;
   --gray-300: #c9d4db;
+  --gray-400: #8fa1ad;
   --gray-500: var(--text-muted);
   --gray-600: var(--text-muted);
   --gray-700: var(--text-secondary);
   --gray-900: var(--text-primary);
+  --light-gray: var(--gray-100);
+  --medium-gray: var(--gray-200);
+  --dark-gray: var(--text-secondary);
+  --white: var(--bg-white);
   --pure-white: var(--text-white);
   --border-subtle: rgba(0, 49, 83, 0.12);
   --border-strong: rgba(0, 49, 83, 0.22);
+  --border-color: var(--border-subtle);
   --border-input: var(--gray-200);
   --skeleton-shine: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-200) 50%, var(--gray-100) 75%);
   --surface-muted: var(--bg-clean);
@@ -865,6 +871,7 @@ a:hover {
   font-family: inherit;
   font-size: var(--type-secondary);
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
   line-height: var(--line-height-tight);
   cursor: pointer;
@@ -1014,6 +1021,74 @@ a:hover {
   border-color: var(--color-lake);
   box-shadow: var(--focus-ring-sm);
   background-color: var(--bg-white);
+}
+
+input[type='file'] {
+  font-family: var(--font-ui);
+  font-size: var(--type-secondary);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+input[type='file']::file-selector-button {
+  appearance: none;
+  margin-right: 12px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-panel, 8px);
+  background: var(--bg-clean);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  line-height: var(--line-height-tight);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+input[type='file']::file-selector-button:hover {
+  background: var(--color-lake-light);
+  border-color: var(--color-lake);
+  color: var(--color-ink);
+}
+
+input[type='file']:disabled::file-selector-button {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+select,
+input[type='date'] {
+  font-family: var(--font-ui);
+  font-size: var(--type-secondary);
+  color: var(--text-primary);
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-panel, 8px);
+  padding: 7px 11px;
+  min-height: 36px;
+  line-height: var(--line-height-tight);
+  box-sizing: border-box;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+select:focus,
+input[type='date']:focus {
+  outline: none;
+  border-color: var(--color-lake);
+  box-shadow: var(--focus-ring-sm);
+}
+
+select:disabled,
+input[type='date']:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .textarea-base {

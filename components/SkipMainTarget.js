@@ -1,37 +1,28 @@
 'use client';
 
 import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 
 /**
- * Point skip-link (#main-content) at the page <main> landmark when present,
- * so focus lands on primary content rather than the outer shell (which includes nav).
+ * 跳过链接仍指向布局上的 #main-content。
+ * 点击时把焦点放到页面自己的 <main>，不再改写 id，避免和 React 水合冲突。
  */
 export default function SkipMainTarget() {
-  const pathname = usePathname();
-
   useEffect(() => {
-    if (typeof document === 'undefined') return undefined;
-    const shell = document.getElementById('main-content');
-    const pageMain = document.querySelector('main');
-    if (!pageMain) return undefined;
-
-    const prevId = pageMain.id;
-    pageMain.id = 'main-content';
-    if (shell && shell !== pageMain) {
-      shell.removeAttribute('id');
-      shell.setAttribute('data-main-shell', 'true');
-    }
-
-    return () => {
-      if (prevId) pageMain.id = prevId;
-      else pageMain.removeAttribute('id');
-      if (shell && shell.getAttribute('data-main-shell') === 'true') {
-        shell.id = 'main-content';
-        shell.removeAttribute('data-main-shell');
+    const onClick = (event) => {
+      const link = event.target instanceof Element ? event.target.closest('a.skip-link') : null;
+      if (!link) return;
+      const pageMain = document.querySelector('main');
+      if (!pageMain) return;
+      event.preventDefault();
+      if (!pageMain.hasAttribute('tabindex')) {
+        pageMain.setAttribute('tabindex', '-1');
       }
+      pageMain.focus({ preventScroll: false });
     };
-  }, [pathname]);
+
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
 
   return null;
 }

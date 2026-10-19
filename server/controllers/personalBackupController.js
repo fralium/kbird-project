@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const Record = require('../models/recordModel');
+const Bird = require('../models/birdModel');
+const Location = require('../models/locationModel');
 const PersonalChecklist = require('../models/personalChecklistModel');
 const UserSettings = require('../models/userSettingsModel');
 const Project = require('../models/projectModel');
@@ -13,7 +15,7 @@ const {
 } = require('../utils/safeUploadPath');
 const { getProjectsUploadsRoot } = require('../config/dataPaths');
 
-const ARCHIVE_VERSION = 2;
+const ARCHIVE_VERSION = 3;
 const MAX_MEDIA_BYTES = 40 * 1024 * 1024; // 单次导出媒体上限约 40MB
 
 function dayKey(dateLike) {
@@ -35,7 +37,7 @@ function recordFingerprint(record) {
   return `${dayKey(record?.date)}|${locationName}|${birdIds}`;
 }
 
-function collectMediaUrlsFromRecords(records) {
+function collectActiveUploadUrls({ records = [], birdMedia = [], locations = [] }) {
   const urls = new Set();
   (records || []).forEach((record) => {
     (record.images || []).forEach((img) => {
@@ -45,6 +47,19 @@ function collectMediaUrlsFromRecords(records) {
       (bird.images || []).forEach((img) => {
         if (img?.url) urls.add(String(img.url));
       });
+    });
+  });
+  (birdMedia || []).forEach((bird) => {
+    (bird.images || []).forEach((img) => {
+      if (img?.url) urls.add(String(img.url));
+    });
+    (bird.calls || []).forEach((call) => {
+      if (call?.url) urls.add(String(call.url));
+    });
+  });
+  (locations || []).forEach((loc) => {
+    (loc.images || []).forEach((img) => {
+      if (img?.url) urls.add(String(img.url));
     });
   });
   return [...urls];
@@ -158,16 +173,34 @@ function buildMediaEntries(recordUrls, projectFiles, { includeContent }) {
 }
 
 async function buildArchivePayload(userId, { includeMedia }) {
-  const [records, checklist, settings, projects] = await Promise.all([
+  const [records, checklist, settings, projects, birdsWithMedia, locations] = await Promise.all([
     Record.find({ observer: userId }).lean(),
     PersonalChecklist.findOne({ userId }).lean(),
     UserSettings.findOne({ userId }).lean(),
     Project.find({ ownerId: userId }).lean(),
+    Bird.find({
+      $or: [
+        { 'images.0': { $exists: true } },
+        { 'calls.0': { $exists: true } },
+      ],
+    })
+      .select('name scientificName nameAliases images calls')
+      .lean(),
+    Location.find({ status: { $ne: 'archived' } }).lean(),
   ]);
 
-  const recordUrls = collectMediaUrlsFromRecords(records);
+  const birdMedia = (birdsWithMedia || []).map((b) => ({
+    birdId: String(b._id),
+    name: b.name || '',
+    scientificName: b.scientificName || '',
+    nameAliases: Array.isArray(b.nameAliases) ? b.nameAliases : [],
+    images: Array.isArray(b.images) ? b.images : [],
+    calls: Array.isArray(b.calls) ? b.calls : [],
+  }));
+
+  const activeUrls = collectActiveUploadUrls({ records, birdMedia, locations });
   const projectFiles = collectProjectMedia(projects);
-  const media = buildMediaEntries(recordUrls, projectFiles, { includeContent: includeMedia });
+  const media = buildMediaEntries(activeUrls, projectFiles, { includeContent: includeMedia });
 
   return {
     version: ARCHIVE_VERSION,
@@ -179,6 +212,8 @@ async function buildArchivePayload(userId, { includeMedia }) {
       records: records.length,
       checklistSpecies: Array.isArray(checklist?.observedBirds) ? checklist.observedBirds.length : 0,
       projects: projects.length,
+      birdMediaSpecies: birdMedia.length,
+      locations: locations.length,
       settings: settings ? 1 : 0,
       mediaFiles: media.entries.length,
       mediaEmbedded: media.entries.filter((e) => e.base64).length,
@@ -189,13 +224,21 @@ async function buildArchivePayload(userId, { includeMedia }) {
     checklist: checklist || null,
     settings: settings || null,
     projects,
+    birdMedia,
+    locations,
     media: media.entries,
   };
 }
 
 function parseArchiveBody(body) {
   if (!body || typeof body !== 'object') return null;
-  if (!Array.isArray(body.records) && !body.checklist && !Array.isArray(body.projects)) {
+  if (
+    !Array.isArray(body.records) &&
+    !body.checklist &&
+    !Array.isArray(body.projects) &&
+    !Array.isArray(body.birdMedia) &&
+    !Array.isArray(body.locations)
+  ) {
     return null;
   }
   return body;
@@ -242,10 +285,27 @@ async function computeMergePreview(userId, archive) {
   const mediaWithContent = (archive.media || []).filter((m) => m?.base64);
   const settingsWillMerge = Boolean(archive.settings);
 
+  const incomingBirdMedia = Array.isArray(archive.birdMedia) ? archive.birdMedia : [];
+  const incomingLocations = Array.isArray(archive.locations) ? archive.locations : [];
+  let locationsAdd = 0;
+  let locationsSkip = 0;
+  if (incomingLocations.length > 0) {
+    const existingLocs = await Location.find({}).select('name').lean();
+    const existingLocNames = new Set(existingLocs.map((l) => String(l.name || '').trim()));
+    incomingLocations.forEach((loc) => {
+      const name = String(loc?.name || '').trim();
+      if (!name) return;
+      if (existingLocNames.has(name)) locationsSkip += 1;
+      else locationsAdd += 1;
+    });
+  }
+
   return {
     records: { add: recordsAdd, skip: recordsSkip, total: incomingRecords.length },
     checklist: { add: checklistAdd, skip: checklistSkip, total: incomingBirds.length },
     projects: { add: projectsAdd, skip: projectsSkip, total: incomingProjects.length },
+    birdMedia: { species: incomingBirdMedia.length },
+    locations: { add: locationsAdd, merge: locationsSkip, total: incomingLocations.length },
     settings: { merge: settingsWillMerge },
     media: { restoreable: mediaWithContent.length, listed: Array.isArray(archive.media) ? archive.media.length : 0 },
   };
@@ -368,6 +428,9 @@ const applyRestore = async (req, res) => {
       recordsSkipped: 0,
       checklistAdded: 0,
       projectsAdded: 0,
+      birdMediaMerged: 0,
+      locationsAdded: 0,
+      locationsMerged: 0,
       settingsMerged: false,
       mediaRestored: 0,
       mediaFailed: 0,
@@ -486,7 +549,121 @@ const applyRestore = async (req, res) => {
       }
     }
 
-    if (result.recordsAdded > 0) {
+    // 合并鸟种图鉴个人图片/录音与别名
+    for (const bm of archive.birdMedia || []) {
+      const name = String(bm?.name || '').trim();
+      const sci = String(bm?.scientificName || '').trim();
+      if (!name && !sci && !bm?.birdId) continue;
+
+      let birdDoc = null;
+      if (bm.birdId) {
+        birdDoc = await Bird.findById(bm.birdId).catch(() => null);
+      }
+      if (!birdDoc && name) {
+        birdDoc = await Bird.findOne({ name });
+      }
+      if (!birdDoc && sci) {
+        birdDoc = await Bird.findOne({ scientificName: sci });
+      }
+      if (!birdDoc) continue;
+
+      let changed = false;
+      const existingImgUrls = new Set((birdDoc.images || []).map((img) => String(img?.url || '')));
+      const existingImgHashes = new Set(
+        (birdDoc.images || []).map((img) => String(img?.sourceHash || '')).filter(Boolean)
+      );
+      (bm.images || []).forEach((img) => {
+        const url = String(img?.url || '').trim();
+        if (!url || existingImgUrls.has(url)) return;
+        if (img.sourceHash && existingImgHashes.has(String(img.sourceHash))) return;
+        birdDoc.images.push({
+          url,
+          caption: img.caption || '',
+          location: img.location || '',
+          date: img.date || new Date(),
+          photographer: userId,
+          order: typeof img.order === 'number' ? img.order : birdDoc.images.length,
+          tags: Array.isArray(img.tags) ? img.tags : [],
+          source: img.source || '',
+          sourceHash: img.sourceHash || '',
+          sourceFileName: img.sourceFileName || '',
+          sourceBytes: Number(img.sourceBytes) || 0,
+        });
+        existingImgUrls.add(url);
+        if (img.sourceHash) existingImgHashes.add(String(img.sourceHash));
+        changed = true;
+      });
+
+      const existingCallUrls = new Set((birdDoc.calls || []).map((c) => String(c?.url || '')));
+      (bm.calls || []).forEach((call) => {
+        const url = String(call?.url || '').trim();
+        if (!url || existingCallUrls.has(url)) return;
+        birdDoc.calls.push({
+          url,
+          caption: call.caption || '',
+          location: call.location || '',
+          date: call.date || new Date(),
+          recorder: userId,
+          order: typeof call.order === 'number' ? call.order : birdDoc.calls.length,
+          tags: Array.isArray(call.tags) ? call.tags : [],
+          mimeType: call.mimeType || '',
+          durationSec: call.durationSec,
+        });
+        existingCallUrls.add(url);
+        changed = true;
+      });
+
+      if (changed) {
+        await birdDoc.save().catch((err) => devError('合并鸟种媒体失败:', err));
+        result.birdMediaMerged += 1;
+      }
+    }
+
+    // 合并观鸟地点词典与生境照片
+    for (const loc of archive.locations || []) {
+      const name = String(loc?.name || '').trim();
+      if (!name) continue;
+      const existingLoc = await Location.findOne({ name });
+      if (!existingLoc) {
+        const doc = { ...loc };
+        delete doc._id;
+        delete doc.__v;
+        delete doc.createdAt;
+        delete doc.updatedAt;
+        doc.createdBy = userId;
+        try {
+          await Location.create(doc);
+          result.locationsAdded += 1;
+        } catch (err) {
+          devError('合并新增地点失败:', err);
+        }
+      } else {
+        let locChanged = false;
+        const existingUrls = new Set((existingLoc.images || []).map((img) => String(img?.url || '')));
+        (loc.images || []).forEach((img) => {
+          const url = String(img?.url || '').trim();
+          if (!url || existingUrls.has(url)) return;
+          existingLoc.images.push({
+            url,
+            caption: img.caption || '',
+            photographer: userId,
+            uploadedAt: img.uploadedAt || new Date(),
+          });
+          existingUrls.add(url);
+          locChanged = true;
+        });
+        if (!existingLoc.description && loc.description) {
+          existingLoc.description = loc.description;
+          locChanged = true;
+        }
+        if (locChanged) {
+          await existingLoc.save().catch((err) => devError('合并地点图片失败:', err));
+          result.locationsMerged += 1;
+        }
+      }
+    }
+
+    if (result.recordsAdded > 0 || result.birdMediaMerged > 0 || result.locationsAdded > 0 || result.locationsMerged > 0) {
       clearCache('/api/records');
       clearCache('/api/records\\?');
       clearCache('/api/locations');

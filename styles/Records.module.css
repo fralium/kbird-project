@@ -1590,7 +1590,7 @@
 }
 
 .viewButton {
-  background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
+  background: var(--color-lake-cta-hover);
   color: var(--primary-gold) !important;
   padding: 8px 16px;
   border-radius: var(--radius-md);
@@ -1604,7 +1604,7 @@
 }
 
 .viewButton:hover {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--color-ink) 100%);
+  background: var(--color-ink);
   color: var(--pure-white) !important;
   border-color: rgba(255, 215, 0, 0.5);
   transform: translateY(-1px);
@@ -1612,7 +1612,7 @@
 }
 
 .deleteButton {
-  background: linear-gradient(135deg, var(--accent-green) 0%, var(--secondary-green) 100%);
+  background: var(--color-lake-cta);
   color: var(--pure-white);
   padding: 8px 12px;
   border: none;
@@ -1626,7 +1626,7 @@
 }
 
 .deleteButton:hover {
-  background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
+  background: var(--color-lake-cta-hover);
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(102, 187, 106, 0.4);

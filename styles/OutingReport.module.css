@@ -531,6 +531,41 @@
   color: var(--color-ink);
 }
 
+.behaviorBadge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--color-lake-light, rgba(33, 158, 188, 0.14));
+  color: var(--color-lake, #126782);
+}
+
+.behaviorEditRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.behaviorEditChip {
+  appearance: none;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle, #d1d5db);
+  background: var(--bg-white, #fff);
+  color: var(--text-muted, #4b5563);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.behaviorEditChipActive {
+  background: var(--color-lake, #219ebc);
+  border-color: var(--color-lake, #219ebc);
+  color: #fff;
+}
+
 .rowNotable {
   background: var(--color-lake-light) !important;
 }

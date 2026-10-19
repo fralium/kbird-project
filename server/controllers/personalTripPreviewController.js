@@ -9,6 +9,7 @@ const { sendControllerError } = require('../middleware/controllerError');
 const {
   buildLocationRecordMatchers,
   findActiveLocationByFlexibleName,
+  normalizeLocationName,
 } = require('../utils/locationName');
 const { loadBirdreportRecord } = require('../utils/birdreportRecordPage');
 
@@ -61,6 +62,7 @@ const parseSpeciesInput = (rawList) => {
     const prev = merged.get(key);
     if (prev) {
       prev.recordCount += safeCount;
+      if (item?.outsideLocal) prev.outsideLocal = true;
       return;
     }
     merged.set(key, {
@@ -71,6 +73,7 @@ const parseSpeciesInput = (rawList) => {
       order: String(item?.order || '').trim(),
       family: String(item?.family || '').trim(),
       recordCount: safeCount,
+      outsideLocal: Boolean(item?.outsideLocal),
     });
   });
   return Array.from(merged.values());
@@ -356,6 +359,7 @@ const compareTripPreview = async (req, res) => {
         catalogName: catalog?.name || '',
         catalogScientificName: catalog?.scientificName || '',
         personalCount: birdId ? personalCountById.get(String(birdId)) || 0 : 0,
+        outsideLocal: Boolean(item.outsideLocal),
       };
 
       if (birdId && seen.has(String(birdId))) {
@@ -593,6 +597,12 @@ const getTripPreviewLocationPast = async (req, res) => {
       (a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh')
     );
 
+    const checklist = await PersonalChecklist.findOne({ userId }).select('goals.targetLocations').lean();
+    const wished = (checklist?.goals?.targetLocations || []).some((item) => {
+      const saved = normalizeLocationName(item?.locationName);
+      return saved && (saved === normalizeLocationName(matchName) || saved === normalizeLocationName(name));
+    });
+
     return res.status(200).json({
       success: true,
       data: {
@@ -603,6 +613,7 @@ const getTripPreviewLocationPast = async (req, res) => {
         speciesCount: species.length,
         lastDate: records[0]?.date || null,
         species: species.slice(0, 16),
+        wished,
       },
     });
   } catch (error) {

@@ -41,7 +41,7 @@
 }
 
 .form {
-  background: var(--background-white);
+  background: var(--bg-white);
   padding: 20px 22px 24px;
   border-radius: var(--radius-large);
   box-shadow: var(--shadow-medium);
@@ -85,7 +85,7 @@
   font-size: var(--type-caption);
   font-weight: 500;
   color: var(--text-secondary);
-  background: var(--background-light);
+  background: var(--bg-clean);
   padding: 2px 8px;
   border-radius: 999px;
 }
@@ -181,8 +181,8 @@
 
 .recentLocationButton {
   padding: 5px 10px;
-  background: var(--background-light);
-  border: 1px solid var(--medium-gray);
+  background: var(--bg-clean);
+  border: 1px solid var(--gray-200);
   border-radius: var(--radius-small);
   font-size: var(--type-secondary);
   cursor: pointer;
@@ -196,12 +196,48 @@
   border-color: var(--color-lake);
 }
 
+.birdRowBlock {
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--gray-200, #e5e7eb);
+}
+
 .birdRow {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 72px auto auto;
   gap: 8px;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+}
+
+.quickBehaviorRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.quickBehaviorChip {
+  appearance: none;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-input, #d1d5db);
+  background: var(--bg-clean, #f9fafb);
+  color: var(--text-secondary, #4b5563);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quickBehaviorChip:hover {
+  border-color: var(--color-lake, #219ebc);
+  color: var(--color-lake, #126782);
+}
+
+.quickBehaviorChipActive {
+  background: var(--color-lake, #219ebc);
+  border-color: var(--color-lake, #219ebc);
+  color: #fff;
 }
 
 .birdNameInput {
@@ -255,7 +291,7 @@
 .addBirdButton {
   padding: 10px 16px;
   background: transparent;
-  border: 1px dashed var(--medium-gray);
+  border: 1px dashed var(--gray-200);
   border-radius: var(--radius-medium);
   font-size: var(--type-secondary);
   color: var(--text-secondary);
@@ -313,7 +349,7 @@
 }
 
 .detailLink:hover {
-  color: var(--secondary-green);
+  color: var(--color-lake-hover);
   text-decoration: underline;
 }
 

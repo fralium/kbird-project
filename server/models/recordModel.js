@@ -68,6 +68,11 @@ const recordSchema = mongoose.Schema(
           type: Number,
           default: 1,
         },
+        // 观察状态与行为微标签（如：目击、听音、飞过、求偶、筑巢/携巢材、育雏/喂食、取食、集群）
+        behaviorTags: {
+          type: [String],
+          default: [],
+        },
         images: [
           {
             url: {

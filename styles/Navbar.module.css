@@ -218,6 +218,17 @@ button.navLink {
   color: var(--color-lake-light) !important;
 }
 
+.recordCta {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid rgba(255, 255, 255, 0.34) !important;
+  padding: 8px 14px;
+}
+
+.recordCta:hover {
+  background: rgba(255, 255, 255, 0.24) !important;
+  border-color: rgba(255, 255, 255, 0.56) !important;
+}
+
 /* 统一按钮样式 */
 .loginButton {
   background: rgba(255, 255, 255, 0.08);

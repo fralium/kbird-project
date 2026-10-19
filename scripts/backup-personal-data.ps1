@@ -129,11 +129,13 @@ if (-not $MongoUri) {
 $uploadsCandidates = @(
   (Join-Path $DataRoot "uploads"),
   (Join-Path $ProjectRoot "uploads")
-)
-$uploadsRoot = $uploadsCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
-if (-not $uploadsRoot) {
+) | Where-Object { Test-Path $_ }
+if ($uploadsCandidates.Count -eq 0) {
   Write-WarnLine "未找到 uploads 目录，将只备份 Mongo（若启用）。"
 }
+
+$personalDir = Join-Path $DataRoot "personal"
+$hasPersonalDir = Test-Path $personalDir
 
 $backupsRoot = Join-Path $DataRoot "backups"
 $mongoDumpsRoot = Join-Path $DataRoot "mongo-dumps"
@@ -178,14 +180,26 @@ try {
     Write-Ok "数据库已导出"
   }
 
-  if ($uploadsRoot) {
-    Write-Step ">> 复制 uploads: $uploadsRoot"
+  if ($uploadsCandidates.Count -gt 0) {
     $uploadsDest = Join-Path $workDir "uploads"
     New-Item -ItemType Directory -Force -Path $uploadsDest | Out-Null
-    & robocopy $uploadsRoot $uploadsDest /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
-    if ($LASTEXITCODE -ge 8) { throw "robocopy uploads 失败 (exit $LASTEXITCODE)" }
+    foreach ($uRoot in $uploadsCandidates) {
+      Write-Step ">> 复制 uploads: $uRoot"
+      & robocopy $uRoot $uploadsDest /E /XD temp /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
+      if ($LASTEXITCODE -ge 8) { throw "robocopy uploads 失败 (exit $LASTEXITCODE)" }
+      $global:LASTEXITCODE = 0
+    }
+    Write-Ok "uploads 已复制（自动排除 temp 缓存目录）"
+  }
+
+  if ($hasPersonalDir) {
+    Write-Step ">> 复制 personal: $personalDir"
+    $personalDest = Join-Path $workDir "personal"
+    New-Item -ItemType Directory -Force -Path $personalDest | Out-Null
+    & robocopy $personalDir $personalDest /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
+    if ($LASTEXITCODE -ge 8) { throw "robocopy personal 失败 (exit $LASTEXITCODE)" }
     $global:LASTEXITCODE = 0
-    Write-Ok "uploads 已复制"
+    Write-Ok "personal 目录已复制"
   }
 
   @{
@@ -193,7 +207,8 @@ try {
     projectRoot = $ProjectRoot
     dataRoot = $DataRoot
     mongoUriRedacted = ($MongoUri -replace '://([^:/@]+):([^@]+)@', '://***:***@')
-    includesUploads = [bool]$uploadsRoot
+    includesUploads = ($uploadsCandidates.Count -gt 0)
+    includesPersonal = $hasPersonalDir
     includesMongo = $includesMongo
   } | ConvertTo-Json | Set-Content -Path (Join-Path $workDir "backup-meta.json") -Encoding UTF8
 

@@ -65,10 +65,18 @@ function ResultDetails({
   showClose = false,
   onClose,
   closeNote = '',
+  placeOffer = null,
+  placeStatus = '',
+  onAddPlace,
 }) {
   const summary = result?.summary;
   const outcome = result?.outcome;
   if (!summary) return null;
+
+  const outsideNewNames = (result.newSpecies || [])
+    .filter((item) => item.outsideLocal && !item.nowSeen)
+    .map((item) => item.catalogName || item.name)
+    .filter(Boolean);
 
   const visibleTabs = RESULT_TABS.filter((item) => item.id !== 'added' || outcome);
   const rows =
@@ -110,6 +118,35 @@ function ResultDetails({
           <p className={styles.statValue}>{outcome ? outcome.addedCount : summary.likelyCount}</p>
         </div>
       </div>
+
+      {placeOffer ? (
+        <div className={styles.pastBox}>
+          <p className={styles.pastTitle}>{placeOffer.name}</p>
+          <p className={styles.pastMeta}>
+            {!placeOffer.ready
+              ? '正在对照你有没有来过这里。'
+              : placeOffer.visitCount
+                ? `你在这里记过 ${placeOffer.visitCount} 次。若还想再去，可以放进特定目标里的想去的地方。`
+                : '你还没在这个地点记过观察。可以放进特定目标里的想去的地方，以后提醒自己来。'}
+          </p>
+          <div className={styles.toolbar}>
+            {placeOffer.wished ? (
+              <button type="button" className="btn btn-secondary" disabled>
+                已经在想去的地方
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-secondary"
+                disabled={placeStatus === 'saving' || !onAddPlace}
+                onClick={onAddPlace}
+              >
+                {placeStatus === 'saving' ? '加入中…' : '加入想去的地方'}
+              </button>
+            )}
+          </div>
+        </div>
+      ) : null}
 
       <div className="kb-view-bar">
         <div className="kb-view-seg" role="tablist" aria-label="加新预测结果">
@@ -170,8 +207,15 @@ function ResultDetails({
         />
       ) : (
         <div className={styles.list}>
+          {outsideNewNames.length ? (
+            <p className={styles.outsideNote}>
+              {outsideNewNames.join('、')}
+              是新种，记录中心把它标成红色，表示不在该地点所在地区的常规名录里。这里同样标红，请回头核对鉴定后再加新。
+            </p>
+          ) : null}
           {rows.map((item) => {
             const key = `${item.birdId || item.name}|${item.scientificName}|${item.code}`;
+            const markRed = Boolean(item.outsideLocal && tab === 'new' && !item.nowSeen);
             return (
               <article key={key} className={styles.row}>
                 {tab === 'new' ? (
@@ -189,9 +233,11 @@ function ResultDetails({
                 <div>
                   <p className={styles.rowTitle}>
                     <SpeciesHoverChip
+                      className={markRed ? styles.outsideName : ''}
                       name={item.catalogName || item.name}
                       href={item.birdId ? `/birds/${item.birdId}` : undefined}
                     />
+                    {markRed ? <span className={styles.outsideMark}>请核对</span> : null}
                   </p>
                   <p className={styles.rowSci}>
                     {item.scientificName || item.catalogScientificName || '—'}
@@ -239,6 +285,8 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
   const [locationLabel, setLocationLabel] = useState('');
   const [locationId, setLocationId] = useState('');
   const [locationPast, setLocationPast] = useState(null);
+  const [placeStatus, setPlaceStatus] = useState('');
+  const [wishedPlaces, setWishedPlaces] = useState(() => new Set());
   const [tripDate, setTripDate] = useState('');
   const [files, setFiles] = useState([]);
   const [reportUrl, setReportUrl] = useState('');
@@ -280,7 +328,9 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
   }, [authLoading, user, loadHistoryList]);
 
   useEffect(() => {
-    const name = locationLabel.trim();
+    const fromResult = String(result?.locationLabel || '').trim();
+    const fromLink = Boolean(result?.fromLink) || String(result?.fileName || '').includes('观鸟报告');
+    const name = (fromLink && fromResult ? fromResult : locationLabel).trim();
     if (name.length < 2) {
       setLocationPast(null);
       return undefined;
@@ -289,9 +339,17 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
     const timer = setTimeout(async () => {
       try {
         const params = { name };
-        if (locationId) params.locationId = locationId;
+        if (!fromLink && locationId) params.locationId = locationId;
         const data = await api.personal.getTripPreviewLocationPast(params);
-        if (!cancelled && data?.success) setLocationPast(data.data);
+        if (cancelled || !data?.success) return;
+        setLocationPast(data.data);
+        if (data.data?.wished) {
+          setWishedPlaces((prev) => {
+            const next = new Set(prev);
+            next.add(name);
+            return next;
+          });
+        }
       } catch {
         if (!cancelled) setLocationPast(null);
       }
@@ -300,7 +358,7 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [locationLabel, locationId]);
+  }, [locationLabel, locationId, result?.locationLabel, result?.fromLink, result?.fileName]);
 
   const openHistory = useCallback(async (id) => {
     const sid = String(id || '').trim();
@@ -321,6 +379,7 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
       const payload = data.data || {};
       const resolvedId = String(payload.historyId || sid);
       loadedHistoryIdRef.current = resolvedId;
+      setPlaceStatus('');
       setResult({ ...payload, historyId: resolvedId });
       setTab('new');
       setSelected(new Set());
@@ -419,7 +478,8 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
       }
       const savedId = data.data?.historyId ? String(data.data.historyId) : '';
       if (savedId) loadedHistoryIdRef.current = savedId;
-      setResult(data.data);
+      setPlaceStatus('');
+      setResult({ ...data.data, fromLink: Boolean(link) });
       setPageTab('compare');
       setTab('new');
       setSelected(new Set());
@@ -549,6 +609,57 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
 
   const summary = result?.summary;
 
+  const namesTouch = (left, right) => {
+    const a = String(left || '').trim();
+    const b = String(right || '').trim();
+    if (!a || !b) return false;
+    return a === b || a.includes(b) || b.includes(a);
+  };
+  const linkPlaceName = String(result?.locationLabel || '').trim();
+  const linkPlace =
+    linkPlaceName &&
+    (result?.fromLink || String(result?.fileName || '').includes('观鸟报告'))
+      ? linkPlaceName
+      : '';
+  const placeMatches = Boolean(linkPlace && locationPast && namesTouch(locationPast.locationName, linkPlace));
+  const placeOffer = linkPlace
+    ? {
+        name: placeMatches ? locationPast.locationName || linkPlace : linkPlace,
+        visitCount: placeMatches ? locationPast.visitCount || 0 : 0,
+        wished:
+          wishedPlaces.has(linkPlace) ||
+          placeStatus === 'added' ||
+          placeStatus === 'already' ||
+          (placeMatches && Boolean(locationPast.wished)),
+        ready: placeMatches,
+      }
+    : null;
+
+  const addPlaceWish = async () => {
+    if (!linkPlace || placeStatus === 'saving') return;
+    setPlaceStatus('saving');
+    try {
+      const note = result?.fileName ? `来自${result.fileName}` : '来自观鸟记录链接';
+      const data = await api.personal.addTargetLocation({
+        locationName: linkPlace,
+        notes: note,
+      });
+      if (!data?.success) throw new Error(data?.message || '加入失败');
+      setPlaceStatus(data.data?.already ? 'already' : 'added');
+      setWishedPlaces((prev) => {
+        const next = new Set(prev);
+        next.add(linkPlace);
+        return next;
+      });
+      setLocationPast((prev) => (prev ? { ...prev, wished: true } : prev));
+      const already = Boolean(data.data?.already);
+      toast(already ? '这个地点已经在想去的地方里' : '已加入想去的地方');
+    } catch (err) {
+      setPlaceStatus('');
+      toast(err.message || '加入失败', 'error');
+    }
+  };
+
   const resultPanelProps = {
     result,
     tab,
@@ -558,6 +669,9 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
     adding,
     confirmSelected,
     confirmAllNew,
+    placeOffer,
+    placeStatus,
+    onAddPlace: addPlaceWish,
   };
 
   return (
@@ -709,6 +823,11 @@ export default function TripPredictPanel({ onConfirmedList } = {}) {
                         ? `合并 ${files.length} 个文件并预测`
                         : '开始预测'}
               </button>
+              {reportUrl.trim() ? (
+                <span className={styles.waitNote} role="status">
+                  {comparing ? '读取需要一点时间，请稍等。' : '通过链接读取需要一点时间。'}
+                </span>
+              ) : null}
             </div>
             {error && pageTab === 'compare' ? (
               <PageState type="error" title="预测未完成" message={error} />

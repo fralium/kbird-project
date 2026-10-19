@@ -246,12 +246,9 @@ export const apiRequest = async (endpoint, options = {}) => {
     if (DEBUG_LOGS_ENABLED || Number(error?.status) >= 500 || Number(error?.status) === 0) {
       const errorKey = `${error?.code || 'UNKNOWN'}|${url}`;
       if (shouldLogErrorNow(errorKey)) {
-        console.error('API request failed:', {
-          url: url || endpoint,
-          status: error?.status ?? null,
-          code: error?.code || null,
-          message: error?.message || String(error || 'unknown'),
-        });
+        console.error(
+          `API request failed: ${error?.status ?? 'no status'} ${error?.code || ''} ${url || endpoint} — ${error?.message || 'unknown'}`
+        );
       }
     }
     throw error;
@@ -797,10 +794,6 @@ export const api = {
       const queryString = new URLSearchParams(params).toString();
       return apiRequest(`/api/admin/error-metrics${queryString ? `?${queryString}` : ''}`);
     },
-    getUserReports: (params = {}) => {
-      const queryString = new URLSearchParams(params).toString();
-      return apiRequest(`/api/admin/user-reports${queryString ? `?${queryString}` : ''}`);
-    },
   },
 
   personal: {
@@ -956,6 +949,11 @@ export const api = {
       }),
     createGoalList: (payload) =>
       apiRequest('/api/personal/goals/lists', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    addTargetLocation: (payload) =>
+      apiRequest('/api/personal/goals/locations', {
         method: 'POST',
         body: JSON.stringify(payload),
       }),

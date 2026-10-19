@@ -712,6 +712,7 @@ export default function PersonalGoalsPanel({ section = 'lists', focusListId = ''
                           role="option"
                           aria-selected={selected}
                           className={`${styles.listSideItem}${selected ? ` ${styles.listSideItemActive}` : ''}`}
+                          title={getListDisplayTitle(list)}
                           onClick={() => setActiveListId(id)}
                         >
                           <span className={styles.listSideTitle}>{getListDisplayTitle(list)}</span>

@@ -43,58 +43,10 @@ echo "[2/4] 构建前端应用..."
 export NODE_OPTIONS="--max-old-space-size=4096"
 export NEXT_TELEMETRY_DISABLED=1
 
-# 设置超时构建
+# 构建前端应用
 timeout 600 npm run build || {
-    echo "⚠️ 标准构建失败，尝试替代方案..."
-    
-    # 创建简化的next.config.js
-    cat > next.config.js << 'EOF'
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  images: {
-    domains: ['localhost', '47.121.183.57', '172.31.55.167'],
-  },
-  swcMinify: false,
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
-    return config;
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/uploads/:path*',
-        destination: '/api/uploads/:path*',
-      },
-      {
-        source: '/images/birds/:path*',
-        destination: '/api/images/birds/:path*',
-      },
-      {
-        source: '/images/avatars/:path*',
-        destination: '/api/images/avatars/:path*',
-      },
-    ];
-  },
-};
-
-module.exports = nextConfig;
-EOF
-    
-    # 再次尝试构建
-    timeout 600 npm run build || {
-        echo "❌ 构建失败，但继续启动..."
-        # 创建基本的.next目录结构
-        mkdir -p .next/static
-        echo "build-$(date +%s)" > .next/BUILD_ID
-    }
+    echo "❌ 前端构建失败，请检查日志"
+    exit 1
 }
 
 echo "✅ 前端构建完成"

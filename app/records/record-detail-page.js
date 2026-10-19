@@ -12,6 +12,10 @@ import HabitatGallery from '@/components/HabitatGallery';
 import { useAuth } from '@/components/AuthProvider';
 import { getOrderChineseName, getFamilyChineseName, formatTaxonomyDisplay } from '@/data/taxonomyTranslation';
 import { getRecordBirdHighlight, sortRecordBirdsByImportance } from '@/data/protectionLevels';
+import {
+  BIRD_OBSERVATION_TAG_OPTIONS,
+  normalizeBirdObservationTags,
+} from '@/data/birdObservationTags';
 import { api } from '@/utils/api';
 import { formatAddressRegion } from '@/utils/formatAddressRegion';
 import { formatDisplayDate, formatDisplayDateTime, formatLocalDateKey } from '@/utils/localDate';
@@ -22,6 +26,7 @@ import SimplePageHeader, {
 } from '@/components/SimplePageHeader';
 import { useConfirmDialog } from '@/components/ConfirmDialog';
 import SpeciesHoverChip from '@/components/SpeciesHoverChip';
+import OutingJournalCardModal from '@/components/OutingJournalCardModal';
 import PageState from '@/components/PageState';
 import styles from '@/styles/RecordDetail.module.css';
 import outingStyles from '@/styles/OutingReport.module.css';
@@ -124,6 +129,7 @@ export default function RecordDetail() {
   const [imageViewerOpen, setImageViewerOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImages, setCurrentImages] = useState([]);
+  const [journalCardOpen, setJournalCardOpen] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState('');
   const [selectedFamily, setSelectedFamily] = useState('');
@@ -677,6 +683,20 @@ export default function RecordDetail() {
     }));
   };
 
+  const toggleBirdBehaviorTag = (birdIndex, tagValue) => {
+    setEditData((prev) => ({
+      ...prev,
+      birds: prev.birds.map((bird, index) => {
+        if (index !== birdIndex) return bird;
+        const current = normalizeBirdObservationTags(bird.behaviorTags);
+        const next = current.includes(tagValue)
+          ? current.filter((item) => item !== tagValue)
+          : [...current, tagValue];
+        return { ...bird, behaviorTags: next };
+      }),
+    }));
+  };
+
   // 处理鸟类图片上传
   const handleBirdImageUpload = async (birdIndex, e) => {
     const files = Array.from(e.target.files);
@@ -894,6 +914,7 @@ export default function RecordDetail() {
             return {
               birdId,
               notes: bird.notes,
+              behaviorTags: normalizeBirdObservationTags(bird.behaviorTags),
               images: bird.images
                 ? bird.images.map((img) => ({
                     url: img.url,
@@ -1005,6 +1026,11 @@ export default function RecordDetail() {
           actions={
             <>
               <HeaderTextLink href="/records">返回列表</HeaderTextLink>
+              {!isEditing ? (
+                <HeaderSecondaryButton onClick={() => setJournalCardOpen(true)}>
+                  生成手账卡
+                </HeaderSecondaryButton>
+              ) : null}
               {!isEditing && canManageRecord ? (
                 <>
                   <HeaderPrimaryButton onClick={startEditing}>编辑记录</HeaderPrimaryButton>
@@ -1350,6 +1376,31 @@ export default function RecordDetail() {
                                 min="1"
                                 className={styles.countInput}
                               />
+                            </div>
+
+                            <div className={styles.formGroup}>
+                              <label>观察状态与行为</label>
+                              <div className={outingStyles.behaviorEditRow} role="group" aria-label="观察状态与行为">
+                                {BIRD_OBSERVATION_TAG_OPTIONS.map((opt) => {
+                                  const selected = normalizeBirdObservationTags(
+                                    bird.behaviorTags
+                                  ).includes(opt.value);
+                                  return (
+                                    <button
+                                      key={opt.value}
+                                      type="button"
+                                      title={opt.hint}
+                                      aria-pressed={selected}
+                                      onClick={() => toggleBirdBehaviorTag(index, opt.value)}
+                                      className={`${outingStyles.behaviorEditChip} ${
+                                        selected ? outingStyles.behaviorEditChipActive : ''
+                                      }`}
+                                    >
+                                      {opt.label}
+                                    </button>
+                                  );
+                                })}
+                              </div>
                             </div>
                             
                             <div className={styles.formGroup}>
@@ -1761,6 +1812,11 @@ export default function RecordDetail() {
                                         {highlight.shortLabel}
                                       </span>
                                     ) : null}
+                                    {normalizeBirdObservationTags(bird.behaviorTags).map((tag) => (
+                                      <span key={tag} className={outingStyles.behaviorBadge}>
+                                        {tag}
+                                      </span>
+                                    ))}
                                   </div>
                                 </td>
                                 <td className={outingStyles.scientific}>
@@ -2018,6 +2074,21 @@ export default function RecordDetail() {
           onClose={closeImageViewer}
         />
       )}
+
+      <OutingJournalCardModal
+        isOpen={journalCardOpen}
+        onClose={() => setJournalCardOpen(false)}
+        record={record}
+        effortLine={
+          [
+            record?.effort?.durationMinutes != null ? `${record.effort.durationMinutes} 分钟` : null,
+            record?.effort?.distanceKm != null ? `${record.effort.distanceKm} km` : null,
+            record?.effort?.observersCount != null ? `${record.effort.observersCount} 人` : null,
+          ]
+            .filter(Boolean)
+            .join(' · ')
+        }
+      />
     </div>
   );
 }

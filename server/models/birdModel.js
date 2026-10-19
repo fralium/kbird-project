@@ -332,12 +332,8 @@ birdSchema.index({ nameAliases: 1 });
 // 添加复合索引优化查询性能
 birdSchema.index({ category: 1, createdAt: -1 });
 birdSchema.index({ conservationStatus: 1, createdAt: -1 });
-birdSchema.index({ nameAliasPinyinInitials: 1 });
 birdSchema.index({ nameAliasPinyin: 1 });
 birdSchema.index({ namePinyinInitials: 1, scientificNamePinyinInitials: 1 });
-
-// 添加地理位置索引
-birdSchema.index({ 'distribution.coordinates': '2dsphere' });
 
 // 避免重复编译模型
 const Bird = mongoose.models.Bird || mongoose.model('Bird', birdSchema);

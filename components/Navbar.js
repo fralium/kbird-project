@@ -316,13 +316,13 @@ const Navbar = () => {
               aria-haspopup="menu"
               aria-controls={archiveMenuId}
             >
-              记录
+              观鸟档案
               <span className={`${styles.chevron}${isArchiveMenuOpen ? ` ${styles.chevronOpen}` : ''}`} aria-hidden="true">
                 <ChevronDownIcon size={14} color="white" />
               </span>
             </button>
             {isArchiveMenuOpen && (
-              <div id={archiveMenuId} className={styles.navDropdown} role="menu" aria-label="记录菜单">
+              <div id={archiveMenuId} className={styles.navDropdown} role="menu" aria-label="观鸟档案菜单">
                 <Link
                   href="/records"
                   className={dropdownItemClass(isRecordsArchiveActive)}
@@ -535,7 +535,7 @@ const Navbar = () => {
               <li className={`${styles.navItem} ${styles.recordMenuContainer}`}>
                 <button 
                   type="button"
-                  className={styles.navLink}
+                  className={`${styles.navLink} ${styles.recordCta}`}
                   onClick={toggleRecordMenu}
                   onKeyDown={(event) =>
                     handleTriggerKeyDown(event, {
@@ -722,6 +722,21 @@ const Navbar = () => {
                         }
                       >
                         个人设置
+                      </Link>
+                      <Link
+                        href="/personal/guide"
+                        className={styles.dropdownItem}
+                        role="menuitem"
+                        onClick={closeUserMenu}
+                        onKeyDown={(event) =>
+                          handleDropdownItemKeyDown(event, {
+                            menuId: userMenuId,
+                            closeMenu: closeUserMenu,
+                            triggerRef: userMenuButtonRef,
+                          })
+                        }
+                      >
+                        功能指南
                       </Link>
                     </div>
                     {userRole === 'admin' && (

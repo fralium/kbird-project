@@ -17,6 +17,8 @@ import HTMLPDFExporter from '@/components/HTMLPDFExporter';
 import { useAuth } from '@/components/AuthProvider';
 import BirdSearchField from '@/components/BirdSearchField';
 import FoldFilterPanel from '@/components/FoldFilterPanel';
+import TaxonCompareDrawer from '@/components/TaxonCompareDrawer';
+import { useCompareTray } from '@/utils/compareStore';
 import { api } from '@/utils/api';
 import { BIRD_SEARCH_PLACEHOLDER } from '@/utils/birdSearchUi';
 import { readCardStyle, writeCardStyle } from '@/utils/habitatCover';
@@ -94,6 +96,7 @@ export default function BirdListPage() {
   const [viewMode, setViewMode] = useState('simple');
   const [cardStyle, setCardStyle] = useState('field');
   const [showPDFExporter, setShowPDFExporter] = useState(false);
+  const { hasItem: isInCompareTray, toggle: toggleCompare } = useCompareTray();
 
   useEffect(() => {
     setCardStyle(readCardStyle());
@@ -789,16 +792,32 @@ export default function BirdListPage() {
                         <Link href={`/birds/${bird._id}`} className={styles.birdNameLink}>
                           <h3 className={scrap ? styles.scrapName : undefined}>{bird.name}</h3>
                         </Link>
-                        <button
-                          type="button"
-                          className={`${styles.favoriteButton} ${bird.isFavorited ? styles.favorited : ''}`}
-                          onClick={(event) => handleFavorite(event, bird._id)}
-                          disabled={favoriteLoading}
-                          aria-label={bird.isFavorited ? '取消收藏' : '收藏'}
-                          title={bird.isFavorited ? '取消收藏' : '收藏'}
-                        >
-                          {favoriteLoading ? '…' : (bird.isFavorited ? '★' : '☆')}
-                        </button>
+                        <div className={styles.cardHeaderActions}>
+                          <button
+                            type="button"
+                            className={`${styles.compareMiniBtn} ${
+                              isInCompareTray(bird._id) ? styles.compareMiniBtnActive : ''
+                            }`}
+                            onClick={(event) => {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              toggleCompare(bird);
+                            }}
+                            title="加入同屏对比台"
+                          >
+                            {isInCompareTray(bird._id) ? '已选对比' : '+对比'}
+                          </button>
+                          <button
+                            type="button"
+                            className={`${styles.favoriteButton} ${bird.isFavorited ? styles.favorited : ''}`}
+                            onClick={(event) => handleFavorite(event, bird._id)}
+                            disabled={favoriteLoading}
+                            aria-label={bird.isFavorited ? '取消收藏' : '收藏'}
+                            title={bird.isFavorited ? '取消收藏' : '收藏'}
+                          >
+                            {favoriteLoading ? '…' : (bird.isFavorited ? '★' : '☆')}
+                          </button>
+                        </div>
                       </div>
 
                       <Link href={`/birds/${bird._id}`} className={styles.birdInfoLink}>
@@ -845,6 +864,7 @@ export default function BirdListPage() {
         )}
       </main>
 
+      <TaxonCompareDrawer />
       <Footer />
     </div>
   );

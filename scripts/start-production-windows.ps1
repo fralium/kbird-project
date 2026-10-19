@@ -47,13 +47,10 @@ if (-not (Test-Path "node_modules")) {
 }
 
 Write-Host ""
-Write-Host "[2/4] 设置生产环境配置..." -ForegroundColor Yellow
-# 复制生产配置文件
-if (Test-Path "next.config.production.js") {
-    Copy-Item "next.config.production.js" "next.config.js" -Force
-    Write-Host "✅ 已使用生产环境配置" -ForegroundColor Green
-} else {
-    Write-Host "⚠️  未找到生产配置文件，使用默认配置" -ForegroundColor Yellow
+Write-Host "[2/4] 检查数据目录与环境配置..." -ForegroundColor Yellow
+if (Test-Path "scripts\ensure-kbird-data.js") {
+    node scripts/ensure-kbird-data.js
+    Write-Host "✅ KBird-Data 与 .env 配置已就绪" -ForegroundColor Green
 }
 
 Write-Host ""

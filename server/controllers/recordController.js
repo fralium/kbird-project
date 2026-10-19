@@ -95,6 +95,7 @@ const toNullableDate = (value) => {
 const escapeRegex = (value) => String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const { HABITAT_FILTERS } = require('../../data/habitatFilters');
+const { normalizeBirdObservationTags } = require('../../data/birdObservationTags');
 
 /** 生境按地点名关键词匹配，与封面归类同一套词表 */
 const pushHabitatFilter = (regionFilters, habitat) => {
@@ -1015,6 +1016,7 @@ const createRecord = async (req, res) => {
         birdId: bird.birdId,
         notes: bird.notes || '',
         count: bird.count || 1,
+        behaviorTags: normalizeBirdObservationTags(bird.behaviorTags),
         images: normalizeRecordImages(bird.images || []),
       })),
       notes: notes || '',
@@ -1193,6 +1195,7 @@ const editRecord = async (req, res) => {
       birdId: bird.birdId,
       notes: bird.notes || '',
       count: bird.count || 1,
+      behaviorTags: normalizeBirdObservationTags(bird.behaviorTags),
       images: normalizeRecordImages(bird.images || []),
     }));
     devLog('处理后的birds数据:', birdsData);
@@ -1579,6 +1582,8 @@ const getRecordsByBird = async (req, res) => {
               }
             : null,
           notes: bird.notes || '',
+          count: Number(bird.count) || 1,
+          behaviorTags: normalizeBirdObservationTags(bird.behaviorTags),
           images: normalizeRecordImages(bird.images || []),
           recordId: record._id,
           speciesNames,

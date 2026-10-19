@@ -147,7 +147,6 @@ app.use('/api/locations', cacheMiddleware(locationCacheTime), require('./routes/
 app.use('/api/region-lists', require('./routes/regionBirdListRoutes')); // 清单常更新，不走列表缓存
 app.use('/api/leaderboard', cacheMiddleware(300), require('./routes/leaderboardRoutes')); // 5分钟缓存
 app.use('/api/admin', adminLimiter, require('./routes/adminRoutes')); // 管理员限流
-app.use('/api/reports', strictLimiter, require('./routes/reportRoutes')); // 严格限流
 app.use('/api/upload', uploadLimiter, require('./routes/uploadRoutes')); // 文件上传路由
 app.use('/api/personal/checklist', require('./routes/personalChecklistRoutes')); // 个人清单路由
 app.use('/api/personal/stats', require('./routes/personalStatsRoutes')); // 个人统计路由

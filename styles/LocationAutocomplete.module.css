@@ -15,7 +15,7 @@
 
 .input:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: var(--color-lake);
   box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
 }
 
@@ -78,7 +78,7 @@
 
 .locationType {
   font-size: var(--type-caption);
-  color: var(--primary-color);
+  color: var(--color-lake);
   background-color: rgba(46, 125, 50, 0.1);
   padding: 2px 6px;
   border-radius: 4px;

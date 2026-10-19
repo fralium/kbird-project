@@ -1,6 +1,6 @@
 /* AI识别结果组件样式 */
 .container {
-  background: var(--background-white);
+  background: var(--bg-white);
   border-radius: var(--radius-large);
   padding: 25px;
   box-shadow: var(--shadow-medium);
@@ -13,7 +13,7 @@
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 15px;
-  border-bottom: 2px solid var(--medium-gray);
+  border-bottom: 2px solid var(--gray-200);
 }
 
 .header h3 {
@@ -25,7 +25,7 @@
 .provider {
   font-size: var(--type-secondary);
   color: var(--text-secondary);
-  background: var(--background-light);
+  background: var(--bg-clean);
   padding: 5px 10px;
   border-radius: var(--radius-small);
 }
@@ -79,14 +79,14 @@
 .confidenceBar {
   width: 100%;
   height: 20px;
-  background: var(--background-light);
+  background: var(--bg-clean);
   border-radius: 10px;
   overflow: hidden;
 }
 
 .confidenceFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  background: var(--color-lake);
   transition: width 0.3s ease;
 }
 
@@ -98,7 +98,7 @@
 
 .pickButton {
   align-self: flex-start;
-  border: 1px solid var(--primary-green);
+  border: 1px solid var(--color-lake);
   background: var(--bg-white);
   color: var(--color-lake);
   border-radius: 8px;
@@ -161,7 +161,7 @@
 }
 
 .birdLink:hover {
-  color: var(--secondary-green);
+  color: var(--color-lake-hover);
   text-decoration: underline;
 }
 
@@ -186,8 +186,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 15px;
-  background: var(--background-light);
-  border: 2px solid var(--medium-gray);
+  background: var(--bg-clean);
+  border: 2px solid var(--gray-200);
   border-radius: var(--radius-medium);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -195,7 +195,7 @@
 
 .candidateItem:hover {
   border-color: var(--color-lake);
-  background: var(--background-white);
+  background: var(--bg-white);
 }
 
 .candidateItem.selected,
@@ -216,7 +216,7 @@
 
 .candidateSelectButton {
   margin-left: 10px;
-  border: 1px solid var(--primary-green);
+  border: 1px solid var(--color-lake);
   background: var(--bg-white);
   color: var(--color-lake);
   border-radius: 8px;
@@ -235,7 +235,7 @@
 }
 
 .encyclopediaContent {
-  background: var(--background-light);
+  background: var(--bg-clean);
   padding: 15px;
   border-radius: var(--radius-medium);
   max-height: 200px;
@@ -268,7 +268,7 @@
 
 .feedbackBlock {
   margin-bottom: 15px;
-  background: var(--background-light);
+  background: var(--bg-clean);
   border-radius: var(--radius-medium);
   padding: 14px 15px;
 }
@@ -301,7 +301,7 @@
   display: flex;
   gap: 10px;
   padding-top: 15px;
-  border-top: 2px solid var(--medium-gray);
+  border-top: 2px solid var(--gray-200);
 }
 
 .confirmButton,
@@ -317,7 +317,7 @@
 }
 
 .confirmButton {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  background: var(--color-lake-cta);
   color: var(--text-white);
 }
 
@@ -327,9 +327,9 @@
 }
 
 .rejectButton {
-  background: var(--background-light);
+  background: var(--bg-clean);
   color: var(--text-primary);
-  border: 2px solid var(--medium-gray);
+  border: 2px solid var(--gray-200);
 }
 
 .rejectButton:hover {

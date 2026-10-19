@@ -34,9 +34,33 @@ function extractValidLngLat(locationLike) {
   return [lng, lat];
 }
 
+/** 本地时区整年区间 [Y-01-01 00:00:00.000, Y-12-31 23:59:59.999] */
+function localYearRange(yearLike) {
+  const y = Number.parseInt(String(yearLike), 10);
+  const year = Number.isFinite(y) ? y : new Date().getFullYear();
+  return {
+    startDate: new Date(year, 0, 1, 0, 0, 0, 0),
+    endDate: new Date(year, 11, 31, 23, 59, 59, 999),
+  };
+}
+
+/** 本地时区整月区间 (month: 1..12) [Y-M-01 00:00:00.000, 月末 23:59:59.999] */
+function localMonthRange(yearLike, monthLike) {
+  const y = Number.parseInt(String(yearLike), 10);
+  const m = Number.parseInt(String(monthLike), 10);
+  const year = Number.isFinite(y) ? y : new Date().getFullYear();
+  const month = Number.isFinite(m) && m >= 1 && m <= 12 ? m : new Date().getMonth() + 1;
+  return {
+    startDate: new Date(year, month - 1, 1, 0, 0, 0, 0),
+    endDate: new Date(year, month, 0, 23, 59, 59, 999),
+  };
+}
+
 module.exports = {
   formatLocalDateKey,
   todayLocalDateKey,
   formatDisplayDateShort,
   extractValidLngLat,
+  localYearRange,
+  localMonthRange,
 };

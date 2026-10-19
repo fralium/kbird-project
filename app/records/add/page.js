@@ -148,6 +148,7 @@ function AddRecordPageClient() {
           return {
             birdId: bird.bird?._id || bird.birdId?._id || bird.birdId,
             notes: bird.notes || '',
+            behaviorTags: Array.isArray(bird.behaviorTags) ? bird.behaviorTags : [],
             images: uploadedImages,
             count: bird.count || 1,
           };

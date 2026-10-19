@@ -1,0 +1,399 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(2, 24, 36, 0.62);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  width: min(820px, 100%);
+  max-height: 92vh;
+  background: var(--bg-white, #fff);
+  border-radius: 16px;
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  box-shadow: 0 24px 56px rgba(2, 48, 71, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-subtle, #e5e7eb);
+  background: var(--bg-clean, #f8fafc);
+  flex-wrap: wrap;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.toolbarTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-ink, #023047);
+}
+
+.themeTabs {
+  display: inline-flex;
+  background: var(--border-subtle, #e2e8f0);
+  padding: 3px;
+  border-radius: 8px;
+  gap: 4px;
+}
+
+.themeBtn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted, #475569);
+  cursor: pointer;
+}
+
+.themeBtnActive {
+  background: var(--bg-white, #fff);
+  color: var(--color-ink, #023047);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.toolbarActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  appearance: none;
+  border: none;
+  background: var(--color-lake, #219ebc);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.primaryBtn:hover:not(:disabled) {
+  background: var(--color-lake-hover, #126782);
+}
+
+.primaryBtn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.secondaryBtn,
+.closeBtn {
+  appearance: none;
+  border: 1px solid var(--border-subtle, #cbd5e1);
+  background: var(--bg-white, #fff);
+  color: var(--color-ink, #023047);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.secondaryBtn:hover,
+.closeBtn:hover {
+  border-color: var(--color-lake, #219ebc);
+  color: var(--color-lake, #126782);
+}
+
+.previewScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px;
+  background: #e2e8f0;
+}
+
+.journalCard {
+  width: 640px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 32px 34px;
+  border-radius: 12px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+}
+
+.journalCardParchment {
+  background: #fbf8f1;
+  color: #1e293b;
+  border: 1px solid #e6dcc8;
+}
+
+.journalCardSlate {
+  background: #10232a;
+  color: #f1f5f9;
+  border: 1px solid #1e3a44;
+}
+
+.cardTopStamp {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  opacity: 0.72;
+  padding-bottom: 10px;
+  border-bottom: 2px double currentColor;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.cardMetaLine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kpiBox {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  background: rgba(128, 128, 128, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.kpiVal {
+  font-size: 20px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #219ebc;
+}
+
+.journalCardSlate .kpiVal {
+  color: #56cfe1;
+}
+
+.kpiLabel {
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.highlightBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  flex-wrap: wrap;
+}
+
+.highlightTag {
+  font-size: 12px;
+  font-weight: 700;
+  color: #d97706;
+}
+
+.journalCardSlate .highlightTag {
+  color: #fbbf24;
+}
+
+.highlightList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.highlightChip em {
+  font-style: normal;
+  opacity: 0.75;
+  font-size: 11px;
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.photoGridSingle {
+  grid-template-columns: 1fr;
+}
+
+.photoItem {
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  position: relative;
+}
+
+.photoItem img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  background: rgba(0, 0, 0, 0.04);
+  display: block;
+}
+
+.photoGridSingle .photoItem img {
+  max-height: 280px;
+}
+
+.photoItem figcaption {
+  padding: 4px 8px;
+  font-size: 11px;
+  text-align: right;
+  opacity: 0.8;
+  background: rgba(128, 128, 128, 0.08);
+}
+
+.speciesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionDivider {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+  padding-bottom: 4px;
+}
+
+.speciesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 16px;
+}
+
+.speciesCell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(128, 128, 128, 0.2);
+  font-size: 13px;
+}
+
+.speciesCellMain {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.speciesIdx {
+  font-size: 11px;
+  opacity: 0.55;
+  font-variant-numeric: tabular-nums;
+}
+
+.speciesName {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.speciesTags {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(33, 158, 188, 0.15);
+  color: #219ebc;
+  white-space: nowrap;
+}
+
+.journalCardSlate .speciesTags {
+  color: #67e8f9;
+}
+
+.speciesCount {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.moreSpeciesHint {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.7;
+  text-align: center;
+}
+
+.notesBlock {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(128, 128, 128, 0.07);
+  border-left: 3px solid #219ebc;
+}
+
+.notesTitle {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.notesBlock p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid rgba(128, 128, 128, 0.25);
+  font-size: 11px;
+  opacity: 0.65;
+}

@@ -4,6 +4,7 @@ const Location = require('../models/locationModel');
 const Bird = require('../models/birdModel');
 const { sendControllerError } = require('../middleware/controllerError');
 const { devError } = require('../utils/devLogger');
+const { localYearRange } = require('../utils/dateCoords');
 
 const normalize = (value) => String(value || '').trim();
 const hasRegionAddress = (address) =>
@@ -139,6 +140,56 @@ const buildObservedBirdsFromRecords = async (userId) => {
   return Array.from(map.values());
 };
 
+const getRecordsWatermark = async (userId) => {
+  const [count, latest] = await Promise.all([
+    Record.countDocuments({ observer: userId, status: { $ne: 'draft' } }),
+    Record.findOne({ observer: userId, status: { $ne: 'draft' } })
+      .sort({ updatedAt: -1 })
+      .select('updatedAt')
+      .lean(),
+  ]);
+  const latestUpdatedAtMs = latest?.updatedAt ? new Date(latest.updatedAt).getTime() : 0;
+  return { count, latestUpdatedAtMs };
+};
+
+const isWatermarkFresh = (checklistDoc, wm) => {
+  const cached = checklistDoc?.statsCache?.recordsWatermark;
+  if (!cached || typeof cached !== 'object') return false;
+  if (cached.count !== wm.count || cached.latestUpdatedAtMs !== wm.latestUpdatedAtMs) {
+    return false;
+  }
+  const hasBirds = (checklistDoc?.observedBirds?.length || 0) > 0;
+  return wm.count === 0 ? !hasBirds : hasBirds;
+};
+
+const writeWatermarkToChecklist = (checklistDoc, wm) => {
+  const prevCache =
+    checklistDoc.statsCache && typeof checklistDoc.statsCache === 'object'
+      ? checklistDoc.statsCache
+      : {};
+  checklistDoc.statsCache = {
+    ...prevCache,
+    recordsWatermark: wm,
+  };
+  checklistDoc.markModified('statsCache');
+};
+
+const syncObservedBirdsIfStale = async (userId, checklistDoc) => {
+  const wm = await getRecordsWatermark(userId);
+  if (isWatermarkFresh(checklistDoc, wm)) {
+    return false;
+  }
+  const rebuiltObservedBirds = await buildObservedBirdsFromRecords(userId);
+  let mutated = false;
+  if (!sameBirdSet(checklistDoc.observedBirds, rebuiltObservedBirds)) {
+    checklistDoc.observedBirds = rebuiltObservedBirds;
+    mutated = true;
+  }
+  writeWatermarkToChecklist(checklistDoc, wm);
+  await checklistDoc.save();
+  return mutated;
+};
+
 const enrichChecklistLocations = async (checklistDoc) => {
   if (!checklistDoc?.observedBirds?.length) return checklistDoc;
 
@@ -200,11 +251,9 @@ const getChecklist = async (req, res) => {
       );
     }
 
-    // 兜底一致性修复：记录与清单不一致时自动重建清单鸟种。
-    const rebuiltObservedBirds = await buildObservedBirdsFromRecords(req.user.id);
-    if (!sameBirdSet(doc.observedBirds, rebuiltObservedBirds)) {
-      doc.observedBirds = rebuiltObservedBirds;
-      await doc.save();
+    // 按记录水位线按需同步：当 Record 数量或最新 updatedAt 变化时才扫描全表重建
+    const mutated = await syncObservedBirdsIfStale(req.user.id, doc);
+    if (mutated) {
       doc = await PersonalChecklist.findById(doc._id).populate(
         'observedBirds.birdId',
         'name scientificName images category description habitat order'
@@ -233,7 +282,9 @@ const syncChecklist = async (req, res) => {
       checklist = await PersonalChecklist.create({ userId });
     }
 
+    const wm = await getRecordsWatermark(userId);
     checklist.observedBirds = await buildObservedBirdsFromRecords(userId);
+    writeWatermarkToChecklist(checklist, wm);
     await checklist.save();
 
     const populated = await PersonalChecklist.findById(checklist._id).populate(
@@ -262,8 +313,7 @@ const getChecklistStats = async (req, res) => {
 
     const now = new Date();
     const y = now.getFullYear();
-    const yearStart = new Date(`${y}-01-01`);
-    const yearEnd = new Date(`${y}-12-31`);
+    const { startDate: yearStart, endDate: yearEnd } = localYearRange(y);
 
     const yearRecords = await Record.find({
       observer: userId,
@@ -336,12 +386,8 @@ const getChecklistTaxonomy = async (req, res) => {
       checklist = await PersonalChecklist.create({ userId });
     }
 
-    // 与 GET /checklist 一致：对照观察记录自动重建，避免「只看未见」因清单未同步而显示全部
-    const rebuiltObservedBirds = await buildObservedBirdsFromRecords(userId);
-    if (!sameBirdSet(checklist.observedBirds, rebuiltObservedBirds)) {
-      checklist.observedBirds = rebuiltObservedBirds;
-      await checklist.save();
-    }
+    // 与 GET /checklist 一致：按水位线检测是否需要对照观察记录重建
+    await syncObservedBirdsIfStale(userId, checklist);
 
     const observedMap = new Map();
     (checklist.observedBirds || []).forEach((item) => {

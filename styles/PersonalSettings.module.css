@@ -86,7 +86,7 @@
 
 /* 设置内容 */
 .settingsContent {
-  background: var(--background-white);
+  background: var(--bg-white);
   padding: 30px;
   border-radius: var(--radius-large);
   box-shadow: var(--shadow-medium);
@@ -95,7 +95,7 @@
 .settingsSection {
   margin-bottom: 40px;
   padding-bottom: 30px;
-  border-bottom: 2px solid var(--medium-gray);
+  border-bottom: 2px solid var(--gray-200);
 }
 
 .settingsSection:last-child {
@@ -109,7 +109,7 @@
   color: var(--text-primary);
   margin: 0 0 20px 0;
   padding-bottom: 10px;
-  border-bottom: 2px solid var(--primary-green);
+  border-bottom: 2px solid var(--color-lake);
 }
 
 .settingItem {
@@ -132,12 +132,12 @@
 
 .settingSelect {
   padding: 10px 15px;
-  border: 2px solid var(--medium-gray);
+  border: 2px solid var(--gray-200);
   border-radius: var(--radius-medium);
   font-size: var(--type-secondary);
   min-width: 200px;
   cursor: pointer;
-  background: var(--background-white);
+  background: var(--bg-white);
 }
 
 .settingSelect:focus {
@@ -275,10 +275,10 @@
   flex: 1;
   min-width: 180px;
   padding: 10px 15px;
-  border: 2px solid var(--medium-gray);
+  border: 2px solid var(--gray-200);
   border-radius: var(--radius-medium);
   font-size: var(--type-body);
-  background: var(--background-white);
+  background: var(--bg-white);
 }
 
 .settingInput:focus {
@@ -293,7 +293,7 @@
   font-size: var(--type-body);
   font-weight: 600;
   cursor: pointer;
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  background: var(--color-lake-cta);
   color: var(--text-white);
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -338,7 +338,7 @@
   gap: 15px;
   margin-top: 40px;
   padding-top: 30px;
-  border-top: 2px solid var(--medium-gray);
+  border-top: 2px solid var(--gray-200);
 }
 
 .saveButton,
@@ -354,7 +354,7 @@
 }
 
 .saveButton {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  background: var(--color-lake-cta);
   color: var(--text-white);
 }
 
@@ -438,13 +438,13 @@
 .settingTextarea {
   width: 100%;
   padding: 10px 15px;
-  border: 2px solid var(--medium-gray);
+  border: 2px solid var(--gray-200);
   border-radius: var(--radius-medium);
   font-size: var(--type-body);
   font-family: inherit;
   line-height: var(--line-height-normal);
   resize: vertical;
-  background: var(--background-white);
+  background: var(--bg-white);
   box-sizing: border-box;
 }
 
@@ -494,7 +494,7 @@
   background: var(--page-bg);
   padding: 14px 16px;
   border-radius: var(--radius-medium);
-  border: 1px solid var(--medium-gray);
+  border: 1px solid var(--gray-200);
   transition: background 0.2s ease, transform 0.2s ease;
 }
 

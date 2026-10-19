@@ -234,6 +234,127 @@
   color: var(--text-muted);
 }
 
+.folderTagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.folderTagChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--color-lake-light, rgba(33, 158, 188, 0.14));
+  color: var(--color-lake, #126782);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.clusterBox {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-panel, 8px);
+  border: 1px solid rgba(33, 158, 188, 0.28);
+  background: rgba(33, 158, 188, 0.06);
+}
+
+.clusterHead {
+  margin-bottom: 10px;
+}
+
+.clusterTitle {
+  margin: 0 0 2px;
+  font-size: var(--type-body);
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.clusterSub {
+  margin: 0;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+}
+
+.clusterList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.clusterItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: var(--bg-white, #fff);
+  border: 1px solid var(--border-subtle);
+}
+
+.clusterMeta {
+  flex: 1;
+  min-width: 220px;
+}
+
+.clusterDateRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 3px;
+}
+
+.clusterDate {
+  font-size: var(--type-body);
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.clusterBadge {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--border-subtle);
+  color: var(--text-muted);
+}
+
+.clusterLoc {
+  font-size: var(--type-caption);
+  font-weight: 600;
+  color: var(--color-lake);
+}
+
+.clusterSpecies {
+  margin: 0;
+  font-size: var(--type-caption);
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.clusterActionBtn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--color-lake, #219ebc);
+  background: var(--bg-white, #fff);
+  color: var(--color-lake, #126782);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.clusterActionBtn:hover {
+  background: var(--color-lake, #219ebc);
+  color: #fff;
+}
+
 .stat {
   font-variant-numeric: tabular-nums;
   color: var(--color-ink);

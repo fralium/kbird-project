@@ -16,7 +16,7 @@
 }
 
 .loading {
-  background: var(--background-white);
+  background: var(--bg-white);
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
@@ -26,7 +26,7 @@
 }
 
 .panel {
-  background: var(--background-white);
+  background: var(--bg-white);
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);

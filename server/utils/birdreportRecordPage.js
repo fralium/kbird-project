@@ -4,8 +4,17 @@ const os = require('os');
 const path = require('path');
 
 const PAGE_TIMEOUT_MS = 28000;
+const PREFLIGHT_TIMEOUT_MS = 8000;
 const VIRTUAL_TIME_BUDGET_MS = 18000;
 const MAX_HTML_CHARS = 6_000_000;
+const MAX_ACTIVE_LOADS = 2;
+const ALLOWED_BROWSER_HOSTS = [
+  'www.birdreport.cn',
+  'birdreport.cn',
+  'api.birdreport.cn',
+];
+
+let activeLoads = 0;
 
 function pageError(message, statusCode = 400, code = 'BIRDREPORT_PAGE_FAILED') {
   const error = new Error(message);
@@ -40,6 +49,12 @@ function fieldText(rowHtml, field) {
     new RegExp(`data-field="${field}"[\\s\\S]*?<div class="layui-table-cell[\\s\\S]*?>([\\s\\S]*?)</div>`, 'i')
   );
   return match ? textOf(match[1]) : '';
+}
+
+/** 记录中心 outside_type=1 时把中文名标红，表示不在该地点所在地区的常规名录。 */
+function isOutsideLocalName(rowHtml) {
+  const cell = String(rowHtml || '').match(/data-field="taxon_name"[\s\S]*?<\/td>/i);
+  return /#FF4040/i.test(cell ? cell[0] : '');
 }
 
 function parseCount(value) {
@@ -98,6 +113,45 @@ function stopBrowser(child) {
   child.kill();
 }
 
+async function assertNoRedirectFromRecordPage(pageUrl, fetchImpl = fetch) {
+  if (typeof fetchImpl !== 'function') return;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), PREFLIGHT_TIMEOUT_MS);
+  try {
+    const res = await fetchImpl(pageUrl, {
+      method: 'GET',
+      redirect: 'manual',
+      signal: controller.signal,
+    });
+    if (res?.body && typeof res.body.cancel === 'function') {
+      res.body.cancel().catch(() => {});
+    }
+    if (res.status >= 300 && res.status < 400) {
+      throw pageError('记录页返回了跳转，已拒绝打开', 400, 'BIRDREPORT_PAGE_REDIRECT');
+    }
+  } catch (error) {
+    if (error?.code === 'BIRDREPORT_PAGE_REDIRECT') throw error;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function buildBrowserArgs(pageUrl, userDataDir) {
+  const hostRule = `MAP * ~NOTFOUND, ${ALLOWED_BROWSER_HOSTS.map((host) => `EXCLUDE ${host}`).join(', ')}`;
+  return [
+    '--headless=new',
+    '--disable-gpu',
+    '--no-first-run',
+    '--disable-extensions',
+    '--disable-sync',
+    `--host-resolver-rules=${hostRule}`,
+    `--user-data-dir=${userDataDir}`,
+    `--virtual-time-budget=${VIRTUAL_TIME_BUDGET_MS}`,
+    '--dump-dom',
+    pageUrl,
+  ];
+}
+
 function dumpPageHtml(pageUrl) {
   const browser = findBrowserExecutable();
   if (!browser) {
@@ -107,21 +161,7 @@ function dumpPageHtml(pageUrl) {
   return new Promise((resolve, reject) => {
     let settled = false;
     let html = '';
-    const child = spawn(
-      browser,
-      [
-        '--headless=new',
-        '--disable-gpu',
-        '--no-first-run',
-        '--disable-extensions',
-        '--disable-sync',
-        `--user-data-dir=${userDataDir}`,
-        `--virtual-time-budget=${VIRTUAL_TIME_BUDGET_MS}`,
-        '--dump-dom',
-        pageUrl,
-      ],
-      { windowsHide: true }
-    );
+    const child = spawn(browser, buildBrowserArgs(pageUrl, userDataDir), { windowsHide: true });
     const finish = (error, value) => {
       if (settled) return;
       settled = true;
@@ -168,6 +208,7 @@ function parseBirdreportRecordHtml(html) {
       order: fieldText(row, 'taxonordername'),
       family: fieldText(row, 'taxonfamilyname'),
       recordCount: parseCount(fieldText(row, 'taxon_count')),
+      outsideLocal: isOutsideLocalName(row),
     });
   });
   if (!species.length) {
@@ -189,12 +230,23 @@ function parseBirdreportRecordHtml(html) {
 
 async function loadBirdreportRecord(rawUrl) {
   const pageUrl = assertBirdreportRecordUrl(rawUrl);
-  const html = await dumpPageHtml(pageUrl);
-  return parseBirdreportRecordHtml(html);
+  if (activeLoads >= MAX_ACTIVE_LOADS) {
+    throw pageError('已有链接正在读取，请稍候再试', 429, 'BIRDREPORT_PAGE_BUSY');
+  }
+  activeLoads += 1;
+  try {
+    await assertNoRedirectFromRecordPage(pageUrl);
+    const html = await dumpPageHtml(pageUrl);
+    return parseBirdreportRecordHtml(html);
+  } finally {
+    activeLoads = Math.max(0, activeLoads - 1);
+  }
 }
 
 module.exports = {
   assertBirdreportRecordUrl,
+  assertNoRedirectFromRecordPage,
+  buildBrowserArgs,
   parseBirdreportRecordHtml,
   loadBirdreportRecord,
 };

@@ -141,7 +141,7 @@
 /* 年度概览 */
 .overviewCard,
 .goalCard {
-  background: var(--background-white);
+  background: var(--bg-white);
   padding: 14px 16px;
   border-radius: var(--radius-large);
   box-shadow: var(--shadow-medium);
@@ -201,12 +201,14 @@
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.15;
+  font-variant-numeric: tabular-nums;
 }
 
 .statTarget {
   font-size: var(--type-secondary);
   font-weight: 600;
   color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
 }
 
 .statPct,
@@ -215,6 +217,7 @@
   font-weight: 600;
   color: var(--color-lake);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .statMeta {
@@ -225,12 +228,13 @@
   margin-top: 4px;
   font-size: var(--type-caption);
   color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .goalsSplitGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(220px, 0.9fr);
-  gap: 14px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.95fr);
+  gap: 16px;
   align-items: stretch;
 }
 
@@ -249,8 +253,6 @@
 
 .placeCard {
   margin-bottom: 0;
-  background: linear-gradient(180deg, var(--bg-clean) 0%, var(--bg-white) 48%);
-  border-color: var(--color-lake-light);
 }
 
 .sectionHint {
@@ -258,6 +260,7 @@
   font-size: var(--type-caption);
   font-weight: 600;
   color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
 }
 
 .placePanel {
@@ -328,26 +331,31 @@
 .placeDate {
   font-size: var(--type-caption);
   color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
 }
 
 .placeDoneBtn {
   appearance: none;
-  border: none;
-  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-panel, 8px);
+  background: var(--bg-white);
   color: var(--color-lake);
   font: inherit;
   font-size: var(--type-caption);
-  font-weight: 700;
+  font-weight: 600;
+  line-height: var(--line-height-tight);
   cursor: pointer;
-  padding: 4px 2px;
+  padding: 5px 10px;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .placeDoneBtn:hover:not(:disabled) {
-  text-decoration: underline;
+  background: var(--color-lake-light);
+  border-color: var(--color-lake);
 }
 
 .placeDoneBtn:disabled {
-  opacity: 0.5;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
@@ -358,36 +366,44 @@
 }
 
 .quickAddButton {
-  padding: 5px 10px;
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-  border: none;
+  padding: 6px 12px;
+  background: var(--color-lake-cta);
+  border: 1px solid var(--color-lake-cta);
   color: var(--text-white);
-  border-radius: var(--radius-medium);
+  border-radius: var(--radius-panel, 8px);
   font-size: var(--type-caption);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .quickAddButton:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-medium);
+  background: var(--color-lake-cta-hover);
+  border-color: var(--color-lake-cta-hover);
 }
 
 .editButton {
-  padding: 5px 10px;
-  background: var(--background-light);
-  border: 1px solid var(--medium-gray);
-  border-radius: var(--radius-medium);
+  padding: 6px 12px;
+  background: var(--bg-white);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-panel, 8px);
+  color: var(--text-primary);
   font-size: var(--type-caption);
   font-weight: 600;
+  line-height: var(--line-height-tight);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
-.editButton:hover {
+.editButton:hover:not(:disabled) {
+  background: var(--color-lake-light);
   border-color: var(--color-lake);
-  color: var(--color-lake);
+  color: var(--color-ink);
+}
+
+.editButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 /* 目标内容 */
@@ -416,14 +432,14 @@
 .progressBar {
   width: 100%;
   height: 8px;
-  background: var(--background-light);
+  background: var(--bg-clean);
   border-radius: 999px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  background: var(--color-lake);
   transition: width 0.35s ease;
   border-radius: inherit;
 }
@@ -487,40 +503,40 @@
 
 .saveButton,
 .cancelButton {
-  padding: 7px 14px;
-  border: none;
-  border-radius: var(--radius-medium);
+  padding: 6px 14px;
+  border-radius: var(--radius-panel, 8px);
   font-size: var(--type-secondary);
   font-weight: 600;
+  line-height: var(--line-height-tight);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .saveButton {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+  background: var(--color-lake-cta);
+  border: 1px solid var(--color-lake-cta);
   color: var(--text-white);
 }
 
 .saveButton:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-medium);
+  background: var(--color-lake-cta-hover);
+  border-color: var(--color-lake-cta-hover);
 }
 
 .saveButton:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
 .cancelButton {
-  background: transparent;
-  color: var(--color-lake);
-  border: 1px solid var(--color-lake);
+  background: var(--bg-white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
 }
 
 .cancelButton:hover {
   background: var(--color-lake-light);
-  border-color: var(--color-lake-hover);
-  color: var(--color-lake-hover);
+  border-color: var(--color-lake);
 }
 
 /* 目标列表 */
@@ -538,7 +554,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px 10px;
-  background: var(--background-light);
+  background: var(--bg-clean);
   border-radius: var(--radius-medium);
   transition: background 0.2s ease;
   flex-wrap: wrap;
@@ -555,8 +571,8 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: var(--background-white);
-  border: 1px solid var(--medium-gray);
+  background: var(--bg-white);
+  border: 1px solid var(--gray-200);
   border-radius: var(--radius-medium);
   margin-top: 4px;
   max-height: 180px;
@@ -569,12 +585,12 @@
   padding: 8px 10px;
   cursor: pointer;
   transition: background 0.15s ease;
-  border-bottom: 1px solid var(--background-light);
+  border-bottom: 1px solid var(--bg-clean);
   font-size: var(--type-secondary);
 }
 
 .searchResultItem:hover {
-  background: var(--background-light);
+  background: var(--bg-clean);
 }
 
 .searchResultItem:last-child {
@@ -587,7 +603,7 @@
 }
 
 .goalItem:hover {
-  background: var(--medium-gray);
+  background: var(--gray-200);
 }
 
 .goalInfo {
@@ -603,19 +619,20 @@
   flex-shrink: 0;
   align-self: center;
   padding: 5px 10px;
-  background: var(--primary-green, var(--color-success));
-  color: var(--text-white);
-  border: none;
-  border-radius: var(--radius-medium);
+  background: var(--bg-white);
+  color: var(--color-lake);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-panel, 8px);
   font-size: var(--type-caption);
-  font-weight: 700;
+  font-weight: 600;
+  line-height: var(--line-height-tight);
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .completeButton:hover:not(:disabled) {
-  opacity: 0.92;
-  transform: translateY(-1px);
+  background: var(--color-lake-light);
+  border-color: var(--color-lake);
 }
 
 .completeButton:disabled {
@@ -667,6 +684,7 @@
   font-size: var(--type-caption);
   font-weight: 500;
   color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
 }
 
 .removeButton {
@@ -693,8 +711,8 @@
 .addButton {
   width: 100%;
   padding: 8px;
-  background: var(--background-light);
-  border: 1px dashed var(--medium-gray);
+  background: var(--bg-clean);
+  border: 1px dashed var(--gray-200);
   border-radius: var(--radius-medium);
   font-size: var(--type-secondary);
   color: var(--text-secondary);
@@ -706,7 +724,7 @@
 .addButton:hover {
   border-color: var(--color-lake);
   color: var(--color-lake);
-  background: var(--background-white);
+  background: var(--bg-white);
 }
 
 /* 空状态 */
@@ -740,10 +758,10 @@
 }
 
 .challengeCard {
-  border: 1px solid var(--medium-gray);
+  border: 1px solid var(--gray-200);
   border-radius: var(--radius-medium);
   padding: 10px;
-  background: var(--background-light);
+  background: var(--bg-clean);
 }
 
 .challengeTitle {
@@ -806,7 +824,7 @@
   width: 100%;
   max-width: 14px;
   border-radius: 4px;
-  background: linear-gradient(180deg, var(--secondary-green) 0%, var(--primary-green) 100%);
+  background: var(--color-lake);
 }
 
 .monthlyBarLabel {
@@ -815,24 +833,23 @@
 }
 
 .listsLayout {
-  display: grid;
-  grid-template-columns: minmax(140px, 32%) 1fr;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   min-width: 0;
   flex: 1 1 auto;
   min-height: 0;
-  align-content: stretch;
 }
 
 .listSidebar {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 6px;
   max-height: none;
-  height: 100%;
-  overflow: auto;
+  height: auto;
+  overflow: visible;
   min-width: 0;
-  min-height: 0;
 }
 
 .listSideItem {
@@ -840,12 +857,13 @@
   border: 1px solid var(--border-subtle);
   background: var(--bg-white);
   border-radius: var(--radius-panel, 8px);
-  padding: 10px 12px;
+  padding: 6px 10px;
   text-align: left;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  max-width: 100%;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
@@ -860,7 +878,7 @@
 }
 
 .listSideTitle {
-  font-size: var(--type-secondary);
+  font-size: var(--type-caption);
   font-weight: 600;
   color: var(--text-primary);
   line-height: var(--line-height-snug);
@@ -883,8 +901,38 @@
 
 .goalsSplitGrid .emptyState,
 .goalsSplitGrid .goalContent,
-.goalsSplitGrid .goalsList {
+.goalsSplitGrid .goalsList,
+.goalsSplitGrid .placePanel {
   flex: 1 1 auto;
+}
+
+.goalsSplitGrid .goalsList,
+.goalsSplitGrid .placePanel {
+  max-height: min(68vh, 720px);
+  overflow: auto;
+}
+
+.goalsSplitGrid .goalItem {
+  flex-wrap: nowrap;
+  align-items: center;
+  background: transparent;
+  border-radius: 0;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 8px 4px;
+}
+
+.goalsSplitGrid .goalItem:last-child {
+  border-bottom: none;
+}
+
+.goalsSplitGrid .goalItem:hover {
+  background: var(--color-lake-light);
+}
+
+.goalsSplitGrid .goalItem.completed {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .goalsSplitGrid .goalHeader {
@@ -921,9 +969,9 @@
 .deleteListButton {
   appearance: none;
   flex: 0 0 auto;
-  align-self: flex-start;
+  align-self: center;
   margin: 0;
-  padding: 6px 11px;
+  padding: 5px 10px;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-panel, 8px);
   background: var(--bg-white);
@@ -997,13 +1045,11 @@
   }
 
   .listsLayout {
-    grid-template-columns: 1fr;
+    display: flex;
   }
 
   .listSidebar {
-    max-height: 220px;
-    flex-direction: row;
-    flex-wrap: wrap;
+    max-height: none;
   }
 
   .listSideItem {

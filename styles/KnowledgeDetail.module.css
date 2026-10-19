@@ -23,7 +23,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: var(--background-white);
+  background: var(--bg-white);
   color: var(--text-primary);
   text-decoration: none;
   border-radius: var(--radius-large);
@@ -33,14 +33,14 @@
 }
 
 .backButton:hover {
-  background: var(--primary-green);
+  background: var(--color-lake);
   color: var(--text-white);
   transform: translateY(-2px);
   box-shadow: var(--shadow-medium);
 }
 
 .article {
-  background: var(--background-white);
+  background: var(--bg-white);
   border-radius: var(--radius-large);
   box-shadow: var(--shadow-medium);
   overflow: hidden;
@@ -236,8 +236,8 @@
 
 .relatedSection {
   padding: 40px;
-  background: var(--background-light);
-  border-top: 1px solid var(--medium-gray);
+  background: var(--bg-clean);
+  border-top: 1px solid var(--gray-200);
 }
 
 .relatedTitle {
@@ -255,7 +255,7 @@
 
 .relatedCard {
   display: flex;
-  background: var(--background-white);
+  background: var(--bg-white);
   border-radius: var(--radius-large);
   overflow: hidden;
   box-shadow: var(--shadow-light);
@@ -302,7 +302,7 @@
 }
 
 .quickNav {
-  background: var(--background-white);
+  background: var(--bg-white);
   padding: 30px;
   border-radius: var(--radius-large);
   box-shadow: var(--shadow-medium);
@@ -324,8 +324,8 @@
 
 .navLink {
   padding: 12px 25px;
-  background: var(--background-white);
-  border: 2px solid var(--medium-gray);
+  background: var(--bg-white);
+  border: 2px solid var(--gray-200);
   border-radius: var(--radius-full);
   color: var(--text-primary);
   text-decoration: none;
@@ -353,8 +353,8 @@
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid var(--medium-gray);
-  border-top: 4px solid var(--primary-green);
+  border: 4px solid var(--gray-200);
+  border-top: 4px solid var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -367,7 +367,7 @@
 .error {
   text-align: center;
   padding: 60px 20px;
-  background: var(--background-white);
+  background: var(--bg-white);
   border-radius: var(--radius-large);
   box-shadow: var(--shadow-medium);
 }

@@ -4,8 +4,12 @@ const path = require('path');
 const crypto = require('crypto');
 const { execFile } = require('child_process');
 const Bird = require('../models/birdModel');
+const Location = require('../models/locationModel');
 const UserSettings = require('../models/userSettingsModel');
 const { canonicalizeBirdName } = require('../../data/birdNameAliases');
+const { parsePhotoFileMetadata } = require('../../data/photoFilenameParser');
+const { extractPhotoExif } = require('../utils/exifParser');
+const { extractValidLngLat } = require('../utils/dateCoords');
 const { sendControllerError } = require('../middleware/controllerError');
 const { clearCache } = require('../middleware/cache');
 const {
@@ -222,11 +226,141 @@ const walkSpeciesFolders = async (dir, rel, depth, maps, acc) => {
   }
 };
 
+const haversineKm = (lng1, lat1, lng2, lat2) => {
+  const toRad = (deg) => (deg * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+  return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+};
+
+const findNearestCatalogLocation = (gps, catalogLocations) => {
+  if (!Array.isArray(gps) || gps.length < 2 || !Array.isArray(catalogLocations)) return null;
+  const [lng, lat] = gps;
+  let best = null;
+  let bestDist = 6; // 6 km radius
+  for (const loc of catalogLocations) {
+    if (!loc.coords) continue;
+    const dist = haversineKm(lng, lat, loc.coords[0], loc.coords[1]);
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = loc;
+    }
+  }
+  return best;
+};
+
+const buildDateClustersFromMatched = (matchedFolders, catalogLocations) => {
+  const locByName = new Map();
+  (catalogLocations || []).forEach((loc) => {
+    if (loc.name) locByName.set(loc.name, loc);
+  });
+
+  const byDate = new Map();
+  for (const folder of matchedFolders || []) {
+    const freshPhotos = (folder.photos || []).filter((p) => !p.duplicate);
+    for (const photo of freshPhotos) {
+      const dateKey = photo.dateKey || '';
+      if (!dateKey) continue;
+      if (!byDate.has(dateKey)) {
+        byDate.set(dateKey, {
+          dateKey,
+          dateSource: photo.dateSource || 'mtime',
+          photoCount: 0,
+          locations: new Map(),
+          gpsPoints: [],
+          speciesMap: new Map(),
+        });
+      }
+      const cluster = byDate.get(dateKey);
+      cluster.photoCount += 1;
+      if (photo.dateSource === 'exif') cluster.dateSource = 'exif';
+      else if (photo.dateSource === 'filename' && cluster.dateSource === 'mtime') {
+        cluster.dateSource = 'filename';
+      }
+      if (photo.inferredLocation) {
+        cluster.locations.set(
+          photo.inferredLocation,
+          (cluster.locations.get(photo.inferredLocation) || 0) + 1
+        );
+      }
+      if (Array.isArray(photo.gps) && photo.gps.length === 2) {
+        cluster.gpsPoints.push(photo.gps);
+      }
+
+      const spKey = String(folder.birdId);
+      if (!cluster.speciesMap.has(spKey)) {
+        cluster.speciesMap.set(spKey, {
+          birdId: String(folder.birdId),
+          birdName: folder.birdName,
+          scientificName: folder.scientificName || '',
+          photoCount: 0,
+          tags: new Set(),
+        });
+      }
+      const sp = cluster.speciesMap.get(spKey);
+      sp.photoCount += 1;
+      (photo.inferredTags || []).forEach((t) => sp.tags.add(t));
+    }
+  }
+
+  return Array.from(byDate.values())
+    .sort((a, b) => b.dateKey.localeCompare(a.dateKey))
+    .map((cluster) => {
+      let bestLocName = '';
+      let bestLocCount = 0;
+      cluster.locations.forEach((cnt, name) => {
+        if (cnt > bestLocCount) {
+          bestLocCount = cnt;
+          bestLocName = name;
+        }
+      });
+      const matchedLoc = bestLocName ? locByName.get(bestLocName) : null;
+      const coordinates =
+        matchedLoc?.coords ||
+        (cluster.gpsPoints.length > 0 ? cluster.gpsPoints[0] : [0, 0]);
+
+      return {
+        dateKey: cluster.dateKey,
+        dateSource: cluster.dateSource,
+        photoCount: cluster.photoCount,
+        locationName: bestLocName,
+        coordinates,
+        address: matchedLoc?.address || {},
+        speciesCount: cluster.speciesMap.size,
+        birds: Array.from(cluster.speciesMap.values()).map((sp) => ({
+          birdId: sp.birdId,
+          birdName: sp.birdName,
+          scientificName: sp.scientificName,
+          photoCount: sp.photoCount,
+          tags: Array.from(sp.tags),
+        })),
+      };
+    });
+};
+
 const scanRoot = async (rootPath) => {
-  const birds = await Bird.find({})
-    .select('_id name scientificName nameAliases images')
-    .limit(5000)
-    .lean();
+  const [birds, rawLocations] = await Promise.all([
+    Bird.find({})
+      .select('_id name scientificName nameAliases images')
+      .limit(5000)
+      .lean(),
+    Location.find({ isActive: { $ne: false } })
+      .select('name coordinates address')
+      .limit(1000)
+      .lean()
+      .catch(() => []),
+  ]);
+
+  const catalogLocations = (rawLocations || []).map((loc) => ({
+    name: String(loc.name || '').trim(),
+    coords: extractValidLngLat(loc),
+    address: loc.address || {},
+  })).filter((loc) => loc.name);
+  const knownLocationNames = catalogLocations.map((loc) => loc.name);
+
   const maps = buildBirdMaps(birds);
   const acc = { species: [], unmatched: [] };
   await walkSpeciesFolders(rootPath, '', 0, maps, acc);
@@ -245,6 +379,9 @@ const scanRoot = async (rootPath) => {
   }));
   const largeFiles = [];
   let fileCount = 0;
+  let exifCount = 0;
+  let taggedCount = 0;
+  let locationMatchedCount = 0;
 
   for (const folder of acc.species) {
     const files = (await fsp.readdir(folder.abs, { withFileTypes: true })).filter(isImageFile);
@@ -260,6 +397,8 @@ const scanRoot = async (rootPath) => {
 
     const existing = await collectExistingHashes(folder.bird);
     const photos = [];
+    const folderTags = new Set();
+
     for (const file of files) {
       const absPath = path.join(folder.abs, file.name);
       const stat = await fsp.stat(absPath);
@@ -275,12 +414,43 @@ const scanRoot = async (rootPath) => {
           bytes: stat.size,
         });
       }
+
+      const exif = await extractPhotoExif(absPath);
+      const meta = parsePhotoFileMetadata({
+        fileName: file.name,
+        folderPath: folder.relPath,
+        birdName: folder.bird.name,
+        exif,
+        mtime: stat.mtime,
+        knownLocationNames,
+      });
+
+      let inferredLocation = meta.inferredLocation;
+      if (!inferredLocation && meta.gps) {
+        const nearest = findNearestCatalogLocation(meta.gps, catalogLocations);
+        if (nearest?.name) inferredLocation = nearest.name;
+      }
+
+      if (!duplicate) {
+        if (meta.dateSource === 'exif') exifCount += 1;
+        if (meta.inferredTags.length > 0) taggedCount += 1;
+        if (inferredLocation) locationMatchedCount += 1;
+        meta.inferredTags.forEach((t) => folderTags.add(t));
+      }
+
       photos.push({
         fileName: file.name,
         bytes: stat.size,
         hash,
         duplicate,
         large,
+        capturedAt: meta.capturedAt ? meta.capturedAt.toISOString() : stat.mtime.toISOString(),
+        dateKey: meta.dateKey,
+        dateSource: meta.dateSource,
+        gps: meta.gps,
+        inferredTags: meta.inferredTags,
+        inferredLocation,
+        cleanCaption: meta.cleanCaption,
       });
     }
 
@@ -288,7 +458,9 @@ const scanRoot = async (rootPath) => {
       folder: folder.relPath,
       birdId: String(folder.bird._id),
       birdName: folder.bird.name,
+      scientificName: folder.bird.scientificName || '',
       photos,
+      inferredTags: Array.from(folderTags),
       totalCount: photos.length,
       newCount: photos.filter((item) => !item.duplicate).length,
       duplicateCount: photos.filter((item) => item.duplicate).length,
@@ -296,10 +468,16 @@ const scanRoot = async (rootPath) => {
     });
   }
 
+  const dateClusters = buildDateClustersFromMatched(matched, catalogLocations);
+
   return {
     matched,
     unmatched,
     largeFiles,
+    dateClusters,
+    exifCount,
+    taggedCount,
+    locationMatchedCount,
     folderCount: acc.species.length,
     fileCount,
   };
@@ -410,13 +588,15 @@ const applyFolderPhotos = async (req, res) => {
           const dest = path.join(uploadDir, storedName);
           await fsp.copyFile(absPath, dest);
           const stat = await fsp.stat(absPath);
+          const parsedDate = photo.capturedAt ? new Date(photo.capturedAt) : stat.mtime;
           bird.images.push({
             url: `/uploads/active/${storedName}`,
-            caption: photo.fileName,
-            date: stat.mtime,
+            caption: photo.cleanCaption || photo.fileName,
+            location: photo.inferredLocation || '',
+            date: Number.isNaN(parsedDate.getTime()) ? stat.mtime : parsedDate,
             photographer: req.user._id,
             order: bird.images.length,
-            tags: [],
+            tags: Array.isArray(photo.inferredTags) ? photo.inferredTags : [],
             source: 'folder_import',
             sourceHash: photo.hash,
             sourceFileName: photo.fileName,
@@ -455,7 +635,16 @@ const applyFolderPhotos = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      data: { uploaded, skipped, failed, failures: failures.slice(0, 20), folders },
+      data: {
+        uploaded,
+        skipped,
+        failed,
+        failures: failures.slice(0, 20),
+        folders,
+        dateClusters: scanned.dateClusters || [],
+        exifCount: scanned.exifCount || 0,
+        taggedCount: scanned.taggedCount || 0,
+      },
     });
   } catch (error) {
     return sendControllerError(res, error, {

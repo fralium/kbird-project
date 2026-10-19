@@ -49,7 +49,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo [1/5] Checking MongoDB service...
+echo [1/6] Checking MongoDB service...
 sc query MongoDB >nul 2>&1
 if errorlevel 1 (
     echo WARN: MongoDB service is not installed or not recognized.
@@ -85,7 +85,7 @@ if "%MONGO_OK%"=="1" (
 )
 
 echo.
-echo [2/5] Checking dependencies...
+echo [2/6] Checking dependencies...
 if not exist "node_modules" (
     echo Installing dependencies...
     call npm install
@@ -99,7 +99,7 @@ if not exist "node_modules" (
 )
 
 echo.
-echo [3/5] Desktop launcher (first run only)...
+echo [3/6] Desktop launcher (first run only)...
 if not exist ".kbird\desktop-launcher.done" (
     if not exist ".kbird" mkdir ".kbird" >nul 2>&1
     powershell -NoProfile -ExecutionPolicy Bypass -File "%CD%\scripts\windows\create-desktop-shortcut.ps1" -Target Prod -Quiet
@@ -112,7 +112,7 @@ if not exist ".kbird\desktop-launcher.done" (
 )
 
 echo.
-echo [4/5] Checking production build...
+echo [4/6] Checking production build...
 set "NEED_BUILD=0"
 if not exist ".next\BUILD_ID" (
     set "NEED_BUILD=1"

@@ -4,6 +4,11 @@ const nextApiCorsOrigin =
   process.env.SITE_URL ||
   'http://localhost:13080';
 
+const extraImageHosts = (process.env.NEXT_PUBLIC_EXTRA_IMAGE_HOSTS || '')
+  .split(',')
+  .map((h) => h.trim())
+  .filter(Boolean);
+
 const nextConfig = {
   reactStrictMode: true,
   // Workaround for Next 16 pages-router HMR invalid isrManifest noise.
@@ -12,10 +17,10 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'http', hostname: 'localhost' },
       { protocol: 'http', hostname: '127.0.0.1' },
-      { protocol: 'http', hostname: '47.121.183.57' },
-      { protocol: 'http', hostname: '172.31.55.167' },
-      { protocol: 'https', hostname: '47.121.183.57' },
-      { protocol: 'https', hostname: '172.31.55.167' },
+      ...extraImageHosts.flatMap((hostname) => [
+        { protocol: 'http', hostname },
+        { protocol: 'https', hostname },
+      ]),
     ],
   },
   compress: true,
@@ -26,7 +31,7 @@ const nextConfig = {
     optimizeCss: false,
   },
   
-  webpack: (config, { isServer, dev }) => {
+  webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -53,6 +58,31 @@ const nextConfig = {
       {
         source: '/ai/identify',
         destination: '/ai?mode=identify',
+        permanent: false,
+      },
+      {
+        source: '/dashboard',
+        destination: '/',
+        permanent: false,
+      },
+      {
+        source: '/personal/checklist',
+        destination: '/birds?view=place',
+        permanent: false,
+      },
+      {
+        source: '/personal/import',
+        destination: '/personal/manage?tab=import',
+        permanent: false,
+      },
+      {
+        source: '/personal/backup',
+        destination: '/personal/manage?tab=backup',
+        permanent: false,
+      },
+      {
+        source: '/personal/trip-preview',
+        destination: '/personal/goals?tab=predict',
         permanent: false,
       },
     ];

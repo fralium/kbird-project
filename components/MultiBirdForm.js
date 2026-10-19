@@ -10,6 +10,10 @@ import { api } from '@/utils/api';
 import { isLocationInCatalog } from '@/utils/locationNameMatch';
 import { extractLngLatPair } from '@/utils/locationCoords';
 import { todayLocalDateKey } from '@/utils/localDate';
+import {
+  BIRD_OBSERVATION_TAG_OPTIONS,
+  normalizeBirdObservationTags,
+} from '@/data/birdObservationTags';
 import { useConfirmDialog } from './ConfirmDialog';
 import styles from '@/styles/MultiBirdForm.module.css';
 
@@ -17,6 +21,7 @@ const normalizeBird = (bird = {}) => ({
   ...bird,
   count: Number.isFinite(Number(bird.count)) ? Number(bird.count) : 1,
   notes: bird.notes || '',
+  behaviorTags: normalizeBirdObservationTags(bird.behaviorTags),
   images: Array.isArray(bird.images) ? bird.images : [],
 });
 
@@ -108,6 +113,20 @@ export default function MultiBirdForm({ onSubmit, onCancel, initialData = {} }) 
       birds: prev.birds.map((bird, i) => 
         i === index ? normalizeBird({ ...bird, [field]: value }) : normalizeBird(bird)
       )
+    }));
+  };
+
+  const toggleBirdBehaviorTag = (index, tagValue) => {
+    setFormData((prev) => ({
+      ...prev,
+      birds: prev.birds.map((bird, i) => {
+        if (i !== index) return normalizeBird(bird);
+        const current = normalizeBirdObservationTags(bird.behaviorTags);
+        const next = current.includes(tagValue)
+          ? current.filter((item) => item !== tagValue)
+          : [...current, tagValue];
+        return normalizeBird({ ...bird, behaviorTags: next });
+      }),
     }));
   };
 
@@ -575,6 +594,31 @@ export default function MultiBirdForm({ onSubmit, onCancel, initialData = {} }) 
                     onChange={(e) => updateBird(index, 'count', parseInt(e.target.value) || 1)}
                     className={styles.input}
                   />
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={styles.label}>观察状态与行为</label>
+                <div className={styles.behaviorTagRow} role="group" aria-label="观察状态与行为">
+                  {BIRD_OBSERVATION_TAG_OPTIONS.map((opt) => {
+                    const selected = normalizeBirdObservationTags(bird.behaviorTags).includes(
+                      opt.value
+                    );
+                    return (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        title={opt.hint}
+                        aria-pressed={selected}
+                        onClick={() => toggleBirdBehaviorTag(index, opt.value)}
+                        className={`${styles.behaviorChip} ${
+                          selected ? styles.behaviorChipActive : ''
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 

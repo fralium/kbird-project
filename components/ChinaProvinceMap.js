@@ -85,10 +85,16 @@ export default function ChinaProvinceMap({
   const seriesDataRef = useRef([]);
   const [mapReady, setMapReady] = useState(false);
   const [loadError, setLoadError] = useState('');
-  onSelectRef.current = onSelectProvince;
 
   const seriesData = useMemo(() => buildSeriesData(statsByProvince), [statsByProvince]);
-  seriesDataRef.current = seriesData;
+
+  useEffect(() => {
+    onSelectRef.current = onSelectProvince;
+  }, [onSelectProvince]);
+
+  useEffect(() => {
+    seriesDataRef.current = seriesData;
+  }, [seriesData]);
 
   useEffect(() => {
     const host = hostRef.current;

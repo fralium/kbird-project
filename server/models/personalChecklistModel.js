@@ -91,8 +91,6 @@ const personalChecklistSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-personalChecklistSchema.index({ userId: 1 });
-
 module.exports =
   mongoose.models.PersonalChecklist ||
   mongoose.model('PersonalChecklist', personalChecklistSchema);

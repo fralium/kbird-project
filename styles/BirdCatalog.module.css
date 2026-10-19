@@ -169,7 +169,7 @@
 
 .searchButton {
   padding: 12px 20px;
-  background: var(--primary-green);
+  background: var(--color-lake);
   color: var(--text-white);
   border: none;
   border-radius: 10px;
@@ -224,7 +224,7 @@
   width: 16px;
   height: 16px;
   border: 2px solid var(--border-input);
-  border-top: 2px solid var(--primary-green);
+  border-top: 2px solid var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -409,7 +409,7 @@
 }
 
 .activeFilter {
-  background: var(--primary-green);
+  background: var(--color-lake);
   color: var(--text-white);
   padding: 2px 6px;
   border-radius: 4px;
@@ -788,7 +788,7 @@
 }
 
 .number {
-  background: var(--primary-green);
+  background: var(--color-lake);
   color: var(--text-white);
   width: 30px;
   height: 30px;
@@ -808,7 +808,7 @@
 }
 
 .birdLink:hover {
-  color: var(--secondary-green);
+  color: var(--color-lake-hover);
   text-decoration: underline;
 }
 
@@ -923,7 +923,7 @@
 .pageButton {
   background: white;
   color: var(--color-lake);
-  border: 2px solid var(--primary-green);
+  border: 2px solid var(--color-lake);
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
@@ -933,7 +933,7 @@
 }
 
 .pageButton:hover:not(:disabled) {
-  background: var(--primary-green);
+  background: var(--color-lake);
   color: var(--text-white);
   transform: translateY(-2px);
 }
@@ -951,7 +951,7 @@
 .pageNumber {
   background: white;
   color: var(--color-lake);
-  border: 2px solid var(--primary-green);
+  border: 2px solid var(--color-lake);
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -965,13 +965,13 @@
 }
 
 .pageNumber:hover {
-  background: var(--primary-green);
+  background: var(--color-lake);
   color: var(--text-white);
   transform: translateY(-2px);
 }
 
 .pageNumber.active {
-  background: var(--primary-green);
+  background: var(--color-lake);
   color: var(--text-white);
   box-shadow: var(--shadow-md);
 }
@@ -1021,7 +1021,7 @@
   width: 50px;
   height: 50px;
   border: 4px solid var(--bg-clean);
-  border-top: 4px solid var(--primary-green);
+  border-top: 4px solid var(--color-lake);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 20px;
@@ -1033,7 +1033,7 @@
 }
 
 .retryButton {
-  background: var(--primary-green);
+  background: var(--color-lake);
   color: var(--text-white);
   border: none;
   padding: 12px 24px;
@@ -1045,7 +1045,7 @@
 }
 
 .retryButton:hover {
-  background: var(--secondary-green);
+  background: var(--color-lake-hover);
   transform: translateY(-2px);
 }
 

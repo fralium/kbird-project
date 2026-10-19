@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { api } from '@/utils/api';
+import { saveRecordDraft } from '@/utils/recordDraft';
 import styles from '@/styles/FolderPhotos.module.css';
 
 const formatBytes = (bytes) => {
@@ -10,6 +12,12 @@ const formatBytes = (bytes) => {
   if (size < 1024) return `${size} B`;
   if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
   return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+};
+
+const DATE_SOURCE_LABELS = {
+  exif: 'EXIF 快门时间',
+  filename: '文件名日期',
+  mtime: '文件时间',
 };
 
 const toast = (message, type = 'success') => {
@@ -40,6 +48,7 @@ const folderStatus = (folder, last) => {
 };
 
 export default function PersonalFolderPhotosPanel() {
+  const router = useRouter();
   const [rootPath, setRootPath] = useState('');
   const [picking, setPicking] = useState(false);
   const [scanning, setScanning] = useState(false);
@@ -75,7 +84,7 @@ export default function PersonalFolderPhotosPanel() {
 
   const totals = useMemo(() => {
     const matched = preview?.matched || [];
-    return matched.reduce(
+    const base = matched.reduce(
       (acc, folder) => {
         acc.species += 1;
         acc.total += folder.totalCount || (folder.photos || []).length;
@@ -86,7 +95,23 @@ export default function PersonalFolderPhotosPanel() {
       },
       { species: 0, total: 0, fresh: 0, existing: 0, large: 0 }
     );
-  }, [preview]);
+    return {
+      ...base,
+      exifCount: Number(preview?.exifCount || applyResult?.exifCount || 0),
+      taggedCount: Number(preview?.taggedCount || applyResult?.taggedCount || 0),
+      locationMatchedCount: Number(preview?.locationMatchedCount || 0),
+    };
+  }, [preview, applyResult]);
+
+  const activeDateClusters = useMemo(() => {
+    if (Array.isArray(preview?.dateClusters) && preview.dateClusters.length > 0) {
+      return preview.dateClusters;
+    }
+    if (Array.isArray(applyResult?.dateClusters) && applyResult.dateClusters.length > 0) {
+      return applyResult.dateClusters;
+    }
+    return [];
+  }, [preview, applyResult]);
 
   const applyBanner = useMemo(() => {
     if (!applyResult) return null;
@@ -94,7 +119,11 @@ export default function PersonalFolderPhotosPanel() {
     const failed = Number(applyResult.failed || 0);
     const skipped = Number(applyResult.skipped || 0);
     if (uploaded > 0 && failed === 0) {
-      return { tone: 'ok', text: `上传成功：新进图库 ${uploaded} 张。` };
+      const metaBits = [];
+      if (applyResult.exifCount > 0) metaBits.push(`EXIF 日期 ${applyResult.exifCount} 张`);
+      if (applyResult.taggedCount > 0) metaBits.push(`自动识别标签 ${applyResult.taggedCount} 张`);
+      const suffix = metaBits.length ? `（已自动填入 ${metaBits.join('、')}）` : '';
+      return { tone: 'ok', text: `上传成功：新进图库 ${uploaded} 张${suffix}。` };
     }
     if (uploaded > 0) {
       return {
@@ -107,6 +136,34 @@ export default function PersonalFolderPhotosPanel() {
     }
     return { tone: 'sync', text: '没有新照片，已全部在图库里。' };
   }, [applyResult]);
+
+  const handleCreateRecordFromCluster = (cluster) => {
+    if (!cluster || !Array.isArray(cluster.birds) || cluster.birds.length === 0) return;
+    const draft = {
+      date: cluster.dateKey,
+      location: {
+        name: cluster.locationName || '',
+        coordinates: Array.isArray(cluster.coordinates) ? cluster.coordinates : [0, 0],
+        address: cluster.address || {},
+      },
+      notes: `由分类照片文件夹自动聚类生成（${cluster.dateKey} · ${cluster.photoCount} 张新照片）`,
+      birds: cluster.birds.map((sp) => ({
+        bird: {
+          _id: sp.birdId,
+          name: sp.birdName,
+          scientificName: sp.scientificName || '',
+        },
+        birdId: sp.birdId,
+        count: 1,
+        behaviorTags: sp.tags?.includes('飞翔') ? ['飞过'] : ['目击'],
+        notes: Array.isArray(sp.tags) && sp.tags.length > 0 ? `影像标签：${sp.tags.join('、')}` : '',
+        images: [],
+      })),
+    };
+    saveRecordDraft(draft);
+    toast(`已生成 ${cluster.dateKey} 观察草稿（${cluster.birds.length} 种）`);
+    router.push('/records/add');
+  };
 
   const handlePick = async () => {
     setPicking(true);
@@ -276,6 +333,18 @@ export default function PersonalFolderPhotosPanel() {
             <strong>{totals.existing}</strong>
             <span>已在图库</span>
           </div>
+          {totals.exifCount > 0 ? (
+            <div>
+              <strong>{totals.exifCount}</strong>
+              <span>EXIF 真实日期</span>
+            </div>
+          ) : null}
+          {totals.taggedCount > 0 ? (
+            <div>
+              <strong>{totals.taggedCount}</strong>
+              <span>自动识别标签</span>
+            </div>
+          ) : null}
           {preview.unmatched?.length ? (
             <div>
               <strong>{preview.unmatched.length}</strong>
@@ -285,10 +354,54 @@ export default function PersonalFolderPhotosPanel() {
         </div>
       ) : (
         <p className={styles.note}>
-          选好总文件夹后扫描。可以是鸟种直接放根下，也可以是 目 / 科 / 鸟种 三层。扫描只处理里面有照片的鸟种文件夹。大于 5MB
-          会标出来，这次不拦截。
+          选好总文件夹后扫描。可以是鸟种直接放根下，也可以是 目 / 科 / 鸟种 三层。扫描会自动提取照片 EXIF 拍摄时间、GPS 与文件名里的特征标签（如雄鸟/雌鸟/亚成/繁殖羽/飞版），并支持按拍摄日期一键生成观察记录草稿。
         </p>
       )}
+
+      {activeDateClusters.length > 0 ? (
+        <section className={styles.clusterBox} aria-label="按拍摄日期生成观察记录">
+          <div className={styles.clusterHead}>
+            <div>
+              <h3 className={styles.clusterTitle}>顺手生成当日观察记录</h3>
+              <p className={styles.clusterSub}>
+                已按快门日期将本次新照片聚合成 {activeDateClusters.length} 个观鸟日，点击可一键带入鸟种与日期去建单
+              </p>
+            </div>
+          </div>
+          <div className={styles.clusterList}>
+            {activeDateClusters.slice(0, 6).map((cluster) => (
+              <div key={cluster.dateKey} className={styles.clusterItem}>
+                <div className={styles.clusterMeta}>
+                  <div className={styles.clusterDateRow}>
+                    <strong className={styles.clusterDate}>{cluster.dateKey}</strong>
+                    <span className={styles.clusterBadge}>
+                      {DATE_SOURCE_LABELS[cluster.dateSource] || '文件时间'}
+                    </span>
+                    {cluster.locationName ? (
+                      <span className={styles.clusterLoc}>📍 {cluster.locationName}</span>
+                    ) : null}
+                  </div>
+                  <p className={styles.clusterSpecies}>
+                    共 <b>{cluster.speciesCount}</b> 种（{cluster.photoCount} 张新图）：
+                    {cluster.birds
+                      .slice(0, 8)
+                      .map((b) => b.birdName)
+                      .join('、')}
+                    {cluster.birds.length > 8 ? ` 等` : ''}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className={styles.clusterActionBtn}
+                  onClick={() => handleCreateRecordFromCluster(cluster)}
+                >
+                  生成该日记录草稿 →
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {preview?.largeFiles?.length ? (
         <div className={styles.warn}>
@@ -329,6 +442,15 @@ export default function PersonalFolderPhotosPanel() {
                   </Link>
                   {folder.folder !== folder.birdName ? (
                     <span className={styles.folderAlias}>{folder.folder}</span>
+                  ) : null}
+                  {Array.isArray(folder.inferredTags) && folder.inferredTags.length > 0 ? (
+                    <div className={styles.folderTagRow}>
+                      {folder.inferredTags.map((tag) => (
+                        <span key={tag} className={styles.folderTagChip}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   ) : null}
                 </div>
                 <div className={styles.stat}>

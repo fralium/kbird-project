@@ -791,7 +791,7 @@ a.sightingCard:hover {
   padding: 8px 12px;
   background-color: var(--bg-clean);
   border-radius: 8px;
-  border-left: 4px solid var(--primary-color);
+  border-left: 4px solid var(--color-lake);
   font-size: var(--bd-body);
 }
 
@@ -968,7 +968,7 @@ a.sightingCard:hover {
 }
 
 .uploadButton {
-  background-color: var(--primary-color);
+  background-color: var(--color-lake);
   color: var(--text-white);
   border: none;
   padding: 10px 20px;
@@ -1034,7 +1034,7 @@ a.sightingCard:hover {
   align-items: center;
   padding: 6px 12px;
   border-radius: 6px;
-  background: var(--primary-green, var(--color-success-hover));
+  background: var(--color-lake, ));
   color: var(--text-white);
   text-decoration: none;
   font-size: var(--type-secondary);
@@ -1239,7 +1239,7 @@ a.sightingCard:hover {
 }
 
 .addSightingButton {
-  background-color: var(--primary-color);
+  background-color: var(--color-lake);
   color: var(--text-white);
   border: none;
   padding: 10px 20px;
@@ -1467,7 +1467,7 @@ a.sightingCard:hover {
 
 .editImageButton,
 .editSightingButton {
-  background: var(--primary-color);
+  background: var(--color-lake);
   color: var(--text-white);
   border: none;
   padding: 6px 12px;
@@ -1598,7 +1598,7 @@ a.sightingCard:hover {
 }
 
 .modalActions button[type="submit"] {
-  background: var(--primary-color);
+  background: var(--color-lake);
   color: var(--text-white);
 }
 

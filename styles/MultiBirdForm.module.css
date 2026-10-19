@@ -262,6 +262,36 @@
   color: var(--text-secondary);
 }
 
+.behaviorTagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.behaviorChip {
+  appearance: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-input, #d1d5db);
+  background: var(--bg-white, #fff);
+  color: var(--text-secondary, #4b5563);
+  font-size: var(--type-caption, 12px);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.behaviorChip:hover {
+  border-color: var(--color-lake, #219ebc);
+  color: var(--color-lake, #126782);
+}
+
+.behaviorChipActive {
+  background: var(--color-lake, #219ebc);
+  border-color: var(--color-lake, #219ebc);
+  color: #fff !important;
+}
+
 .fileInput {
   width: 100%;
 }

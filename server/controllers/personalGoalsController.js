@@ -187,8 +187,8 @@ const getGoalsData = async (userId) => {
   ]);
 
   const currentYear = new Date().getFullYear();
-  const yearStart = new Date(`${currentYear}-01-01`);
-  const yearEnd = new Date(`${currentYear}-12-31`);
+  const yearStart = new Date(currentYear, 0, 1, 0, 0, 0, 0);
+  const yearEnd = new Date(currentYear, 11, 31, 23, 59, 59, 999);
   const yearRecords = await Record.find({
     observer: userId,
     status: { $ne: 'draft' },
@@ -384,16 +384,17 @@ const updateGoals = async (req, res) => {
     migrateTargetBirdsIntoLists(checklist);
 
     if (year) {
+      const targetYear = Number.parseInt(String(year.currentYear || new Date().getFullYear()), 10) || new Date().getFullYear();
       checklist.goals.year = {
         ...checklist.goals.year,
         ...year,
-        currentYear: year.currentYear || new Date().getFullYear(),
+        currentYear: targetYear,
         startDate: year.startDate
           ? new Date(year.startDate)
-          : new Date(`${year.currentYear || new Date().getFullYear()}-01-01`),
+          : new Date(targetYear, 0, 1, 0, 0, 0, 0),
         endDate: year.endDate
           ? new Date(year.endDate)
-          : new Date(`${year.currentYear || new Date().getFullYear()}-12-31`),
+          : new Date(targetYear, 11, 31, 23, 59, 59, 999),
       };
     }
 
@@ -649,10 +650,55 @@ const completeGoal = async (req, res) => {
   }
 };
 
+const appendTargetLocation = async (req, res) => {
+  try {
+    const userId = req.user._id || req.user.id;
+    const locationName = String(req.body?.locationName || '').trim().slice(0, 200);
+    const notes = String(req.body?.notes || '').trim().slice(0, 1000);
+    if (!locationName) {
+      const err = new Error('请填写地点名称');
+      err.statusCode = 400;
+      err.code = 'PERSONAL_GOALS_LOCATION_REQUIRED';
+      return sendGoalsError(res, err, err.message, err.code);
+    }
+
+    const checklist = await ensureChecklist(userId);
+    if (!Array.isArray(checklist.goals.targetLocations)) checklist.goals.targetLocations = [];
+    const key = normalizeLocationName(locationName);
+    const existing = checklist.goals.targetLocations.find(
+      (item) => normalizeLocationName(item?.locationName) === key
+    );
+    if (existing) {
+      return res.status(200).json({
+        success: true,
+        message: '这个地点已经在想去的地方里',
+        data: { added: false, already: true, locationName: existing.locationName },
+      });
+    }
+
+    checklist.goals.targetLocations.push({
+      locationName,
+      notes,
+      completed: false,
+      completedDate: null,
+    });
+    await checklist.save();
+    return res.status(201).json({
+      success: true,
+      message: '已加入想去的地方',
+      data: { added: true, already: false, locationName },
+    });
+  } catch (error) {
+    devError('加入想去的地方失败:', error);
+    return sendGoalsError(res, error, '加入想去的地方失败', 'PERSONAL_GOALS_OPERATION_FAILED');
+  }
+};
+
 module.exports = {
   getGoals,
   updateGoals,
   completeGoal,
   createGoalList,
   deleteGoalList,
+  appendTargetLocation,
 };
